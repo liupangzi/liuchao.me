@@ -1,30 +1,50 @@
 === Plugin Name ===
 Contributors: bravenewcode, duanestorey, dalemugford
 Tags: wptouch, iphone, ipod, bravenewcode, mobile, android, blackberry, smartphone, responsive, design, mobile plugin, ios, mobile theme
-Requires at least: 3.3
-Tested up to: 3.7.1
-Stable tag: 1.9.8.9
+Requires at least: 3.5
+Stable tag: 3.1.1
+Tested up to: 3.8
 License: GPLv2
 
-Create a slick mobile WordPress website with just a few clicks.
+Create a slick mobile WordPress website like magic— with just a few clicks.
 
 == Description ==
 
-WPtouch is a mobile plugin for WordPress that automatically enables a simple and elegant mobile theme for mobile visitors of your WordPress website. The mobile WordPress theme is complete with AJAX loading articles and smooth effects when viewed from popular touch mobile devices like the iPhone, iPod touch, Android mobile phones, BlackBerry OS6+ mobile devices, and more.
+WPtouch is a mobile plugin for WordPress that automatically enables a simple and elegant mobile theme for mobile visitors of your WordPress website.
 
 The administration panel allows you to customize many aspects of its appearance, and deliver a *fast*, user-friendly and stylish version of your site to your mobile visitors, without modifying *a single bit of code* (or affecting) your regular desktop theme.
 
 The theme also includes the ability for visitors to switch between the theme on your mobile WordPress website and your website's regular theme.
 
-**Now Available: WPtouch Pro 3**
+**Now Available: WPtouch Pro + BraveNewCloud**
 
-With 3 all-new themes, an intuitive admin panel and great one-to-one ticketing support, it's the best WPtouch yet!
+With 4 themes and 3 new extensions installed & updated right from our new BraveNewCloud service, it's the best WPtouch yet!
 
 For more information visit the [WPtouch Pro 3 Product Page](http://www.bravenewcode.com/wptouch/?utm_campaign=wptouch-front-readme&utm_medium=web&utm_source=wordpressdotorg "WPtouch Pro 3 Product Page").
 
 'WPtouch' & ’WPtouch Pro' are trademarks of BraveNewCode Inc.
 
+== Screenshots ==
+
+1. Post listings
+2. Post listings (different options & colours)
+3. Single post w/ featured image
+4. Single post w/ featured image (different options & colours)
+5. Footer area on a single post w/ comments
+6. Page w/ featured image
+7. Drop-down menu showing a custom WordPress menu and child page tree navigation
+8. WPtouch admin - What’s New 
+9. WPtouch admin - Core Settings
+10. WPtouch admin - Theme Branding Settings
+11. WPtouch admin - Menu Setup
+
 == Changelog ==
+
+= Version 3.1.1 (Dec 6th, 2013) =
+
+* Updated: Everything.
+* Changed: Everything.
+* Fixed: Everything.
 
 = Version 1.9.8.9 =
 
@@ -847,17 +867,10 @@ For more information visit the [WPtouch Pro 3 Product Page](http://www.bravenewc
 
 == Installation ==
 
-= 3.0 and Older =
-Sorry, we do not officially support installations on WordPress 3.0 or older.
-
-= 3.1+ =
+= WordPress 3.5+ =
 You can install *WPtouch* directly from the WordPress admin! Visit the *Plugins - > Add New* page and search for 'WPtouch'. Click to install.
 
-Once installed and activated visit the WPtouch admin page (*Settings/WPtouch*) to customize your WPtouch installation's appearance.
-
-= WordPress MU/Multisite =
-
-The best way to use WPtouch on WordPress Multisite Installations is to do so via the *Activate WPtouch Site Wide* (2.9) or *Network Activate* link in the plugins area.
+Once you have installed and activated WPtouch, visit the admin page via the sidebar menu to customize your WPtouch installation's appearance.
 
 = User Manual =
 
@@ -885,9 +898,13 @@ No. The entire *WPtouch* footprint is small. In fact, it should reduce load, bec
 
 == Upgrade Notice ==
 
+= 3.1.1 =
+
+This is an entirely new release, everyone! It’s completely different… and new : )
+
 = 1.9.8.2 =
 
-An issue with WordPress multsite was addressed
+An issue with WordPress multisite was addressed
 
 = 1.9.8.1 =
 
@@ -900,14 +917,3 @@ Includes important administration panel updates
 = 1.9.7.1 =
 
 Includes a new POT file for Brazilian Portuguese
-
-== Screenshots ==
-
-1. Posts on the front page
-2. Post on the front page ( bottom )
-3. Drop down menu navigation
-4. WordTwit plugin Twitter integration
-5. Push Messaging
-6. Account log in
-7. Single post page post meta, options bar, comments
-8. Sample regular page

@@ -11,7 +11,9 @@ define( 'WPTOUCH_DEBUG', FALSE );
 
 //! Set this to 'true' to enable simulation of all warnings and conflicts
 define( 'WPTOUCH_SIMULATE_ALL', FALSE );
-define( 'WPTOUCH_MAX_NEWS_ITEMS', 15 );
+
+// Max News items
+define( 'WPTOUCH_MAX_NEWS_ITEMS', 12 );
 
 if ( defined( 'WPTOUCH_IS_FREE' ) ) {
 	define( 'WPTOUCH_PRODUCT_NAME', 'WPtouch' );
@@ -55,7 +57,7 @@ define( 'WPTOUCH_CUSTOM_SET_DIRECTORY', WPTOUCH_BASE_CONTENT_DIR .'/icons' );
 define( 'WPTOUCH_CUSTOM_UPLOAD_DIRECTORY', WPTOUCH_BASE_CONTENT_DIR .'/uploads' );
 define( 'WPTOUCH_CUSTOM_ICON_DIRECTORY', WPTOUCH_BASE_CONTENT_DIR . '/icons/custom' );
 define( 'WPTOUCH_CUSTOM_THEME_DIRECTORY', WPTOUCH_BASE_CONTENT_DIR .'/themes' );
-define( 'WPTOUCH_CUSTOM_ADDON_DIRECTORY', WPTOUCH_BASE_CONTENT_DIR .'/add-ons' );
+define( 'WPTOUCH_CUSTOM_ADDON_DIRECTORY', WPTOUCH_BASE_CONTENT_DIR .'/extensions' );
 define( 'WPTOUCH_CUSTOM_LANG_DIRECTORY', WPTOUCH_BASE_CONTENT_DIR .'/lang' );
 
 define( 'WPTOUCH_DEBUG_DIRECTORY', WPTOUCH_BASE_CONTENT_DIR . '/debug' );

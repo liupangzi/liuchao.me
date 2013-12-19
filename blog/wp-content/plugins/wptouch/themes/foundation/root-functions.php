@@ -1,6 +1,6 @@
 <?php
 
-define( 'FOUNDATION_VERSION', '2.0.1' );
+define( 'FOUNDATION_VERSION', '2.0.2' );
 
 define( 'FOUNDATION_DIR', WPTOUCH_DIR . '/themes/foundation' );
 define( 'FOUNDATION_URL', WPTOUCH_URL . '/themes/foundation' );
@@ -226,7 +226,7 @@ function foundation_enqueue_color_data() {
 				$inline_color_data .= $color->bg_selectors . " { background-color: " . $settings->$setting_name . "; }\n";
 			}
 		}
-		wp_add_inline_style( 'wptouch-parent', $inline_color_data );
+		wp_add_inline_style( 'wptouch-parent-theme-css', $inline_color_data );
 	}
 }
 
@@ -267,7 +267,13 @@ function foundation_is_theme_using_module( $module_name ) {
 function foundation_get_tag_list() {
 	$all_tags = array();
 
-	$tags = get_tags();
+	$tags = get_tags(
+		array(
+			'number' => 50,
+			'orderby' => 'count'
+		)
+	);
+
 	foreach( $tags as $tag ) {
 		$all_tags[ $tag->slug ] = $tag->name;
 	}
@@ -278,7 +284,13 @@ function foundation_get_tag_list() {
 function foundation_get_category_list() {
 	$all_cats = array();
 
-	$categories = get_categories();
+	$categories = get_categories(
+		array(
+			'number' => 50,
+			'orderby' => 'count'
+		)
+	);
+
 	foreach( $categories as $cat ) {
 		$all_cats[ $cat->slug ] = $cat->name;
 	}

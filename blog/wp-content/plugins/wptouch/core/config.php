@@ -34,7 +34,7 @@ define( 'WPTOUCH_COOKIE', 'wptouch-pro-view' );
 define( 'WPTOUCH_CACHE_COOKIE', 'wptouch-pro-cache-state' );
 
 function wptouch_check_url_ssl( $ssl_string ) {
-	if ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on' ) {
+	if ( isset( $_SERVER['HTTPS'] ) && ( $_SERVER['HTTPS'] === "on" ) ) {
 		return str_replace( 'http://', 'https://', $ssl_string );
 	} else {
 		return $ssl_string;

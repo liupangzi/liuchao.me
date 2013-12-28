@@ -1,4 +1,4 @@
-# Translation of the WordPress plugin WPtouch Mobile Plugin 3.1.4 by BraveNewCode Inc..
+# Translation of the WordPress plugin WPtouch Mobile Plugin 3.1.5 by BraveNewCode Inc..
 # Copyright (C) 2013 BraveNewCode Inc.
 # This file is distributed under the same license as the WPtouch Mobile Plugin package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: WPtouch Mobile Plugin 3.1.4\n"
+"Project-Id-Version: WPtouch Mobile Plugin 3.1.5\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wptouch\n"
-"POT-Creation-Date: 2013-12-17 22:16-0600\n"
+"POT-Creation-Date: 2013-12-21 13:16-0600\n"
 "PO-Revision-Date: 2013-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -732,7 +732,7 @@ msgid "Upload"
 msgstr ""
 
 #: admin/settings/html/installed_icon_sets_ajax.php:4
-#: core/class-wptouch-pro.php:1508 core/class-wptouch-pro.php:1509
+#: core/class-wptouch-pro.php:1513 core/class-wptouch-pro.php:1514
 #: core/config.php:53
 msgid "Custom Icons"
 msgstr ""
@@ -884,7 +884,7 @@ msgstr ""
 msgid "Unlicensed"
 msgstr ""
 
-#: admin/settings/html/touchboard.php:49 core/class-wptouch-pro.php:562
+#: admin/settings/html/touchboard.php:49 core/class-wptouch-pro.php:567
 msgid "Offline"
 msgstr ""
 
@@ -993,7 +993,7 @@ msgstr ""
 msgid "Reset Settings"
 msgstr ""
 
-#: core/class-wptouch-pro.php:331
+#: core/class-wptouch-pro.php:336
 #, php-format
 msgid ""
 "Automatic theme migration from uploads/wptouch-data directory failed. Please "
@@ -1001,14 +1001,14 @@ msgid ""
 "to address this issue."
 msgstr ""
 
-#: core/class-wptouch-pro.php:351
+#: core/class-wptouch-pro.php:356
 #, php-format
 msgid ""
 "We were unable to install your WPtouch theme from the Cloud. Please visit %"
 "sthis article%s for more information."
 msgstr ""
 
-#: core/class-wptouch-pro.php:355
+#: core/class-wptouch-pro.php:360
 #, php-format
 msgid ""
 "You server setup is preventing WPtouch from installing your active theme "
@@ -1016,50 +1016,50 @@ msgid ""
 "fix it."
 msgstr ""
 
-#: core/class-wptouch-pro.php:558
+#: core/class-wptouch-pro.php:563
 msgid "Unsupported Browser"
 msgstr ""
 
-#: core/class-wptouch-pro.php:559
+#: core/class-wptouch-pro.php:564
 msgid "Theme Preview requires Chrome or Safari."
 msgstr ""
 
-#: core/class-wptouch-pro.php:560
+#: core/class-wptouch-pro.php:565
 msgid ""
 "This will reset all WPtouch Pro settings.\n"
 "Are you sure?"
 msgstr ""
 
-#: core/class-wptouch-pro.php:561
+#: core/class-wptouch-pro.php:566
 msgid ""
 "This will reset all WPtouch Pro menu and icon settings.\n"
 "Are you sure?"
 msgstr ""
 
-#: core/class-wptouch-pro.php:563
+#: core/class-wptouch-pro.php:568
 msgid ""
 "You appear to be offline. Connect to the internet to see available "
 "BraveNewCloud items."
 msgstr ""
 
-#: core/class-wptouch-pro.php:564
+#: core/class-wptouch-pro.php:569
 msgid "The item failed to download for this reason: %reason%"
 msgstr ""
 
-#: core/class-wptouch-pro.php:1079
+#: core/class-wptouch-pro.php:1084
 msgid "Settings"
 msgstr ""
 
-#: core/class-wptouch-pro.php:1115
+#: core/class-wptouch-pro.php:1120
 #, php-format
 msgid "%s Changelog"
 msgstr ""
 
-#: core/class-wptouch-pro.php:2286
+#: core/class-wptouch-pro.php:2291
 msgid "Directory Problem"
 msgstr ""
 
-#: core/class-wptouch-pro.php:2287
+#: core/class-wptouch-pro.php:2292
 msgid "One or more required directories could not be created"
 msgstr ""
 
@@ -1532,97 +1532,97 @@ msgstr ""
 msgid "Custom Post Types"
 msgstr ""
 
-#: themes/foundation/modules/featured/featured.php:247
+#: themes/foundation/modules/featured/featured.php:260
 msgid "Featured Slider"
 msgstr ""
 
-#: themes/foundation/modules/featured/featured.php:253
+#: themes/foundation/modules/featured/featured.php:266
 msgid "Enable featured slider"
 msgstr ""
 
-#: themes/foundation/modules/featured/featured.php:254
+#: themes/foundation/modules/featured/featured.php:267
 msgid "Requires at least 2 entries to contain featured images"
 msgstr ""
 
-#: themes/foundation/modules/featured/featured.php:261
+#: themes/foundation/modules/featured/featured.php:274
 msgid "Maximum number of posts"
 msgstr ""
 
-#: themes/foundation/modules/featured/featured.php:266
+#: themes/foundation/modules/featured/featured.php:279
 msgid "3 posts"
 msgstr ""
 
-#: themes/foundation/modules/featured/featured.php:267
+#: themes/foundation/modules/featured/featured.php:280
 msgid "5 posts"
 msgstr ""
 
-#: themes/foundation/modules/featured/featured.php:268
+#: themes/foundation/modules/featured/featured.php:281
 msgid "10 posts"
 msgstr ""
 
-#: themes/foundation/modules/featured/featured.php:274
+#: themes/foundation/modules/featured/featured.php:287
 msgid "Automatically slide"
 msgstr ""
 
-#: themes/foundation/modules/featured/featured.php:282
+#: themes/foundation/modules/featured/featured.php:295
 msgid "Continuously slide"
 msgstr ""
 
-#: themes/foundation/modules/featured/featured.php:290
+#: themes/foundation/modules/featured/featured.php:303
 msgid "Grayscale images (CSS 3 effect)"
 msgstr ""
 
-#: themes/foundation/modules/featured/featured.php:291
+#: themes/foundation/modules/featured/featured.php:304
 msgid ""
 "Featured slider images will be in grayscale for devices that support CSS "
 "filters."
 msgstr ""
 
-#: themes/foundation/modules/featured/featured.php:306
+#: themes/foundation/modules/featured/featured.php:319
 msgid "Featured slider posts also show in listings"
 msgstr ""
 
-#: themes/foundation/modules/featured/featured.php:314
+#: themes/foundation/modules/featured/featured.php:327
 msgid "Slide transition speed"
 msgstr ""
 
-#: themes/foundation/modules/featured/featured.php:319
+#: themes/foundation/modules/featured/featured.php:332
 msgid "Slow"
 msgstr ""
 
-#: themes/foundation/modules/featured/featured.php:320
+#: themes/foundation/modules/featured/featured.php:333
 msgid "Normal"
 msgstr ""
 
-#: themes/foundation/modules/featured/featured.php:321
+#: themes/foundation/modules/featured/featured.php:334
 msgid "Fast"
 msgstr ""
 
-#: themes/foundation/modules/featured/featured.php:332
+#: themes/foundation/modules/featured/featured.php:345
 msgid "Show latest posts"
 msgstr ""
 
-#: themes/foundation/modules/featured/featured.php:333
+#: themes/foundation/modules/featured/featured.php:346
 msgid "Show posts from a specific tag"
 msgstr ""
 
-#: themes/foundation/modules/featured/featured.php:334
+#: themes/foundation/modules/featured/featured.php:347
 msgid "Show posts from a specific category"
 msgstr ""
 
-#: themes/foundation/modules/featured/featured.php:335
+#: themes/foundation/modules/featured/featured.php:348
 msgid "Show only specific posts or pages"
 msgstr ""
 
-#: themes/foundation/modules/featured/featured.php:341
+#: themes/foundation/modules/featured/featured.php:354
 msgid "Only this tag"
 msgstr ""
 
-#: themes/foundation/modules/featured/featured.php:350
+#: themes/foundation/modules/featured/featured.php:363
 msgid "Only this category"
 msgstr ""
 
-#: themes/foundation/modules/featured/featured.php:359
+#: themes/foundation/modules/featured/featured.php:372
 msgid "Comma-separated list of post/page IDs"
 msgstr ""
 
@@ -1903,7 +1903,7 @@ msgid "Overrides the WordPress settings for showing comments on pages."
 msgstr ""
 
 #: themes/foundation/root-functions.php:364
-#: themes/foundation/root-functions.php:1039
+#: themes/foundation/root-functions.php:1077
 msgid "Pages"
 msgstr ""
 
@@ -1969,61 +1969,61 @@ msgid ""
 "link."
 msgstr ""
 
-#: themes/foundation/root-functions.php:869
+#: themes/foundation/root-functions.php:865
 #, php-format
 msgid "search results for '%s'"
 msgstr ""
 
-#: themes/foundation/root-functions.php:871
+#: themes/foundation/root-functions.php:867
 #, php-format
 msgid "%sCategories &rsaquo;%s %s"
 msgstr ""
 
-#: themes/foundation/root-functions.php:873
+#: themes/foundation/root-functions.php:869
 #, php-format
 msgid "Tags &rsaquo; %s"
 msgstr ""
 
+#: themes/foundation/root-functions.php:871
+#: themes/foundation/root-functions.php:873
 #: themes/foundation/root-functions.php:875
-#: themes/foundation/root-functions.php:877
-#: themes/foundation/root-functions.php:879
 #, php-format
 msgid "Archives &rsaquo; %s"
 msgstr ""
 
-#: themes/foundation/root-functions.php:894
+#: themes/foundation/root-functions.php:890
 msgid "Load more from this category"
 msgstr ""
 
-#: themes/foundation/root-functions.php:896
+#: themes/foundation/root-functions.php:892
 msgid "Load more tagged like this"
 msgstr ""
 
-#: themes/foundation/root-functions.php:898
+#: themes/foundation/root-functions.php:894
 msgid "Load more from this day"
 msgstr ""
 
-#: themes/foundation/root-functions.php:900
+#: themes/foundation/root-functions.php:896
 msgid "Load more from this month"
 msgstr ""
 
-#: themes/foundation/root-functions.php:902
+#: themes/foundation/root-functions.php:898
 msgid "Load more from this year"
 msgstr ""
 
-#: themes/foundation/root-functions.php:904
+#: themes/foundation/root-functions.php:900
 msgid "Load more in this section"
 msgstr ""
 
-#: themes/foundation/root-functions.php:906
+#: themes/foundation/root-functions.php:902
 msgid "Load more entries"
 msgstr ""
 
-#: themes/foundation/root-functions.php:988
+#: themes/foundation/root-functions.php:1026
 msgid "Post"
 msgstr ""
 
-#: themes/foundation/root-functions.php:990
+#: themes/foundation/root-functions.php:1028
 msgid "Page"
 msgstr ""
 

@@ -146,6 +146,10 @@ code, pre {
 	text-align: center;
 }
 
+img.wp-smiley { 
+	margin: 0;
+}
+
 .post table img, .page table img {
 	margin: 0;
 }

@@ -220,6 +220,11 @@ class WPtouchProThree {
 		// Check to see if the mobile theme should be shown - if so, initialize it
 		if ( $this->is_showing_mobile_theme_on_mobile_device() ) {
 			$this->setup_mobile_theme_for_viewing();
+
+			/*
+			For Google Best Practices, leaving off for now due to reports of slowing down
+			header( 'Vary: User-Agent' );
+			*/
 		} else {
 			add_action( 'wp_footer', array( &$this, 'handle_desktop_footer' ) );
 		}
@@ -2374,10 +2379,12 @@ class WPtouchProThree {
 	}
 
 	function handle_desktop_footer() {
-		if ( defined( 'WPTOUCH_IS_FREE' ) ) {
-			echo "<!-- Powered by WPtouch: " . WPTOUCH_VERSION . " -->";
-		} else {
-			echo "<!-- Powered by WPtouch Pro: " . WPTOUCH_VERSION . " -->";
+		if ( !is_feed() ) {
+			if ( defined( 'WPTOUCH_IS_FREE' ) ) {
+				echo "<!-- Powered by WPtouch: " . WPTOUCH_VERSION . " -->";
+			} else {
+				echo "<!-- Powered by WPtouch Pro: " . WPTOUCH_VERSION . " -->";
+			}			
 		}
 	}
 

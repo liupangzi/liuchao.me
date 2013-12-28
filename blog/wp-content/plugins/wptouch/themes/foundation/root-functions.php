@@ -1,6 +1,6 @@
 <?php
 
-define( 'FOUNDATION_VERSION', '2.0.2' );
+define( 'FOUNDATION_VERSION', '2.0.3' );
 
 define( 'FOUNDATION_DIR', WPTOUCH_DIR . '/themes/foundation' );
 define( 'FOUNDATION_URL', WPTOUCH_URL . '/themes/foundation' );
@@ -798,36 +798,32 @@ function wptouch_fdn_comments_pagination() {
 
 /* Previous + Next Post Functions For Single Post Pages */
 function wptouch_fdn_get_previous_post_link() {
-	$settings = foundation_get_settings();
-
-	$prev_post = get_adjacent_post( false, $settings->excluded_categories, true );
+	$excluded = wptouch_fdn_convert_catname_to_id();
+	$prev_post = get_adjacent_post( false, $excluded, true );
 	echo get_permalink( $prev_post->ID );
 }
 
 function wptouch_fdn_get_next_post_link() {
-	$settings = foundation_get_settings();
-
-	$next_post = get_adjacent_post( false, $settings->excluded_categories, false );
+	$excluded = wptouch_fdn_convert_catname_to_id();
+	$next_post = get_adjacent_post( false, $excluded, false );
 	echo get_permalink( $next_post->ID );
 }
 
 function wptouch_fdn_get_previous_post_link_w_title() {
-	$settings = foundation_get_settings();
-
-	$prev_post = get_adjacent_post( false, $settings->excluded_categories, true );
+	$excluded = wptouch_fdn_convert_catname_to_id();
+	$prev_post = get_adjacent_post( false, $excluded, true );
 	echo '<a class="prev-post" href="' . get_permalink( $prev_post->ID ) . '">' . $prev_post->post_title . '</a>';
 }
 
 function wptouch_fdn_get_next_post_link_w_title() {
-	$settings = foundation_get_settings();
-
-	$next_post = get_adjacent_post( false, $settings->excluded_categories, false );
+	$excluded = wptouch_fdn_convert_catname_to_id();
+	$next_post = get_adjacent_post( false, $excluded, false );
 	echo '<a class="next-post" href="' . get_permalink( $next_post->ID ) . '">' . $next_post->post_title . '</a>';
 }
 
 function wptouch_fdn_if_next_post_link(){
-	$settings = foundation_get_settings();
-	$next_post = get_adjacent_post( false, $settings->excluded_categories, false );
+	$excluded = wptouch_fdn_convert_catname_to_id();
+	$next_post = get_adjacent_post( false, $excluded, false );
 
 	if ( $next_post ) {
 		return true;
@@ -837,8 +833,8 @@ function wptouch_fdn_if_next_post_link(){
 }
 
 function wptouch_fdn_if_previous_post_link(){
-	$settings = foundation_get_settings();
-	$prev_post = get_adjacent_post( false, $settings->excluded_categories, true );
+	$excluded = wptouch_fdn_convert_catname_to_id();
+	$prev_post = get_adjacent_post( false, $excluded, true );
 
 	if ( $prev_post ) {
 		return true;
@@ -978,6 +974,48 @@ function wptouch_fdn_display_comment( $comment, $args, $depth ) {
 
 function wptouch_fdn_get_search_post_types() {
 	return apply_filters( 'foundation_search_post_types', array( 'post', 'page' ) );
+}
+
+function wptouch_fdn_convert_catname_to_id(){
+	$settings = foundation_get_settings();
+	$cats = $settings->excluded_categories;
+
+	if ( $cats ) {
+		$cat_ids = explode( ',', $cats );
+		$new_cats_by_id = array();
+
+		foreach( $cat_ids as $cat ) {
+			$trimmed_cat = trim( $cat );
+			$new_cats_by_id[] = get_cat_ID( $trimmed_cat );
+		}
+
+		$new_cats_by_id_list = implode( ',', $new_cats_by_id );
+		return $new_cats_by_id_list;
+	} else {
+		return false;
+	}
+}
+
+function wptouch_fdn_convert_tagname_to_id(){
+	$settings = foundation_get_settings();
+	$tags = $settings->excluded_tags;
+
+	if ( $tags ) {
+		$tag_ids = explode( ',', $tags );
+		$new_tags_by_id = array();
+
+		foreach( $tag_ids as $tag ) {
+			$trimmed_tag = trim( $tag );
+			$tagname = get_term_by( 'name', $trimmed_tag, 'post_tag' );
+			$tagid = $tagname->term_id;
+			$new_tags_by_id[] = $tagid;
+		}
+
+		$new_tags_by_id_list = implode( ',', $new_tags_by_id );
+		return $new_tags_by_id_list;
+	} else {
+		return false;
+	}
 }
 
 function wptouch_fdn_get_search_post_type() {

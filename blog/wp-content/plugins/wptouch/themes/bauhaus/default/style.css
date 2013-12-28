@@ -1,3 +1,5 @@
+/* @override http://wptp3.local.com/wp-content/wptouch-data/themes/bauhaus/default/style.css?ver=3.1.4 */
+
 /* Bauhaus CSS */
 
 /*
@@ -599,7 +601,7 @@ ul.dots {
 }
 
 .post-page-head-area .post-date-comments, .post-page-head-area .post-author {
-	font-size: 80%;
+	font-size: 75%;
 	color: rgba(0,0,0,.5);
 	margin-right: 10px;
 	margin-left: 10px;
@@ -616,20 +618,19 @@ ul.dots {
 .post-page-head-area.bauhaus {
 	background-image: -webkit-gradient(radial, 50% 0%,0,50% 0%,500, from(rgba(0, 0, 0,0)), to(rgba(255, 255, 255, 0.50)));
 	text-align: center;
-	padding-top: 20px;
-	padding-bottom: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
 	text-shadow: rgba(255,255,255,.3) 0px 1px 0px;
+	overflow: hidden;
 }
 
-#content .post-page-head-area.bauhaus h2.post-title {
+.post-page-head-area.bauhaus h2.post-title {
 	color: rgba(0,0,0,.7);
 	letter-spacing: -2px;
-	font-size: 200%;
-	margin: 0;
+	font-size: 160%;
 	font-weight: normal;
-	font-style: normal;
-	line-height: 125%;
-	padding: 10px 20px;
+	margin: 0 !important;
+	padding: 10px 15px;
 }
 
 .post-page-content blockquote {
@@ -977,10 +978,6 @@ form#commentform input, form#commentform textarea {
 
 .dark-post-head .post-page-head-area {
 	background-image: -webkit-gradient(radial, 50% 0%,0,50% 0%,500, from(rgba(255, 255, 255, 0.20)), to(rgba(0, 0, 0,0)));
-	text-align: center;
-	padding-top: 20px;
-	padding-bottom: 20px;
-	overflow: hidden;
 }
 
 .dark-body #comments {

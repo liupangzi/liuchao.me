@@ -280,8 +280,9 @@ html .jquerycssmenu{height: 1%;} /*Holly Hack for IE7 and below*/
 										wp_enqueue_style('Spartan_sliderbg', get_template_directory_uri().'/css/slider/silver.css');
 										wp_enqueue_style('Spartan_Defaultresponsive', get_template_directory_uri().'/responsive.css');																			
 									}elseif( of_get_option('skin_style') == 'oren' ) {
-										wp_enqueue_style('Spartan_Defaultstyle', get_template_directory_uri().'/skins/oren.css');
-										wp_enqueue_style('Spartan_Defaultresponsive', get_template_directory_uri().'/skins/orenresponsive.css');																			
+										wp_enqueue_style('Spartan_Defaultstyle', get_stylesheet_directory_uri().'/skins/lite.css');
+										wp_enqueue_style('Spartan_Defaultresponsive', get_stylesheet_directory_uri().'/skins/responsive.css');
+										wp_enqueue_style('Spartan_Orenstyle', get_template_directory_uri().'/skins/oren.css');
 									}elseif( of_get_option('skin_style') == 'bred' ) {
 										wp_enqueue_style('Spartan_Defaultstyle', get_stylesheet_directory_uri().'/skins/lite.css');
 										wp_enqueue_style('Spartan_Defaultresponsive', get_stylesheet_directory_uri().'/skins/responsive.css');

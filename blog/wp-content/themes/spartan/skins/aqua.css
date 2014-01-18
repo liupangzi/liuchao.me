@@ -72,17 +72,17 @@ input[type=text], input[type=password], select, textarea{border:3px solid #c5c5c
 }
 #sidebar_facebook {
 	background:url(images/sidebar_facebook.png) no-repeat center right;
-	border-bottom:1px solid #cfcfcf;
+	border-bottom:1px solid #B73139;
 }
 #sidebar_facebook p a{
-	color:#000;
+	color:#fff;
 }
 #sidebar_twitter {
 	background:url(images/sidebar_twitter.png) no-repeat center right;
-	border-bottom:1px solid #cfcfcf;	
+	border-bottom:1px solid #B73139;	
 }
 #sidebar_twitter p a{
-	color:#000;
+	color:#fff;
 }
 #twitter_update_list_1985 p{
 	color:#000;	
@@ -537,7 +537,7 @@ fieldset {
 }
 /* Pro Sidebar starts here */
 #feed_social {
-	background:#e9e8e8;
+	background:url(images/aqua/menu_bg.png);
 }
 
 /* Mag Three starts here */

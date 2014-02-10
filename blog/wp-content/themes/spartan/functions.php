@@ -456,27 +456,27 @@ function Spartan_backupmenu() {
 }
 
 /* Wp Title */
-function Spartan_doc_title( $doc_title ) {
-        if( is_category() ) {
-                $doc_title = __( 'Category: ', 'Spartan' ) . $doc_title . ' - ';
-        } elseif( is_tag() ) {
-                $doc_title = single_tag_title( __( 'Tag Archive for &quot;', 'Spartan'), false ) . '&quot; - ';
-        } elseif( is_archive() ) {
-                $doc_title .= __( ' Archive - ', 'Spartan' );
-        } elseif( is_page() ) {
-                $doc_title .= ' - ';
-        } elseif( is_search() ) {
-                $doc_title = __('Search for &quot;','Spartan') . get_search_query() . '&quot; - ';
-        } elseif( ! is_404() && is_single() || is_page() ) {
-                $doc_title .= ' - ';
-        } elseif( is_404() ) {
-                $doc_title = __( 'Not Found - ', 'Spartan' );
-        }
-        $doc_title .= get_bloginfo('name');
-        return $doc_title;
-}
+function Spartan_wp_title( $title, $sep ) {
+	global $page, $paged;
 
-add_filter( 'wp_title', 'Spartan_doc_title' );
+	if ( is_feed() )
+		return $title;
+
+	// Add the blog name
+	$title .= get_bloginfo( 'name' );
+
+	// Add the blog description for the home/front page.
+	$site_description = get_bloginfo( 'description', 'display' );
+	if ( $site_description && ( is_home() || is_front_page() ) )
+		$title .= " $sep $site_description";
+
+	// Add a page number if necessary:
+	if ( $paged >= 2 || $page >= 2 )
+		$title .= " $sep " . sprintf( __( 'Page %s', 'alexandria' ), max( $paged, $page ) );
+
+	return $title;
+}
+add_filter( 'wp_title', 'Spartan_wp_title', 10, 2 );
 
 add_filter( 'the_content_more_link', 'Spartan_more_link', 10, 2 );
 

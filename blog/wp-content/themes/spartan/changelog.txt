@@ -1,4 +1,8 @@
 
+Version: 1.2.47
+----------------------------
+Changed wp title function.
+
 Version: 1.2.46
 ----------------------------
 Added new skin.

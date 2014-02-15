@@ -89,6 +89,7 @@ function optionsframework_options() {
 											'gree' => $imagepath . 'gree.png',
 											'brwgrn' => $imagepath . 'brwgrn.png',
 											'pnkr' => $imagepath . 'pnkr.png',
+											'bkrd' => $imagepath . 'bkrd.png',
 											'yellow' => $imagepath . 'yellow.png')
 										);						
 

@@ -203,18 +203,9 @@ function Spartan_comments($comment, $args, $depth) {
  * Browser detection body_class() output
  */
 function Spartan_browser_body_class($classes) {
-	global $is_Spartan, $is_gecko, $is_IE, $is_opera, $is_NS4, $is_safari, $is_chrome, $is_iphone;
-
-	if($is_Spartan) $classes[] = 'Spartan';
-	elseif($is_gecko) $classes[] = 'gecko';
-	elseif($is_opera) $classes[] = 'opera';
-	elseif($is_NS4) $classes[] = 'ns4';
-	elseif($is_safari) $classes[] = 'safari';
-	elseif($is_chrome) $classes[] = 'chrome';
-	elseif($is_IE) $classes[] = 'ie';
-	else $classes[] = 'unknown';
-
-	if($is_iphone) $classes[] = 'iphone';
+	if ( is_multi_author() ) {
+		$classes[] = 'group-blog';
+	}
 	return $classes;
 }
 /**

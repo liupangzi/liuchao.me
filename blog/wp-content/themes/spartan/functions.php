@@ -86,18 +86,6 @@ jQuery(document).ready(function() {
 <?php
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 /**
  * Get ID of the page, if this is current page
  */
@@ -355,16 +343,17 @@ html .jquerycssmenu{height: 1%;} /*Holly Hack for IE7 and below*/
 										wp_enqueue_style('Spartan_Defaultstyle', get_stylesheet_directory_uri().'/lite.css');
 										wp_enqueue_style('Spartan_Defaultresponsive', get_stylesheet_directory_uri().'/responsive.css');										
 									}
-									
+
+	}
+}
+function Spartan_custom_colors( ) {
 									?>
 										<style type="text/css">
                                                 .magfive_title h2 a{ color:<?php echo esc_attr( of_get_option('post_title_color') ); ?> }
 												.actual_post_title h2 a{ color:<?php echo esc_attr( of_get_option('post_title_color') ); ?> !important}
 												.actual_post_title_page h2{ color:<?php echo esc_attr( of_get_option('post_title_color') ); ?> !important}
                                         </style>	
-									<?php  									
-
-	}
+									<?php	
 }
 /**
  * Add JS scripts
@@ -495,6 +484,7 @@ function Spartan_has_title($title){
 if (!is_admin()){
 	add_action( 'wp_print_styles', 'Spartan_add_stylesheets' );	
 	add_action( 'wp_enqueue_scripts', 'Spartan_add_javascript' );
+	add_action( 'wp_head', 'Spartan_custom_colors' );
 }
 
 add_filter('body_class','Spartan_browser_body_class');

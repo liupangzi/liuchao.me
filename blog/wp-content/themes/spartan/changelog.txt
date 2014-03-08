@@ -1,4 +1,9 @@
 
+
+Version: 1.2.49
+----------------------------
+Relocated custom color function.
+
 Version: 1.2.49
 ----------------------------
 Modified body class function.

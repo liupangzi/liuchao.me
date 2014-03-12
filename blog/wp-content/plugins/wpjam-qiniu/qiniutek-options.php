@@ -3,12 +3,13 @@
 add_action( 'admin_menu', 'wpjam_qiniutek_admin_menu');
 function wpjam_qiniutek_admin_menu() {
 	//add_menu_page(						'七牛镜像存储',			'七牛镜像存储',	'manage_options',	'wpjam-qiniutek',		'wpjam_qiniutek_setting_page',	QINIUTEK_PLUGIN_URL.'/static/qiniutek-ico.png'	);
-	add_menu_page(						'七牛镜像存储',			'七牛镜像存储',	'manage_options',	'wpjam-qiniutek',		'wpjam_qiniutek_setting_page'	);
+	add_menu_page(						'七牛镜像存储',			'七牛镜像存储',	'manage_options',	'wpjam-qiniutek',		'wpjam_qiniutek_setting_page',	'dashicons-cloud'	);
 	add_submenu_page( 'wpjam-qiniutek',	'七牛镜像存储设置',		'基本设置',		'manage_options',	'wpjam-qiniutek',		'wpjam_qiniutek_setting_page'	);
 	if( wpjam_qiniutek_get_setting('bucket') && wpjam_qiniutek_get_setting('access') && wpjam_qiniutek_get_setting('secret') ){
 		add_submenu_page( 'wpjam-qiniutek',	'七牛镜像存储 &gt; 文件更新',			'文件更新',		'manage_options',	'wpjam-qiniutek-update','wpjam_qiniutek_update_page'	);
-		add_submenu_page( 'wpjam-qiniutek',	'七牛镜像存储 &gt; 上传 Robots.txt','上传 Robots.txt',	'manage_options',	'wpjam-qiniutek-robots','wpjam_qiniutek_robots_page'	);
+		add_submenu_page( 'wpjam-qiniutek',	'七牛镜像存储 &gt; 上传 Robots.txt',	'Robots.txt',	'manage_options',	'wpjam-qiniutek-robots','wpjam_qiniutek_robots_page'	);
 	}
+	add_submenu_page( 'wpjam-qiniutek',	'七牛镜像存储 &gt; 优惠码','优惠码',	'manage_options',	'wpjam-qiniutek-coupon','wpjam_qiniutek_coupon_page'	);
 	if(!function_exists('wpjam_net_check_domain')){
 		$wpjam_include_dir = wpjam_qiniutek_get_wpjam_include_dir();
 		include($wpjam_include_dir.'/wpjam-net-api.php');	// WPJAM 应用商城接口
@@ -17,20 +18,8 @@ function wpjam_qiniutek_admin_menu() {
 	}	
 }
 
-add_action('admin_head','wpjam_qiniutek_admin_head');
-function wpjam_qiniutek_admin_head(){
-?>
-<style type="text/css">.icon16.icon-settings:before, #adminmenu .toplevel_page_wpjam-qiniutek div.wp-menu-image:before{content: "\f176";}</style>
-<?php /*
-	global $plugin_page;
-	if(in_array($plugin_page, array('wpjam-qiniutek', 'wpjam-qiniutek-update', 'wpjam-qiniutek-robots'))){ //只在相关的页面才加载 CSS 代码
-?>
-	<style>#icon-qiniutek{background-image: url("<?php echo QINIUTEK_PLUGIN_URL.'/static/qiniutek.png';?>");background-repeat: no-repeat;}</style>
-<?php 
-	}*/
-}
-
 function wpjam_qiniutek_setting_page() {
+	settings_errors();
 	$labels =wpjam_qiniutek_get_option_labels();
 	wpjam_option_page($labels, $title='七牛镜像存储设置', $type='default', $icon='qiniutek');
 }
@@ -110,6 +99,30 @@ function wpjam_qiniutek_get_setting($setting_name){
 function wpjam_qiniutek_get_option(){
 	$defaults = wpjam_qiniutek_get_default_option();
 	return wpjam_get_option('wpjam-qiniutek',$defaults);
+}
+
+/**
+* 优惠码 
+**/
+
+function wpjam_qiniutek_coupon_page(){
+?>
+	<div class="wrap">
+		<div id="icon-qiniutek" class="icon32"><br></div>
+		<h2>如何使用七牛云存储的优惠码</h2>
+		<p>简单说就是<strong>复制专属我爱水煮鱼用户的优惠码“<span style="color:red;">63ff63a6</span>”，充值就能享受9折优惠</strong>。</p>
+		<p>1. 登陆七牛开发者平台：<a href="https://portal.qiniu.com/">https://portal.qiniu.com/</a></p>
+		<p>2. 然后点击“充值”，进入充值页面</p>
+		<p><img src="<?php echo WPJAM_QINIUTEK_PLUGIN_URL; ?>/static//qiniu-coupon.png" alt="使用七牛优惠码" /></p>
+		<p>3. 点击“使用优惠码”，并输入优惠码“<strong><span style="color:red;">63ff63a6</span></strong>”，点击“使用”。</p>
+		<p>4. 输入计划充值的金额，点击“马上充值”，进入支付宝页面，完成支付。<br />
+		*注意七牛的优惠不是在原价上优惠，是赠送的方式，所以比如你要充值100，你只要输入90即可，这个需要数学比较好的同学算下 <img src="http://wpjam.qiniudn.com/wpjam/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" />  。</p>
+		<p>5. 完成支付后，可至财务->>财务概况->>账户余额 查看实际到账金额。</p>
+		<h3>新功能调查</h3>
+		<iframe width="450" height="350"   frameborder="0" scrolling="no" src="http://vote.weibo.com/widget?vid=2560005&skin=1&isCustom=0&width=450&height=350&pad=20&isResult=1"></iframe>	
+	</div>
+<?php
+
 }
 
 /**

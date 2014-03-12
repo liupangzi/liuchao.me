@@ -1,4 +1,8 @@
 <?php
+function wpjam_get_thumbnail($img_url, $width=0, $height=0, $crop=1){
+	return apply_filters('wpjam_thumbnail', $img_url, $width, $height, $crop);
+}
+
 function wpjam_has_post_thumbnail(){
 	return wpjam_get_post_thumbnail()?true:false;
 }
@@ -138,16 +142,16 @@ if(!function_exists('get_post_first_image')){
 
 
 add_filter('manage_posts_columns', 'wpjam_manage_posts_columns_add_thumbnail');
-add_filter('manage_pages_columns', 'wpjam_manage_posts_columns_add_thumbnail');
+//add_filter('manage_pages_columns', 'wpjam_manage_posts_columns_add_thumbnail');
 function wpjam_manage_posts_columns_add_thumbnail($columns){
     $columns['thumbnail'] = '缩略图';
     return $columns;
 }
 
 add_action('manage_posts_custom_column','wpjam_manage_posts_custom_column_show_thumbnail',10,2);
-add_action('manage_pages_custom_column','wpjam_manage_posts_custom_column_show_thumbnail',10,2);
+//add_action('manage_pages_custom_column','wpjam_manage_posts_custom_column_show_thumbnail',10,2);
 function wpjam_manage_posts_custom_column_show_thumbnail($column_name,$id){
     if ($column_name == 'thumbnail') {
-        wpjam_post_thumbnail(array(100,80));
+        wpjam_post_thumbnail(array(80,60));
     }
 }

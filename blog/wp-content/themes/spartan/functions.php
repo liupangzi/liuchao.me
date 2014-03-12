@@ -408,19 +408,6 @@ function Spartan_get_the_excerpt($content){
 	return str_replace(' [...]','',$content);
 }
 
-/**
- * Get the sidebar ID
- */
- 
-function Spartan_get_sidebar_id(){
-	global $post;
-	$sidebar_id = 'sidebar-default';
-	if(isset($post->ID))
-		if(is_active_sidebar('sidebar-'.$post->ID))
-			$sidebar_id = 'sidebar-'.$post->ID;
-	return $sidebar_id;
-}
-
 function Spartan_backupmenu() {
 	 	if ( current_user_can('edit_theme_options') ) {
 				echo '	<ul id="Main_nav" class="dropdown dropdown-horizontal">

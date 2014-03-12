@@ -5,7 +5,7 @@ Description: 使用七牛云存储实现 WordPress 博客静态文件 CDN 加速
 Plugin URI: http://blog.wpjam.com/project/wpjam-qiniutek/
 Author: Denis
 Author URI: http://blog.wpjam.com/
-Version: 0.82
+Version: 0.83
 */
 
 define('WPJAM_QINIUTEK_PLUGIN_URL', plugins_url('', __FILE__));
@@ -14,8 +14,9 @@ define('WPJAM_QINIUTEK_PLUGIN_DIR', WP_PLUGIN_DIR.'/'. dirname(plugin_basename(_
 // 让插件正确获取最新版的 WPJAM 基本函数库
 function wpjam_qiniutek_get_wpjam_include_dir(){
     $wpjam_include_versions = get_transient('wpjam_include_versions');
-    if($wpjam_include_versions === false || empty($wpjam_include_versions['0.5'])){
-        $wpjam_include_versions['1.0'] = WPJAM_QINIUTEK_PLUGIN_DIR.'/include';
+    $version = '20130310';
+    if($wpjam_include_versions === false || empty($wpjam_include_versions[$version])){
+        $wpjam_include_versions[$version] = WPJAM_QINIUTEK_PLUGIN_DIR.'/include';
         set_transient('wpjam_include_versions', $wpjam_include_versions, 600);
     }
     krsort($wpjam_include_versions);
@@ -34,8 +35,14 @@ if(!function_exists('wpjam_post_thumbnail')){
 }
 
 //定义在七牛绑定的域名。
-define('CDN_HOST',wpjam_qiniutek_get_setting('host'));
-define('LOCAL_HOST',wpjam_qiniutek_get_setting('local'));
+if(wpjam_qiniutek_get_setting('host')){
+	define('CDN_HOST',wpjam_qiniutek_get_setting('host'));
+}
+if(wpjam_qiniutek_get_setting('host')){
+	define('LOCAL_HOST',wpjam_qiniutek_get_setting('local'));
+}else{
+	define('LOCAL_HOST',home_url());
+}
 
 function wpjam_qiniutek_cdn_replace($html){
 	$cdn_exts	= wpjam_qiniutek_get_setting('exts');
@@ -54,7 +61,7 @@ function wpjam_qiniutek_cdn_replace($html){
 	return $html;
 }
 
-if(!is_admin() && CDN_HOST){
+if(!is_admin() && defined('CDN_HOST') && CDN_HOST && defined('LOCAL_HOST') && LOCAL_HOST){
 	add_action("wp_loaded", 'wpjam_qiniutek_start_ob_cache');
 	function wpjam_qiniutek_start_ob_cache(){
 		ob_start('wpjam_qiniutek_cdn_replace');
@@ -76,22 +83,25 @@ function wpjam_qiniutek_enqueue_scripts() {
 	}
 }
 
-//使用七牛所托 API 进行裁图
+//使用七牛缩图 API 进行裁图
 add_filter('wpjam_thumbnail','wpjam_get_qiniu_thumbnail',10,4);
-function wpjam_get_qiniu_thumbnail($img_url, $width=0, $height=0, $crop=1){
+function wpjam_get_qiniu_thumbnail($img_url, $width=0, $height=0, $crop=1, $quality='',$format=''){
 	if(defined('CDN_HOST')){
 		$img_url = str_replace(LOCAL_HOST, CDN_HOST, $img_url);
 
-		if($width && $height){
+		if($width || $height){
+			$arg = 'imageView/';
 			if($crop){
-				$img_url = add_query_arg( array('imageView/1/w/'.$width.'/h/'.$height => ''), $img_url );
+				$arg .= '1';
 			}else{
-				$img_url = add_query_arg( array('imageView/2/w/'.$width.'/h/'.$height => ''), $img_url );
+				$arg .= '2';
 			}
-		}elseif($width){
-			$img_url = $img_url.'?imageView/2/w/'.$width;
-		}elseif($height){
-			$img_url = $img_url.'?imageView/2/h/'.$height;
+			if($width)		$arg .= '/w/'.$width;
+			if($height) 	$arg .= '/h/'.$height;
+			if($quality)	$arg .= '/q/'.$quality;
+			if($format)		$arg .= '/format/'.$format;
+
+			$img_url = add_query_arg( array($arg => ''), $img_url );
 		}
 	}
 

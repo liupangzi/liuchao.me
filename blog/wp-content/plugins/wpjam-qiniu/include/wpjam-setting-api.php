@@ -7,7 +7,6 @@ function wpjam_option_page($labels, $title='', $type='default', $icon='options-g
 	extract($labels);
 	?>
 	<div class="wrap">
-	<?php settings_errors();?>
 	<?php if($icon){?>
 		<div id="icon-<?php echo $icon;?>" class="icon32"><br></div>
 	<?php } ?>
@@ -53,16 +52,15 @@ function wpjam_option_tab_script($option_name=''){
 	}
 	?>
 	<script type="text/javascript">
+	<?php if($current_tab){ ?>
+		jQuery('#tab-title-<?php echo $current_tab; ?>').addClass('nav-tab-active');
+		jQuery('#tab-<?php echo $current_tab; ?>').show();
+	<?php } else{ ?>
+		//设置第一个显示
+		jQuery('a.nav-tab').first().addClass('nav-tab-active');
+		jQuery('div.div-tab').first().show();
+	<?php } ?>
 		jQuery(document).ready(function(){
-
-		<?php if($current_tab){ ?>
-			jQuery('#tab-title-<?php echo $current_tab; ?>').addClass('nav-tab-active');
-			jQuery('#tab-<?php echo $current_tab; ?>').show();
-		<?php } else{ ?>
-			//设置第一个显示
-			jQuery('a.nav-tab').first().addClass('nav-tab-active');
-			jQuery('div.div-tab').first().show();
-		<?php } ?>
 			jQuery('a.nav-tab').on('click',function(){
 		        jQuery('a.nav-tab').removeClass('nav-tab-active');
 		        jQuery(this).addClass('nav-tab-active');
@@ -87,12 +85,18 @@ function wpjam_add_settings($labels,$defaults){
 		if($fields){
 			foreach ($fields as $field_name=>$field) {
 				$field['option']	= $option_name;
-				$field['field']		= $field_name;
+				$field['name']		= $field_name;
+
+				$filed_title		= $field['title'];
+
+				if(in_array($field['type'], array('text','select','datetime','textarea','checkbox'))){
+					$filed_title = '<label for="'.$field_name.'">'.$filed_title.'</label>';
+				}
 
 				$field['default'] 	= isset($defaults[$field_name])?$defaults[$field_name]:'';
 				add_settings_field( 
 					$field_name,
-					$field['title'],		
+					$filed_title,		
 					$field_callback,	
 					$option_page, 
 					$section_name,	
@@ -107,7 +111,7 @@ function wpjam_add_settings($labels,$defaults){
 function wpjam_field_callback($args) {
 
 	$option_name	= $args['option'];
-	$field_name		= $args['field'];
+	$field_name		= $args['name'];
 
 	$wpjam_option	= get_option( $option_name );
 
@@ -118,12 +122,17 @@ function wpjam_field_callback($args) {
 
 	if($type == 'text'){
 		echo '<input type="text" id="'.$field_name.'" name="'.$field.'" value="'.$value.'" class="regular-text" />';
+	}elseif($type == 'checkbox'){
+		echo '<input type="checkbox" id="'.$field_name.'" name="'.$field.'" value="1" '.checked("1",$value,false).' />';
 	}elseif($type == 'textarea'){
 		$rows = isset($args['rows'])?$args['rows']:10;
 		echo '<textarea id="'.$field_name.'" name="'.$field.'" rows="'.$rows.'" cols="50" class="large-text  code">'.$value.'</textarea>';
-	}elseif($type == 'checkbox'){
-		$checked = $value?'checked':'';
-		echo '<input type="checkbox" id="'.$field_name.'" name="'.$field.'" value="1" '.$checked.' />';
+	}elseif ($type == 'select'){
+		echo '<select id="'.$field_name.'" name="'.$field.'">';
+		foreach ($args['options'] as $option_value => $option_title){ 
+			echo '<option value="'.$option_value.'" '.selected($option_value,$value,false).'>'.$option_title.'</option>';
+		}
+		echo '</select>';
 	}
 	echo $description;
 }
@@ -217,6 +226,92 @@ function wpjam_admin_pagenavi($total_count, $number_per_page=50){
 	<?php
 }
 
+function wpjam_admin_display_fields($fields, $fields_type = 'table'){
+	$new_fields = array();
+	foreach($fields as $name => $field){ 
+		$type		= $field['type'];
+		$value		= $field['value'];
+
+		$class		= isset($field['calss'])?$field['class']:'regular-text';
+		$description= (isset($field['description']))?($type == 'checkbox')?' <label for="'.$name.'">'.$field['description'].'</label>':'<br />'.$field['description']:'';
+
+		$title 		= $field['title'];
+		if(in_array($type, array('text','select','datetime','textarea','checkbox'))){
+			$title = '<label for="'.$name.'">'.$title.'</label>';
+		}
+
+		if($type == 'text' || $type == 'datetime'){
+			$new_fields[$name] = array('title'=>$title, 'html'=>'<input name="'.$name.'" id="'. $name.'" type="text"  value="'.esc_attr($value).'" class="'.$class.'" />'.$description);
+		}elseif ($type == 'hidden'){
+			$new_fields[$name] = array('title'=>$title, 'html'=>'<input name="'.$name.'" id="'. $name.'" type="hidden"  value="'.esc_attr($value).'" />'.$description);
+		}elseif ($type == 'checkbox'){
+			$new_fields[$name] = array('title'=>$title, 'html'=>'<input name="'.$name.'" id="'. $name.'" type="checkbox"  value="'.esc_attr($value).'" '.$field['checked'].' />'.$description);
+		}elseif($type == 'file'){
+			$new_fields[$name] = array('title'=>$title, 'html'=>'<input name="'.$name.'" id="'. $name.'" type="text"  value="'.esc_attr($value).'" '.$field['checked'].' /><input onclick="wpjam_media_upload(\''. $name.'\')" class="button button-highlighted" type="button" value="上传'.$title.'" />').$description;
+		}elseif($type == 'textarea'){
+			$rows = isset($field['rows'])?$field['rows']:6;
+			$new_fields[$name] = array('title'=>$title, 'html'=>'<textarea name="'.$name.'" id="'. $name.'" rows="'.$rows.'" cols="50"  class="'.$class.' code" >'.esc_attr($value).'</textarea>'.$description);
+		}elseif ($type == 'select'){
+			$new_field_html  = '<select name="'.$name.'" id="'. $name.'">';
+			foreach ($field['options'] as $option_value => $option_title){ 
+				$new_field_html .= '<option value="'.$option_value.'" '.selected($option_value,$value,false).'>'.$option_title.'</option>';
+			}
+			$new_field_html .= '</select>';
+			$new_fields[$name] = array('title'=>$title, 'html'=>$new_field_html.$description);
+		}elseif ($type == 'radio'){
+			$new_field_html  = '';
+			foreach ($field['options'] as $option_value => $option_title) {
+				$new_field_html  .= '<p><input name="'.$name.'" type="radio" id="'.$name.'" value="'.$option_value .'" '.checked($option_value,$value,false).' /> '.$option_title.'</p>';
+			}
+			$new_fields[$name] = array('title'=>$title, 'html'=>$new_field_html.$description);
+		}
+	}
+	
+	?>
+	<?php if($fields_type == 'table'){ ?>
+
+	<table class="form-table" cellspacing="0">
+		<tbody>
+		<?php foreach ($new_fields as $name=>$field) { ?>
+
+			<tr valign="top" id="tr_<?php echo $name; ?>">
+				<th scope="row"><?php echo $field['title']; ?></th>
+				<td><?php echo $field['html']; ?></td>
+			</tr>
+
+		<?php } ?>
+		</tbody>
+	</table>
+
+	<?php } elseif($fields_type == 'list'){ ?>
+
+	<ul>
+	<?php foreach ($new_fields as $name=>$field) { ?>
+
+		<li><?php echo $field['title']; ?> <?php echo $field['html']; ?> </li>
+
+	<?php } ?>
+	</ul>
+
+	<?php } ?>
+
+	<?php
+}
+
+function wpjam_confim_delete_script(){
+	?>
+	<script type="text/javascript">
+	jQuery(function(){
+		jQuery('span.delete a').click(function(){
+			return confirm('确实要删除吗?'); 
+		}); 
+	});
+	</script> 
+	<?php
+}
+
+
+/*已经舍弃的函数*/
 function wpjam_admin_display_form_table($form_fields){
  	?>
 	<table class="form-table" cellspacing="0">
@@ -245,8 +340,8 @@ function wpjam_admin_display_form_table($form_fields){
 					<input name="<?php echo $name;?>" id="<?php echo $name;?>" type="checkbox"  value="<?php echo $value ?>" <?php echo $form_field['checked']; ?> /> 是否激活
 				<?php }elseif ($type == 'select'){ ?>
 					<select name="<?php echo $name;?>" id="<?php echo $name;?>"  >
-					<?php foreach ($form_field['options'] as $key => $option_value){ $selected = ($key == $value)?'selected':''; ?>
-						<option value="<?php echo $key; ?>" <?php echo $selected; ?>><?php echo $option_value; ?></option>
+					<?php foreach ($form_field['options'] as $option_value => $option_title){ $selected = ($option_value == $value)?'selected':''; ?>
+						<option value="<?php echo $key; ?>" <?php echo $selected; ?>><?php echo $option_title; ?></option>
 					<?php }?>
 					</select>
 				<?php }elseif($type == 'file'){ ?>
@@ -258,17 +353,5 @@ function wpjam_admin_display_form_table($form_fields){
 			<?php } ?>
 		</tbody>
 	</table>
-	<?php
-}
-
-function wpjam_confim_delete_script(){
-	?>
-	<script type="text/javascript">
-	jQuery(function(){
-		jQuery('span.delete a').click(function(){
-			return confirm('确实要删除吗?'); 
-		}); 
-	});
-	</script> 
 	<?php
 }

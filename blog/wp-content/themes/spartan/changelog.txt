@@ -1,6 +1,9 @@
 
+Version: 1.2.51
+----------------------------
+Deleted some unused code.
 
-Version: 1.2.49
+Version: 1.2.50
 ----------------------------
 Relocated custom color function.
 

@@ -3,11 +3,13 @@
 if(!function_exists('wpjam_net_api_request')){
 	function wpjam_net_api_request( $args ) {
 								 
-		$request = wp_remote_post( 'http://wpjam.net/api/', array( 'body' => $args ) );
+		$request = wp_remote_post( 'http://wpjam.net/api/', array( 'body' => $args, 'timeout'=>3 ) );
 
 		if ( is_wp_error( $request ) || 200 != wp_remote_retrieve_response_code( $request ) ){
-			echo '<div class="error" style="color:red;"><p>错误：'.$request->get_error_code().'：'. $request->get_error_message().'</p></div>';
-			return -1;
+			if(isset($_GET['debug'])){
+				echo '<div class="error" style="color:red;"><p>错误：'.$request->get_error_code().'：'. $request->get_error_message().'</p></div>';	
+			}
+			return false;
 		}
 
 		$response = unserialize( wp_remote_retrieve_body( $request ) );
@@ -21,25 +23,31 @@ if(!function_exists('wpjam_net_api_request')){
 	}
 }
 
-function wpjam_net_check_domain($id = 56){
-	$domain_check = apply_filters('wpjam_net_domain_check',false,$id);
-	if($domain_check === false){
-		$domain_check = get_transient('wpjam_net_domain_check_'.$id);
-		if($domain_check === false){
-			$url_parts = parse_url(home_url());
-			if(isset($url_parts['host'])){
-				$domain = $url_parts['host'];
-			}else{
-				$domain = '';
-			}
-			
-			$response = wpjam_net_api_request( array( 'action' => 'domain', 'id' => $id , 'domain' => $domain ) );
+function wpjam_net_get_domain(){
+	$url_parts = parse_url(home_url());
+	if(isset($url_parts['host'])){
+		return $url_parts['host'];
+	}else{
+		return '';
+	}
+}
 
-			$domain_check = $response->domain;
-			if($domain_check == 1){
-				set_transient('wpjam_net_domain_check_'.$id,1,864000); 	// 确认的用户 10天检测一次
-			}else{
-				set_transient('wpjam_net_domain_check_'.$id,0,30);	// 未确认的用户，每10秒检测一次
+function wpjam_net_check_domain($id = 56){
+	$domain_check = get_transient('wpjam_net_domain_check_'.$id);
+	if($domain_check === false){
+		$domain_check = apply_filters('wpjam_net_domain_check',false,$id);
+		if($domain_check === false){
+			$domain = wpjam_net_get_domain();
+			
+			$domain_check = wpjam_net_api_request( array( 'action' => 'domain', 'id' => $id , 'domain' => $domain ) );
+
+			if($domain_check){
+				$domain_check = $domain_check->domain;
+				if($domain_check == 1){
+					set_transient('wpjam_net_domain_check_'.$id,1,8640000); 	// 确认的用户 10天检测一次
+				}else{
+					set_transient('wpjam_net_domain_check_'.$id,0,10);	// 未确认的用户，每10秒检测一次
+				}
 			}
 		}
 	}
@@ -58,13 +66,6 @@ function wpjam_net_get_plugin_datas($paged = 1){
 	return $plugin_datas;
 }
 
-add_action('admin_head','wpjam_net_admin_head');
-function wpjam_net_admin_head(){
-?>
-	<style type="text/css">.icon16.icon-settings:before, #adminmenu .toplevel_page_wpjam-net div.wp-menu-image:before{content: "\f174";}</style>
-<?php
-}
-
 add_action( 'admin_menu', 'wpjam_net_admin_menu' );
 function wpjam_net_admin_menu() {
 	$wpjam_net_admin_menu = apply_filters('wpjam_net_admin_menu',true);
@@ -78,17 +79,19 @@ function wpjam_net_admin_menu() {
 			$update_plugins_count = 0;
 			$update_domains_count = 0;
 
-			foreach ($item_ids as $id=>$plugin_file) {
-				$plugin_data = get_plugin_data( $plugin_file );
-				$current_version = $plugin_data['Version'];
+			if($item_ids && $wpjam_net_plugin_datas){
+				foreach ($item_ids as $id=>$plugin_file) {
+					$plugin_data = get_plugin_data( $plugin_file );
+					$current_version = $plugin_data['Version'];
 
-				$item = $wpjam_net_plugin_datas->items[$id];
-				$new_version = $item->new_version;			
+					$item = $wpjam_net_plugin_datas->items[$id];
+					$new_version = $item->new_version;			
 
-				if(!wpjam_net_check_domain($item->id)){
-					$update_domains_count++;
-				}elseif($new_version > $current_version){
-					$update_plugins_count++;
+					if(!wpjam_net_check_domain($item->id)){
+						$update_domains_count++;
+					}elseif($new_version > $current_version){
+						$update_plugins_count++;
+					}
 				}
 			}
 			$wpjam_net_count = array('update_plugins_count'=>$update_plugins_count, 'update_domains_count'=>$update_domains_count);
@@ -105,7 +108,7 @@ function wpjam_net_admin_menu() {
 			$update_info = '<span title="待审核：'.(int)$update_domains_count.'，未更新:'.(int)$update_plugins_count.'" class="update-plugins count-1"><span class="update-count">'.$total_count.'</span></span>';
 		}
 
-		add_menu_page(					'WPJAM应用商城', 						'WPJAM 商城'.$update_info,	'manage_options',	'wpjam-net',		'wpjam_net_page');
+		add_menu_page(					'WPJAM应用商城', 						'WPJAM 商城'.$update_info,	'manage_options',	'wpjam-net',		'wpjam_net_page',	' dashicons-cart');
 		add_submenu_page( 'wpjam-net', 	'所有产品 &lsaquo; WPJAM应用商城', 	'所有产品', 					'manage_options',	'wpjam-net',		'wpjam_net_page');
 		add_submenu_page( 'wpjam-net', 	'我的产品 &lsaquo; WPJAM应用商城', 	'我的产品'.$update_info,		'manage_options',	'wpjam-net-my', 	'wpjam_net_my_page');
 		//add_submenu_page( 'wpjam-net', 	'我要赚钱 &lsaquo; WPJAM应用商城', 	'我要赚钱', 					'manage_options',	'wpjam-net-about',	'wpjam_net_about_page');
@@ -119,6 +122,8 @@ function wpjam_net_my_page(){
 	?>
 	<div class="wrap">
 		<h2>我的产品</h2>
+
+		<?php if($wpjam_net_plugin_datas){ ?>
 		
 		<?php $item_ids = apply_filters('wpjam_net_item_ids', array()); ?>
 
@@ -172,20 +177,22 @@ function wpjam_net_my_page(){
 		<?php }else{ ?>
 		<p>你还未在 <a href="http://wpjam.net/">WPJAM应用商城</a>购买任何产品！</p>
 		<?php } ?>
+		<?php }else{ ?>
+		<p>网络异常，请刷新！</p>
+		<?php } ?>
 	</div>
 	<?php
 }
 
 function wpjam_net_page(){
 	global $plugin_page;
-
-	$wpjam_net_plugin_datas =  wpjam_net_get_plugin_datas();
-
 	add_thickbox();
 
+	$wpjam_net_plugin_datas =  wpjam_net_get_plugin_datas();
 	?>
 	<div class="wrap">
 		<h2>所有产品</h2>
+		<?php if($wpjam_net_plugin_datas){ ?>
 		<table class="widefat" cellspacing="0">
 			<thead>
 				<tr>
@@ -228,8 +235,10 @@ function wpjam_net_page(){
 			<?php }?>
 			</tbody>
 		</table>
-
 		<?php echo $thickbox_content;?>
+		<?php }else{ ?>
+		<p>网络异常，请刷新！</p>	
+		<?php } ?>
 	</div>
 	<?php
 }

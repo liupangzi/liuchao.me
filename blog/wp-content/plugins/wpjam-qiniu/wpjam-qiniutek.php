@@ -5,7 +5,7 @@ Description: 使用七牛云存储实现 WordPress 博客静态文件 CDN 加速
 Plugin URI: http://blog.wpjam.com/project/wpjam-qiniutek/
 Author: Denis
 Author URI: http://blog.wpjam.com/
-Version: 1.0
+Version: 1.01
 */
 
 define('WPJAM_QINIUTEK_PLUGIN_URL', plugins_url('', __FILE__));
@@ -34,16 +34,20 @@ if(wpjam_qiniutek_get_setting('local')){
 
 if(!is_admin()){
 	add_action("wp_loaded", 'wpjam_qiniutek_start_ob_cache');
-	function wpjam_qiniutek_start_ob_cache(){
-		ob_start('wpjam_qiniutek_cdn_replace');
-	}
 
 	if(wpjam_qiniutek_get_setting('remote') && get_option('permalink_structure')){
-		add_filter('the_content',				'wpjam_qiniutek_content',1);
-		add_action('generate_rewrite_rules',	'wpjam_qiniutek_generate_rewrite_rules');
-		add_filter('query_vars', 				'wpjam_qiniutek_query_vars');
-		add_action('template_redirect', 		'wpjam_qiniutek_template_redirect', 5);
+		add_filter('the_content', 'wpjam_qiniutek_content',1);
 	}
+}
+
+if(get_option('permalink_structure')){
+	add_action('generate_rewrite_rules',	'wpjam_qiniutek_generate_rewrite_rules');
+	add_filter('query_vars', 				'wpjam_qiniutek_query_vars');
+	add_action('template_redirect', 		'wpjam_qiniutek_template_redirect', 5);
+}
+
+function wpjam_qiniutek_start_ob_cache(){
+	ob_start('wpjam_qiniutek_cdn_replace');
 }
 
 function wpjam_qiniutek_cdn_replace($html){

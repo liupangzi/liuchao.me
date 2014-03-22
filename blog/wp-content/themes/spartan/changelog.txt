@@ -1,4 +1,8 @@
 
+Version: 1.2.52
+----------------------------
+Deleted some unused code.
+
 Version: 1.2.51
 ----------------------------
 Deleted some unused code.

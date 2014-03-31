@@ -28,21 +28,18 @@ function Spartan_setup(){
 	'default-image' => get_template_directory_uri() . '/images/'.$custombgargsskin.'/page_bg.png',
 	);
   add_theme_support( 'custom-background', $custombgargs );
-  $customhargs = array(
-	'default-image' => get_template_directory_uri() . '/images/defaulth.png',
-	'flex-width'    => true,
-	'width'         => 1200,
-	'flex-height'    => true,
-	'height'        => 500,
-	'header-text'   => false,
-  );
-  add_theme_support( 'custom-header', $customhargs );
+
   add_editor_style();
   add_theme_support( 'post-formats', array( 'quote' ) );
   load_theme_textdomain('Spartan', get_template_directory() . '/languages');
     
 }
 add_action( 'after_setup_theme', 'Spartan_setup' );
+
+/**
+ * Implement the Custom Header feature.
+ */
+require get_template_directory() . '/inc/custom-header.php';
 
 /* 
  * Loads the Options Panel

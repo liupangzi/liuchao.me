@@ -1,7 +1,7 @@
 <?php
 /*
 
- $Id: sitemap-core.php 882527 2014-03-26 19:05:29Z arnee $
+ $Id: sitemap-core.php 885323 2014-03-31 21:28:18Z arnee $
 
 */
 
@@ -895,7 +895,7 @@ final class GoogleSitemapGenerator {
 	 * @return true if compressed
 	 */
 	public function IsGzipEnabled() {
-		return ($this->GetOption("b_gzip") === true && function_exists("gzwrite"));
+		return (function_exists("gzwrite"));
 	}
 
 	/**
@@ -1109,7 +1109,7 @@ final class GoogleSitemapGenerator {
 		$this->options = array();
 		$this->options["sm_b_prio_provider"] = "GoogleSitemapGeneratorPrioByCountProvider"; //Provider for automatic priority calculation
 		$this->options["sm_b_ping"] = true; //Auto ping Google
-		$this->options["sm_b_stats"] = true; //Send anonymous stats
+		$this->options["sm_b_stats"] = false; //Send anonymous stats
 		$this->options["sm_b_pingmsn"] = true; //Auto ping MSN
 		$this->options["sm_b_memory"] = ''; //Set Memory Limit (e.g. 16M)
 		$this->options["sm_b_time"] = -1; //Set time limit in seconds, 0 for unlimited, -1 for disabled
@@ -1356,13 +1356,14 @@ final class GoogleSitemapGenerator {
 		$buildOptions = array_merge($this->buildOptions, $buildOptions);
 
 		$html = (isset($buildOptions["html"]) ? $buildOptions["html"] : false);
+		$zip = (isset($buildOptions["zip"]) ? $buildOptions["zip"] : false);
 
 		if($pl) {
 			return trailingslashit(get_bloginfo('url')) . "sitemap" . ($options ? "-" . $options : "") . ($html
-					? ".html" : ".xml");
+					? ".html" : ".xml") . ($zip? ".gz" : "");
 		} else {
 			return trailingslashit(get_bloginfo('url')) . "index.php?xml_sitemap=params=" . $options . ($html
-					? ";html=true" : "");
+					? ";html=true" : "") . ($zip? ";zip=true" : "");
 		}
 	}
 
@@ -1519,8 +1520,13 @@ final class GoogleSitemapGenerator {
 		if(!headers_sent()) header('X-Robots-Tag: noindex', true);
 
 		$pack = (isset($options['zip']) ? $options['zip'] : true);
-		if(empty($_SERVER['HTTP_ACCEPT_ENCODING']) || strpos('gzip', $_SERVER['HTTP_ACCEPT_ENCODING']) === NULL || !$this->IsGzipEnabled() || headers_sent()) $pack = false;
-		if($pack) ob_start('ob_gzhandler');
+		if(empty($_SERVER['HTTP_ACCEPT_ENCODING']) || strpos($_SERVER['HTTP_ACCEPT_ENCODING'],'gzip') === false || !$this->IsGzipEnabled() || headers_sent()) $pack = false;
+		$packed = false;
+		if($pack) {
+			if (!in_array('ob_gzhandler', ob_list_handlers())) {
+				$packed = ob_start('ob_gzhandler');
+			}
+		}
 
 		$this->Initate();
 
@@ -1588,7 +1594,7 @@ final class GoogleSitemapGenerator {
 			foreach($domTranObj->childNodes as $node) echo $domTranObj->saveXML($node) . "\n";
 		}
 
-		if($pack) ob_end_flush();
+		if($packed) ob_end_flush();
 		$this->isActive = false;
 		exit;
 	}
@@ -1913,6 +1919,7 @@ final class GoogleSitemapGenerator {
 	 * Sends anonymous statistics
 	 */
 	private function SendStats() {
+		global $wp_version;
 		$postData = array(
 			"v" => 1,
 			"tid" => "UA-65990-26",
@@ -1935,8 +1942,6 @@ final class GoogleSitemapGenerator {
 	 * Handles daily ping
 	 */
 	public function SendPingDaily() {
-
-		global $wp_version;
 
 		$this->LoadOptions();
 

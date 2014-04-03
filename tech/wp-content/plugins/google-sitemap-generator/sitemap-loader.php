@@ -15,7 +15,7 @@ class GoogleSitemapGeneratorLoader {
 	/**
 	 * @var Version of the generator in SVN
 	 */
-	private static $svnVersion = '$Id: sitemap-loader.php 884678 2014-03-30 15:52:25Z arnee $';
+	private static $svnVersion = '$Id: sitemap-loader.php 885004 2014-03-31 11:22:56Z arnee $';
 
 
 	/**
@@ -84,7 +84,7 @@ class GoogleSitemapGeneratorLoader {
 
 		add_filter('template_redirect', array(__CLASS__, 'DoTemplateRedirect'), 1, 0);
 
-		add_filter('parse_request', array(__CLASS__, 'KillFrontpageQuery'), 1, 0);
+		//add_filter('parse_request', array(__CLASS__, 'KillFrontpageQuery'), 1, 0);
 	}
 
 	/**
@@ -186,7 +186,7 @@ class GoogleSitemapGeneratorLoader {
 	}
 
 	public static function KillFrontpageQuery() {
-		add_filter('posts_request', array('GoogleSitemapGeneratorLoader', 'KillFrontpagePosts'), 1000, 2);
+		//add_filter('posts_request', array('GoogleSitemapGeneratorLoader', 'KillFrontpagePosts'), 1000, 2);
 	}
 
 	public static function KillFrontpagePosts($sql, &$query) {

@@ -1,7 +1,7 @@
 <?php
 /*
 
- $Id: sitemap-builder.php 882527 2014-03-26 19:05:29Z arnee $
+ $Id: sitemap-builder.php 885074 2014-03-31 13:24:09Z arnee $
 
 */
 /**
@@ -96,11 +96,13 @@ class GoogleSitemapGeneratorStandardBuilder {
 	 */
 	public function BuildPosts($gsg, $type, $params) {
 
-		if(!$pts = strpos($params, "-")) return;
+		if(!$pts = strrpos($params, "-")) return;
+
+		$pts = strrpos($params, "-", $pts - strlen($params) - 1);
 
 		$postType = substr($params, 0, $pts);
 
-		if(!in_array($postType, $gsg->GetActivePostTypes())) return;
+		if(!$postType || !in_array($postType, $gsg->GetActivePostTypes())) return;
 
 		$params = substr($params, $pts + 1);
 

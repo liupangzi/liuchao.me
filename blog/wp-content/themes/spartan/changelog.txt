@@ -1,4 +1,11 @@
 
+Version: 1.2.55
+----------------------------
+Deleted some unused code.
+
+Version: 1.2.54
+----------------------------
+De enqueued jquery.
 
 Version: 1.2.53
 ----------------------------

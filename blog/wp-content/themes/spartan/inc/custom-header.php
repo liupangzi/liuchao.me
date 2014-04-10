@@ -12,7 +12,7 @@ function Spartan_custom_header_setup() {
 	'header-text'   => false,
   );
   
-  add_theme_support( 'custom-header', $hazen_customhargs );
+  add_theme_support( 'custom-header', $spartan_customhargs );
   
 }
 add_action( 'after_setup_theme', 'Spartan_custom_header_setup' );  

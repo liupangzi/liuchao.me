@@ -2,9 +2,6 @@
 if ( ! isset( $content_width ) )
 	$content_width = 520;
 
-$Spartan_themename = "Spartan";
-$Spartan_textdomain = "Spartan";
-
 function Spartan_setup(){
   // This theme uses wp_nav_menu() in one location.
   register_nav_menus( array(
@@ -338,12 +335,10 @@ function Spartan_add_javascript( ) {
 	if (is_singular() && get_option('thread_comments'))
 		wp_enqueue_script('comment-reply');
 		
-	wp_enqueue_script('jquery');
-	
 	if( !is_admin() ) {
 
 		wp_enqueue_script('Spartan_jquery', get_template_directory_uri().'/js/respond.min.js' );
-		wp_enqueue_script('Spartan_respmenu', get_template_directory_uri().'/js/tinynav.min.js' );	
+		wp_enqueue_script('Spartan_respmenu', get_template_directory_uri().'/js/tinynav.min.js', array('jquery') );	
 		wp_enqueue_script('Spartan_wilto', get_template_directory_uri().'/js/wilto.js');
 		wp_enqueue_script('Spartan_wiltoint', get_template_directory_uri().'/js/wilto.int.js');
 

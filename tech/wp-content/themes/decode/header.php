@@ -7,7 +7,7 @@
  * @package Decode
  */
 ?><!DOCTYPE html>
-	<?php tha_html_before(); ?>
+<?php tha_html_before(); ?>
 <html <?php language_attributes(); ?>>
 <head>
 <?php tha_head_top(); ?>
@@ -51,8 +51,12 @@
 		
 		<div class="site-branding">
 			
-			<?php if ( get_theme_mod( 'header_image', '' )) echo '<a href="' . esc_url( home_url( '/' ) ) . '" title="' . esc_attr( get_bloginfo( 'name', 'display' ) ) . '"><img class="site-logo" src="' . esc_url( get_theme_mod( 'header_image', '' ) ) . '"></a>'; ?>
-			
+			<?php if ( get_header_image() != '' ) : ?>
+				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home">
+					<img class="site-logo" src="<?php header_image(); ?>" height="<?php echo get_custom_header()->height; ?>" width="100%" alt="" />
+				</a>
+			<?php endif; ?>
+				
 			<?php if ( get_theme_mod( 'show_site_title', true ) == true ) : ?>			
 				<h1 class="site-title">
 				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
@@ -89,7 +93,7 @@
 	
 		<?php tha_header_after(); ?>
 	
-		<?php if ( function_exists( 'bcn_display' ) || function_exists( 'breadcrumb_trail' ) ) : ?>
+		<?php if ( (function_exists( 'bcn_display' ) || function_exists( 'breadcrumb_trail' )) && !is_front_page() ) : ?>
 		
 			<nav class="site-breadcrumbs" role="navigation">
 				

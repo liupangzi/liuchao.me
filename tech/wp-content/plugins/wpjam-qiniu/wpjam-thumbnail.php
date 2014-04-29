@@ -62,14 +62,15 @@ function wpjam_get_post_thumbnail_uri($post=null){
 		}elseif($post_thumbnail_uri = apply_filters('wpjam_pre_post_thumbnail_uri',false, $post)){
 			// do nothing
 		}elseif($first_img = get_post_first_image(do_shortcode($post->post_content))){
-			if(wpjam_qiniutek_get_setting('remote') && get_option('permalink_structure') && strpos($first_img, LOCAL_HOST)===false && strpos($first_img, CDN_HOST) === false){
-				$first_img = CDN_HOST.'/qiniu/'.get_the_ID().'/image/'.md5($first_img).'.jpg';
+			$pre = apply_filters('pre_qiniu_remote',false,$first_img);
+			if($pre == false && wpjam_qiniutek_get_setting('remote') && get_option('permalink_structure') && strpos($first_img, LOCAL_HOST)===false && strpos($first_img, CDN_HOST) === false){
+				$first_img = CDN_HOST.'/qiniu/'.$post_id.'/image/'.md5($first_img).'.jpg';
 			}
 			$post_thumbnail_uri = $first_img;
 		}elseif($post_thumbnail_uri = apply_filters('wpjam_post_thumbnail_uri',false, $post)){
 			//do nothing
 		}else{
-			$post_thumbnail_uri = apply_filters('wpjam_default_post_thumbnail_uri','');
+			$post_thumbnail_uri = apply_filters('wpjam_default_post_thumbnail_uri',wpjam_qiniutek_get_setting('default'));
 		}
 
 		wp_cache_set($post_id, $post_thumbnail_uri, 'post_thumbnail_uri', 6000);

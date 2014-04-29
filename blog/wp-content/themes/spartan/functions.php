@@ -176,7 +176,6 @@ function Spartan_add_stylesheets( ) {
 	if( !is_admin() ) {
 
 								wp_enqueue_style('Spartan_dropdowncss', get_stylesheet_directory_uri().'/css/dropdown.css');
-								wp_enqueue_style('Spartan_advanced_dropdown', get_stylesheet_directory_uri().'/css/default.advanced.css');
 
 								
 								echo '<!--[if lte IE 7]>

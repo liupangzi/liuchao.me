@@ -5,7 +5,7 @@ Description: 使用七牛云存储实现 WordPress 博客静态文件 CDN 加速
 Plugin URI: http://blog.wpjam.com/project/wpjam-qiniutek/
 Author: Denis
 Author URI: http://blog.wpjam.com/
-Version: 1.01
+Version: 1.1
 */
 
 define('WPJAM_QINIUTEK_PLUGIN_URL', plugins_url('', __FILE__));
@@ -15,9 +15,30 @@ if(!function_exists('wpjam_option_page')){
 	include(WPJAM_QINIUTEK_PLUGIN_DIR.'/include/wpjam-setting-api.php');
 }
 
+if(!function_exists('get_term_meta')){
+	include(WPJAM_QINIUTEK_PLUGIN_DIR.'/include/simple-term-meta.php');
+	register_activation_hook( __FILE__,'simple_term_meta_install');
+}
+
 include(WPJAM_QINIUTEK_PLUGIN_DIR.'/qiniutek-options.php');
+
+if(wpjam_qiniutek_get_setting('advanced')){
+	include(WPJAM_QINIUTEK_PLUGIN_DIR.'/term-thumbnail.php');
+}
+include(WPJAM_QINIUTEK_PLUGIN_DIR.'/wpjam-posts.php');
+
 if(!function_exists('wpjam_post_thumbnail')){
 	include(WPJAM_QINIUTEK_PLUGIN_DIR.'/wpjam-thumbnail.php');
+}
+
+function wpjam_qiniutek_get_setting($setting_name){
+	$option = wpjam_qiniutek_get_option();
+	return wpjam_get_setting($option, $setting_name);
+}
+
+function wpjam_qiniutek_get_option(){
+	$defaults = wpjam_qiniutek_get_default_option();
+	return wpjam_get_option('wpjam-qiniutek',$defaults);
 }
 
 //定义在七牛绑定的域名。
@@ -67,7 +88,11 @@ function wpjam_qiniutek_cdn_replace($html){
 }
 
 function wpjam_qiniutek_content($content){
-	return preg_replace_callback('|<img.*?src=[\'"](.*?)[\'"].*?>|i','wpjam_qiniutek_replace_remote_image',do_shortcode($content));
+	if(get_post_meta(get_the_ID(),'disable_remote_image','true')){
+		return $content;
+	}else{
+		return preg_replace_callback('|<img.*?src=[\'"](.*?)[\'"].*?>|i','wpjam_qiniutek_replace_remote_image',do_shortcode($content));
+	}
 }
 
 function wpjam_qiniutek_replace_remote_image($matches){
@@ -109,10 +134,10 @@ function wpjam_qiniutek_enqueue_scripts() {
 
 	if(wpjam_qiniutek_get_setting('jquery')){
 		wp_deregister_script( 'jquery' );
-	    wp_register_script( 'jquery', 'http://cdn.staticfile.org/jquery/2.0.3/jquery.min.js', array(), '2.0.3' );
+	    wp_register_script( 'jquery', 'http://cdn.staticfile.org/jquery/2.1.0/jquery.min.js', array(), '2.1.0' );
 	}else{
 		wp_deregister_script( 'jquery-core' );
-	    wp_register_script( 'jquery-core', 'http://cdn.staticfile.org/jquery/1.10.2/jquery.min.js', array(), '1.10.2' );
+	    wp_register_script( 'jquery-core', 'http://cdn.staticfile.org/jquery/1.11.0/jquery.min.js', array(), '1.10.2' );
 
 		wp_deregister_script( 'jquery-migrate' );
 	    wp_register_script( 'jquery-migrate', 'http://cdn.staticfile.org/jquery-migrate/1.2.1/jquery-migrate.min.js', array(), '1.2.1' );
@@ -122,23 +147,38 @@ function wpjam_qiniutek_enqueue_scripts() {
 //使用七牛缩图 API 进行裁图
 add_filter('wpjam_thumbnail','wpjam_get_qiniu_thumbnail',10,4);
 function wpjam_get_qiniu_thumbnail($img_url, $width=0, $height=0, $crop=1, $quality='',$format=''){
-	$img_url = str_replace(LOCAL_HOST, CDN_HOST, $img_url);
+	if(CDN_HOST != home_url()){
+		$img_url = str_replace(LOCAL_HOST, CDN_HOST, $img_url);
 
-	if($width || $height){
-		$arg = 'imageView/';
+		if($width || $height){
+			$arg = 'imageView/';
 
-		$crop_arg	= $crop?'1':'2';
-		$arg 		.= $crop_arg;
+			$crop_arg	= $crop?'1':'2';
+			$arg 		.= $crop_arg;
 
-		if($width)		$arg .= '/w/'.$width;
-		if($height) 	$arg .= '/h/'.$height;
-		if($quality)	$arg .= '/q/'.$quality;
-		if($format)		$arg .= '/format/'.$format;
+			if($width)		$arg .= '/w/'.$width;
+			if($height) 	$arg .= '/h/'.$height;
+			if($quality)	$arg .= '/q/'.$quality;
+			if($format)		$arg .= '/format/'.$format;
 
-		$img_url = add_query_arg( array($arg => ''), $img_url );
+			$img_url = add_query_arg( array($arg => ''), $img_url );
+		}
+
+		$img_url = apply_filters('qiniu_thumb',$img_url,$width,$height,$crop,$quality,$format);
+	}elseif(wpjam_qiniutek_get_setting('timthumb')){
+		$timthumb_url = WPJAM_QINIUTEK_PLUGIN_URL.'/include/timthumb.php';
+
+		if($width || $height){
+			$arg = array();
+			$arg['src']	= $img_url;
+			$arg['zc']	= 0;
+			if($crop)	$arg['zc']	= 1;
+			if($width)	$arg['w']	= $width;
+			if($height)	$arg['h']	= $height;
+
+			$img_url = add_query_arg($arg,$timthumb_url);
+		}
 	}
-
-	$img_url = apply_filters('qiniu_thumb',$img_url,$width,$height,$crop,$quality,$format);
 
 	return $img_url;
 }

@@ -2,38 +2,31 @@
 
 add_action( 'admin_menu', 'wpjam_qiniutek_admin_menu');
 function wpjam_qiniutek_admin_menu() {
-	add_menu_page(						'七牛镜像存储',			'七牛镜像存储',	'manage_options',	'wpjam-qiniutek',		'wpjam_qiniutek_setting_page',	'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNS4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IuWbvuWxgl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCINCgkgd2lkdGg9IjE1My44OHB4IiBoZWlnaHQ9IjEwMy4zcHgiIHZpZXdCb3g9IjAgMCAxNTMuODggMTAzLjMiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDE1My44OCAxMDMuMyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cGF0aCBmaWxsPSIjRkZGRkZGIiBkPSJNMTUzLjY4NCwwLjc5MWMtMC4yNjYtMC40OTctMC44My0wLjk2My0xLjg1LTAuNzI4Yy0xLjk4NCwwLjQ2NS0yNS4xMzksMzkuMTY5LTc0Ljg4NywzOC4wOThoLTAuMDE2DQoJYy05LjQ1MiwwLjIwMy0xOC42MjgtMS4wMy0yNi4xODgtMy4xNTZsLTQuMzI3LTEzLjk4YzAsMC0wLjgwMS0zLjQzOC00LjExNS01LjE5NmMtMi4yOTMtMS4yMDctMy42MzEtMC44MjEtMy45MTEtMC40ODQNCgljLTAuMjUyLDAuMzE2LTAuMjA0LDAuNjUzLTAuMjA0LDAuNjUzbDIuMDUzLDE1LjI2NkMxNC44OTEsMjAuNCwzLjQ3NCwwLjQwMywyLjA0MiwwLjA2M2MtMS4wMTUtMC4yMzUtMS41NzgsMC4yMy0xLjg0NSwwLjcyOA0KCWMtMC40MjcsMC44LTAuMDIxLDEuOTI5LTAuMDIxLDEuOTI5YzcuMTUyLDIxLjMxMSwyMi41ODcsMzguMTI2LDQyLjU2Nyw0Ny4wOWw1LjUwOSwzNi45MzENCgljMC4zNzQsMTAuNTMzLDcuNDE2LDE2LjU1OSwxNi41NjksMTYuNTU5aDI3LjM5YzkuMTUzLDAsMTYuMDA4LTYuNTg4LDE2LjU3NS0xNi41NTlsNS4wMTktMzAuNTM3YzAsMCwwLjA4NS0wLjQyNi0wLjE2Ni0wLjYwNA0KCWMtMC4zMTItMC4xOTEtMi42OTgtMC4yNjQtNy41MjgsMy4zMTRjLTQuODMsMy41ODItNi40NjMsOC43NTYtNi40NjMsOC43NTZzLTUuMjE5LDEyLjY5OS02LjU5MSwxOC4xMjUNCgljLTEuNDQ0LDUuNzEzLTcuODUsNS4yMDMtNy44NSw1LjIwM3MtOS43ODksMC0xNC42ODEsMGMtNC44OTUsMC01LjM5Ni00LjM5NS01LjM5Ni00LjM5NWwtOS4xNi0zMi4yMTUNCgljNi42NzEsMS42ODYsMTMuNjg0LDIuNTY4LDIwLjk2MiwyLjU0M2gwLjAxNmMzNS45NzUsMC4xNDEsNjUuODk3LTIxLjg4Myw3Ni43NTYtNTQuMjEyQzE1My43MDMsMi43MTksMTU0LjExLDEuNTksMTUzLjY4NCwwLjc5MXoiDQoJLz4NCjwvc3ZnPg0K'	);
-	add_submenu_page( 'wpjam-qiniutek',	'七牛镜像存储设置',		'基本设置',		'manage_options',	'wpjam-qiniutek',		'wpjam_qiniutek_setting_page'	);
+	add_menu_page(						'七牛镜像存储',			'七牛镜像存储',	'manage_options',	'wpjam-qiniutek',			'wpjam_qiniutek_setting_page',	'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNS4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IuWbvuWxgl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCINCgkgd2lkdGg9IjE1My44OHB4IiBoZWlnaHQ9IjEwMy4zcHgiIHZpZXdCb3g9IjAgMCAxNTMuODggMTAzLjMiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDE1My44OCAxMDMuMyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cGF0aCBmaWxsPSIjRkZGRkZGIiBkPSJNMTUzLjY4NCwwLjc5MWMtMC4yNjYtMC40OTctMC44My0wLjk2My0xLjg1LTAuNzI4Yy0xLjk4NCwwLjQ2NS0yNS4xMzksMzkuMTY5LTc0Ljg4NywzOC4wOThoLTAuMDE2DQoJYy05LjQ1MiwwLjIwMy0xOC42MjgtMS4wMy0yNi4xODgtMy4xNTZsLTQuMzI3LTEzLjk4YzAsMC0wLjgwMS0zLjQzOC00LjExNS01LjE5NmMtMi4yOTMtMS4yMDctMy42MzEtMC44MjEtMy45MTEtMC40ODQNCgljLTAuMjUyLDAuMzE2LTAuMjA0LDAuNjUzLTAuMjA0LDAuNjUzbDIuMDUzLDE1LjI2NkMxNC44OTEsMjAuNCwzLjQ3NCwwLjQwMywyLjA0MiwwLjA2M2MtMS4wMTUtMC4yMzUtMS41NzgsMC4yMy0xLjg0NSwwLjcyOA0KCWMtMC40MjcsMC44LTAuMDIxLDEuOTI5LTAuMDIxLDEuOTI5YzcuMTUyLDIxLjMxMSwyMi41ODcsMzguMTI2LDQyLjU2Nyw0Ny4wOWw1LjUwOSwzNi45MzENCgljMC4zNzQsMTAuNTMzLDcuNDE2LDE2LjU1OSwxNi41NjksMTYuNTU5aDI3LjM5YzkuMTUzLDAsMTYuMDA4LTYuNTg4LDE2LjU3NS0xNi41NTlsNS4wMTktMzAuNTM3YzAsMCwwLjA4NS0wLjQyNi0wLjE2Ni0wLjYwNA0KCWMtMC4zMTItMC4xOTEtMi42OTgtMC4yNjQtNy41MjgsMy4zMTRjLTQuODMsMy41ODItNi40NjMsOC43NTYtNi40NjMsOC43NTZzLTUuMjE5LDEyLjY5OS02LjU5MSwxOC4xMjUNCgljLTEuNDQ0LDUuNzEzLTcuODUsNS4yMDMtNy44NSw1LjIwM3MtOS43ODksMC0xNC42ODEsMGMtNC44OTUsMC01LjM5Ni00LjM5NS01LjM5Ni00LjM5NWwtOS4xNi0zMi4yMTUNCgljNi42NzEsMS42ODYsMTMuNjg0LDIuNTY4LDIwLjk2MiwyLjU0M2gwLjAxNmMzNS45NzUsMC4xNDEsNjUuODk3LTIxLjg4Myw3Ni43NTYtNTQuMjEyQzE1My43MDMsMi43MTksMTU0LjExLDEuNTksMTUzLjY4NCwwLjc5MXoiDQoJLz4NCjwvc3ZnPg0K'	);
+	add_submenu_page( 'wpjam-qiniutek',	'七牛镜像存储设置',		'基本设置',		'manage_options',	'wpjam-qiniutek',			'wpjam_qiniutek_setting_page'	);
 	if( wpjam_qiniutek_get_setting('bucket') && wpjam_qiniutek_get_setting('access') && wpjam_qiniutek_get_setting('secret') ){
 		add_submenu_page( 'wpjam-qiniutek',	'七牛镜像存储 &gt; 文件更新',			'文件更新',		'manage_options',	'wpjam-qiniutek-update','wpjam_qiniutek_update_page'	);
 		add_submenu_page( 'wpjam-qiniutek',	'七牛镜像存储 &gt; 上传 Robots.txt',	'Robots.txt',	'manage_options',	'wpjam-qiniutek-robots','wpjam_qiniutek_robots_page'	);
 	}
-	add_submenu_page( 'wpjam-qiniutek',	'七牛镜像存储 &gt; 优惠码','优惠码',	'manage_options',	'wpjam-qiniutek-coupon','wpjam_qiniutek_coupon_page'	);
-	if(!function_exists('wpjam_net_check_domain')){
-		include(WPJAM_QINIUTEK_PLUGIN_DIR.'/include/wpjam-net-api.php');	// WPJAM 应用商城接口
-		remove_action('admin_menu', 'wpjam_net_admin_menu' );
-		add_submenu_page( 'wpjam-qiniutek', 	'WPJAM应用商城', 		'WPJAM应用商城', 					'manage_options',	'wpjam-net',		'wpjam_net_page');
-	}	
+	add_submenu_page( 'wpjam-qiniutek',	'七牛镜像存储 &gt; 日志缩略图',	'日志缩略图',	'manage_options',	'wpjam-qiniutek-thumbnail',	'wpjam_qiniutek_thumbnail_page'	);
+	add_submenu_page( 'wpjam-qiniutek',	'七牛镜像存储 &gt; 优惠码',		'优惠码',		'manage_options',	'wpjam-qiniutek-coupon',	'wpjam_qiniutek_coupon_page'	);	
 }
 
 function wpjam_qiniutek_setting_page() {
 	settings_errors();
 	$labels =wpjam_qiniutek_get_option_labels();
-	wpjam_option_page($labels, $title='七牛镜像存储设置', $type='default', $icon='qiniutek');
+	wpjam_option_page($labels, $title='七牛镜像存储设置', $type='tab');
 }
-
 
 add_action( 'admin_init', 'wpjam_qiniutek_admin_init' );
 function wpjam_qiniutek_admin_init() {
 	wpjam_add_settings(wpjam_qiniutek_get_option_labels(),wpjam_qiniutek_get_default_option());
 }
 
-
 function wpjam_qiniutek_get_option_labels(){
 	$option_group               =   'wpjam-qiniutek-group';
 	$option_name = $option_page =   'wpjam-qiniutek';
 	$field_validate				=	'wpjam_qiniutek_validate';
-
 
 	$qiniutek_fields = array(
 		'host'	=> array('title'=>'七牛绑定的域名',	'type'=>'text',		'description'=>'设置为你在七牛绑定的域名即可。<strong>注意要域名前面要加上 http://</strong>。<br />如果博客安装的是在子目录下，比如 http://www.xxx.com/blog，这里也需要带上子目录 /blog '),
@@ -52,9 +45,19 @@ function wpjam_qiniutek_get_option_labels(){
 		'jquery'=> array('title'=>'使用 jQuery 2.0',	'type'=>'checkbox',	'description'=>'jQuery 2.0 不再支持 IE 6/7/8，如果你的网站是面向移动或者不再向低端 IE 用户提供服务，可以勾选该选项。'),
 	);
 
+	$thumb_fields = array(
+		'advanced'	=> array('title'=>'高级缩略图',	'type'=>'checkbox',	'description'=>'启用高级缩略图，可以设置分类和标签缩略图。'),
+		'default'	=> array('title'=>'默认缩略图',	'type'=>'text',		'description'=>'如果日志没有特色图片，没有第一张图片，也没用高级缩略图的情况下所用的缩略图。可以填本地或者七牛的地址！'),
+	);
+
+	if(isset($_GET['debug'])){
+		$thumb_fields['timthumb']	= array('title'=>'timthumb',	'type'=>'checkbox',	'description'=>'启用 timthumb 测试！');
+	}
+
 	$sections = array( 
-    	'qiniutek-section'	=>array('title'=>'七牛设置',	'callback'=>'',	'fields'=>$qiniutek_fields),
-    	'local-section'		=>array('title'=>'本地设置',	'callback'=>'',	'fields'=>$local_fields),
+    	'qiniutek-section'	=>array('title'=>'七牛设置',		'callback'=>'',	'fields'=>$qiniutek_fields),
+    	'local-section'		=>array('title'=>'本地设置',		'callback'=>'',	'fields'=>$local_fields),
+    	'thumb-section'		=>array('title'=>'缩略图设置',	'callback'=>'',	'fields'=>$thumb_fields)
 	);
 
 	$sections =  apply_filters('qiniutek_setting',$sections);
@@ -73,6 +76,9 @@ function wpjam_qiniutek_get_default_option(){
 		'local'		=> home_url(),
 		'remote'	=> 0,
 		'jquery'	=> 0,
+		'advanced'	=> 0,
+		'default'	=> '',
+		'timthumb'	=> 0
 	);
 
 	return  apply_filters('qiniutek_defaults',$defaults);
@@ -81,7 +87,7 @@ function wpjam_qiniutek_get_default_option(){
 function wpjam_qiniutek_validate( $wpjam_qiniutek ) {
 	$current = get_option( 'wpjam-qiniutek' );
 
-	foreach (array('remote','jquery') as $key ) {
+	foreach (array('remote','jquery','advanced','timthumb') as $key ) {
 		if(empty($wpjam_qiniutek[$key])){ //checkbox 未选，Post 的时候 $_POST 中是没有的，
 			$wpjam_qiniutek[$key] = 0;
 		}
@@ -92,14 +98,36 @@ function wpjam_qiniutek_validate( $wpjam_qiniutek ) {
 	return $wpjam_qiniutek;
 }
 
-function wpjam_qiniutek_get_setting($setting_name){
-	$option = wpjam_qiniutek_get_option();
-	return wpjam_get_setting($option, $setting_name);
-}
+/**
+* 日志缩略图
+**/
 
-function wpjam_qiniutek_get_option(){
-	$defaults = wpjam_qiniutek_get_default_option();
-	return wpjam_get_option('wpjam-qiniutek',$defaults);
+function wpjam_qiniutek_thumbnail_page(){
+?>
+	<div class="wrap">
+		<h2>日志缩略图</h2>
+		<p>我们知道七牛有很<a href="http://docs.qiniu.com/api/v6/image-process.html#imageView" class="external" target="_blank">强大的缩略图功能</a>，<a href="http://blog.wpjam.com">我爱水煮鱼</a>首页和分类页的缩略图就是使用七牛的缩略图功能实现的。</p>
+		<p>虽然 WordPress 也有缩略图功能，但是相比之下，七牛强太多了，并且生成的缩略图都是尺寸适应的，并且都是在七牛云存储上面。</p>
+		<p>所以我在七牛镜像云存储插件中也新增了 wpjam_post_thumbnail 函数帮你通过使用七牛的缩略图 API 直接生成缩略图，下面是使用方法：</p>
+<pre>
+<code>&lt;?php if(wpjam_has_post_thumbnail()){?&gt;
+&lt;div class=&quot;entry-thumb&quot;&gt;
+	&lt;a href=&quot;&lt;?php the_permalink() ?&gt;&quot; title=&quot;&lt;?php the_title_attribute(); ?&gt;&quot;&gt;
+		&lt;?php wpjam_post_thumbnail(array(150,150),$crop=1);?&gt;
+	&lt;/a&gt;
+&lt;/div&gt;
+&lt;?php } ?&gt;
+</code>
+</pre>
+		<p>这个函数有两个参数：</p>
+		<ul>
+		<li><strong>$size</strong>：设置缩略图的大小，它是一个数组，比如上面例子中就是设置缩略图大小为：宽是 150px，高也是 150px。</li>
+		<li><strong>$crop</strong>：设置是否裁剪缩略图，1为裁剪，如果为0，则只是按照最大边进行缩放，不进行裁剪。</li>
+		</ul>
+		<p>另外这个函数相比 WordPress 默认的 <code>the_post_thumbnail</code> 函数相比还有一个强大的地方是，如果没有设置缩略图，它将自动获取第一张图片作为缩略图。</p>
+		<p>至于上面代码放到什么地方，我只能说你主题原来the_post_thumbnail()函数是在放到哪里，这个函数就放到哪里。 </p>
+	</div>
+<?php
 }
 
 /**
@@ -109,7 +137,6 @@ function wpjam_qiniutek_get_option(){
 function wpjam_qiniutek_coupon_page(){
 ?>
 	<div class="wrap">
-		<div id="icon-qiniutek" class="icon32"><br></div>
 		<h2>如何使用七牛云存储的优惠码</h2>
 		<p>简单说就是<strong>复制专属我爱水煮鱼用户的优惠码“<span style="color:red;">63ff63a6</span>”，充值就能享受9折优惠</strong>。</p>
 		<p>1. 登陆七牛开发者平台：<a href="https://portal.qiniu.com/">https://portal.qiniu.com/</a></p>
@@ -121,7 +148,6 @@ function wpjam_qiniutek_coupon_page(){
 		<p>5. 完成支付后，可至财务->>财务概况->>账户余额 查看实际到账金额。</p>	
 	</div>
 <?php
-
 }
 
 /**
@@ -153,7 +179,6 @@ function wpjam_qiniutek_update_page(){
 
 	?>
 	<div class="wrap">
-		<div id="icon-qiniutek" class="icon32"><br></div>
 		<h2>更新文件</h2>
 
 		<?php if(!empty($msg)){?>
@@ -227,7 +252,6 @@ Allow: /
 
 	?>
 	<div class="wrap">
-		<div id="icon-qiniutek" class="icon32"><br></div>
 		<h2>上传 Robots.txt</h2>
 
 		<?php if(!empty($msg)){?>

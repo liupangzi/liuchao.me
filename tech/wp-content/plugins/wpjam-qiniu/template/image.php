@@ -23,13 +23,19 @@ if ($preg) {
 }
 
 if(!$url){
-	wp_die('错误','错误',array( 'response' => 404 ));
+	wp_die('该日志没有图片','该日志没有图片',array( 'response' => 404 ));
 }
 
 if(isset($_GET['url']) && $_GET['url']){
 	echo $url;
 }else{
 	if($url){
+
+		//header("HTTP/1.1 200 OK");
+		//header("Content-Type: image/jpeg");
+		//imagejpeg(imagecreatefromjpeg($url));
+		//exit;
+
 		$image = wp_remote_get(trim($url));
 
 		if(is_wp_error($image)){

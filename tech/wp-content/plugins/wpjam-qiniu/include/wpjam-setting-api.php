@@ -7,9 +7,6 @@ function wpjam_option_page($labels, $title='', $type='default', $icon='options-g
 	extract($labels);
 	?>
 	<div class="wrap">
-	<?php if($icon){?>
-		<div id="icon-<?php echo $icon;?>" class="icon32"><br></div>
-	<?php } ?>
 	<?php if($type == 'tab'){ ?>
 		<h2 class="nav-tab-wrapper">
 	        <?php foreach ( $sections as $section_name => $section) { ?>
@@ -29,7 +26,11 @@ function wpjam_option_page($labels, $title='', $type='default', $icon='options-g
 		<?php wpjam_option_tab_script($option_name);?>
 	<?php }else{ ?>
 		<?php if($title){?>
-		<h2><?php echo $title; ?></h2>
+			<?php if(preg_match("/<[^<]+>/",$title,$m) != 0){ ?>
+				<?php echo $title; ?>
+			<?php } else { ?>
+				<h2><?php echo $title; ?></h2>
+			<?php } ?>
 		<?php }?>
 		<form action="options.php" method="POST">
 			<?php settings_fields( $option_group ); ?>
@@ -77,33 +78,35 @@ function wpjam_add_settings($labels,$defaults){
 	extract($labels);
 	register_setting( $option_group, $option_name, $field_validate );
 	$field_callback = 'wpjam_field_callback';
-	foreach ($sections as $section_name => $section) {
-		add_settings_section( $section_name, $section['title'], $section['callback'], $option_page );
+	if($sections){
+		foreach ($sections as $section_name => $section) {
+			add_settings_section( $section_name, $section['title'], $section['callback'], $option_page );
 
-		$fields = isset($section['fields'])?$section['fields']:(isset($section['fileds'])?$section['fileds']:''); // 尼玛写错英文单词的 fallback
+			$fields = isset($section['fields'])?$section['fields']:(isset($section['fileds'])?$section['fileds']:''); // 尼玛写错英文单词的 fallback
 
-		if($fields){
-			foreach ($fields as $field_name=>$field) {
-				$field['option']	= $option_name;
-				$field['name']		= $field_name;
+			if($fields){
+				foreach ($fields as $field_name=>$field) {
+					$field['option']	= $option_name;
+					$field['name']		= $field_name;
 
-				$filed_title		= $field['title'];
+					$filed_title		= $field['title'];
 
-				if(in_array($field['type'], array('text','select','datetime','textarea','checkbox'))){
-					$filed_title = '<label for="'.$field_name.'">'.$filed_title.'</label>';
+					if(in_array($field['type'], array('text','password','select','datetime','textarea','checkbox'))){
+						$filed_title = '<label for="'.$field_name.'">'.$filed_title.'</label>';
+					}
+
+					$field['default'] 	= isset($defaults[$field_name])?$defaults[$field_name]:'';
+					add_settings_field( 
+						$field_name,
+						$filed_title,		
+						$field_callback,	
+						$option_page, 
+						$section_name,	
+						$field
+					);	
 				}
 
-				$field['default'] 	= isset($defaults[$field_name])?$defaults[$field_name]:'';
-				add_settings_field( 
-					$field_name,
-					$filed_title,		
-					$field_callback,	
-					$option_page, 
-					$section_name,	
-					$field
-				);	
 			}
-
 		}
 	}
 }
@@ -122,6 +125,8 @@ function wpjam_field_callback($args) {
 
 	if($type == 'text'){
 		echo '<input type="text" id="'.$field_name.'" name="'.$field.'" value="'.$value.'" class="regular-text" />';
+	}elseif($type == 'password'){
+		echo '<input type="password" id="'.$field_name.'" name="'.$field.'" value="'.$value.'" class="regular-text" />';
 	}elseif($type == 'checkbox'){
 		echo '<input type="checkbox" id="'.$field_name.'" name="'.$field.'" value="1" '.checked("1",$value,false).' />';
 	}elseif($type == 'textarea'){
@@ -236,12 +241,14 @@ function wpjam_admin_display_fields($fields, $fields_type = 'table'){
 		$description= (isset($field['description']))?($type == 'checkbox')?' <label for="'.$name.'">'.$field['description'].'</label>':'<br />'.$field['description']:'';
 
 		$title 		= $field['title'];
-		if(in_array($type, array('text','select','datetime','textarea','checkbox'))){
+		if(in_array($type, array('text','password','select','datetime','textarea','checkbox'))){
 			$title = '<label for="'.$name.'">'.$title.'</label>';
 		}
 
 		if($type == 'text' || $type == 'datetime'){
 			$new_fields[$name] = array('title'=>$title, 'html'=>'<input name="'.$name.'" id="'. $name.'" type="text"  value="'.esc_attr($value).'" class="'.$class.'" />'.$description);
+		}elseif($type == 'password'){
+			$new_fields[$name] = array('title'=>$title, 'html'=>'<input name="'.$name.'" id="'. $name.'" type="password"  value="'.esc_attr($value).'" class="'.$class.'" />'.$description);
 		}elseif ($type == 'hidden'){
 			$new_fields[$name] = array('title'=>$title, 'html'=>'<input name="'.$name.'" id="'. $name.'" type="hidden"  value="'.esc_attr($value).'" />'.$description);
 		}elseif ($type == 'checkbox'){
@@ -308,6 +315,275 @@ function wpjam_confim_delete_script(){
 	});
 	</script> 
 	<?php
+}
+
+
+//保存自定义字段
+add_action('save_post', 'wpjam_save_post_options', 999);
+function wpjam_save_post_options($post_id){
+    // to prevent metadata or custom fields from disappearing...
+    if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
+        return $post_id;
+
+    $post = get_post($post_id);
+    $wpjam_options = wpjam_get_post_options();
+    foreach ($wpjam_options as $meta_box => $wpjam_group) {
+        if(in_array($post->post_type,$wpjam_group['post_types'])){
+            foreach($wpjam_group['fields'] as $key=>$wpjam_field){
+                switch($wpjam_field['type']){
+                    case 'file':
+                        if($_POST['wpjam_delete_field'][$key]){
+                            delete_post_meta($post_id,$key,$_POST['wpjam_delete_field'][$key]);
+                        }
+                        if(isset($_FILES[$key])){
+                            require_once(ABSPATH . 'wp-admin/includes/admin.php');
+                            $attachment_id=media_handle_upload($key,$post_id);
+                            if(!is_wp_error($attachment_id)){
+                                update_post_meta($post_id,$key,$attachment_id);
+                            }
+                            unset($attachment_id);
+                        }
+                        break;
+                    case 'checkbox':
+                        if(isset($_POST['checkbox_'.$key])){
+                            //xxx特殊设置，防止在前台修改此值
+                            if(is_admin())
+                                update_post_meta($post_id,$key,$_POST[$key]);
+                        }
+                        break;
+                    case 'mulit_image':
+                        if(isset($_POST[$key]) && is_array($_POST[$key])){
+                            //删除空图片
+                            foreach($_POST[$key] as $image_key=>$image_value){
+                                if(empty($image_value))
+                                    unset($_POST[$key][$image_key]);
+                            }
+                            update_post_meta($post_id,$key,$_POST[$key]);
+                        }
+                        break;
+                    case 'mulit_text':
+                        if(isset($_POST[$key]) && is_array($_POST[$key])){
+                            foreach($_POST[$key] as $multiple_text_key=>$item_value){
+                                if(empty($item_value))
+                                    unset($_POST[$key][$multiple_text_key]);
+                            }
+                            update_post_meta($post_id,$key,$_POST[$key]);
+                        }
+                        break;
+                    default:
+                        if(isset($_POST[$key])){
+                            update_post_meta($post_id,$key,$_POST[$key]);
+                        }
+                }
+            }
+        }
+    }
+}
+
+/*
+ * 获取自定义字段设置
+ */
+function wpjam_get_post_options(){
+    $wpjam_options = apply_filters('wpjam_options', array());
+    return $wpjam_options;
+}
+
+//输出自定义字段表单
+function wpjam_post_options_callback( $post, $metabox){
+    if(isset($metabox['args']['meta_box'])){
+        $meta_box = $metabox['args']['meta_box'];
+    } else{
+        $meta_box = '';
+    }
+    $wpjam_options = wpjam_get_post_options();
+    echo '<table width="100%">';
+    foreach ($wpjam_options[$meta_box]['fields'] as $key => $wpjam_field) {
+        $label = $wpjam_field['name'];
+        if(isset($_REQUEST[$key])){
+            $value  = $_REQUEST[$key];
+        }else{
+            $value = get_post_meta($post->ID, $key, true);
+        }
+        ?>
+        <tr>
+            <td valign="top" width="150"><label for="<?php echo $key;?>" style="width:150px; display: inline-block; text-align:right; margin-right:10px; vertical-align: top;"><?php echo $label; ?>：</label></td>
+            <td valign="top" align="left">
+                <?php
+                switch($wpjam_field['type']){
+                    case 'textarea':
+                        ?>
+                        <textarea id="<?php echo $key;?>" name='<?php echo $key;?>' rows="5" style="width:70%" ><?php echo esc_html($value);?></textarea>
+                        <?php
+                        break;
+                    case 'image':
+                        ?>
+                        <input type="text" name="<?php echo $key;?>" value="<?php echo esc_attr($value);?>" id="<?php echo $key;?>" style="width:70%;" /><input type="botton" class="wpjam_upload button" style="width:80px;" value="选择图片">
+                        <?php
+                        break;
+                    case 'mulit_image':
+                        if(is_array($value)){
+                            foreach($value as $image_key=>$image){
+                                if(!empty($image)){
+                                    ?>
+                                    <span><input type="text" name="<?php echo $key;?>[]" value="<?php echo esc_attr($image);?>" style="width:70%;" /><a href="javascript:;" class="button del_image">删除</a></span>
+                                <?php
+                                }
+                            }
+                        }
+                        ?>
+                        <span><input type="text" name="<?php echo $key;?>[]" value="" id="<?php echo $key;?>" style="width:70%;" /><input type="botton" class="wpjam_mulit_upload button" style="width:110px;" value="选择图片[多选]" title="按住Ctrl点击鼠标左键可以选择多张图片"></span>
+                        <?php
+                        break;
+                    case 'mulit_text':
+                        if(is_array($value)){
+                            foreach($value as $text_key=>$item){
+                                if(!empty($item)){
+                                    ?>
+                                    <span><input type="text" name="<?php echo $key;?>[]" value="<?php echo esc_attr($item);?>" style="width:70%;" /><a href="javascript:;" class="button del_image">删除</a></span>
+                                <?php
+                                }
+                            }
+                        }
+                        ?>
+                        <span><input type="text" name="<?php echo $key;?>[]" value="" id="<?php echo $key;?>" style="width:70%;" /><a class="wpjam_mulit_text button">添加选项</a> </span>
+                        <?php
+                        break;
+
+                    case 'file':
+                        ?>
+                        <input type="file" id="<?php echo $key;?>" name='<?php echo $key;?>'>
+                        <?php
+                        if($file_id = get_post_meta($post->ID,$key,true)){
+                            echo '已上传：'.wp_get_attachment_link($file_id);
+                        }
+                        break;
+                    case 'checkbox':
+                        ?>
+                        <input type="checkbox" id="<?php echo $key;?>" name='<?php echo $key;?>' value="1" <?php checked($value,1);?>>
+                        <input type="hidden" name="checkbox_<?php echo $key;?>" value="1">
+                        <?php
+                        break;
+                    default:
+                        ?>
+                            <input type="text" name="<?php echo $key;?>" value="<?php echo esc_attr($value);?>" id="<?php echo $key;?>" style="width:70%;"  />
+                        <?php
+                        break;
+                }
+
+                if($wpjam_field['help']){
+                    echo '<span class="help">'.$wpjam_field['help'].'</span>';
+                }
+                ?>
+            </td>
+        </tr>
+    <?php
+    }
+    echo '</table>';
+    ?>
+    <script type="text/javascript">
+        jQuery(function(){
+            jQuery("form#post").attr('enctype','multipart/form-data');
+        });
+    </script>
+<?php
+}
+
+add_action('admin_head', 'wpjam_post_options_box');
+function wpjam_post_options_box() {
+    $wpjam_options = wpjam_get_post_options();
+    foreach($wpjam_options as $key=>$wpjam_option){
+        foreach($wpjam_option['post_types'] as $post_type){
+            add_meta_box($key, $wpjam_option['name'], 'wpjam_post_options_callback', $post_type, 'normal', 'high', array('meta_box'=>$key));
+        }
+    }
+    //remove_meta_box('postcustom', 'post', 'normal');
+}
+
+/*
+ * 图片上传js
+ * author: Mark
+ */
+add_action('admin_footer', 'wpjam_upload_image_script');
+function wpjam_upload_image_script(){
+    ?>
+    <script type="text/javascript">
+        jQuery(function($){
+            //上传单个图片
+            $('.wpjam_upload').on("click",function(e) {
+                var obj = $(this);
+                e.preventDefault();
+                var custom_uploader = wp.media({
+                    title: '插入选项缩略图',
+                    button: {
+                        text: '选择图片'
+                    },
+                    multiple: false  // Set this to true to allow multiple files to be selected
+                })
+                    .on('select', function() {
+                        var attachment = custom_uploader.state().get('selection').first().toJSON();
+                        //var dataobj = '<img src="'+attachment.url+'"><div class="close">X</div>';
+                        obj.prev("input").val(attachment.url)
+                        obj.after(dataobj).hide();
+                    })
+                    .open();
+            });
+            // 添加多个选项
+            var item =  '';
+
+            $('body').on('click', 'a.wpjam_mulit_text', function(){
+            	var value = $(this).prev().val();
+            	var name = $(this).prev().attr("name");
+            	var option = '<span><input type="text" name="'+name+'" value="'+value+'" style="width:70%;" /><a href="javascript:;" class="button del_image">删除</a></span>';
+            	$(this).parent().before(option);
+            	$(this).prev().val('');
+				return false;
+            });
+
+            //上传多个图片
+            var html = '';
+            $('body').on('click', '.wpjam_mulit_upload', function(e) {
+                var position = $(this).prev("input");
+                var key_name = position.attr('name');
+                var custom_uploader;
+                var obj = $(this);
+                var ids = new Array();
+                e.preventDefault();
+                if (custom_uploader) {
+                    custom_uploader.open();
+                    return;
+                }
+                custom_uploader = wp.media.frames.file_frame = wp.media({
+                    title: 'Choose Image',
+                    button: {
+                        text: 'Choose Image'
+                    },
+                    multiple: true
+                }).on('select', function() {
+                    var data = custom_uploader.state().get('selection');
+                    data.map( function( data ) {
+                        data = data.toJSON();
+                        value = data.url;
+                        // console.log(data);
+                        html = '<span><input type="text" name="'+key_name+'" value="'+value+'" style="width:70%;"  /><a href="javascript:;" class="button del_image">删除</a></span>';
+                        position.before(html);
+                    });
+                    response = ids.join(",");
+                    obj.prev().val(response);
+                }).open();
+
+                return false;
+            });
+            //  删除图片
+            $('body').on('click', '.del_image', function(){
+                $(this).parent().fadeOut(1000, function(){
+                    $(this).remove();
+                });
+            });
+
+            return false;
+        });
+    </script>
+<?php
 }
 
 

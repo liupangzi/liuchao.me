@@ -8,8 +8,7 @@ function wpjam_qiniutek_admin_menu() {
 		add_submenu_page( 'wpjam-qiniutek',	'七牛镜像存储 &gt; 文件更新',			'文件更新',		'manage_options',	'wpjam-qiniutek-update','wpjam_qiniutek_update_page'	);
 		add_submenu_page( 'wpjam-qiniutek',	'七牛镜像存储 &gt; 上传 Robots.txt',	'Robots.txt',	'manage_options',	'wpjam-qiniutek-robots','wpjam_qiniutek_robots_page'	);
 	}
-	add_submenu_page( 'wpjam-qiniutek',	'七牛镜像存储 &gt; 日志缩略图',	'日志缩略图',	'manage_options',	'wpjam-qiniutek-thumbnail',	'wpjam_qiniutek_thumbnail_page'	);
-	add_submenu_page( 'wpjam-qiniutek',	'七牛镜像存储 &gt; 优惠码',		'优惠码',		'manage_options',	'wpjam-qiniutek-coupon',	'wpjam_qiniutek_coupon_page'	);	
+	add_submenu_page( 'wpjam-qiniutek',	'七牛镜像存储 &gt; 充值优惠码',		'充值优惠码',		'manage_options',	'wpjam-qiniutek-coupon',	'wpjam_qiniutek_coupon_page'	);	
 }
 
 function wpjam_qiniutek_setting_page() {
@@ -55,14 +54,18 @@ function wpjam_qiniutek_get_option_labels(){
 	}
 
 	$sections = array( 
-    	'qiniutek-section'	=>array('title'=>'七牛设置',		'callback'=>'',	'fields'=>$qiniutek_fields),
-    	'local-section'		=>array('title'=>'本地设置',		'callback'=>'',	'fields'=>$local_fields),
-    	'thumb-section'		=>array('title'=>'缩略图设置',	'callback'=>'',	'fields'=>$thumb_fields)
+    	'qiniutek-section'	=>array('title'=>'七牛设置',		'fields'=>$qiniutek_fields,	'callback'=>'wpjam_qiniutek_section_callback',	),
+    	'local-section'		=>array('title'=>'本地设置',		'fields'=>$local_fields,	'callback'=>'',	),
+    	'thumb-section'		=>array('title'=>'缩略图设置',	'fields'=>$thumb_fields,	'callback'=>'',	)
 	);
 
 	$sections =  apply_filters('qiniutek_setting',$sections);
 
 	return compact('option_group','option_name','option_page','sections','field_validate');
+}
+
+function wpjam_qiniutek_section_callback(){
+	echo '<p><strong">*点击获取：<a style="color:red;" href="http://wpjam.com/go/qiniuguide">七牛镜像云存储WordPress插件使用指南</a></strong>，大版本更新，内容同步更新。</p>';
 }
 
 function wpjam_qiniutek_get_default_option(){
@@ -101,34 +104,6 @@ function wpjam_qiniutek_validate( $wpjam_qiniutek ) {
 /**
 * 日志缩略图
 **/
-
-function wpjam_qiniutek_thumbnail_page(){
-?>
-	<div class="wrap">
-		<h2>日志缩略图</h2>
-		<p>我们知道七牛有很<a href="http://docs.qiniu.com/api/v6/image-process.html#imageView" class="external" target="_blank">强大的缩略图功能</a>，<a href="http://blog.wpjam.com">我爱水煮鱼</a>首页和分类页的缩略图就是使用七牛的缩略图功能实现的。</p>
-		<p>虽然 WordPress 也有缩略图功能，但是相比之下，七牛强太多了，并且生成的缩略图都是尺寸适应的，并且都是在七牛云存储上面。</p>
-		<p>所以我在七牛镜像云存储插件中也新增了 wpjam_post_thumbnail 函数帮你通过使用七牛的缩略图 API 直接生成缩略图，下面是使用方法：</p>
-<pre>
-<code>&lt;?php if(wpjam_has_post_thumbnail()){?&gt;
-&lt;div class=&quot;entry-thumb&quot;&gt;
-	&lt;a href=&quot;&lt;?php the_permalink() ?&gt;&quot; title=&quot;&lt;?php the_title_attribute(); ?&gt;&quot;&gt;
-		&lt;?php wpjam_post_thumbnail(array(150,150),$crop=1);?&gt;
-	&lt;/a&gt;
-&lt;/div&gt;
-&lt;?php } ?&gt;
-</code>
-</pre>
-		<p>这个函数有两个参数：</p>
-		<ul>
-		<li><strong>$size</strong>：设置缩略图的大小，它是一个数组，比如上面例子中就是设置缩略图大小为：宽是 150px，高也是 150px。</li>
-		<li><strong>$crop</strong>：设置是否裁剪缩略图，1为裁剪，如果为0，则只是按照最大边进行缩放，不进行裁剪。</li>
-		</ul>
-		<p>另外这个函数相比 WordPress 默认的 <code>the_post_thumbnail</code> 函数相比还有一个强大的地方是，如果没有设置缩略图，它将自动获取第一张图片作为缩略图。</p>
-		<p>至于上面代码放到什么地方，我只能说你主题原来the_post_thumbnail()函数是在放到哪里，这个函数就放到哪里。 </p>
-	</div>
-<?php
-}
 
 /**
 * 优惠码 

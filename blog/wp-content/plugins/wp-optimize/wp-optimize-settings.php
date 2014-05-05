@@ -1,5 +1,11 @@
 <?php
-//
+# --------------------------------------- #
+# prevent file from being accessed directly
+# --------------------------------------- #
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
+
 $GLOBALS['wpo_auto_options'] = get_option('wp-optimize-auto');
 error_reporting( error_reporting() & ~E_NOTICE );
        
@@ -132,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			<h3><?php _e('Auto Clean-up Settings', 'wp-optimize'); $wpo_auto_options = get_option('wp-optimize-auto');?></h3>
 			<p>
 			<input name="enable-schedule" id="enable-schedule" type="checkbox" value ="true" <?php echo get_option(OPTION_NAME_SCHEDULE) == 'true' ? 'checked="checked"':''; ?> />
-				<?php _e('Enable scheduled clean-up and optimization (EXPERIMENTAL!)', 'wp-optimize'); ?>
+				<?php _e('Enable scheduled clean-up and optimization (Beta feature!)', 'wp-optimize'); ?>
 				<br /><br />
 				<?php _e('Select schedule type (default is Weekly)', 'wp-optimize'); ?><br />
 				<select id="schedule_type" name="schedule_type">                      
@@ -212,6 +218,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	<p>
    <input name="wp-optimize-auto[optimize]" id="wp-optimize-auto[optimize]" type="checkbox" value="true" <?php echo $wpo_auto_options['optimize'] == 'true' ? 'checked="checked"':''; ?> /> <b><?php _e('Optimize database', 'wp-optimize'); ?></b>
 	</p>
+    
+    <?php 
+        if (WPO_TABLE_TYPE == 'innodb'){
+            echo '<p>';
+            _e('You are using InnoDB tables. They will not be optimized!', 'wp-optimize');
+            echo '</p>';
+            }
+    ?>
+    
 
 	<p>
 	<input class="button-primary" type="submit" name="wp-optimize-settings" value="<?php _e('SAVE AUTO CLEAN-UP SETTINGS', 'wp-optimize'); ?>" />	

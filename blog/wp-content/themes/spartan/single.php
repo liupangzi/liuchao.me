@@ -20,7 +20,7 @@
                 
 
 										<?php if (have_posts()) : ?>
-											<?php $count = 0; while (have_posts()) : the_post(); $count++; ?>
+											<?php $spartan_count = 0; while (have_posts()) : the_post(); $spartan_count++; ?>
 												<!-- Actual Post starts here -->
 												<div <?php post_class('actual_post') ?> id="post-<?php the_ID(); ?>">
 													<div class="ta_meta_container">
@@ -106,52 +106,52 @@
                                                         
                                                         	
                                                             	<?php 
-																	$authorswebsitelink =  Spartan_get_custom_field('authors_website', get_the_ID(), true);
+																	$spartan_authorswebsitelink =  Spartan_get_custom_field('authors_website', get_the_ID(), true);
 																	
-																	if( !empty($authorswebsitelink) ) {
-																		$authorswebsite =  $authorswebsitelink;
+																	if( !empty($spartan_authorswebsitelink) ) {
+																		$spartan_authorswebsite =  $spartan_authorswebsitelink;
 																			}else {
-																				$authorswebsite =  get_the_author_meta('user_url');
+																				$spartan_authorswebsite =  get_the_author_meta('user_url');
 																			}
 																?>
-                                                                <?php if(!empty($authorswebsite)) : ?>
+                                                                <?php if(!empty($spartan_authorswebsite)) : ?>
                                                                 <div class="authors_website">
                                                                 
-                                                                	<p><a href="<?php echo $authorswebsite; ?>"><?php _e("Visit Author's Website",'Spartan'); ?></a></p>
+                                                                	<p><a href="<?php echo $spartan_authorswebsite; ?>"><?php _e("Visit Author's Website",'Spartan'); ?></a></p>
                                                             	</div>
                                                                 <?php endif; ?>
                                                             
                                                         	
                                                             	<?php 
-																	$authorstwitterlink =  Spartan_get_custom_field('authors_twitter', get_the_ID(), true);
+																	$spartan_authorstwitterlink =  Spartan_get_custom_field('authors_twitter', get_the_ID(), true);
 																	
-																	if( !empty($authorstwitterlink) ) {
-																		$authorstwitter =  $authorstwitterlink;
+																	if( !empty($spartan_authorstwitterlink) ) {
+																		$spartan_authorstwitter =  $spartan_authorstwitterlink;
 																			}else {
-																				$authorstwitter =  of_get_option('twitter_id');
+																				$spartan_authorstwitter =  of_get_option('twitter_id');
 																			}
 																?> 
-                                                                <?php if(!empty($authorstwitter)) : ?>
+                                                                <?php if(!empty($spartan_authorstwitter)) : ?>
                                                                 <div class="authors_twitter">                                                           
-                                                            		<p><a href="https://www.twitter.com/<?php echo $authorstwitter; ?>"><?php _e("Follow On Twitter",'Spartan'); ?></a></p>
+                                                            		<p><a href="https://www.twitter.com/<?php echo $spartan_authorstwitter; ?>"><?php _e("Follow On Twitter",'Spartan'); ?></a></p>
                                                             	</div>  
                                                             	<?php endif; ?>
                                                                 
                                                                 
                                                         	
                                                             	<?php 
-																	$authorsfacebooklink =  Spartan_get_custom_field('authors_facebook', get_the_ID(), true);
+																	$spartan_authorsfacebooklink =  Spartan_get_custom_field('authors_facebook', get_the_ID(), true);
 																	
-																	if( !empty($authorsfacebooklink) ) {
-																		$authorsfacebook =  $authorsfacebooklink;
+																	if( !empty($spartan_authorsfacebooklink) ) {
+																		$spartan_authorsfacebook =  $spartan_authorsfacebooklink;
 																			}else {
-																				$authorsfacebook =  of_get_option('facebook_id');
+																				$spartan_authorsfacebook =  of_get_option('facebook_id');
 																			}
 																?>   
                                                                 
-                                                                <?php if(!empty($authorsfacebook)) : ?>
+                                                                <?php if(!empty($spartan_authorsfacebook)) : ?>
                                                                 <div class="authors_facebook">                                                           
-                                                            		<p><a href="<?php echo $authorsfacebook; ?>"><?php _e("Like On Facebook",'Spartan'); ?></a></p>
+                                                            		<p><a href="<?php echo $spartan_authorsfacebook; ?>"><?php _e("Like On Facebook",'Spartan'); ?></a></p>
                                                             	</div>
 																<?php endif; ?>                                                                                                                      
                                                         

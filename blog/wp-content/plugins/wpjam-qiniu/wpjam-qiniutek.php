@@ -5,7 +5,7 @@ Description: 使用七牛云存储实现 WordPress 博客静态文件 CDN 加速
 Plugin URI: http://blog.wpjam.com/project/wpjam-qiniutek/
 Author: Denis
 Author URI: http://blog.wpjam.com/
-Version: 1.1
+Version: 1.1.1
 */
 
 define('WPJAM_QINIUTEK_PLUGIN_URL', plugins_url('', __FILE__));

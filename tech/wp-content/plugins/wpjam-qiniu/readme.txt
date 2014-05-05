@@ -31,6 +31,12 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Changelog ==
 
+= 1.1.1 =
+添加 1.1 忘记上传的一个 js 文件。
+
+= 1.1 =
+新增高级缩略图功能
+
 = 1.01 =
 修正保存远程图片功能的一个bug
 

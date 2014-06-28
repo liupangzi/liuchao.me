@@ -1,4 +1,8 @@
 
+Version: 1.2.59
+----------------------------
+Prefixed some variables.
+
 Version: 1.2.58
 ----------------------------
 Prefixed some variables.

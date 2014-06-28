@@ -20,7 +20,7 @@ Template Name: Page With No Sidebar
                 
 
 										<?php if (have_posts()) : ?>
-											<?php $count = 0; while (have_posts()) : the_post(); $count++; ?>
+											<?php while (have_posts()) : the_post(); ?>
 												<!-- Actual Post starts here -->
 												<div <?php post_class('actual_post_full') ?> id="post-<?php the_ID(); ?>">
 													<div class="ta_meta_container_full">

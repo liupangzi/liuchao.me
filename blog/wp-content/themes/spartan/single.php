@@ -20,7 +20,7 @@
                 
 
 										<?php if (have_posts()) : ?>
-											<?php $spartan_count = 0; while (have_posts()) : the_post(); $spartan_count++; ?>
+											<?php while (have_posts()) : the_post(); ?>
 												<!-- Actual Post starts here -->
 												<div <?php post_class('actual_post') ?> id="post-<?php the_ID(); ?>">
 													<div class="ta_meta_container">

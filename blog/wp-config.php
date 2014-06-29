@@ -21,7 +21,7 @@ define('WP_CACHE', true); // Added by W3 Total Cache
 
 // ** MySQL 设置 - 具体信息来自您正在使用的主机 ** //
 /** WordPress数据库的名称 */
-define('DB_NAME', 'db_liupangzi_blog');
+define('DB_NAME', 'blog_liuchao_me');
 
 /** MySQL数据库用户名 */
 define('DB_USER', 'root');

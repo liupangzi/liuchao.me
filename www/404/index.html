@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>页面找不到了!</title>
+    <link rel="stylesheet" href="./404.css"/>
+    <script src="http://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+  </head>
+  <body style="background-position: -2193px 0px;">
+    <div id="error-container">
+      <div id="error">
+        <div id="pacman" class="pacman_eats"></div>
+      </div>
+      <div id="container">
+        <div id="title">
+          <h1>页面找不到了</h1>
+        </div>
+        <div id="content">
+          <div class="left">
+            <p class="no-top">是不是:</p>
+            <ul>
+              <li>地址拼错了?</li>
+              <li>链接失效了?</li>
+              <li>被刘胖子吃了?</li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+          <div class="right">
+            <p class="no-top">逛逛其他页面吧:</p>
+            <ul class="links">
+              <li><a href="http://liuchao.me/">» 主页</a></li>
+              <li><a href="http://blog.liuchao.me/">» 博客</a></li>
+              <li><a href="">» Sitemap</a></li>
+              <li><a href="">» Contact Us</a></li>
+            </ul>
+            <ul class="links">
+              <li><a href="">» Services</a></li>
+              <li><a href="">» Portfolio</a></li>
+              <li><a href="">» Blog</a></li>
+              <li><a href="">» Latest News</a></li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div id="footer">
+                2010 ~ 2014 <b>liupangzi.org / liupangzi.com / liuchao.me</b>
+          <span class="social">
+            <a href="https://twitter.com/liu_chao" class="twitter"></a>
+          </span>
+        </div>
+      </div>
+    </div>
+    <script>
+      $(function(){
+        setInterval( function(){
+          $('#pacman').toggleClass('pacman_eats');
+        }, 300);
+        var scrollSpeed = 20,
+          bgscroll = '',
+          direction = 'h',
+          current = 0;
+        setInterval( function(){
+          current -= 1;
+          $('body').css("backgroundPosition", (direction == 'h') ? current+"px 0" : "0 " + current+"px");
+        }, scrollSpeed);
+      });
+    </script>
+  </body>
+</html>

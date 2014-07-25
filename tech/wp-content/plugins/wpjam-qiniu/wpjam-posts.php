@@ -166,7 +166,7 @@ function wpjam_get_top_viewd_posts($number=5, $days=0, $args = array()){
 }
 
 function wpjam_top_viewd_posts($number=5, $days=0, $args= array()){
-	if($output = wpjam_get_top_viewd_posts($number, $time, $args)){
+	if($output = wpjam_get_top_viewd_posts($number, $days, $args)){
 		echo $output;
 	}
 }
@@ -174,7 +174,8 @@ function wpjam_top_viewd_posts($number=5, $days=0, $args= array()){
 function wpjam_get_post_list($wpjam_query,$args){
 	
 	$defaults = array('class'=>'', 'thumb' => true, 'size' => 'thumbnail', 'crop'=> true, 'thumb_class'=>'wp-post-image','number_per_row'=>5);
-	extract(wp_parse_args($args, $defaults), EXTR_SKIP );
+	$args = wp_parse_args($args, $defaults);
+	extract($args, EXTR_SKIP );
 
 	if($thumb)			$class		= $class.' has-thumb';
 	if($class)			$class		= ' class="'.$class.'"';

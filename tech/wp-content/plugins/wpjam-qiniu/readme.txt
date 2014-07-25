@@ -16,7 +16,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 详细介绍： http://blog.wpjam.com/project/wpjam-qiniutek/
 
-七牛购买流量9折优惠码：63ff63a6，在充值界面使用，立刻优惠，详细用法： http://blog.wpjam.com/m/how-to-use-qiniu-coupon/
+七牛购买流量9折优惠码：d706b222，在充值界面使用，立刻优惠，详细用法： http://blog.wpjam.com/m/how-to-use-qiniu-coupon/
 
 
 == Installation ==
@@ -30,6 +30,11 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 1. 七牛镜像存储设置
 
 == Changelog ==
+
+= 1.2 =
+改进远程获取图片的质量
+新增对 Google Fonts 和 Google AJAX 支持
+此次更新需要更新下固定链接
 
 = 1.1.1 =
 添加 1.1 忘记上传的一个 js 文件。

@@ -157,7 +157,7 @@ function wpjam_get_term_thumbnail_uri($term=null){
     }
 
     if(is_object($term)){
-        $term_id = $term->$term_id;
+        $term_id = $term->term_id;
     }else{
         $term_id = $term;
     }

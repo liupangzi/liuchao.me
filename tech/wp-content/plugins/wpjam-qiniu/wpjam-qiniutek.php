@@ -5,7 +5,7 @@ Description: 使用七牛云存储实现 WordPress 博客静态文件 CDN 加速
 Plugin URI: http://blog.wpjam.com/project/wpjam-qiniutek/
 Author: Denis
 Author URI: http://blog.wpjam.com/
-Version: 1.1.1
+Version: 1.2
 */
 
 define('WPJAM_QINIUTEK_PLUGIN_URL', plugins_url('', __FILE__));
@@ -32,13 +32,8 @@ if(!function_exists('wpjam_post_thumbnail')){
 }
 
 function wpjam_qiniutek_get_setting($setting_name){
-	$option = wpjam_qiniutek_get_option();
+	$option = wpjam_get_option('wpjam-qiniutek');
 	return wpjam_get_setting($option, $setting_name);
-}
-
-function wpjam_qiniutek_get_option(){
-	$defaults = wpjam_qiniutek_get_default_option();
-	return wpjam_get_option('wpjam-qiniutek',$defaults);
 }
 
 //定义在七牛绑定的域名。
@@ -53,9 +48,9 @@ if(wpjam_qiniutek_get_setting('local')){
 	define('LOCAL_HOST',home_url());
 }
 
-if(!is_admin()){
-	add_action("wp_loaded", 'wpjam_qiniutek_start_ob_cache');
+add_action("wp_loaded", 'wpjam_qiniutek_ob_cache');
 
+if(!is_admin()){
 	if(wpjam_qiniutek_get_setting('remote') && get_option('permalink_structure')){
 		add_filter('the_content', 'wpjam_qiniutek_content',1);
 	}
@@ -67,11 +62,14 @@ if(get_option('permalink_structure')){
 	add_action('template_redirect', 		'wpjam_qiniutek_template_redirect', 5);
 }
 
-function wpjam_qiniutek_start_ob_cache(){
+function wpjam_qiniutek_ob_cache(){
 	ob_start('wpjam_qiniutek_cdn_replace');
 }
 
 function wpjam_qiniutek_cdn_replace($html){
+	$html 		= wpjam_google_lib_replace($html);
+	if(is_admin())	return $html;
+
 	$cdn_exts	= wpjam_qiniutek_get_setting('exts');
 	$cdn_dirs	= str_replace('-','\-',wpjam_qiniutek_get_setting('dirs'));
 
@@ -85,6 +83,10 @@ function wpjam_qiniutek_cdn_replace($html){
 		$html =  preg_replace($regex, CDN_HOST.'/$1$3', $html);
 	}
 	return $html;
+}
+
+function wpjam_google_lib_replace($html){
+	return str_replace(array('//ajax.googleapis.com','//fonts.googleapis.com'), array('//ajax.useso.com','//fonts.useso.com'), $html);
 }
 
 function wpjam_qiniutek_content($content){
@@ -102,28 +104,32 @@ function wpjam_qiniutek_replace_remote_image($matches){
 
 	$pre = apply_filters('pre_qiniu_remote',false,$image_url);
 
-	if($pre == false && strpos($image_url,LOCAL_HOST) === false && strpos($image_url,CDN_HOST) === false && strpos($image_url,'.gif') === false){
-		$md5 = md5($image_url);
-		return str_replace($image_url, CDN_HOST.'/qiniu/'.get_the_ID().'/image/'.$md5.'.jpg', $matches[0]);
-	}
+	$img_type = strtolower(pathinfo($image_url, PATHINFO_EXTENSION));
 
+	if($pre == false && strpos($image_url,LOCAL_HOST) === false && strpos($image_url,CDN_HOST) === false && $img_type != 'gif'){
+		$img_type = ($img_type == 'png')?$img_type:'jpg';
+		$md5 = md5($image_url);
+		return str_replace($image_url, CDN_HOST.'/qiniu/'.get_the_ID().'/image/'.$md5.'.'.$img_type, $matches[0]);
+	}
 	return $matches[0];
 }
 
 function wpjam_qiniutek_generate_rewrite_rules($wp_rewrite){
-    $new_rules['qiniu/([^/]+)/image/([^/]+).jpg?$']	= 'index.php?p=$matches[1]&qiniu_image=$matches[2]';
+    $new_rules['qiniu/([^/]+)/image/([^/]+)\.([^/]+)?$']	= 'index.php?p=$matches[1]&qiniu_image=$matches[2]&qiniu_image_type=$matches[3]';
     $wp_rewrite->rules = $new_rules + $wp_rewrite->rules;
 }
 
 function wpjam_qiniutek_query_vars($public_query_vars) {
     $public_query_vars[] = 'qiniu_image';
+    $public_query_vars[] = 'qiniu_image_type';
     return $public_query_vars;
 }
 
 function wpjam_qiniutek_template_redirect(){
     $qiniu_image = get_query_var('qiniu_image');
+    $qiniu_image_type = get_query_var('qiniu_image_type');
 
-    if($qiniu_image){
+    if($qiniu_image && $qiniu_image_type){
     	include(WPJAM_QINIUTEK_PLUGIN_DIR.'/template/image.php');
     	exit;
 	}
@@ -134,10 +140,10 @@ function wpjam_qiniutek_enqueue_scripts() {
 
 	if(wpjam_qiniutek_get_setting('jquery')){
 		wp_deregister_script( 'jquery' );
-	    wp_register_script( 'jquery', 'http://cdn.staticfile.org/jquery/2.1.0/jquery.min.js', array(), '2.1.0' );
+	    wp_register_script( 'jquery', 'http://cdn.staticfile.org/jquery/2.1.1/jquery.min.js', array(), '2.1.0' );
 	}else{
 		wp_deregister_script( 'jquery-core' );
-	    wp_register_script( 'jquery-core', 'http://cdn.staticfile.org/jquery/1.11.0/jquery.min.js', array(), '1.10.2' );
+	    wp_register_script( 'jquery-core', 'http://cdn.staticfile.org/jquery/1.11.1/jquery.min.js', array(), '1.10.2' );
 
 		wp_deregister_script( 'jquery-migrate' );
 	    wp_register_script( 'jquery-migrate', 'http://cdn.staticfile.org/jquery-migrate/1.2.1/jquery-migrate.min.js', array(), '1.2.1' );

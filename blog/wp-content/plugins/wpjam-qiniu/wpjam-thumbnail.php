@@ -19,7 +19,8 @@ function wpjam_get_post_thumbnail($post=null, $size='thumbnail', $crop=1, $class
 
 	if($post_thumbnail_src){
 
-		extract(wpjam_get_dimensions($size));
+		$size = wpjam_get_dimensions($size);
+		extract($size);
 
 		$width_attr	= $width?' width="'.$width.'"':'';
 		$height_attr = $height?' height="'.$height.'"':'';
@@ -33,7 +34,8 @@ function wpjam_get_post_thumbnail($post=null, $size='thumbnail', $crop=1, $class
 function wpjam_get_post_thumbnail_src($post=null, $size='thumbnail', $crop=1){
 
 	if($post_thumbnail_uri = wpjam_get_post_thumbnail_uri($post)){
-		extract(wpjam_get_dimensions($size));
+		$size = wpjam_get_dimensions($size);
+		extract($size);
 		$post_thumbnail_src = apply_filters('wpjam_thumbnail', $post_thumbnail_uri, $width, $height, $crop);
 		
 		return $post_thumbnail_src;
@@ -63,19 +65,30 @@ function wpjam_get_post_thumbnail_uri($post=null){
 			// do nothing
 		}elseif($first_img = get_post_first_image(do_shortcode($post->post_content))){
 			$pre = apply_filters('pre_qiniu_remote',false,$first_img);
+			$img_type = strtolower(pathinfo($first_img, PATHINFO_EXTENSION));
 			if($pre == false && wpjam_qiniutek_get_setting('remote') && get_option('permalink_structure') && strpos($first_img, LOCAL_HOST)===false && strpos($first_img, CDN_HOST) === false){
-				$first_img = CDN_HOST.'/qiniu/'.$post_id.'/image/'.md5($first_img).'.jpg';
+				$img_type = ($img_type == 'png')?$img_type:'jpg';
+				$first_img = CDN_HOST.'/qiniu/'.$post_id.'/image/'.md5($first_img).'.'.$img_type;
 			}
 			$post_thumbnail_uri = $first_img;
 		}elseif($post_thumbnail_uri = apply_filters('wpjam_post_thumbnail_uri',false, $post)){
 			//do nothing
 		}else{
-			$post_thumbnail_uri = apply_filters('wpjam_default_post_thumbnail_uri',wpjam_qiniutek_get_setting('default'));
+			$post_thumbnail_uri = wpjam_get_default_thumbnail_uri();
 		}
 
 		wp_cache_set($post_id, $post_thumbnail_uri, 'post_thumbnail_uri', 6000);
 	}
 	return $post_thumbnail_uri;
+}
+
+function wpjam_get_default_thumbnail_uri(){
+	return apply_filters('wpjam_default_thumbnail_uri',wpjam_qiniutek_get_setting('default'));
+}
+
+function wpjam_get_default_thumbnail_src($size){
+	extract(wpjam_get_dimensions($size));
+	return apply_filters('wpjam_thumbnail', wpjam_get_default_thumbnail_uri(), $width, $height);
 }
 
 //copy from image_constrain_size_for_editor

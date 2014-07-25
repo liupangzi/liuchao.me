@@ -19,7 +19,7 @@ function wpjam_qiniutek_setting_page() {
 
 add_action( 'admin_init', 'wpjam_qiniutek_admin_init' );
 function wpjam_qiniutek_admin_init() {
-	wpjam_add_settings(wpjam_qiniutek_get_option_labels(),wpjam_qiniutek_get_default_option());
+	wpjam_add_settings(wpjam_qiniutek_get_option_labels());
 }
 
 function wpjam_qiniutek_get_option_labels(){
@@ -68,20 +68,18 @@ function wpjam_qiniutek_section_callback(){
 	echo '<p><strong">*点击获取：<a style="color:red;" href="http://wpjam.com/go/qiniuguide">七牛镜像云存储WordPress插件使用指南</a></strong>，大版本更新，内容同步更新。</p>';
 }
 
-function wpjam_qiniutek_get_default_option(){
+add_filter('wpjam_defaults', 'wpjam_qiniutek_get_defaults', 10, 2);
+function wpjam_qiniutek_get_defaults($defaults, $option_name){
+	if($option_name != 'wpjam-qiniutek') return $defaults;
+
+	return wpjam_qiniutek_get_option_defaults();	
+}
+
+function wpjam_qiniutek_get_option_defaults(){
  	$defaults = array(
-		'host'		=> '',
-		'bucket'	=> '',
-		'access'	=> '',
-		'secret'	=> '',
 		'exts'		=> 'js|css|png|jpg|jpeg|gif|ico', 
 		'dirs'		=> 'wp-content|wp-includes',
 		'local'		=> home_url(),
-		'remote'	=> 0,
-		'jquery'	=> 0,
-		'advanced'	=> 0,
-		'default'	=> '',
-		'timthumb'	=> 0
 	);
 
 	return  apply_filters('qiniutek_defaults',$defaults);
@@ -113,11 +111,11 @@ function wpjam_qiniutek_coupon_page(){
 ?>
 	<div class="wrap">
 		<h2>如何使用七牛云存储的优惠码</h2>
-		<p>简单说就是<strong>复制专属我爱水煮鱼用户的优惠码“<span style="color:red;">63ff63a6</span>”，充值就能享受9折优惠</strong>。</p>
+		<p>简单说就是<strong>复制专属我爱水煮鱼用户的优惠码“<span style="color:red;">d706b222</span>”，充值就能享受9折优惠</strong>。</p>
 		<p>1. 登陆七牛开发者平台：<a href="https://portal.qiniu.com/">https://portal.qiniu.com/</a></p>
 		<p>2. 然后点击“充值”，进入充值页面</p>
 		<p><img src="<?php echo WPJAM_QINIUTEK_PLUGIN_URL; ?>/static//qiniu-coupon.png" alt="使用七牛优惠码" /></p>
-		<p>3. 点击“使用优惠码”，并输入优惠码“<strong><span style="color:red;">63ff63a6</span></strong>”，点击“使用”。</p>
+		<p>3. 点击“使用优惠码”，并输入优惠码“<strong><span style="color:red;">d706b222</span></strong>”，点击“使用”。</p>
 		<p>4. 输入计划充值的金额，点击“马上充值”，进入支付宝页面，完成支付。<br />
 		*注意七牛的优惠不是在原价上优惠，是赠送的方式，所以比如你要充值100，你只要输入90即可，这个需要数学比较好的同学算下 <img src="http://wpjam.qiniudn.com/wpjam/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" />  。</p>
 		<p>5. 完成支付后，可至财务->>财务概况->>账户余额 查看实际到账金额。</p>	
@@ -288,7 +286,7 @@ function wpjam_qiniutek_put_file($key, $file){
 	$wpjam_qiniutek = get_option( 'wpjam-qiniutek' );
 	$qiniutek_bucket = $wpjam_qiniutek['bucket'];
 
-	$putPolicy = new Qiniu_RS_PutPolicy($bucket);
+	$putPolicy = new Qiniu_RS_PutPolicy($qiniutek_bucket);
 	$upToken = $putPolicy->Token(null);
 
 	if(!function_exists('Qiniu_Put')){

@@ -4,7 +4,7 @@ function wpjam_get_thumbnail($img_url, $width=0, $height=0, $crop=1){
 }
 
 function wpjam_has_post_thumbnail(){
-	return wpjam_get_post_thumbnail()?true:false;
+	return wpjam_get_post_thumbnail_uri()?true:false;
 }
 
 function wpjam_post_thumbnail($size='thumbnail', $crop=1, $class="wp-post-image"){
@@ -12,6 +12,11 @@ function wpjam_post_thumbnail($size='thumbnail', $crop=1, $class="wp-post-image"
 		echo $post_thumbnail;
 	}
 }
+
+// add_filter('post_thumbnail_html', 'wpjam_post_thumbnail_html', 10, 5 );
+// function wpjam_post_thumbnail_html($html, $post_id, $post_thumbnail_id, $size, $attr){
+// 	return wpjam_get_post_thumbnail($post_id, $size);
+// }
 
 function wpjam_get_post_thumbnail($post=null, $size='thumbnail', $crop=1, $class="wp-post-image"){
 
@@ -22,10 +27,9 @@ function wpjam_get_post_thumbnail($post=null, $size='thumbnail', $crop=1, $class
 		$size = wpjam_get_dimensions($size);
 		extract($size);
 
-		$width_attr	= $width?' width="'.$width.'"':'';
-		$height_attr = $height?' height="'.$height.'"':'';
+		$hwstring = image_hwstring($width, $height);
 
-		return '<img src="'.$post_thumbnail_src.'" alt="'.the_title_attribute(array('echo'=>false)).'" class="'.$class.'"'.$width_attr.$height_attr.' />';
+		return '<img src="'.$post_thumbnail_src.'" alt="'.the_title_attribute(array('echo'=>false)).'" class="'.$class.'"'.$hwstring.' />';
 	}else{
 		return false;
 	}	
@@ -76,7 +80,6 @@ function wpjam_get_post_thumbnail_uri($post=null){
 		}else{
 			$post_thumbnail_uri = wpjam_get_default_thumbnail_uri();
 		}
-
 		wp_cache_set($post_id, $post_thumbnail_uri, 'post_thumbnail_uri', 6000);
 	}
 	return $post_thumbnail_uri;
@@ -102,7 +105,7 @@ function wpjam_get_dimensions($size){
 		$width = $size[0];
 		$height = $size[1];
 	}
-	elseif ( $size == 'thumb' || $size == 'thumbnail' ) {
+	elseif ( $size == 'thumb' || $size == 'thumbnail' || $size == 'post-thumbnail' ) {
 		$width = intval(get_option('thumbnail_size_w'));
 		$height = intval(get_option('thumbnail_size_h'));
 
@@ -149,6 +152,66 @@ if(!function_exists('get_post_first_image')){
 			return false;
 		}
 	}
+}
+
+//使用七牛缩图 API 进行裁图
+add_filter('wpjam_thumbnail','wpjam_get_qiniu_thumbnail',10,4);
+function wpjam_get_qiniu_thumbnail($img_url, $width=0, $height=0, $crop=1, $quality='',$format=''){
+	if(CDN_HOST != home_url()){
+		$img_url = str_replace(LOCAL_HOST, CDN_HOST, $img_url);
+
+		if($width || $height){
+			$arg = 'imageView2/';
+
+			$crop_arg	= $crop?'1':'2';
+			$arg 		.= $crop_arg;
+
+			if($width)		$arg .= '/w/'.$width;
+			if($height) 	$arg .= '/h/'.$height;
+			if($quality)	$arg .= '/q/'.$quality;
+			if($format)		$arg .= '/format/'.$format;
+
+			$img_url = add_query_arg( array($arg => ''), $img_url );
+		}
+
+		$img_url = apply_filters('qiniu_thumb',$img_url,$width,$height,$crop,$quality,$format);
+	}elseif(wpjam_qiniutek_get_setting('timthumb')){
+		$timthumb_url = WPJAM_QINIUTEK_PLUGIN_URL.'/include/timthumb.php';
+
+		if($width || $height){
+			$arg = array();
+			$arg['src']	= $img_url;
+			$arg['zc']	= 0;
+			if($crop)	$arg['zc']	= 1;
+			if($width)	$arg['w']	= $width;
+			if($height)	$arg['h']	= $height;
+
+			$img_url = add_query_arg($arg,$timthumb_url);
+		}
+	}
+
+	return $img_url;
+}
+
+function wpjam_get_qiniu_watermaker(){
+	$watermark = wpjam_qiniutek_get_setting('watermark');
+	$watermark	= str_replace(array('+','/'),array('-','_'),base64_encode($watermark));
+	
+	$dissolve	= wpjam_qiniutek_get_setting('dissolve');
+	$dissolve	= ($dissolve)?$dissolve:'100';
+
+	$gravity	= wpjam_qiniutek_get_setting('gravity');
+	$gravity	= ($gravity)?$gravity:'SouthEast';
+
+	$dx			= wpjam_qiniutek_get_setting('dx');
+	$dx			= ($dx)?$dx:'10';
+
+	$dy			= wpjam_qiniutek_get_setting('dy');
+	$dy			= ($dy)?$dy:'10';
+
+	$watermark	= 'watermark/1/image/'.$watermark.'/dissolve/'.$dissolve.'/gravity/'.$gravity.'/dx/'.$dx.'/dy/'.$dy;
+
+	return $watermark;
 }
 
 add_filter('manage_posts_columns', 'wpjam_manage_posts_columns_add_thumbnail');

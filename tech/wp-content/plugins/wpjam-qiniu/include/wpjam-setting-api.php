@@ -231,7 +231,7 @@ function wpjam_get_option($option_name, $defaults = array()){
 	if($option){
 		return $option;
 	}else{
-		$defaults = apply_filters('wpjam_defaults', $defaults, $option_name);
+		$defaults = apply_filters($option_name.'_defaults', $defaults);
 		return wp_parse_args($option, $defaults);
 	}
 }
@@ -313,7 +313,7 @@ function wpjam_admin_display_fields($fields, $fields_type = 'table'){
 		$value		= $field['value'];
 
 		$class		= isset($field['class'])?$field['class']:'regular-text';
-		$description= (isset($field['description']))?($type == 'checkbox')?' <label for="'.$key.'">'.$field['description'].'</label>':'<p>'.$field['description']:'</p>';
+		$description= (!empty($field['description']))?( ($type == 'checkbox')? ' <label for="'.$key.'">'.$field['description'].'</label>':'<p>'.$field['description'].'</p>'):'';
 
 		$title 	= isset($field['title'])?$field['title']:$field['name'];
 		$label 	= '<label for="'.$key.'">'.$title.'</label>';
@@ -375,7 +375,7 @@ function wpjam_admin_display_fields($fields, $fields_type = 'table'){
 			case 'radio':
 				$new_field_html  = '';
 				foreach ($field['options'] as $option_value => $option_title) {
-					$new_field_html  .= '<p><input name="'.$key.'" type="radio" id="'.$key.'" value="'.$option_value .'" '.checked($option_value,$value,false).' /> '.$option_title.'</p>';
+					$new_field_html  .= '<input name="'.$key.'" type="radio" id="'.$key.'" value="'.$option_value .'" '.checked($option_value,$value,false).' />'.$option_title.'<br />';
 				}
 				break;
 
@@ -440,10 +440,8 @@ function wpjam_admin_display_fields($fields, $fields_type = 'table'){
 		<?php } ?>
 		</tbody>
 	</table>
-
 	<?php } elseif($fields_type == 'tr') { ?>
 		<?php foreach ($new_fields as $key=>$field) { ?>
-
 			<tr id="tr_<?php echo $key; ?>">
 			<?php if($field['title']) { ?>
 				<th scope="row"><?php echo $field['label']; ?></th>
@@ -452,6 +450,17 @@ function wpjam_admin_display_fields($fields, $fields_type = 'table'){
 				<td colspan="2"><?php echo $field['html']; ?></td>
 			<?php } ?>
 			</tr>
+		<?php } ?>
+	<?php } else { ?> 
+		<?php foreach ($new_fields as $key=>$field) { ?>
+			<p id="tr_<?php echo $key; ?>">
+			<?php if($field['title']) { ?>
+				<?php echo $field['label']; ?>：
+				<?php echo $field['html']; ?>
+			<?php } else { ?>
+				<?php echo $field['html']; ?>
+			<?php } ?>
+			</p>
 		<?php } ?>
 	<?php } ?>
 	<?php
@@ -535,6 +544,12 @@ function wpjam_save_post_options($post_id){
     // to prevent metadata or custom fields from disappearing...
     if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
         return $post_id;
+
+    global $pagenow;
+
+	if($pagenow != 'post.php' && $pagenow != 'post-new.php'){
+		return;
+	}
 
     $post = get_post($post_id);
     $wpjam_options = wpjam_get_post_options();
@@ -709,4 +724,15 @@ function wpjam_upload_image_script(){
         });
     </script>
 <?php
+}
+
+// 获取当前页面 url
+function wpjam_get_current_page_url(){
+    $ssl        = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? true:false;
+    $sp         = strtolower($_SERVER['SERVER_PROTOCOL']);
+    $protocol   = substr($sp, 0, strpos($sp, '/')) . (($ssl) ? 's' : '');
+    $port       = $_SERVER['SERVER_PORT'];
+    $port       = ((!$ssl && $port=='80') || ($ssl && $port=='443')) ? '' : ':'.$port;
+    $host       = isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'];
+    return $protocol . '://' . $host . $port . $_SERVER['REQUEST_URI'];
 }

@@ -31,6 +31,12 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Changelog ==
 
+= 1.3 =
+
+优化远程获取图片设置
+新增水印设置
+
+
 = 1.2 =
 改进远程获取图片的质量
 新增对 Google Fonts 和 Google AJAX 支持

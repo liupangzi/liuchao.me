@@ -32,7 +32,7 @@ class Qiniu_RS_GetPolicy
 
 function Qiniu_RS_MakeBaseUrl($domain, $key) // => $baseUrl
 {
-	$keyEsc = rawurlencode($key);
+	$keyEsc = str_replace("%2F", "/", rawurlencode($key));
 	return "http://$domain/$keyEsc";
 }
 
@@ -41,14 +41,23 @@ function Qiniu_RS_MakeBaseUrl($domain, $key) // => $baseUrl
 
 class Qiniu_RS_PutPolicy
 {
-	public $Scope;
+	public $Scope;                  //必填
+	public $Expires;                //默认为3600s
 	public $CallbackUrl;
 	public $CallbackBody;
 	public $ReturnUrl;
 	public $ReturnBody;
 	public $AsyncOps;
 	public $EndUser;
-	public $Expires;
+	public $InsertOnly;             //若非0，则任何情况下无法覆盖上传
+	public $DetectMime;             //若非0，则服务端根据内容自动确定MimeType
+	public $FsizeLimit;
+	public $SaveKey;
+	public $PersistentOps;
+	public $PersistentPipeline;
+	public $PersistentNotifyUrl;
+	public $FopTimeout;
+	public $MimeLimit;
 
 	public function __construct($scope)
 	{
@@ -82,6 +91,34 @@ class Qiniu_RS_PutPolicy
 		if (!empty($this->EndUser)) {
 			$policy['endUser'] = $this->EndUser;
 		}
+		if (!empty($this->InsertOnly)) {
+			$policy['exclusive'] = $this->InsertOnly;
+		}
+		if (!empty($this->DetectMime)) {
+			$policy['detectMime'] = $this->DetectMime;
+		}
+		if (!empty($this->FsizeLimit)) {
+			$policy['fsizeLimit'] = $this->FsizeLimit;
+		}
+		if (!empty($this->SaveKey)) {
+			$policy['saveKey'] = $this->SaveKey;
+		}
+		if (!empty($this->PersistentOps)) {
+			$policy['persistentOps'] = $this->PersistentOps;
+		}
+		if (!empty($this->PersistentPipeline)) {
+			$policy['persistentPipeline'] = $this->PersistentPipeline;
+		}
+		if (!empty($this->PersistentNotifyUrl)) {
+			$policy['persistentNotifyUrl'] = $this->PersistentNotifyUrl;
+		}
+		if (!empty($this->FopTimeout)) {
+			$policy['fopTimeout'] = $this->FopTimeout;
+		}
+		if (!empty($this->MimeLimit)) {
+			$policy['mimeLimit'] = $this->MimeLimit;
+		}
+
 
 		$b = json_encode($policy);
 		return Qiniu_SignWithData($mac, $b);

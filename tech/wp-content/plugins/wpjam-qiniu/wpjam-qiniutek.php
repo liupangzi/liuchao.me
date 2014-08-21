@@ -5,7 +5,7 @@ Description: 使用七牛云存储实现 WordPress 博客静态文件 CDN 加速
 Plugin URI: http://blog.wpjam.com/project/wpjam-qiniutek/
 Author: Denis
 Author URI: http://blog.wpjam.com/
-Version: 1.2
+Version: 1.3.1
 */
 
 define('WPJAM_QINIUTEK_PLUGIN_URL', plugins_url('', __FILE__));
@@ -20,16 +20,17 @@ if(!function_exists('get_term_meta')){
 	register_activation_hook( __FILE__,'simple_term_meta_install');
 }
 
-include(WPJAM_QINIUTEK_PLUGIN_DIR.'/qiniutek-options.php');
+if(is_admin()){
+	include(WPJAM_QINIUTEK_PLUGIN_DIR.'/admin/options.php');
+}
+
+include(WPJAM_QINIUTEK_PLUGIN_DIR.'/admin/default-options.php');
 
 if(wpjam_qiniutek_get_setting('advanced')){
 	include(WPJAM_QINIUTEK_PLUGIN_DIR.'/term-thumbnail.php');
 }
+include(WPJAM_QINIUTEK_PLUGIN_DIR.'/wpjam-thumbnail.php');
 include(WPJAM_QINIUTEK_PLUGIN_DIR.'/wpjam-posts.php');
-
-if(!function_exists('wpjam_post_thumbnail')){
-	include(WPJAM_QINIUTEK_PLUGIN_DIR.'/wpjam-thumbnail.php');
-}
 
 function wpjam_qiniutek_get_setting($setting_name){
 	$option = wpjam_get_option('wpjam-qiniutek');
@@ -54,6 +55,9 @@ if(!is_admin()){
 	if(wpjam_qiniutek_get_setting('remote') && get_option('permalink_structure')){
 		add_filter('the_content', 'wpjam_qiniutek_content',1);
 	}
+
+	add_filter('script_loader_src',	'wpjam_qiniutek_loader_src',10,2);
+	add_filter('style_loader_src',	'wpjam_qiniutek_loader_src',10,2);
 }
 
 if(get_option('permalink_structure')){
@@ -67,11 +71,19 @@ function wpjam_qiniutek_ob_cache(){
 }
 
 function wpjam_qiniutek_cdn_replace($html){
-	$html 		= wpjam_google_lib_replace($html);
+	if(wpjam_qiniutek_get_setting('useso')){
+		$html 	= str_replace(array('//ajax.googleapis.com','//fonts.googleapis.com'), array('//ajax.useso.com','//fonts.useso.com'), $html);
+	}
 	if(is_admin())	return $html;
 
 	$cdn_exts	= wpjam_qiniutek_get_setting('exts');
 	$cdn_dirs	= str_replace('-','\-',wpjam_qiniutek_get_setting('dirs'));
+
+	// $html = preg_replace(
+	// 	'/<img src="(.*?)icon_(.*?)\\.gif" alt="(.*?)" class="wp-smiley" \/>/', 
+	// 	'<span class="wp-smiley emoji emoji-$2" title="$3">$3</span>', 
+	// 	$html
+	// );
 
 	$html = apply_filters('wpjam_html_replace',$html);
 
@@ -85,10 +97,6 @@ function wpjam_qiniutek_cdn_replace($html){
 	return $html;
 }
 
-function wpjam_google_lib_replace($html){
-	return str_replace(array('//ajax.googleapis.com','//fonts.googleapis.com'), array('//ajax.useso.com','//fonts.useso.com'), $html);
-}
-
 function wpjam_qiniutek_content($content){
 	if(get_post_meta(get_the_ID(),'disable_remote_image','true')){
 		return $content;
@@ -98,7 +106,7 @@ function wpjam_qiniutek_content($content){
 }
 
 function wpjam_qiniutek_replace_remote_image($matches){
-	$image_url = $matches[1];
+	$qiniu_image_url = $image_url = $matches[1];
 
 	if(empty($image_url)) return;
 
@@ -108,10 +116,55 @@ function wpjam_qiniutek_replace_remote_image($matches){
 
 	if($pre == false && strpos($image_url,LOCAL_HOST) === false && strpos($image_url,CDN_HOST) === false && $img_type != 'gif'){
 		$img_type = ($img_type == 'png')?$img_type:'jpg';
+
 		$md5 = md5($image_url);
-		return str_replace($image_url, CDN_HOST.'/qiniu/'.get_the_ID().'/image/'.$md5.'.'.$img_type, $matches[0]);
+		$qiniu_image_url = CDN_HOST.'/qiniu/'.get_the_ID().'/image/'.$md5.'.'.$img_type;
 	}
-	return $matches[0];
+
+	$width = (int)wpjam_qiniutek_get_setting('width');
+
+	if($width){
+		if(preg_match('|<img.*?width=[\'"](.*?)[\'"].*?>|i',$matches[0],$width_matches)){
+			$width = $width_matches[1];
+		}
+
+		$height = 0;
+
+		if(preg_match('|<img.*?height=[\'"](.*?)[\'"].*?>|i',$matches[0],$height_matches)){
+			$height = $height_matches[1];
+		}
+
+		if($width || $height){
+			$qiniu_image_url = wpjam_get_qiniu_thumbnail($qiniu_image_url, $width, $height, 0);
+		}
+	}
+
+	if($watermark = wpjam_qiniutek_get_setting('watermark')){
+		$watermark	= wpjam_get_qiniu_watermaker();
+
+		if(strpos($qiniu_image_url, 'imageView')){
+			$qiniu_image_url = $qiniu_image_url.'|'.$watermark;
+		}else{
+			$qiniu_image_url = add_query_arg( array($watermark=>''), $qiniu_image_url );
+		}
+	}
+
+	return str_replace($image_url, $qiniu_image_url, $matches[0]);
+}
+
+add_filter('pre_qiniu_remote','wpjam_pre_qiniu_remote',10,2);
+function wpjam_pre_qiniu_remote($false, $image_url){
+	$exceptions	= explode("\n", wpjam_qiniutek_get_setting('exceptions'));
+
+	if($exceptions){
+		foreach ($exceptions as $exception) {
+			if(trim($exception) && strpos($image_url, trim($exception)) !== false ){
+				return true;
+			}
+		}
+	}
+
+	return $false;		
 }
 
 function wpjam_qiniutek_generate_rewrite_rules($wp_rewrite){
@@ -150,41 +203,8 @@ function wpjam_qiniutek_enqueue_scripts() {
 	}
 }
 
-//使用七牛缩图 API 进行裁图
-add_filter('wpjam_thumbnail','wpjam_get_qiniu_thumbnail',10,4);
-function wpjam_get_qiniu_thumbnail($img_url, $width=0, $height=0, $crop=1, $quality='',$format=''){
-	if(CDN_HOST != home_url()){
-		$img_url = str_replace(LOCAL_HOST, CDN_HOST, $img_url);
-
-		if($width || $height){
-			$arg = 'imageView/';
-
-			$crop_arg	= $crop?'1':'2';
-			$arg 		.= $crop_arg;
-
-			if($width)		$arg .= '/w/'.$width;
-			if($height) 	$arg .= '/h/'.$height;
-			if($quality)	$arg .= '/q/'.$quality;
-			if($format)		$arg .= '/format/'.$format;
-
-			$img_url = add_query_arg( array($arg => ''), $img_url );
-		}
-
-		$img_url = apply_filters('qiniu_thumb',$img_url,$width,$height,$crop,$quality,$format);
-	}elseif(wpjam_qiniutek_get_setting('timthumb')){
-		$timthumb_url = WPJAM_QINIUTEK_PLUGIN_URL.'/include/timthumb.php';
-
-		if($width || $height){
-			$arg = array();
-			$arg['src']	= $img_url;
-			$arg['zc']	= 0;
-			if($crop)	$arg['zc']	= 1;
-			if($width)	$arg['w']	= $width;
-			if($height)	$arg['h']	= $height;
-
-			$img_url = add_query_arg($arg,$timthumb_url);
-		}
-	}
-
-	return $img_url;
+function wpjam_qiniutek_loader_src($src, $handle){
+	$src = remove_query_arg(array('ver'), $src);
+	$src = add_query_arg('ver',get_option('timestamp'),$src);
+	return $src;		
 }

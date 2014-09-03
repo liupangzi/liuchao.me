@@ -10,10 +10,14 @@
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 		<?php tha_entry_top(); ?>
 		
-			<div class="entry-content"><?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'decode' ) ); ?></div>
-			<?php wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', 'decode' ), 'after' => '</div>' ) ); ?>
+		<div class="entry-content">
+			<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'decode' ) ); ?>
+		</div>
+		
+		<?php wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', 'decode' ), 'after' => '</div>' ) ); ?>
+		
 		<footer class="entry-footer">
-			<?php if (get_theme_mod( 'show_author_section', false ) == true ) : ?>
+			<?php if ( get_theme_mod( 'show_author_section', false ) == true ) : ?>
 				<section class="author-section cf">
 					<div class="author-image"><a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) )?>" rel="author"><?php echo get_avatar( get_the_author_meta( 'ID' ), 250 ); ?></a></div>
 					<div class="author-text">
@@ -25,16 +29,18 @@
 				</section>
 			<?php endif; ?>
 			<?php edit_post_link( __( 'Edit', 'decode' ), '<div class="edit-link">', '</div>' ); ?>
-			<p class="tags"><?php the_tags(__( 'Tagged as: ', 'decode' ),', '); ?></p>
-			<p class="categories"><?php _e( 'Categorized in&#58; ', 'decode' ) . the_category(', '); ?></p>
-			<p class="date"><?php decode_posted_on(); ?></p>
+			<div class="entry-meta">
+				<p class="tags"><?php the_tags( __( 'Tagged as: ', 'decode' ),', ' ); ?></p>
+				<p class="categories"><?php _e( 'Categorized in&#58; ', 'decode' ) . the_category( ', ' ); ?></p>
+				<p class="date"><?php decode_posted_on(); ?></p>
+			</div>
 		</footer><!-- .entry-footer -->
 		
 		<?php tha_entry_bottom(); ?>
 	</article><!-- #post-<?php the_ID(); ?> -->
 		<?php tha_entry_after(); ?>
 		
-<?php elseif ( has_post_format( 'link' )): ?>
+<?php elseif ( has_post_format( 'link' ) ): ?>
 
 		<?php tha_entry_before(); ?>
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
@@ -42,7 +48,7 @@
 		
 		<header class="entry-header">
 			<?php if ( has_post_thumbnail() && get_theme_mod( 'show_featured_images_on_singles', false ) == true ) : ?>
-			<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>" >
+			<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
 				<?php the_post_thumbnail(); ?>
 			</a>
 			<?php endif; ?>
@@ -53,9 +59,13 @@
 			</div><!-- .entry-meta -->
 			<?php endif; ?>
 		</header>
-		<div class="entry-content"><?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'decode' ) ); ?></div>
+		
+		<div class="entry-content">
+			<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'decode' ) ); ?>
+		</div>
+		
 		<footer class="entry-footer">
-			<?php if (get_theme_mod( 'show_author_section', false ) == true ) : ?>
+			<?php if ( get_theme_mod( 'show_author_section', false ) == true ) : ?>
 				<section class="author-section cf">
 					<div class="author-image"><a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) )?>" rel="author"><?php echo get_avatar( get_the_author_meta( 'ID' ), 250 ); ?></a></div>
 					<div class="author-text">
@@ -67,11 +77,13 @@
 				</section>
 			<?php endif; ?>
 			<?php edit_post_link( __( 'Edit', 'decode' ), '<div class="edit-link">', '</div>' ); ?>
-			<p class="tags"><?php the_tags(__( 'Tagged as: ', 'decode' ),', '); ?></p>
-			<p class="categories"><?php _e( 'Categorized in&#58; ', 'decode' ) . the_category(', '); ?></p>
-			<?php if ( get_theme_mod( 'entry_date_position', 'below' ) == 'below' ) : ?>
-				<p class="date"><?php decode_posted_on(); ?></p>
-			<?php endif; ?>
+			<div class="entry-meta">
+				<p class="tags"><?php the_tags( __( 'Tagged as: ', 'decode' ),', ' ); ?></p>
+				<p class="categories"><?php _e( 'Categorized in&#58; ', 'decode' ) . the_category( ', ' ); ?></p>
+				<?php if ( get_theme_mod( 'entry_date_position', 'below' ) == 'below' ) : ?>
+					<p class="date"><?php decode_posted_on(); ?></p>
+				<?php endif; ?>
+			</div>
 		</footer><!-- .entry-footer -->
 		
 		<?php tha_entry_bottom(); ?>
@@ -97,10 +109,15 @@
 			</div><!-- .entry-meta -->
 			<?php endif; ?>
 		</header><!-- .entry-header -->
-		<div class="entry-content"><?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'decode' ) ); ?></div>
+		
+		<div class="entry-content">
+			<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'decode' ) ); ?>
+		</div>
+		
 		<?php wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', 'decode' ), 'after' => '</div>' ) ); ?>
+		
 		<footer class="entry-footer">
-			<?php if (get_theme_mod( 'show_author_section', false ) == true ) : ?>
+			<?php if ( get_theme_mod( 'show_author_section', false ) == true ) : ?>
 				<section class="author-section cf">
 					<div class="author-image"><a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) )?>" rel="author"><?php echo get_avatar( get_the_author_meta( 'ID' ), 250 ); ?></a></div>
 					<div class="author-text">
@@ -112,11 +129,13 @@
 				</section>
 			<?php endif; ?>
 			<?php edit_post_link( __( 'Edit', 'decode' ), '<div class="edit-link">', '</div>' ); ?>
-			<p class="tags"><?php the_tags(__( 'Tagged as: ', 'decode' ),', '); ?></p>
-			<p class="categories"><?php _e( 'Categorized in&#58; ', 'decode' ) . the_category(', '); ?></p>
-			<?php if ( get_theme_mod( 'entry_date_position', 'below' ) == 'below' ) : ?>
-				<p class="date"><?php decode_posted_on(); ?></p>
-			<?php endif; ?>
+			<div class="entry-meta">
+				<p class="tags"><?php the_tags( __( 'Tagged as: ', 'decode' ),', ' ); ?></p>
+				<p class="categories"><?php _e( 'Categorized in&#58; ', 'decode' ) . the_category( ', ' ); ?></p>
+				<?php if ( get_theme_mod( 'entry_date_position', 'below' ) == 'below' ) : ?>
+					<p class="date"><?php decode_posted_on(); ?></p>
+				<?php endif; ?>
+			</div>
 		</footer><!-- .entry-footer -->
 		
 		<?php tha_entry_bottom(); ?>

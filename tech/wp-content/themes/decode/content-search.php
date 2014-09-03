@@ -1,5 +1,8 @@
 <?php
 /**
+ *
+ * The template for displaying content in search results.
+ *
  * @package Decode
  */
 ?>
@@ -16,6 +19,6 @@
 		</div><!-- .entry-summary -->
 	</a>
 	
-	<?php edit_post_link( __( 'Edit', '_s' ), '<footer class="entry-footer"><span class="edit-link">', '</span></footer>' ); ?>
+	<?php edit_post_link( __( 'Edit', 'decode' ), '<footer class="entry-footer"><span class="edit-link">', '</span></footer>' ); ?>
 
 </article><!-- #post-<?php the_ID(); ?> -->

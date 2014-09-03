@@ -6,6 +6,23 @@
  *
  * @package Decode
  */
+ 
+if ( ! function_exists( 'decode_srcset_post_thumbnail' ) ) :
+/**
+ * Display navigation to next/previous set of posts when applicable.
+ */
+function decode_srcset_post_thumbnail( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
+	$full_image_url  = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'full' );
+	$large_image_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'large' );
+	
+	$attr = 'srcset=' . $large_image_url[0] . ' 1x, ' . $full_image_url[0] . ' 2x';
+	
+	$html = wp_get_attachment_image( $post_thumbnail_id, $size, false, $attr );
+	
+	return $html;
+}
+endif;
+add_filter( 'post_thumbnail_html', 'decode_srcset_post_thumbnail', 10, 5 );
 
 if ( ! function_exists( 'decode_paging_nav' ) ) :
 /**
@@ -24,11 +41,11 @@ function decode_paging_nav() {
                 <div class="nav-links">
 
                         <?php if ( get_next_posts_link() ) : ?>
-                        <div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'decode' ) ); ?></div>
+                        <div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span>&nbsp;Older posts', 'decode' ) ); ?></div>
                         <?php endif; ?>
 
                         <?php if ( get_previous_posts_link() ) : ?>
-                        <div class="nav-next"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'decode' ) ); ?></div>
+                        <div class="nav-next"><?php previous_posts_link( __( 'Newer posts&nbsp;<span class="meta-nav">&rarr;</span>', 'decode' ) ); ?></div>
                         <?php endif; ?>
 
                 </div><!-- .nav-links -->
@@ -55,10 +72,10 @@ function decode_post_nav() {
         <nav class="navigation post-navigation" role="navigation">
                 <h1 class="screen-reader-text"><?php _e( 'Post navigation', 'decode' ); ?></h1>
                 <div class="nav-links">
-
-                        <div class="nav-previous"><?php previous_post_link( '%link', _x( '<span class="meta-nav">&larr;</span> %title', 'Previous post link', 'decode' ) ); ?></div>
-                        <div class="nav-next"><?php next_post_link(     '%link', _x( '%title <span class="meta-nav">&rarr;</span>', 'Next post link',     'decode' ) ); ?></div>
-
+                	<?php
+						previous_post_link( '<div class="nav-previous">%link</div>', _x( '<span class="meta-nav">&larr;</span>&nbsp;%title', 'Previous post link', 'decode' ) );
+						next_post_link(     '<div class="nav-next">%link</div>',     _x( '%title&nbsp;<span class="meta-nav">&rarr;</span>', 'Next post link',     'decode' ) );
+					?>
                 </div><!-- .nav-links -->
         </nav><!-- .navigation -->
         <?php
@@ -88,7 +105,7 @@ function decode_the_attached_image() {
 		'post_type'      => 'attachment',
 		'post_mime_type' => 'image',
 		'order'          => 'ASC',
-		'orderby'        => 'menu_order ID'
+		'orderby'        => 'menu_order ID',
 	) );
 
 	// If there is more than 1 attachment in a gallery...
@@ -123,9 +140,9 @@ if ( ! function_exists( 'decode_posted_on' ) ) :
  * Prints HTML with meta information for the current post-date/time and author.
  */
 function decode_posted_on() {
-	$time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time>';
+	$time_string = '<time class="entry-date published updated" datetime="%1$s">%2$s</time>';
 	if ( get_the_time( 'U' ) !== get_the_modified_time( 'U' ) ) {
-		$time_string .= ' <time class="updated screen-reader-text" datetime="%3$s">%4$s</time>';
+		$time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time><time class="updated screen-reader-text" datetime="%3$s">%4$s</time>';
 	}
 
 	$time_string = sprintf( $time_string,
@@ -135,18 +152,18 @@ function decode_posted_on() {
 		esc_html( get_the_modified_date() )
 	);
 
-	printf( __( '<span class="posted-on-text">Posted on </span><span class="posted-on-date">%1$s</span><span class="byline"> by %2$s</span>', 'decode' ),
-		sprintf( '<a href="%1$s" title="%2$s" rel="bookmark">%3$s</a>',
-			esc_url( get_permalink() ),
-			esc_attr( get_the_time() ),
-			$time_string
-		),
-		sprintf( '<span class="vcard author"><a class="url fn n" href="%1$s" title="%2$s" rel="author">%3$s</a></span>',
-			esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
-			esc_attr( sprintf( __( 'View all posts by %s', 'decode' ), get_the_author() ) ),
-			esc_html( get_the_author() )
-		)
+	$posted_on = sprintf(
+		_x( 'Posted on %s', 'post date', 'decode' ),
+		'<a href="' . esc_url( get_permalink() ) . '" rel="bookmark">' . $time_string . '</a>'
 	);
+
+	$byline = sprintf(
+		_x( 'by %s', 'post author', 'decode' ),
+		'<span class="author vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a></span>'
+	);
+
+	echo '<span class="posted-on">' . $posted_on . '</span><span class="byline"> ' . $byline . '</span>';
+
 }
 endif;
 

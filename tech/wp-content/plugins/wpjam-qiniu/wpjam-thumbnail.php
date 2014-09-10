@@ -13,11 +13,6 @@ function wpjam_post_thumbnail($size='thumbnail', $crop=1, $class="wp-post-image"
 	}
 }
 
-// add_filter('post_thumbnail_html', 'wpjam_post_thumbnail_html', 10, 5 );
-// function wpjam_post_thumbnail_html($html, $post_id, $post_thumbnail_id, $size, $attr){
-// 	return wpjam_get_post_thumbnail($post_id, $size);
-// }
-
 function wpjam_get_post_thumbnail($post=null, $size='thumbnail', $crop=1, $class="wp-post-image"){
 
 	$post_thumbnail_src = wpjam_get_post_thumbnail_src($post, $size, $crop);
@@ -175,6 +170,8 @@ function wpjam_get_qiniu_thumbnail($img_url, $width=0, $height=0, $crop=1, $qual
 		}
 
 		$img_url = apply_filters('qiniu_thumb',$img_url,$width,$height,$crop,$quality,$format);
+
+
 	}elseif(wpjam_qiniutek_get_setting('timthumb')){
 		$timthumb_url = WPJAM_QINIUTEK_PLUGIN_URL.'/include/timthumb.php';
 
@@ -193,38 +190,31 @@ function wpjam_get_qiniu_thumbnail($img_url, $width=0, $height=0, $crop=1, $qual
 	return $img_url;
 }
 
-function wpjam_get_qiniu_watermaker(){
-	$watermark = wpjam_qiniutek_get_setting('watermark');
-	$watermark	= str_replace(array('+','/'),array('-','_'),base64_encode($watermark));
-	
-	$dissolve	= wpjam_qiniutek_get_setting('dissolve');
-	$dissolve	= ($dissolve)?$dissolve:'100';
+function wpjam_get_qiniu_watermark($img_url, $watermark='', $dissolve='', $gravity='', $dx=0, $dy=0){
+	$watermark	= ($watermark)?$watermark:wpjam_qiniutek_get_setting('watermark');
+	if($watermark){
+		$watermark	= str_replace(array('+','/'),array('-','_'),base64_encode($watermark));
+		
+		$dissolve	= ($dissolve)?$dissolve:wpjam_qiniutek_get_setting('dissolve');
+		$dissolve	= ($dissolve)?$dissolve:'100';
 
-	$gravity	= wpjam_qiniutek_get_setting('gravity');
-	$gravity	= ($gravity)?$gravity:'SouthEast';
+		$gravity	= ($gravity)?$gravity:wpjam_qiniutek_get_setting('gravity');
+		$gravity	= ($gravity)?$gravity:'SouthEast';
 
-	$dx			= wpjam_qiniutek_get_setting('dx');
-	$dx			= ($dx)?$dx:'10';
+		$dx			= ($dx)?$dx:wpjam_qiniutek_get_setting('dx');
+		$dx			= ($dx)?$dx:'10';
 
-	$dy			= wpjam_qiniutek_get_setting('dy');
-	$dy			= ($dy)?$dy:'10';
+		$dy			= ($dy)?$dy:wpjam_qiniutek_get_setting('dy');
+		$dy			= ($dy)?$dy:'10';
 
-	$watermark	= 'watermark/1/image/'.$watermark.'/dissolve/'.$dissolve.'/gravity/'.$gravity.'/dx/'.$dx.'/dy/'.$dy;
+		$watermark	= 'watermark/1/image/'.$watermark.'/dissolve/'.$dissolve.'/gravity/'.$gravity.'/dx/'.$dx.'/dy/'.$dy;
 
-	return $watermark;
-}
+		if(strpos($img_url, 'imageView')){
+			$img_url = $img_url.'|'.$watermark;
+		}else{
+			$img_url = add_query_arg( array($watermark=>''), $img_url );
+		}
+	}
 
-add_filter('manage_posts_columns', 'wpjam_manage_posts_columns_add_thumbnail');
-//add_filter('manage_pages_columns', 'wpjam_manage_posts_columns_add_thumbnail');
-function wpjam_manage_posts_columns_add_thumbnail($columns){
-    $columns['thumbnail'] = '缩略图';
-    return $columns;
-}
-
-add_action('manage_posts_custom_column','wpjam_manage_posts_custom_column_show_thumbnail',10,2);
-//add_action('manage_pages_custom_column','wpjam_manage_posts_custom_column_show_thumbnail',10,2);
-function wpjam_manage_posts_custom_column_show_thumbnail($column_name,$id){
-    if ($column_name == 'thumbnail') {
-        wpjam_post_thumbnail(array(80,60));
-    }
+	return $img_url;
 }

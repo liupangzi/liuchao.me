@@ -13,6 +13,7 @@ function wpjam_qiniutek_admin_menu() {
 
 // 设置
 include(WPJAM_QINIUTEK_PLUGIN_DIR.'/admin/setting.php');
+include(WPJAM_QINIUTEK_PLUGIN_DIR.'/admin/thumbnail.php');
 
 function wpjam_qiniutek_update_page(){
 	global $plugin_page;
@@ -83,7 +84,6 @@ function wpjam_qiniutek_update_page(){
 	</div>
 <?php
 }
-
 
 function wpjam_qiniutek_robots_page(){
 	global $plugin_page;

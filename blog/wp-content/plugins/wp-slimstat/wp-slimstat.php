@@ -3,7 +3,7 @@
 Plugin Name: WP Slimstat
 Plugin URI: http://wordpress.org/plugins/wp-slimstat/
 Description: The leading web analytics plugin for WordPress
-Version: 3.7
+Version: 3.7.3
 Author: Camu
 Author URI: http://slimstat.getused.to.it/
 */
@@ -11,7 +11,7 @@ Author URI: http://slimstat.getused.to.it/
 if (!empty(wp_slimstat::$options)) return true;
 
 class wp_slimstat{
-	public static $version = '3.7';
+	public static $version = '3.7.3';
 	public static $options = array();
 
 	public static $wpdb = '';
@@ -29,8 +29,8 @@ class wp_slimstat{
 	public static function init(){
 
 		// Load all the settings
-		self::$options = is_network_admin()?get_site_option('slimstat_options', array()):get_option('slimstat_options', array());
-		self::$options = array_merge(self::init_options(), array_filter(self::$options));
+		self::$options = (is_network_admin() && (empty($_GET['page']) || strpos($_GET['page'], 'wp-slim-view') === false))?get_site_option('slimstat_options', array()):get_option('slimstat_options', array());
+		self::$options = array_merge(self::init_options(), self::$options);
 
 		// Allow third party tools to edit the options
 		self::$options = apply_filters('slimstat_init_options', self::$options);
@@ -149,6 +149,8 @@ class wp_slimstat{
 			self::$stat['screenres_id'] = self::maybe_insert_row($screenres, $GLOBALS['wpdb']->base_prefix.'slim_screenres', 'screenres_id', array());
 		}
 		self::$stat['plugins'] = !empty(self::$data_js['pl'])?substr(str_replace('|', ',', self::$data_js['pl']), 0, -1):'';
+		self::$stat['server_latency'] = !empty(self::$data_js['sl'])?intval(self::$data_js['sl']):0;
+		self::$stat['page_performance'] = !empty(self::$data_js['pp'])?intval(self::$data_js['pp']):0;
 
 		// If Javascript mode is enabled, record this pageview
 		if (self::$options['javascript_mode'] == 'yes' || !empty(self::$data_js['ci'])){
@@ -157,12 +159,10 @@ class wp_slimstat{
 		else{
 			self::_set_visit_id(true);
 			
-			if (!empty(self::$stat['screenres_id'])){
-				self::$wpdb->query(self::$wpdb->prepare("
-					UPDATE {$GLOBALS['wpdb']->prefix}slim_stats
-					SET screenres_id = %d, plugins = %s
-					WHERE id = %d", self::$stat['screenres_id'], self::$stat['plugins'], self::$stat['id']));
-			}
+			self::$wpdb->query(self::$wpdb->prepare("
+				UPDATE {$GLOBALS['wpdb']->prefix}slim_stats
+				SET screenres_id = %d, plugins = %s, server_latency = %d, page_performance = %d
+				WHERE id = %d", self::$stat['screenres_id'], self::$stat['plugins'], self::$stat['server_latency'], self::$stat['page_performance'], self::$stat['id']));
 		}
 
 		// Was this pageview tracked?
@@ -1070,7 +1070,7 @@ class wp_slimstat{
 	 */
 	public static function init_options(){
 		$val_yes = 'yes'; $val_no = 'no';
-		if (is_network_admin()){
+		if (is_network_admin() && (empty($_GET['page']) || strpos($_GET['page'], 'wp-slim-view') === false)){
 			$val_yes = $val_no = 'null';
 		}
 
@@ -1086,7 +1086,7 @@ class wp_slimstat{
 			'javascript_mode' => $val_yes,
 			'add_posts_column' => $val_no,
 			'use_separate_menu' => $val_yes,
-			'auto_purge' => '120',
+			'auto_purge' => 0,
 
 			// Views
 			'convert_ip_addresses' => $val_no,
@@ -1095,12 +1095,13 @@ class wp_slimstat{
 			'show_display_name' => $val_no,
 			'show_complete_user_agent_tooltip' => $val_no,
 			'convert_resource_urls_to_titles' => $val_yes,
+			'date_time_format' => ($val_yes == 'null')?'':'m-d-y h:i a',
 			'async_load' => $val_no,
 			'use_slimscroll' => $val_yes,
 			'expand_details' => $val_no,
-			'rows_to_show' => '20',
-			'refresh_interval' => '60',
-			'number_results_raw_data' => '50',
+			'rows_to_show' => ($val_yes == 'null')?'0':'20',
+			'refresh_interval' => ($val_yes == 'null')?'0':'60',
+			'number_results_raw_data' => ($val_yes == 'null')?'0':'50',
 			'include_outbound_links_right_now' => $val_yes,
 
 			// Filters
@@ -1118,9 +1119,9 @@ class wp_slimstat{
 
 			// Permissions
 			'restrict_authors_view' => $val_yes,
-			'capability_can_view' => 'activate_plugins',
+			'capability_can_view' => ($val_yes == 'null')?'':'activate_plugins',
 			'can_view' => '',
-			'capability_can_admin' => 'activate_plugins',
+			'capability_can_admin' => ($val_yes == 'null')?'':'activate_plugins',
 			'can_admin' => '',
 
 			// Advanced
@@ -1162,7 +1163,11 @@ class wp_slimstat{
 	 * Connects to the UAN
 	 */
 	public static function print_code($content = ''){
-		if ( empty($_SERVER["HTTP_USER_AGENT"]) || (!empty(self::$browser) && self::$browser['type'] != 1) || (self::$pidx['id'] !== false && $GLOBALS['wp_query']->current_post !== self::$pidx['id']) ) {
+		if (empty(self::$browser)){
+			self::$browser = self::_get_browser();
+		}
+
+		if (empty($_SERVER["HTTP_USER_AGENT"]) || self::$browser['type'] != 1 || (self::$pidx['id'] !== false && $GLOBALS['wp_query']->current_post !== self::$pidx['id'])){
 			return $content;
 		}
 
@@ -1222,7 +1227,7 @@ class wp_slimstat{
 		return $content;
 	}
 	// end ads_print_code
-	
+
 	/**
 	 * Enqueue a javascript to track users' screen resolution and other browser-based information
 	 */
@@ -1237,7 +1242,7 @@ class wp_slimstat{
 
 		// Pass some information to Javascript
 		$params = array(
-			'ajaxurl' => admin_url('admin-ajax.php')
+			'ajaxurl' => admin_url('admin-ajax.php', ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443)?'https':'http')
 		);
 
 		if (self::$options['javascript_mode'] != 'yes' && !empty(self::$stat['id'])){

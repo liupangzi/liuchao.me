@@ -1,8 +1,6 @@
 <?php
 
 class wp_slimstat_admin{
-
-	public static $view_url = '';
 	public static $config_url = '';
 	public static $current_tab = 1;
 	public static $faulty_fields = array();
@@ -19,7 +17,7 @@ class wp_slimstat_admin{
 		}
 
 		if (wp_slimstat::$options['enable_ads_network'] == 'yes' || wp_slimstat::$options['enable_ads_network'] == 'no') {
-			self::$admin_notice = "Network-wide settings are finally here. You can now use the same options for all the instances in your multisite environment. <a href='http://slimstat.getused.to.it/addons/' target='_blank'>Check it out</a>.";
+			self::$admin_notice = "We are putting the final touches on a new premium add-on to schedule email reports. If you would like to help us test it, please <a href='http://support.getused.to.it/' target='_blank'>contact us</a> to get your FREE copy today! Hurry, this offer is limited to the first 10 users.";
 		}
 		else {
 			self::$admin_notice = "
@@ -63,7 +61,7 @@ class wp_slimstat_admin{
 				<p><strong>Third Party Text Links</strong></p>
 				<p>Third party text networks supply text for display in Slimstat. These networks may collect your IP addresses, in native or hashed forms, for purposes of controlling the distribution of text links. Slimstat collects anonymous aggregated usage statistics.</p>
 				<p>By clicking the link here below (\"I acknowledge that I have read and agree to the above Terms and Conditions\") you agree to the terms and conditions and give permission to place text links on your website when search engine crawlers access it. Your website's layout, performance and interaction with human visitors should not be altered or affected in any way. Please note that this feature can be deactivated at any time under Setting > Advanced > UAN Netword, without impact on any other feature available in Slimstat.</p>
-				<p>Copyright &copy; 2014 Get Used to IT.</p>
+				<p>WP Slimstat - Copyright &copy; 2014 Get Used to IT.</p>
 			</div>
 			
 			<div><a id='slimstat-enable-ads-toggle' href='#'>I acknowledge that I have read and agree to the above Terms and Conditions</a></div>";
@@ -79,7 +77,6 @@ class wp_slimstat_admin{
 
 		// Settings URL
 		self::$config_url = ((wp_slimstat::$options['use_separate_menu'] == 'no')?'options.php':'admin.php').'?page=wp-slim-config&amp;tab=';
-		self::$view_url = ((wp_slimstat::$options['use_separate_menu'] == 'no')?'options.php':'admin.php').'?page=wp-slim-view-'.self::$current_tab;
 
 		// Load language files
 		load_plugin_textdomain('wp-slimstat', WP_PLUGIN_DIR .'/wp-slimstat/admin/lang', '/wp-slimstat/admin/lang');
@@ -137,7 +134,8 @@ class wp_slimstat_admin{
 		// Load the library of functions to generate the reports
 		if ((!empty($_GET['page']) && strpos($_GET['page'], 'wp-slim-view') !== false) || (!empty($_POST['action']) && $_POST['action'] == 'slimstat_load_report')){
 			include_once(dirname(__FILE__).'/view/wp-slimstat-reports.php');
-			wp_slimstat_reports::init();
+			$args = array('current_tab' => self::$current_tab);
+			wp_slimstat_reports::init($args);
 		}
 
 		// AJAX Handlers
@@ -226,6 +224,8 @@ class wp_slimstat_admin{
 				plugins VARCHAR(255) DEFAULT '',
 				notes VARCHAR(2048) DEFAULT '',
 				visit_id INT UNSIGNED NOT NULL DEFAULT 0,
+				server_latency INT(10) UNSIGNED DEFAULT 0,
+				page_performance INT(10) UNSIGNED DEFAULT 0,
 				dt INT(10) UNSIGNED DEFAULT 0,
 				CONSTRAINT PRIMARY KEY (id),
 				INDEX idx_{$GLOBALS['wpdb']->prefix}slim_stats_dt (dt),
@@ -375,10 +375,25 @@ class wp_slimstat_admin{
 		}
 		// --- END: Updates for version 3.5.9 ---
 
-		// --- Updates for version 3.6.1 ---
-		if (version_compare(wp_slimstat::$options['version'], '3.6.1', '<')){
-			
+		// --- Updates for version 3.7.3 ---
+		if (version_compare(wp_slimstat::$options['version'], '3.7.3', '<')){
+			$table_structure = $my_wpdb->get_results("SHOW COLUMNS FROM {$GLOBALS['wpdb']->prefix}slim_stats", ARRAY_A);
+			$columns_exist = array('server_latency' => false, 'page_performance' => false);
+
+			foreach($table_structure as $a_row){
+				if (in_array($a_row['Field'], array('server_latency', 'page_performance'))){
+					$columns_exist[$a_row['Field']] = true;
+				}
+			}
+
+			if (!$columns_exist['server_latency']){
+				$my_wpdb->query("ALTER TABLE {$GLOBALS['wpdb']->prefix}slim_stats ADD COLUMN server_latency INT(10) UNSIGNED DEFAULT 0 AFTER visit_id");
+			}
+			if (!$columns_exist['page_performance']){
+				$my_wpdb->query("ALTER TABLE {$GLOBALS['wpdb']->prefix}slim_stats ADD COLUMN page_performance INT(10) UNSIGNED DEFAULT 0 AFTER server_latency");
+			}
 		}
+		// --- END: Updates for version 3.7.3 ---
 
 		// Now we can update the version stored in the database
 		wp_slimstat::$options['version'] = wp_slimstat::$version;
@@ -584,13 +599,14 @@ class wp_slimstat_admin{
 	public static function add_post_column($_column_name, $_post_id){
 		if ('wp-slimstat' != $_column_name) return;
 
-		include_once(dirname(__FILE__).'/view/wp-slimstat-db.php');
-
+		include_once(dirname(__FILE__).'/view/wp-slimstat-reports.php');
+		wp_slimstat_reports::init();
+		
 		$parsed_permalink = parse_url( get_permalink($_post_id) );
 		$parsed_permalink = $parsed_permalink['path'].(!empty($parsed_permalink['query'])?'?'.$parsed_permalink['query']:'');
 		wp_slimstat_db::init('resource contains '.$parsed_permalink.'&&&hour equals 0&&&day equals '.date_i18n('d').'&&&month equals '.date_i18n('m').'&&&year equals '.date_i18n('Y').'&&&interval equals -365');
 		$count = wp_slimstat_db::count_records();
-		echo '<a href="'.self::fs_url("resource contains $parsed_permalink&&&day equals ".date_i18n('d').'&&&month equals '.date_i18n('m').'&&&year equals '.date_i18n('Y').'&&&interval equals -365').'">'.$count.'</a>';
+		echo '<a href="'.wp_slimstat_reports::fs_url("resource contains $parsed_permalink&&&day equals ".date_i18n('d').'&&&month equals '.date_i18n('m').'&&&year equals '.date_i18n('Y').'&&&interval equals -365').'">'.$count.'</a>';
 	}
 	// end add_column
 
@@ -615,43 +631,6 @@ class wp_slimstat_admin{
 		}
 
 		return $current;
-	}
-	
-	public static function fs_url($_filters = '', $_view_url = ''){
-		$filtered_url = !empty($_view_url)?$_view_url:self::$view_url;
-
-		// Backward compatibility
-		if (is_array($_filters)){
-			$flat_filters = array();
-			foreach($_filters as $a_key => $a_filter_data){
-				$flat_filters[] = "$a_key $a_filter_data";
-			}
-			$_filters = implode('&&&', $flat_filters);
-		}
-
-		// Columns
-		$filters_normalized = wp_slimstat_db::parse_filters($_filters, false);
-		if (!empty($filters_normalized['columns'])){
-			foreach($filters_normalized['columns'] as $a_key => $a_filter){
-				$filtered_url .= "&amp;fs%5B$a_key%5D=".urlencode($a_filter[0].' '.$a_filter[1]);
-			}
-		}
-
-		// Date ranges
-		if (!empty($filters_normalized['date'])){
-			foreach($filters_normalized['date'] as $a_key => $a_filter){
-				$filtered_url .= "&amp;fs%5B$a_key%5D=".urlencode('equals '.$a_filter);
-			}
-		}
-
-		// Misc filters
-		if (!empty($filters_normalized['misc'])){
-			foreach($filters_normalized['misc'] as $a_key => $a_filter){
-				$filtered_url .= "&amp;fs%5B$a_key%5D=".urlencode('equals '.$a_filter);
-			}
-		}
-
-		return $filtered_url;
 	}
 
 	/**
@@ -758,6 +737,21 @@ class wp_slimstat_admin{
 					<span class="description"><?php echo $_option_details['long_description'] ?></span>
 				</td><?php
 				break;
+			case 'select': ?>
+				<th scope="row"><label for="<?php echo $_option_name ?>"><?php echo $_option_details['description'] ?></label></th>
+				<td>
+					<span class="block-element">
+						<select <?php echo $is_disabled ?> name="options[<?php echo $_option_name ?>]" id="<?php echo $_option_name ?>"><?php
+							foreach($_option_details['values'] as $a_key => $a_value){
+								$is_selected = (wp_slimstat::$options[$_option_name] == $a_key)?' selected':'';
+								echo "<option$is_selected value='$a_key'>$a_value</option>";
+							}
+						?></select>
+					</span>
+					<span class="description"><?php echo $_option_details['long_description'] ?></span>
+				</td><?php
+				break;
+				
 			case 'text':
 			case 'integer': ?>
 				<th scope="row"><label for="<?php echo $_option_name ?>"><?php echo $_option_details['description'] ?></label></th>

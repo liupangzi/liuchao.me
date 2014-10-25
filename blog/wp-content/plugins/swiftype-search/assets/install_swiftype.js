@@ -10423,7 +10423,11 @@ window['$stjq'] = jQuery.noConflict(true);
       sortField: SwiftypeConfigManager.getSortField(),
       sortDirection: SwiftypeConfigManager.getSortDirection(),
       disableAutocomplete: SwiftypeConfigManager.getDisableAutocomplete(),
-      resultLimit: SwiftypeConfigManager.getResultLimit()
+      resultLimit: SwiftypeConfigManager.getResultLimit(),
+      renderFunction: function(document_type, item) {
+        var title = item['highlight']['title'] || Swiftype.htmlEscape(item['title']);
+        return '<p class="title">' + title + '</p>';
+       }
     };
 
     $.each(Swiftype.inputElements, function(idx, el) {

@@ -1,7 +1,7 @@
 /*!
 Theme Name: Decode
 Theme URI: http://ScottHSmith.com/projects/decode/
-Version: 3.0.1
+Version: 3.0.4
 Author: Scott Smith
 Author URI: http://ScottHSmith.com/
 Description: A minimal, modern theme, designed to be mobile first and fully responsive, Decode features the ability to change all the colors in the theme and an elegant sidebar conveniently accessed by tapping on the menu icon. The sidebar can fit all of your widgets and its position can be customized. You can also choose to keep the sidebar always visible on larger screens for an elegent two-column experience. You can even disable the sidebar and comment links if you choose. Decode supports link posts, where the title can be hyperlinked. Decode includes custom social icons in the header that you can easily link to your choice of 53 different social profiles from Twitter, and App.net, to Pinterest and LinkedIn, you will be sure to find support for the network you want alongside a bevy of customizations to make your site unique. Decode has been translated into Chinese, Dutch, French, German, Polish, Russian, and Spanish. <a href="http://scotthsmith.com/projects/decode/">More info here</a>
@@ -21,10 +21,9 @@ Decode is based on Underscores http://underscores.me/, (C) 2012-2014 Automattic,
 	1.2 - Typography
 	1.3 - Elements
 	1.4 - Forms
-2.0  - General
-	2.1 - Links
-	2.2 - Screen Readers
-	2.3 - Clearing
+2.0  - Utilities
+	2.1 - Screen Readers
+	2.2 - Clearing
 3.0  - Media
 	3.1 - Captions
 	3.2 - Galleries
@@ -74,8 +73,6 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   outline: 0; }
 
 html {
-  overflow-y: scroll;
-  /* Keeps page centered in all browsers regardless of content height */
   font-size: 62.5%;
   /* Corrects text resizing oddly in IE6/7 when body font-size is set using em units http://clagnut.com/blog/348/#c790 */
   -moz-box-sizing: border-box;
@@ -145,6 +142,26 @@ body {
 /* Headings */
 h1, h2, h3, h4, h5, h6 {
   clear: both; }
+
+a {
+  -webkit-transition: color 0.4s ease;
+          transition: color 0.4s ease;
+  color: #00B0CC;
+  text-decoration: none;
+  border-bottom: 0 solid rgba(69, 69, 69, 0);
+  background-color: transparent; }
+  .no-touch a:hover {
+    color: #00B0CC; }
+  .no-touch a:active {
+    color: #008094; }
+
+.no-touch .site-description a, .no-touch .entry-content a, .no-touch .categories a, .no-touch .tags a, .no-touch .comments-link a, .no-touch .edit-link a, .no-touch .author-site a, .no-touch .theme-info a, .no-touch .site-colophon a {
+  -webkit-transition: color 0.4s ease-in-out, border-bottom 0.4s ease-in-out;
+          transition: color 0.4s ease-in-out, border-bottom 0.4s ease-in-out; }
+  .no-touch .site-description a:hover, .no-touch .entry-content a:hover, .no-touch .categories a:hover, .no-touch .tags a:hover, .no-touch .comments-link a:hover, .no-touch .edit-link a:hover, .no-touch .author-site a:hover, .no-touch .theme-info a:hover, .no-touch .site-colophon a:hover {
+    border-bottom: 1px solid #00B0CC; }
+  .no-touch .site-description a:active, .no-touch .entry-content a:active, .no-touch .categories a:active, .no-touch .tags a:active, .no-touch .comments-link a:active, .no-touch .edit-link a:active, .no-touch .author-site a:active, .no-touch .theme-info a:active, .no-touch .site-colophon a:active {
+    border-bottom: 1px solid #008094; }
 
 /*--------------------------------------------------------------
 1.3 - Elements
@@ -323,33 +340,12 @@ input[type='text'], input[type='email'], input[type='password'], input[type='sea
   background: white; }
 
 /*--------------------------------------------------------------
-2.0 - General
-----------------------------------------------------------------
-2.1 - Links
+2.0 - Utilities
 --------------------------------------------------------------*/
-a {
-  -webkit-transition: color 0.4s ease;
-          transition: color 0.4s ease;
-  color: #00B0CC;
-  text-decoration: none;
-  border-bottom: 0 solid rgba(69, 69, 69, 0); }
-  .no-touch a:hover {
-    color: #00B0CC; }
-  .no-touch a:active {
-    color: #008094; }
-
-.no-touch .site-description a, .no-touch .entry-content a, .no-touch .categories a, .no-touch .tags a, .no-touch .comments-link a, .no-touch .edit-link a, .no-touch .author-site a, .no-touch .theme-info a, .no-touch .site-colophon a {
-  -webkit-transition: color 0.4s ease-in-out, border-bottom 0.4s ease-in-out;
-          transition: color 0.4s ease-in-out, border-bottom 0.4s ease-in-out; }
-  .no-touch .site-description a:hover, .no-touch .entry-content a:hover, .no-touch .categories a:hover, .no-touch .tags a:hover, .no-touch .comments-link a:hover, .no-touch .edit-link a:hover, .no-touch .author-site a:hover, .no-touch .theme-info a:hover, .no-touch .site-colophon a:hover {
-    border-bottom: 1px solid #00B0CC; }
-  .no-touch .site-description a:active, .no-touch .entry-content a:active, .no-touch .categories a:active, .no-touch .tags a:active, .no-touch .comments-link a:active, .no-touch .edit-link a:active, .no-touch .author-site a:active, .no-touch .theme-info a:active, .no-touch .site-colophon a:active {
-    border-bottom: 1px solid #008094; }
-
 /*--------------------------------------------------------------
-2.2 - Screen Readers
+2.1 - Screen Readers
 --------------------------------------------------------------*/
-.screen-reader-text {
+body .screen-reader-text {
   overflow: hidden;
   clip: rect(0 0 0 0);
   position: absolute;
@@ -359,7 +355,7 @@ a {
   border: 0;
   margin: -1px; }
 
-.screen-reader-text:active, .screen-reader-text:focus {
+body .screen-reader-text:active, body .screen-reader-text:focus {
   overflow: visible;
   clip: auto;
   position: static;
@@ -370,7 +366,7 @@ a {
   margin: 0; }
 
 /*--------------------------------------------------------------
-2.3 - Clearing
+2.2 - Clearing
 --------------------------------------------------------------*/
 /* Micro Clearfix */
 .cf:before, .cf:after {
@@ -536,6 +532,7 @@ embed, iframe, object {
           transition: opacity 0.5s ease-out;
   width: auto;
   max-height: 8.5em;
+  max-height: 15rem;
   margin: 0 auto 2%;
   opacity: 1;
   -webkit-user-drag: none;
@@ -552,17 +549,15 @@ embed, iframe, object {
   overflow-wrap: break-word;
   margin: 0 0 0.5%; }
   .site-title a {
-    -webkit-transition: text-shadow 0.5s;
-            transition: text-shadow 0.5s;
+    -webkit-transition: color 0.5s;
+            transition: color 0.5s;
     color: #4C4C4C;
     font-size: 1.95em;
     -webkit-font-smoothing: subpixel-antialiased; }
   .no-touch .site-title a:hover {
-    color: #4C4C4C;
-    text-shadow: 0 0 6px rgba(75, 75, 75, 0.5); }
+    color: #00B0CC; }
   .no-touch .site-title a:active {
-    color: #4C4C4C;
-    text-shadow: 0 -2px 12px rgba(75, 75, 75, 0.85); }
+    color: #008094; }
 
 .page-header {
   text-align: center;
@@ -604,6 +599,7 @@ embed, iframe, object {
   .social-link:last-child {
     margin-right: 0; }
   .social-link svg, .social-link img {
+    overflow: visible;
     width: 2em;
     height: 2em; }
   .no-inlinesvg .social-link svg {
@@ -620,12 +616,14 @@ embed, iframe, object {
 /* Fallback Images for browsers that don't support Inline SVG */
 .no-inlinesvg .TwitterLink {
   background-image: url('images/Twitter.png'); }
-.no-inlinesvg .ADNLink {
-  background-image: url('images/ADN.png'); }
 .no-inlinesvg .FacebookLink {
   background-image: url('images/Facebook.png'); }
 .no-inlinesvg .GooglePlusLink {
   background-image: url('images/GooglePlus.png'); }
+.no-inlinesvg .ElloLink {
+  background-image: url('images/Ello.png'); }
+.no-inlinesvg .ADNLink {
+  background-image: url('images/ADN.png'); }
 .no-inlinesvg .SinaWeiboLink {
   background-image: url('images/SinaWeibo.png'); }
 .no-inlinesvg .MySpaceLink {
@@ -716,7 +714,7 @@ embed, iframe, object {
   background-image: url('images/PSN.png'); }
 .no-inlinesvg .XboxLiveLink {
   background-image: url('images/XboxLive.png'); }
-.no-inlinesvg .SteamUserLink, .no-inlinesvg .SteamGroupLink {
+.no-inlinesvg .Steam {
   background-image: url('images/Steam.png'); }
 .no-inlinesvg .SkypeLink {
   background-image: url('images/Skype.png'); }
@@ -1255,12 +1253,10 @@ li.comment {
 .comment-respond {
   margin-top: 7.5%; }
 
-.comment-form {
-  display: -webkit-box;
+.comment-form:not(.jetpack-comments-active) {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between;
@@ -1269,7 +1265,6 @@ li.comment {
           flex-wrap: wrap; }
 
 .comment-form > p {
-  -webkit-box-flex: 1;
   -webkit-flex: 1 100%;
       -ms-flex: 1 100%;
           flex: 1 100%; }
@@ -1339,7 +1334,6 @@ li.comment {
 10.0 - Search
 --------------------------------------------------------------*/
 .search-form {
-  display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -1350,7 +1344,6 @@ li.comment {
   margin: 0 auto 2.5%; }
 
 .search-form label {
-  -webkit-box-flex: 1;
   -webkit-flex: 1;
       -ms-flex: 1;
           flex: 1; }
@@ -1411,7 +1404,7 @@ li.comment {
   -webkit-transition: opacity 0.25s ease-out;
           transition: opacity 0.25s ease-out;
   display: inline-block;
-  position: relative;
+  position: absolute;
   top: 0.5em;
   height: 1.5em;
   padding: 0;
@@ -1423,6 +1416,7 @@ li.comment {
   .sidebar-link.left {
     left: 0.5em; }
   .sidebar-link.right {
+    float: right;
     right: 0.5em; }
   .no-touch .sidebar-link:hover {
     border: none;

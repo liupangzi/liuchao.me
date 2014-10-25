@@ -6,8 +6,6 @@
 
 Changelogs for each version can be found [on GitHub](https://github.com/ScottSmith95/Decode/releases).
 
-*Note: Decode does not support Internet Explorer 8* An Internet Explorer 8-compatible version is available for download [on GitHub](https://github.com/ScottSmith95/Decode/tree/IE8-Support) and via [direct download](https://github.com/ScottSmith95/Decode/archive/IE8-Support.zip).
-
 I built Decode, the theme I use on [Beyond The Code](http://beyondtheco.de), to be a beautifully crafted, mobile first theme that uses media queries to bring in CSS for larger screens. 
 
 If you want to change any of the colors in your theme, enable the sidebar, social links, and more, access the Customize menu in Admin > Appearance > Customize. From here you can access all the settings available for this theme. 
@@ -24,9 +22,10 @@ Breadcrumbs are supported via the [Breadcrumb Trail](http://wordpress.org/plugin
 
 Lastly, Decode has social icons that can link to your profiles from every side of the Internet. These can all be configured in the Customize menu and are listed below.
 - Twitter
-- ADN
 - Facebook
 - Google+
+- Ello
+- ADN
 - Sina Weibo
 - MySpace
 - Diaspora
@@ -71,8 +70,7 @@ Lastly, Decode has social icons that can link to your profiles from every side o
 - YouVersion
 - Playstation Network
 - Xbox Live
-- Steam User
-- Steam Groups
+- Steam
 - Skype
 - Website
 - Email

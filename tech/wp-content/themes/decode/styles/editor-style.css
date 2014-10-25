@@ -3,13 +3,13 @@
   font: 300 100%/1.5 'Oxygen', 'Helvetica Neue', 'Arial', sans-serif;
   background: #FFF; }
 
-.wp-editor a, .wp-editor a:visited {
+a, a:visited {
   -webkit-transition: color 0.25s ease;
           transition: color 0.25s ease;
   color: #00B0CC;
   text-decoration: underline; }
 
-.wp-editor a:hover {
+a:hover {
   color: #008094; }
 
 h1 {

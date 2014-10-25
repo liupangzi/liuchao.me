@@ -14,8 +14,8 @@ get_header(); ?>
 
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 			<header class="entry-header">
-				<h1 class="entry-title"><?php the_title(); ?></h1>
-
+				<?php the_title( sprintf( '<h1 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h1>' ); ?>
+				
 				<div class="entry-meta">
 					<?php
 						$metadata = wp_get_attachment_metadata();
@@ -101,9 +101,9 @@ get_header(); ?>
 			if ( get_theme_mod( 'enable_comments', true ) == true ) :
 			
 				// If comments are open or we have at least one comment, load up the comment template.
-				if ( comments_open() || '0' != get_comments_number() ) {
-					comments_template();
-				}
+				if ( comments_open() || get_comments_number() ) {
+		 			comments_template();
+		 		}
 			
 			endif;
 		?>

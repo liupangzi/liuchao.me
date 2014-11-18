@@ -1,5 +1,5 @@
 /* Links */
-.wrap.slimstat a{
+.wrap.slimstat a, [id^=slim_] a{
 	outline: none;
 	text-decoration: none;
 }
@@ -63,7 +63,7 @@
 	position: absolute;
 	right: 0;
 	top: 30px;
-	width: 300px;
+	width: 450px;
 	z-index: 120;
 }
 #slimstat-date-filters span a.slimstat-date-choice{
@@ -83,7 +83,10 @@
 }
 #slimstat-date-filters span select, #slimstat-date-filters span input{
 	margin-bottom: 5px;
-	width: 28%;
+	width: 80px;
+}
+#slimstat-date-filters span select.short, #slimstat-date-filters span input.short{
+	width: 50px;
 }
 #slimstat-date-filters span .ui-datepicker-trigger{
 	float: right;
@@ -103,12 +106,11 @@
 #slimstat-current-filters .slimstat-filter-list{
 	float: left;
 	margin: 0;
-	padding: 3px 0 0 5px;
+	padding: 4px 0 5px 5px;;
 }
 #slimstat-current-filters .slimstat-filter-list li{
 	display: inline;
 	margin: 0 20px 0 0;
-	text-transform: lowercase;
 	vertical-align: middle;
 }
 .slimstat-filter-action-button{

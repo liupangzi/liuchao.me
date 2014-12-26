@@ -121,12 +121,14 @@ blockquote {
 @media only screen and (min-width: 35em) {
   .gallery-columns-3 .gallery-caption, .gallery-columns-4 .gallery-caption {
     display: block;
-    /* Show galleries that will fit on tablet-sized screens. */ } }
+    /* Show galleries that will fit on tablet-sized screens. */ }
+ }
 
 @media only screen and (min-width: 50em) {
   .gallery-columns-5 .gallery-caption {
     display: block;
-    /* Show galleries that will fit on desktop-sized screens. */ } }
+    /* Show galleries that will fit on desktop-sized screens. */ }
+ }
 
 .gallery a img {
   display: block;

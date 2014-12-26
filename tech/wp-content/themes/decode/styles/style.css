@@ -1,7 +1,7 @@
 /*!
 Theme Name: Decode
 Theme URI: http://ScottHSmith.com/projects/decode/
-Version: 3.0.4
+Version: 3.0.5
 Author: Scott Smith
 Author URI: http://ScottHSmith.com/
 Description: A minimal, modern theme, designed to be mobile first and fully responsive, Decode features the ability to change all the colors in the theme and an elegant sidebar conveniently accessed by tapping on the menu icon. The sidebar can fit all of your widgets and its position can be customized. You can also choose to keep the sidebar always visible on larger screens for an elegent two-column experience. You can even disable the sidebar and comment links if you choose. Decode supports link posts, where the title can be hyperlinked. Decode includes custom social icons in the header that you can easily link to your choice of 53 different social profiles from Twitter, and App.net, to Pinterest and LinkedIn, you will be sure to find support for the network you want alongside a bevy of customizations to make your site unique. Decode has been translated into Chinese, Dutch, French, German, Polish, Russian, and Spanish. <a href="http://scotthsmith.com/projects/decode/">More info here</a>
@@ -1254,9 +1254,11 @@ li.comment {
   margin-top: 7.5%; }
 
 .comment-form:not(.jetpack-comments-active) {
+  display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between;
@@ -1265,6 +1267,7 @@ li.comment {
           flex-wrap: wrap; }
 
 .comment-form > p {
+  -webkit-box-flex: 1;
   -webkit-flex: 1 100%;
       -ms-flex: 1 100%;
           flex: 1 100%; }
@@ -1334,6 +1337,7 @@ li.comment {
 10.0 - Search
 --------------------------------------------------------------*/
 .search-form {
+  display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -1344,6 +1348,7 @@ li.comment {
   margin: 0 auto 2.5%; }
 
 .search-form label {
+  -webkit-box-flex: 1;
   -webkit-flex: 1;
       -ms-flex: 1;
           flex: 1; }
@@ -1452,7 +1457,8 @@ li.comment {
 
 @media screen and (max-width: 782px) {
   .admin-bar .sidebar {
-    top: 46px; } }
+    top: 46px; }
+ }
 
 .sidebar-close {
   -webkit-transition: opacity 0.25s ease-out;
@@ -1664,12 +1670,12 @@ li.comment {
 15.1 - Tablet (<35ems)
 --------------------------------------------------------------*/
 @media only screen and (min-width: 35em) {
-  /* The CSS below causes the absolutely positioned dropdowns
-   to display relative to the menu items that they are children of. */
   .site-header, .site-breadcrumbs, .site-main, .site-footer, .sidebar-style-constant .site-header, .sidebar-style-constant .site-main, .sidebar-style-constant .site-footer {
     width: 82.5%; }
+
   .site-breadcrumbs-container {
     width: 100%; }
+
   .sidebar-link {
     position: fixed;
     z-index: 1;
@@ -1688,47 +1694,67 @@ li.comment {
     .sidebar-link svg, .sidebar-link img {
       width: 1.75em;
       height: 1.75em; }
+
   .sidebar {
     width: 55%; }
+
   .social-links {
     margin: 1.5% auto; }
+
   .social-link svg, .social-link img {
     width: 2.25em;
     height: 2.25em; }
+
+  /* The CSS below causes the absolutely positioned dropdowns
+   to display relative to the menu items that they are children of. */
   .menu li {
     position: relative; }
+
   .no-touch .menu ul li:hover > ul, .no-touch .menu ul ul:hover, .menu ul li.open > ul {
     width: auto; }
+
   .menu ul li.open ul {
     float: left;
     position: absolute; }
+
   .header-menu ul ul {
     right: auto;
     left: auto; }
+
   .menu ul ul {
     padding: 0.25em 0.5em; }
+
   .menu ul ul a {
     width: 10em; }
+
   .horizontal-menu ul ul ul {
     left: -6%; }
+
   .footer-menu ul ul ul {
     top: auto; }
+
   .vertical-menu ul ul ul {
     left: -0.5em; }
+
   .gallery-columns-3 .gallery-caption, .gallery-columns-4 .gallery-caption {
     display: block;
     /* Show galleries that will fit on tablet-sized screens. */ }
+
   .comment-form .comment-form-author, .comment-form .comment-form-email, .comment-form .comment-form-url {
     margin: 0 0.25em;
     -webkit-flex-basis: 30%;
         -ms-flex-preferred-size: 30%;
             flex-basis: 30%; }
+
   .comment-form .comment-form-author {
     margin-left: 0; }
+
   .comment-form .comment-form-url {
     margin-right: 0; }
+
   .form-allowed-tags.visible {
-    max-height: 7em; } }
+    max-height: 7em; }
+ }
 
 /*--------------------------------------------------------------
 15.2 - Desktop (<50ems)
@@ -1736,6 +1762,7 @@ li.comment {
 @media only screen and (min-width: 50em) {
   .site-header, .site-breadcrumbs, .site-main, .site-footer {
     width: 80%; }
+
   .sidebar-style-constant .site-breadcrumbs, .sidebar-style-constant .site-header, .sidebar-style-constant .site-main, .sidebar-style-constant .site-footer {
     width: 100%;
     max-width: 45em; }
@@ -1761,58 +1788,79 @@ li.comment {
       border-right: 1px solid #00B0CC; }
     .sidebar-style-constant .sidebar.right {
       border-left: 1px solid #00B0CC; }
+
   .sidebar-style-left .site {
     right: 0; }
+
   .sidebar-style-right .site {
     left: 0; }
+
   .site-scroll {
     margin: 3.5% 2.5% 0; }
     .site-scroll .site-header {
       margin-top: 0; }
+
   .page-header {
     margin: 0 auto 5%; }
+
   .site-title a {
     font-size: 2.8em; }
+
   .author .author-section {
     font-size: 1.25em;
     width: 75%;
     max-width: 100%;
     margin-top: 3.5%; }
+
   .social-link svg, .social-link img {
     width: 2.5em;
     height: 2.5em; }
+
   .no-inlinesvg .social-link {
     margin: 1%; }
+
   .horizontal-menu li {
     margin: 0 1.5%; }
+
   .sidebar-link {
     top: 5%; }
+
   .sidebar {
     width: 33%; }
     .no-csstransforms .sidebar.left {
       left: -40%; }
     .no-csstransforms .sidebar.right {
       right: -40%; }
+
   .sidebar-close {
     padding: 2.5%; }
+
   .post {
     margin: 2.5% auto 5%; }
+
   .entry-title {
     font-size: 1.75em;
     width: 80%; }
+
   .gallery-columns-5 .gallery-caption {
     display: block;
     /* Show galleries that will fit on desktop-sized screens. */ }
+
   .entry-footer {
     width: 85%; }
+
   .search article {
     margin-bottom: 5%; }
+
   .explore-page .widget.search {
     margin-bottom: 3.5%; }
+
   .blog .format-quote .entry-content, .single .format-quote .entry-content, .archive .format-quote .entry-content {
     font-size: 2.75em; }
+
   .sidebar-style-constant .site-footer {
-    margin-bottom: 5%; } }
+    margin-bottom: 5%; }
+ }
 
 /*--------------------------------------------------------------
 15.3 - Large Screen (<68.5ems)
@@ -1821,23 +1869,32 @@ li.comment {
   .site-header, .site-breadcrumbs, .site-main, .site-footer {
     width: 60%;
     max-width: 45em; }
+
   .site-header {
     max-width: 60em; }
+
   .site-title a {
     font-size: 3.5em; }
+
   .social-link svg, .social-link img {
     width: 2.75em;
     height: 2.75em; }
+
   .page-header {
     margin-bottom: 3.5%; }
+
   .entry-title {
     font-size: 2em; }
+
   .sidebar-style-constant .site {
     width: 75%; }
+
   .sidebar-link.left {
     left: 7.5%; }
+
   .sidebar-link.right {
     right: 7.5%; }
+
   .sidebar {
     width: 25%;
     max-width: 30em; }
@@ -1845,8 +1902,10 @@ li.comment {
       right: -30%; }
     .no-csstransforms .sidebar.left {
       left: -30%; }
+
   .content-area article {
-    margin-bottom: 10%; } }
+    margin-bottom: 10%; }
+ }
 
 /*--------------------------------------------------------------
 15.4 - Print
@@ -1854,10 +1913,13 @@ li.comment {
 @media only print {
   .sidebar, .sidebar-link, .social-links, .menu, .paging-navigation, .comments-link, .edit-link, .post-navigation, .comments-area, .site-breadcrumbs {
     display: none; }
+
   .custom-background {
     background: none;
     /* Remove custom background on body element. */ }
+
   .site-header {
     padding-bottom: 2.5%;
-    margin-top: 0; } }
+    margin-top: 0; }
+ }
 /*# sourceMappingURL=style.css.map */

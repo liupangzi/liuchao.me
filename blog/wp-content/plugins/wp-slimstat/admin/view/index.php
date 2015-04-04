@@ -95,8 +95,8 @@
 				<input type="hidden" class="slimstat-filter-date" name="slimstat-filter-date" value=""/>
 				<br/>
 				<select name="interval_direction" class="short" id="slimstat-filter-interval_direction">
-					<option value="minus" <?php selected(wp_slimstat_db::$filters_normalized['date']['interval_direction'], 'minus')?>>-</option>
-					<option value="plus" <?php selected(wp_slimstat_db::$filters_normalized['date']['interval_direction'], 'plus')?>>+</option>
+					<option value="minus" <?php selected(wp_slimstat_db::$filters_normalized['date']['interval_direction'], array('', 'minus')) ?>>-</option>
+					<option value="plus" <?php selected(wp_slimstat_db::$filters_normalized['date']['interval_direction'], 'plus') ?>>+</option>
 				</select>
 				<input type="text" name="interval" id="slimstat-filter-interval" placeholder="<?php _e('days', 'wp-slimstat') ?>" class="short empty-on-focus" value="<?php echo !empty(wp_slimstat_db::$filters_normalized['date']['interval'])?wp_slimstat_db::$filters_normalized['date']['interval']:'' ?>">,
 				<input type="text" name="interval_hours" id="slimstat-filter-interval_hours" placeholder="<?php _e('hours', 'wp-slimstat') ?>" class="short empty-on-focus" value="<?php echo !empty(wp_slimstat_db::$filters_normalized['date']['interval_hours'])?wp_slimstat_db::$filters_normalized['date']['interval_hours']:'' ?>">:
@@ -109,7 +109,7 @@
 							!empty(wp_slimstat_db::$filters_normalized['date']['interval']) ||
 							!empty(wp_slimstat_db::$filters_normalized['date']['interval_hours']) ||
 							!empty(wp_slimstat_db::$filters_normalized['date']['interval_minutes'])): ?>
-				<a class="slimstat-filter-link button-secondary" href="<?php echo wp_slimstat_reports::fs_url('minute equals 0&&&hour equals 0&&&day equals 0&&&month equals '.date_i18n('n').'&&&year equals 0&&&interval_direction equals future&&&interval equals 0&&&interval_hours equals 0&&&interval_minutes equals 0') ?>"><?php _e('Reset Filters','wp-slimstat') ?></a>
+				<a class="slimstat-filter-link button-secondary" href="<?php echo wp_slimstat_reports::fs_url('minute equals 0&&&hour equals 0&&&day equals 0&&&month equals '.date_i18n('n').'&&&year equals 0&&&interval_direction equals plus&&&interval equals 0&&&interval_hours equals 0&&&interval_minutes equals 0') ?>"><?php _e('Reset Filters','wp-slimstat') ?></a>
 				<?php endif ?>
 			</span>
 		</fieldset><!-- .slimstat-date-filters -->
@@ -126,8 +126,11 @@
 		<input type="hidden" name="fs[<?php echo $a_key ?>]" class="slimstat-post-filter" value="equals <?php echo htmlspecialchars($a_value) ?>"/>
 		<?php endif; endforeach; ?>
 	</form>
-
 	<?php
+		if (!file_exists(wp_slimstat::$maxmind_path) && wp_slimstat::$options['no_maxmind_warning'] != 'yes'){
+			wp_slimstat_admin::show_alert_message(sprintf(__("Install MaxMind's <a href='%s'>GeoLite DB</a> to determine your visitors' country of origin.",'wp-slimstat'), self::$config_url.'7').'<a id="slimstat-hide-geolite-notice" class="slimstat-font-cancel slimstat-float-right" title="Hide this notice" href="#"></a>', 'wp-ui-notification below-h2');
+		}
+
 		$filters_html = wp_slimstat_reports::get_filters_html(wp_slimstat_db::$filters_normalized['columns']);
 		if (!empty($filters_html)){
 			echo "<div id='slimstat-current-filters'>$filters_html</div>";
@@ -187,6 +190,9 @@
 							break;
 						case 'slim_p2_01':
 							wp_slimstat_reports::report_header($a_box_id, 'wide chart', wp_slimstat_reports::$chart_tooltip, wp_slimstat_reports::chart_title(__('Human Visits', 'wp-slimstat')));
+							break;
+						case 'slim_p2_02':
+							wp_slimstat_reports::report_header($a_box_id, 'normal', __('Where not otherwise specified, the metrics in this report are referred to human visitors.','wp-slimstat'));
 							break;
 						case 'slim_p2_05':
 							wp_slimstat_reports::report_header($a_box_id, 'wide', __('Internet Service Provider: a company which provides other companies or individuals with access to the Internet. Your DSL or cable internet service is provided to you by your ISP.<br><br>You can ignore specific IP addresses by setting the corresponding filter under Settings > Slimstat > Filters.','wp-slimstat'));

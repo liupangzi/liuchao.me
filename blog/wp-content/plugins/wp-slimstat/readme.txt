@@ -3,11 +3,11 @@ Contributors: coolmann
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BNJR5EZNY3W38
 Tags: analytics, tracking, reports, analyze, wassup, geolocation, online users, spider, tracker, pageviews, stats, maxmind, statistics, statpress
 Requires at least: 3.8
-Tested up to: 4.1
-Stable tag: 3.9.3
+Tested up to: 4.2
+Stable tag: 3.9.8.2
 
 == Description ==
-Visit our [website](http://slimstat.getused.to.it/) for more information and to [watch our introductory videos](http://slimstat.getused.to.it/features/video-tutorials/).
+[youtube https://www.youtube.com/watch?v=iJCtjxArq4U]
 
 = Key Features =
 * Real-time activity log, server latency, heatmaps, email reports, export data to Excel, and much more
@@ -40,18 +40,19 @@ Visit [our website](http://slimstat.getused.to.it/addons/) for a list of availab
 
 == Installation ==
 
-0. **If you are upgrading from 2.8.4 or earlier, you MUST first install version 3.0 (deactivate/activate) and then upgrade to the latest release available**
+0. **If you are upgrading from 2.8.4 or earlier, you MUST first install [version 3.0](https://downloads.wordpress.org/plugin/wp-slimstat.3.0.zip) (deactivate/activate) and then upgrade to the latest release available**
 1. In your WordPress admin, go to Plugins > Add New
 2. Search for WP Slimstat
-3. Click on **Install Now** under WP Slimstat
+3. Click on **Install Now** under WP Slimstat and then activate the plugin
 4. Make sure your template calls `wp_footer()` or the equivalent hook somewhere (possibly just before the `</body>` tag)
-5. If your `wp-admin` folder is not publicly accessible, make sure to check the [FAQs](http://wordpress.org/extend/plugins/wp-slimstat/faq/) to see if there's anything else you need to do
+5. Go to Slimstat > Settings > Maintenance tab > MaxMind IP to Country section and click on "Install GeoLite DB" to detect your visitors' countries based on their IP addresses
+6. If your `wp-admin` folder is not publicly accessible, make sure to check the [FAQs](http://wordpress.org/extend/plugins/wp-slimstat/faq/) to see if there's anything else you need to do
 
 Please note: if you decide to uninstall Slimstat, all the stats will be **PERMANENTLY** deleted from your database. Make sure to setup a database backup (wp_slim_*) to avoid losing your data.
 
 == Frequently Asked Questions ==
 
-Our FAQs are available on our [support center](https://slimstat.freshdesk.com/support/solutions/folders/5000156457) website.
+Our knowledge base is available on our [support center](https://slimstat.freshdesk.com/support/solutions) website.
 
 == Screenshots ==
 
@@ -63,8 +64,59 @@ Our FAQs are available on our [support center](https://slimstat.freshdesk.com/su
 
 == Changelog ==
 
+= 3.9.8.2 =
+* [Note] Browscap.org just released a new version of their database, but it looks like [it has some issues](https://groups.google.com/forum/#!topic/browscap/x0onOyHz-D0). We'll wait for a more stable release and then update our optimized version of their db.
+* [Fix] Some users are reporting problems related to the compressed (gzipped) version of the MaxMind GeoLite DB introduced in version 3.9.8.1. We updated our code to unzip the database before the tracker uses it. Please note: if your install is working as expected, you can skip this update.
+
+= 3.9.8.1 =
+* [Note] After further discussing with the repo moderators the incompatibility issue regarding the license under which MaxMind GeoLite is released, we were able to implement a much easier way to enable the geolocation functionality in Slimstat. There's no need to download a separate plugin anymore! Just go to Slimstat > Settings > Maintenance tab, and click on Install GeoLite DB. Of course, you can always deactivate this feature by clicking on the corresponding button under the Maintenance tab.
+* [Note] If you had downloaded and installed our Get Country add-on, you can now *uninstall* it from your server. We apologize for any inconvenience this might have caused.
+* [New] A warning message is now displayed on the reports screens to remind you to install the GeoLite database. You can hide this message by enabling the corresponding option under Slimstat > Settings > Reports tab > Miscellaneous section.
+* [Update] Some of the Settings screens have been cleaned up and reorganized
+* [Update] Cleaned up the interface for better readability
+* [Update] Removed banner from our partner ManageWP
+
+= 3.9.8 =
+* [Note] The team who manages the WordPress Plugin Repository notified us that since the [MaxMind GeoLite library](http://dev.maxmind.com/geoip/legacy/geolite/) used by Slimstat to geolocate visitors is released under the Creative Commons BY-SA 3.0 license, it violates the repository guidelines, and cannot be bundled with the plugin. We were required to remove the code and alter the plugin so that this functionality becomes optional. We apologize for the inconvenience. However, the only immediate consequence is that your visitors' country will not be identified; everything else will still work as usual. You can download the geolocation DB as a [separate add-on](http://slimstat.getused.to.it/downloads/get-country/) on our store, free of charge. Don't forget to enter your license key in the corresponding field under Slimstat > Add-ons, to receive free updates!
+* [New] A few new options under Slimstat > Settings > General tab > WordPress Integration section, allow you to have more control over the information displayed in the Posts admin screen (thank you, Brad).
+
+= 3.9.7 =
+* [Note] The uninstall routine now deletes the archive table (wp_slim_stats_archive) along with all the other tables (thank you, KalleL)
+* [New] Some users who are using our "track external sites" feature, were getting an error saying that no 'Access-Control-Allow-Origin' header was present on the requested resource. We've added a new option under Settings > Advanced that allows you to specify what domains to allow. Please refer to [this page](http://www.w3.org/TR/cors/#security) for more information about the security implications of allowing an external domain to submit AJAX requests to your server.
+* [New] Added debugging information (most recent tracker error code) under Slimstat > Settings > Maintenance tab > Debugging. This information is useful to troubleshoot issues with the tracker. Please include it when sending a support request.
+* [Fix] The option to delete pageviews based on given filters (Settings > Maintenance > Data Maintenance) was not working as expected (thank you, [kentahayashi](https://wordpress.org/support/topic/cant-delete-pageviews-on-version-396))
+* [Fix] The uninstall script was not deleting all the tables as expected (thank you, [KalleL](https://wordpress.org/support/topic/unable-to-uninstall-wp-slimstat-from-db))
+* [Fix] We've implemented [Marc-Alexandre's new recommendations](http://blog.sucuri.net/2015/02/security-advisory-wp-slimstat-3-9-5-and-lower.html) to further tighten up our SQL queries.
+* [Fix] The new encryption key was affecting the way external sites could be tracked. You can now track non-WP sites again: please make sure to copy and paste the new tracking code (Settings > Advanced) right before your closing BODY tag at the end of your pages.
+
+= 3.9.6 =
+* [Note] The security of our users' data is our top priority, and for this reason we tightened our SQL queries and made our encryption key harder to guess. If you are using a caching plugin, please flush its cache so that the tracking code can be regenerated with the new key. Also, if you are using Slimstat to track external websites, please make sure to replace the tracking code with the new one available under Settings > Advanced. As usual, feel free to contact us if you have any questions.
+* [Note] Added un-minified js tracker to the repo, for those who would like to take a look at how things work.
+* [New] Introduced option to ignore bots when in Server-side mode.
+* [Update] Cleaned up the Settings/Filters screen by consolidating some options.
+* [Update] AmMap has been updated to version 3.13.1
+* [Update] MaxMind GeoLite IP has been updated to the latest version (2015-02-04).
+* [Fix] Patched a rare SQL injection vulnerability exploitable using a bruteforce attack on the secret key (used to encrypt the data between client and server).
+* [Fix] Increased checks on SQL code that stores data in the database (maybe_insert_row).
+* [Fix] Report filters could not be removed after being set.
+
+= 3.9.5 =
+* [Note] Some of our add-ons had a bug preventing them from properly checking for updates. Please [contact us](http://support.getused.to.it) if you need to obtain the latest version of your add-ons.
+* [Update] The Save button in the settings is now always visible, so that there is no need to scroll all the way to the bottom to save your options.
+* [Update] More data layer updates introduced in wp_slimstat_db. Keep an eye on your custom add-ons!
+* [Fix] Pagination was not working as expected when a date range was set in the filters (thank you, [nick-v](https://wordpress.org/support/topic/paging-is-broke))
+
+= 3.9.4 =
+* [Note] The URL of the CDN has changed, and is now using the official WordPress repository as a source: cdn.jsdelivr.net/wp/wp-slimstat/trunk/wp-slimstat.js - Please update your "external" tracking codes accordingly.
+* [Note] The structure of the array **wp_slimstat_db::$sql_filters** has changed! Please make sure to update your custom code accordingly. Feel free to [contact us](http://support.getused.to.it) for more information.
+* [New] The wait is over. Our heatmap add-on is finally [available on our store](http://slimstat.getused.to.it/downloads/heatmap/)! We would like to thank all those who provided helpful feedback to improve this initial release!
+* [New] Our [knowledge base](https://slimstat.freshdesk.com/support/solutions) has been extended with a list of all the actions and filters available in Slimstat.
+* [Fix] The Add-on update checker had a bug preventing the functionality to work as expected. Please make sure to get the latest version of your premium add-ons!
+* [Fix] Date intervals were not accurate because of a bug related to calculating timezones in MySQL (thank you, [Chrisssssi](https://wordpress.org/support/topic/conflicting-data)).
+* [Fix] Line height of report rows has been added to avoid conflicts with other plugins tweaking this parameter in the admin (thank you, [yk11](https://wordpress.org/support/topic/widgets-bottom-is-cut-off)).
+
 = 3.9.3 =
-* [New] We're starting to work on a completely redesigned data layer, which will require less SQL resources and offer a much needed performance improvement. Stay tuned.
+* [Note] We're starting to work on a completely redesigned data layer, which will require less SQL resources and offer a much needed performance improvement. Stay tuned.
 * [New] Three new settings to turn off the tracker completely on specific links (internal and external), by class name, rel attribute or simply by URL.
 * [Update] MaxMind GeoLite IP has been updated to the latest version (2015-01-06).
 * [Fix] Bug affecting our add-ons setting page, in some specific circumstances (thank you, Erik).

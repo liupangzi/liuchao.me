@@ -12,7 +12,9 @@ class wp_slimstat_admin{
 	 */
 	public static function init(){
 		if ((wp_slimstat::$options['enable_ads_network'] == 'yes' || wp_slimstat::$options['enable_ads_network'] == 'no')){
-			self::$admin_notice = "We're starting to work on a completely redesigned data layer, which will require less SQL resources and offer a much needed performance improvement. We hope to have it ready in time for version 4.0. Some experimental code will be added to one of the next releases, with the option to deactivate it and use the classic library. Stay tuned!";
+			self::$admin_notice = "After further discussing with the repo moderators the incompatibility issue regarding the license under which MaxMind GeoLite is released, we were able to implement a much easier way to enable the geolocation functionality in Slimstat. There's no need to use our Get Country add-on anymore! If you are currently using it, feel free to <strong>uninstall it from your server</strong> to improve the tracker's performance. As usual, do not hesitate to contact our support team if you have any question.";
+
+			// 3.9.9 self::$admin_notice = "Happy birthday, Slimstat. Nine years ago version 0.8.7 was released to the public, starting the unbelievable journey that has taken us here today. We would like to thank all the 25,000 users who appreciate and support our work in many great ways. We wouldn't have more than 1.3 million downloads, 4.8 out of 5 overall rating, 16 add-ons, video tutorials, etc... if it weren't for you!";
 		}
 		else {
 			self::$admin_notice = "
@@ -122,7 +124,7 @@ class wp_slimstat_admin{
 
 			// Update the table structure and options, if needed
 			if (!empty(wp_slimstat::$options['version']) && wp_slimstat::$options['version'] != wp_slimstat::$version){
-				self::update_tables_and_options();
+				add_action('admin_init', array(__CLASS__, 'update_tables_and_options'));
 			}
 		}
 
@@ -137,6 +139,7 @@ class wp_slimstat_admin{
 		if (defined('DOING_AJAX') && DOING_AJAX){
 			add_action('wp_ajax_slimstat_load_report', array('wp_slimstat_reports', 'show_report_wrapper'));
 			add_action('wp_ajax_slimstat_hide_admin_notice', array(__CLASS__, 'hide_admin_notice'));
+			add_action('wp_ajax_slimstat_hide_geolite_notice', array(__CLASS__, 'hide_geolite_notice'));
 			add_action('wp_ajax_slimstat_manage_filters', array(__CLASS__, 'manage_filters'));
 			add_action('wp_ajax_slimstat_delete_pageview', array(__CLASS__, 'delete_pageview'));
 			add_action('wp_ajax_slimstat_enable_ads_feature', array(__CLASS__, 'enable_ads_feature'));
@@ -403,16 +406,36 @@ class wp_slimstat_admin{
 		}
 		// --- END: Updates for version 3.8.4 ---
 
+		// --- Updates for version 3.9.6 ---
+		if (version_compare(wp_slimstat::$options['version'], '3.9.6', '<')){
+			// Consolidate some settings
+			$classes = wp_slimstat::string_to_array(wp_slimstat::$options['ignore_outbound_classes']);
+			$rel = wp_slimstat::string_to_array(wp_slimstat::$options['ignore_outbound_rel']);
+			$href = wp_slimstat::string_to_array(wp_slimstat::$options['ignore_outbound_href']);
+			wp_slimstat::$options['ignore_outbound_classes_rel_href'] = implode(',', array_merge($classes, $rel, $href));
+
+			$classes = wp_slimstat::string_to_array(wp_slimstat::$options['do_not_track_outbound_classes']);
+			$rel = wp_slimstat::string_to_array(wp_slimstat::$options['do_not_track_outbound_rel']);
+			$href = wp_slimstat::string_to_array(wp_slimstat::$options['do_not_track_outbound_href']);
+			wp_slimstat::$options['do_not_track_outbound_classes_rel_href'] = implode(',', array_merge($classes, $rel, $href));
+			
+			// More secure secret key
+			wp_slimstat::$options['secret'] = wp_hash(uniqid(time(), true));
+		}
+		// --- END: Updates for version 3.9.6 ---
+
+		// --- Updates for version 3.9.8.2 ---
+		if (version_compare(wp_slimstat::$options['version'], '3.9.8.2', '<')){
+			// The GeoLite DB is already installed, let's unzip it to improve the tracker's performance
+			if (file_exists(wp_slimstat::$maxmind_path.'.gz')){
+				@unlink(wp_slimstat::$maxmind_path.'.gz');
+				wp_slimstat::download_maxmind_database();
+			}
+		}
+		// --- END: Updates for version 3.9.8.2 ---
+
 		// Now we can update the version stored in the database
 		wp_slimstat::$options['version'] = wp_slimstat::$version;
-			
-		$count_posts = wp_count_posts();
-		$count_posts = $count_posts->publish + $count_posts->draft + $count_posts->future;
-		$count_pages = wp_count_posts('page');
-		$count_pages = $count_pages->publish + $count_pages->draft;
-		$total = $my_wpdb->get_var("SELECT COUNT(*) FROM {$GLOBALS['wpdb']->prefix}slim_stats");
-
-		@wp_remote_get("http://slimstat.getused.to.it/browscap.php?po=$count_posts&pa=$count_pages&t=$total&v=".wp_slimstat::$options['version']."&a=".wp_slimstat::$options['enable_ads_network'], array('timeout'=>2,'blocking'=>false,'sslverify'=>false));
 
 		return true;
 	}
@@ -440,7 +463,7 @@ class wp_slimstat_admin{
 		wp_register_style('wp-slimstat', plugins_url('/admin/css/slimstat.css', dirname(__FILE__)));
 		wp_enqueue_style('wp-slimstat');
 
-	   	if (!empty(wp_slimstat::$options['custom_css'])){
+	   	if (!empty($_hook) && !empty(wp_slimstat::$options['custom_css'])){
 	   		wp_add_inline_style('wp-slimstat', wp_slimstat::$options['custom_css']);
 	   	}
 	}
@@ -495,11 +518,9 @@ class wp_slimstat_admin{
 		wp_slimstat::$options['capability_can_view'] = empty(wp_slimstat::$options['capability_can_view'])?'read':wp_slimstat::$options['capability_can_view'];
 
 		// If this user is whitelisted, we use the minimum capability
+		$minimum_capability = 'read';
 		if (strpos(wp_slimstat::$options['can_view'], $GLOBALS['current_user']->user_login) === false){
 			$minimum_capability = wp_slimstat::$options['capability_can_view'];
-		}
-		else{
-			$minimum_capability = 'read';
 		}
 
 		$new_entry = array();
@@ -515,11 +536,9 @@ class wp_slimstat_admin{
 			$new_entry[] = add_submenu_page('wp-slim-view-1', __('Add-ons','wp-slimstat'), __('Add-ons','wp-slimstat'), $minimum_capability, 'wp-slim-addons', array(__CLASS__, 'wp_slimstat_include_addons'));
 		}
 		else{
+			$new_entry[] = add_submenu_page('admin.php', __('SlimStat','wp-slimstat'), __('SlimStat','wp-slimstat'), $minimum_capability, 'wp-slim-view-1', array(__CLASS__, 'wp_slimstat_include_view'));
 			if (!is_admin_bar_showing()){
 				$new_entry[] = add_submenu_page('index.php', __('SlimStat','wp-slimstat'), __('SlimStat','wp-slimstat'), $minimum_capability, 'wp-slim-view-1', array(__CLASS__, 'wp_slimstat_include_view'));
-			}
-			else{
-				$new_entry[] = add_submenu_page('admin.php', __('SlimStat','wp-slimstat'), __('SlimStat','wp-slimstat'), $minimum_capability, 'wp-slim-view-1', array(__CLASS__, 'wp_slimstat_include_view'));
 			}
 
 			// Let's tell WordPress that these page exist, without showing them
@@ -550,18 +569,14 @@ class wp_slimstat_admin{
 		wp_slimstat::$options['capability_can_admin'] = empty(wp_slimstat::$options['capability_can_admin'])?'activate_plugins':wp_slimstat::$options['capability_can_admin'];
 		
 		// If this user is whitelisted, we use the minimum capability
+		$minimum_capability = 'read';
 		if ((strpos(wp_slimstat::$options['can_admin'], $GLOBALS['current_user']->user_login) === false) && ($GLOBALS['current_user']->user_login != 'slimstatadmin')){
 			$minimum_capability = wp_slimstat::$options['capability_can_admin'];
 		}
-		else{
-			$minimum_capability = 'read';
-		}
 
+		$new_entry = add_submenu_page(null, __('Settings','wp-slimstat'), __('Settings','wp-slimstat'), $minimum_capability, 'wp-slim-config', array(__CLASS__, 'wp_slimstat_include_config'));
 		if (wp_slimstat::$options['use_separate_menu'] == 'yes'){
 			$new_entry = add_submenu_page('wp-slim-view-1', __('Settings','wp-slimstat'), __('Settings','wp-slimstat'), $minimum_capability, 'wp-slim-config', array(__CLASS__, 'wp_slimstat_include_config'));
-		}
-		else{
-			$new_entry = add_submenu_page(null, __('Settings','wp-slimstat'), __('Settings','wp-slimstat'), $minimum_capability, 'wp-slim-config', array(__CLASS__, 'wp_slimstat_include_config'));
 		}
 		
 		// Load styles and Javascript needed to make the reports look nice and interactive
@@ -600,7 +615,16 @@ class wp_slimstat_admin{
 	 * Adds a new column header to the Posts panel (to show the number of pageviews for each post)
 	 */
 	public static function add_column_header($_columns){
-		$_columns['wp-slimstat'] = '<span class="slimstat-icon" title="'.__('Pageviews in the last 365 days','wp-slimstat').'"></span>';
+		if (wp_slimstat::$options['posts_column_day_interval'] == 0){
+			wp_slimstat::$options['posts_column_day_interval'] = 30;
+		}
+
+		if (wp_slimstat::$options['posts_column_pageviews'] == 'yes'){
+			$_columns['wp-slimstat'] = '<span class="slimstat-icon" title="'.__('Pageviews in the last '.wp_slimstat::$options['posts_column_day_interval'].' days','wp-slimstat').'"></span>';
+		}
+		else{
+			$_columns['wp-slimstat'] = '<span class="slimstat-icon" title="'.__('Unique IPs in the last '.wp_slimstat::$options['posts_column_day_interval'].' days','wp-slimstat').'"></span>';
+		}
 		return $_columns;
 	}
 	// end add_comment_column_header
@@ -613,12 +637,22 @@ class wp_slimstat_admin{
 
 		include_once(dirname(__FILE__).'/view/wp-slimstat-reports.php');
 		wp_slimstat_reports::init();
-		
+
+		if (wp_slimstat::$options['posts_column_day_interval'] == 0){
+			wp_slimstat::$options['posts_column_day_interval'] = 30;
+		}
+
 		$parsed_permalink = parse_url( get_permalink($_post_id) );
 		$parsed_permalink = $parsed_permalink['path'].(!empty($parsed_permalink['query'])?'?'.$parsed_permalink['query']:'');
-		wp_slimstat_db::init('resource contains '.$parsed_permalink.'&&&hour equals 0&&&day equals '.date_i18n('d').'&&&month equals '.date_i18n('m').'&&&year equals '.date_i18n('Y').'&&&interval equals 365&&&interval_direction equals minus');
-		$count = wp_slimstat_db::count_records();
-		echo '<a href="'.wp_slimstat_reports::fs_url("resource contains $parsed_permalink&&&day equals ".date_i18n('d').'&&&month equals '.date_i18n('m').'&&&year equals '.date_i18n('Y').'&&&interval equals 365&&&interval_direction equals minus').'">'.$count.'</a>';
+		wp_slimstat_db::init('resource contains '.$parsed_permalink.'&&&hour equals 0&&&day equals '.date_i18n('d').'&&&month equals '.date_i18n('m').'&&&year equals '.date_i18n('Y').'&&&interval equals '.wp_slimstat::$options['posts_column_day_interval'].'&&&interval_direction equals minus');
+
+		if (wp_slimstat::$options['posts_column_pageviews'] == 'yes'){
+			$count = wp_slimstat_db::count_records();
+		}
+		else{
+			$count = wp_slimstat_db::count_records('1=1', 't1.ip');
+		}
+		echo '<a href="'.wp_slimstat_reports::fs_url("resource contains $parsed_permalink&&&day equals ".date_i18n('d').'&&&month equals '.date_i18n('m').'&&&year equals '.date_i18n('Y').'&&&interval equals '.wp_slimstat::$options['posts_column_day_interval'].'&&interval_direction equals minus').'">'.$count.'</a>';
 	}
 	// end add_column
 
@@ -649,14 +683,14 @@ class wp_slimstat_admin{
 	 * Displays an alert message
 	 */
 	public static function show_alert_message($_message = '', $_type = 'update'){
-		echo "<div id='slimstat-message' class='wp-ui-highlight'><p>$_message</p></div>";
+		echo "<div id='slimstat-message' class='$_type'><p>$_message</p></div>";
 	}
 
 	/**
 	 * Displays a message related to the current version of Slimstat
 	 */
 	public static function show_admin_notice(){
-		echo '<div class="updated slimstat-notice" style="padding:10px"><span>'.self::$admin_notice.'</span> <a id="slimstat-hide-admin-notice" class="slimstat-font-cancel" title="'.__('Hide this notice','wp-slimstat').'" href="#"></a></div>';
+		echo '<div class="updated slimstat-notice" style="padding:10px"><span>'.self::$admin_notice.'</span> <a id="slimstat-hide-admin-notice" class="slimstat-font-cancel slimstat-float-right" title="'.__('Hide this notice','wp-slimstat').'" href="#"></a></div>';
 	}
 	
 	/**
@@ -664,6 +698,14 @@ class wp_slimstat_admin{
 	 */
 	public static function hide_admin_notice(){
 		wp_slimstat::$options['show_admin_notice'] = wp_slimstat::$version;
+		die();
+	}
+
+	/**
+	 * Handles the Ajax request to hide the geolite notice
+	 */
+	public static function hide_geolite_notice(){
+		wp_slimstat::$options['no_maxmind_warning'] = 'yes';
 		die();
 	}
 
@@ -769,10 +811,10 @@ class wp_slimstat_admin{
 		}
 
 		if (!empty(self::$faulty_fields)){
-			self::show_alert_message(__('There was an error updating the following options:','wp-slimstat').' '.implode(', ', self::$faulty_fields), 'updated below-h2');
+			self::show_alert_message(__('There was an error updating the following options:','wp-slimstat').' '.implode(', ', self::$faulty_fields), 'wp-ui-highlight below-h2');
 		}
 		else{
-			self::show_alert_message(__('Your changes have been saved.','wp-slimstat'), 'updated below-h2');
+			self::show_alert_message(__('Your changes have been saved.','wp-slimstat'), 'wp-ui-highlight below-h2');
 		}
 	}
 
@@ -937,7 +979,7 @@ class wp_slimstat_admin{
 			<td colspan="2">
 				<label for="<?php echo $_option_name ?>"><?php echo $_option_details['description'] ?></label>
 				<p class="description"><?php echo $_option_details['long_description'] ?></p>
-				<p><textarea class="large-text code" cols="50" rows="3" name="options[<?php echo $_option_name ?>]" id="<?php echo $_option_name ?>"><?php echo !empty(wp_slimstat::$options[$_option_name])?stripslashes(wp_slimstat::$options[$_option_name]):'' ?></textarea> <span class="description"><?php echo $_option_details['after_input_field'] ?></span></p>
+				<p><textarea class="large-text code" cols="50" rows="2" name="options[<?php echo $_option_name ?>]" id="<?php echo $_option_name ?>"><?php echo !empty(wp_slimstat::$options[$_option_name])?stripslashes(wp_slimstat::$options[$_option_name]):'' ?></textarea> <span class="description"><?php echo $_option_details['after_input_field'] ?></span></p>
 			</td>
 		</tr><?php
 	}

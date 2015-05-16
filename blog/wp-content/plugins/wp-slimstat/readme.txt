@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: analytics, tracking, reports, analyze, wassup, geolocation, online users, spider, tracker, pageviews, stats, maxmind, statistics, statpress
 Requires at least: 3.8
 Tested up to: 4.2
-Stable tag: 3.9.8.2
+Stable tag: 4.0.2
 
 == Description ==
 [youtube https://www.youtube.com/watch?v=iJCtjxArq4U]
@@ -35,7 +35,6 @@ Stable tag: 3.9.8.2
 Visit [our website](http://slimstat.getused.to.it/addons/) for a list of available extensions.
 
 = Free Add-ons =
-* [WP Slimstat Dashboard Widgets](http://wordpress.org/extend/plugins/wp-slimstat-dashboard-widgets) adds the most important reports right on your WordPress Dashboard
 * [WP Slimstat Shortcodes](http://wordpress.org/extend/plugins/wp-slimstat-shortcodes/) allows you to share your reports with your readers
 
 == Installation ==
@@ -63,6 +62,45 @@ Our knowledge base is available on our [support center](https://slimstat.freshde
 5. **Responsive layout** - Keep an eye on your reports on the go
 
 == Changelog ==
+
+= 4.0.2 =
+* [Note] There seem to be some issues with the tracker not being updated throughout the CDN. If you are using this service, please disable it temporarily (Settings > Advanced > Enable CDN = No) until this is resolved. [We are in touch](https://github.com/jsdelivr/jsdelivr/issues/2632#issuecomment-101994217) with the team managing the CDN.
+* [Fix] Some users reported a PHP syntax error message related to a short syntax used by the heuristic browser detection script (thank you, [engesco](https://wordpress.org/support/topic/error-with-new-plug-in-update?replies=27#post-6949271))
+* [Fix] A PHP warning was being displayed for some undefined indexes (thank you, [mark_kay](https://wordpress.org/support/topic/error-with-new-plug-in-update?replies=29#post-6948972))
+
+= 4.0.1 =
+* [Note] Version 4.0 had a bumpy start, but that's expected when something radically new is released to the public. We thank you for your patience while we addressed the bugs that didn't surface during our tests. 
+* [Note] Make sure to uninstall the Dashboard Widgets add-on before upgrading to Slimstat 4.0, or you might get a white screen of death. If this is the case, please remove the folder wp-content/plugins/wp-slimstat-dashboard-widgets via FTP. You will not lose your data.
+* [New] Say hello to your new Dashboard Widgets. We decided to merge our free add-on into the main plugin: this way you don't have to deal with a separate software, our update cycle is streamlined, and performance increases. You can always deactivate this integration by using the corresponding option under Settings > General.
+* [Fix] A few people pointed out a Unexpected T_FUNCTION parse error. Slimstat officially requires PHP 5.3 to function properly. Nevertheless, we implemented a workaround so that people with PHP 5.2 can still enjoy all the power of our plugin. Thank you for your patience.
+* [Fix] MySQL Error 121 was preventing the plugin from creating the new table structure, if MySQL was configured to work in strict mode (thank you, [wvploeg](https://wordpress.org/support/topic/after-update-it-stopped-working?replies=6))
+* [Fix] If you compile PHP with certain flags on Ubuntu, gzopen is not available (thank you, [larryisthere](https://wordpress.org/support/topic/geolite-db-installation-issue-on-ubuntu-trusty?replies=2))
+
+= 4.0 =
+* [Note] A brave new world is now ready to be explored: Slimstat 4.0. This version introduces a totally redesigned database architecture, new streamlined tracking code, new heuristic user agent parser, new filters and much more. You will surely notice the performance improvements!
+* [Note] Our dev team should have read [this article](http://blog.codinghorror.com/maybe-normalizing-isnt-normal/) a long time ago. But it's never too late, and we can guarantee you that the new denormalized table structure will make your report generation so quick that your jaw will drop. Sure, the table size will increase 50%, but in the age where space is cheap, the real precious resource is time. The time you won't have to wait for your report to appear!
+* [Note] Upon update, Slimstat will convert the old table structure to the new one. Just to stay on the safe side, the old tables will not be removed (wp_slim_stats will be renamed to wp_slim_stats_3). After a transition period, we will offer the option to remove the old tables with a button in the settings.
+* [Note] Please make sure that your MySQL user can issue a RENAME command.
+* [Note] We are now working on our premium add-ons to make them compatible with Slimstat 4.0. Some of them might stop working until a new update is available.
+* [New] MaxMind upload folder path can now be filtered (thank you, [chrisl27](https://wordpress.org/support/topic/filter-for-maxmind-path)).
+* [New] The new tracker is measuring both the screen resolution and the viewport size. [Here](http://www.quirksmode.org/mobile/viewports.html) you can find more information on this topic.
+* [New] The library wp-slimstat-db.php has been cleaned up and reorganized (20% smaller!). Please note: some of the function signatures have changed (order of parameters), please update your custom code accordingly or contact us for more information.
+* [New] Internal downloads are now tracked as regular pageviews, with content_type = download. This allows to make our filters more intuitive and our reports faster.
+* [New] The table wp_slim_events will now store all the information regarding events happening on your pages (including the coordinates of clicks for the heatmap).
+* [New] Inline data attributes on links will tell you right away if an external URL will be tracked or not.
+* [New] Custom reports can now be added to ANY screen, and soon you will be able to move any built-in report to any screen.
+* [Update] We are making our source code easier to read, by applying some well established best practices about indentation, spacing and variable names.
+* [Update] Removed the chart Average Pageviews per Visit, which required a complex SQL query to be generated, and didn't convey any key information, according to a quick survey we had among some of our users. 
+* [Update] The Spy View report under the Overview tab has been merged with the Real-Time log, since users were pointing out that it was confusing to have two separate reports displaying pretty much the same information.
+* [Update] We decided to hide some reports under the Site Analysis tab by default. They are not gone, and can be quickly activated by enabling the corresponding checkbox under Screen Options.
+* [Update] The browser CSS version is not tracked anymore.
+* [Update] Google+1 clicks are not tracked/supported anymore.
+* [Update] Vitaly has sent us the latest version of the Russian localization. Way to go!
+* [Fix] Implemented a more robust fix for the issue with download_url throwing an undefined function error (this is supposed to be part of [WP Core](https://codex.wordpress.org/Function_Reference/download_url)!)
+* [Fix] When dragging boxes around, the placeholder was not being displayed in the right place.
+
+= 3.9.9 =
+* [Fix] Some users get an error where download_url is undefined. This is a WordPress core function, so we're really not sure why that is happening to those few users. We included a fix that makes sure the function exists before calling it.
 
 = 3.9.8.2 =
 * [Note] Browscap.org just released a new version of their database, but it looks like [it has some issues](https://groups.google.com/forum/#!topic/browscap/x0onOyHz-D0). We'll wait for a more stable release and then update our optimized version of their db.

@@ -31,8 +31,8 @@ get_header(); ?>
 				</div><!-- .entry-meta -->
 
 				<nav role="navigation" id="image-navigation" class="image-navigation">
-					<div class="nav-previous"><?php previous_image_link( false, __( '<span class="meta-nav">&larr;</span> Previous', 'decode' ) ); ?></div>
-					<div class="nav-next"><?php next_image_link( false, __( 'Next <span class="meta-nav">&rarr;</span>', 'decode' ) ); ?></div>
+					<div class="nav-previous"><?php previous_image_link( false, __( 'Previous', 'decode' ) ); ?></div>
+					<div class="nav-next"><?php next_image_link( false, __( 'Next', 'decode' ) ); ?></div>
 				</nav><!-- #image-navigation -->
 			</header><!-- .entry-header -->
 
@@ -98,14 +98,10 @@ get_header(); ?>
 		</article><!-- #post-<?php the_ID(); ?> -->
 
 		<?php
-			if ( get_theme_mod( 'enable_comments', true ) == true ) :
-			
-				// If comments are open or we have at least one comment, load up the comment template.
-				if ( comments_open() || get_comments_number() ) {
-		 			comments_template();
-		 		}
-			
-			endif;
+			// If comments are open or we have at least one comment, load up the comment template.
+			if ( comments_open() || get_comments_number() ) {
+				comments_template();
+			}
 		?>
 
 	<?php endwhile; // end of the loop. ?>

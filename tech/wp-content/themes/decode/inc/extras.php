@@ -8,20 +8,6 @@
  */
 
 /**
- * Get our wp_nav_menu() fallback, wp_page_menu(), to show a home link.
- */
-
-if ( ! function_exists( 'decode_page_menu_args' ) ) {
-
-function decode_page_menu_args( $args ) {
-	$args['show_home'] = true;
-	return $args;
-}
-add_filter( 'wp_page_menu_args', 'decode_page_menu_args' );
-
-}
-
-/**
  * Adds custom classes to the array of body classes.
  */
 if ( ! function_exists( 'decode_body_classes' ) ) {
@@ -84,7 +70,7 @@ function link_ellipses( $more ) {
 }
 add_filter( 'excerpt_more', 'link_ellipses' );
 
-if ( ! function_exists( '_wp_render_title_tag' ) ) :
+if ( version_compare( $GLOBALS['wp_version'], '4.1', '<' ) ) :
 	/**
 	 * Filters wp_title to print a neat <title> tag based on what is being viewed.
 	 *
@@ -106,13 +92,12 @@ if ( ! function_exists( '_wp_render_title_tag' ) ) :
 		}
 		// Add a page number if necessary:
 		if ( ( $paged >= 2 || $page >= 2 ) && ! is_404() ) {
-			$title .= " $sep " . sprintf( __( 'Page %s', 'decode' ), max( $paged, $page ) );
+			$title .= " $sep " . sprintf( __( 'Page %s', '_s' ), max( $paged, $page ) );
 		}
 		return $title;
 	}
 	add_filter( 'wp_title', 'decode_wp_title', 10, 2 );
-endif;
-if ( ! function_exists( '_wp_render_title_tag' ) ) :
+	
 	/**
 	 * Title shim for sites older than WordPress 4.1.
 	 *
@@ -121,33 +106,8 @@ if ( ! function_exists( '_wp_render_title_tag' ) ) :
 	 */
 	function decode_render_title() {
 		?>
-		<title><?php wp_title( '|', false, 'right' ); ?></title>
+		<title><?php wp_title( '|', true, 'right' ); ?></title>
 		<?php
 	}
 	add_action( 'wp_head', 'decode_render_title' );
 endif;
-
-/**
- * Sets the authordata global when viewing an author archive.
- *
- * This provides backwards compatibility for WP versions below 3.7
- * that don't have this change:
- * http://core.trac.wordpress.org/changeset/25574.
- *
- * It removes the need to call the_post() and rewind_posts() in an author
- * template to print information about the author.
- *
- * @global WP_Query $wp_query WordPress Query object.
- * @return void
- */
-if ( ! function_exists( 'decode_setup_author' ) ) {
-
-function decode_setup_author() {
-    global $wp_query;
-
-    if ( $wp_query->is_author() && isset( $wp_query->post ) ) {
-            $GLOBALS['authordata'] = get_userdata( $wp_query->post->post_author );
-    }
-}
-}
-add_action( 'wp', 'decode_setup_author' );

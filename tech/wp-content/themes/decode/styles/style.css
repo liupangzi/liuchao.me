@@ -1,28 +1,29 @@
+@charset "UTF-8";
 /*!
 Theme Name: Decode
 Theme URI: http://ScottHSmith.com/projects/decode/
-Version: 3.0.5
+Version: 3.0.7
 Author: Scott Smith
 Author URI: http://ScottHSmith.com/
-Description: A minimal, modern theme, designed to be mobile first and fully responsive, Decode features the ability to change all the colors in the theme and an elegant sidebar conveniently accessed by tapping on the menu icon. The sidebar can fit all of your widgets and its position can be customized. You can also choose to keep the sidebar always visible on larger screens for an elegent two-column experience. You can even disable the sidebar and comment links if you choose. Decode supports link posts, where the title can be hyperlinked. Decode includes custom social icons in the header that you can easily link to your choice of 53 different social profiles from Twitter, and App.net, to Pinterest and LinkedIn, you will be sure to find support for the network you want alongside a bevy of customizations to make your site unique. Decode has been translated into Chinese, Dutch, French, German, Polish, Russian, and Spanish. <a href="http://scotthsmith.com/projects/decode/">More info here</a>
+Description: A minimal, modern theme, designed to be mobile first and fully responsive, Decode features the ability to change all the colors in the theme and an elegant sidebar conveniently accessed by tapping on the menu icon. The sidebar can fit all of your widgets and its position can be customized. You can also choose to keep the sidebar always visible on larger screens for an elegent two-column experience. You can even disable the sidebar and comment links if you choose. Decode supports link posts, where the title can be hyperlinked. Decode includes custom social icons in the header that you can easily link to your choice of 55 different social profiles from Twitter and Instagram, to Pinterest and LinkedIn, you will be sure to find support for the network you want alongside a bevy of customizations to make your site unique. Decode has been translated into Chinese, Dutch, French, German, Polish, Russian, and Spanish. <a href="http://scotthsmith.com/projects/decode/">More info here</a>
 Tags: responsive-layout, one-column, two-columns, left-sidebar, right-sidebar, custom-background, custom-colors, custom-header, editor-style, featured-images, microformats, post-formats, rtl-language-support, sticky-post, theme-options, threaded-comments, translation-ready, black, blue, brown, gray, green, orange, pink, purple, red, silver, tan, white, yellow, dark, light
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0-standalone.html
 Domain Path: /languages/
 Text Domain: decode
 
-Decode is based on Underscores http://underscores.me/, (C) 2012-2014 Automattic, Inc.
+Decode is based on Underscores http://underscores.me/, (C) 2012-2015 Automattic, Inc.
 */
 /*--------------------------------------------------------------
 >>> TABLE OF CONTENTS:
 ----------------------------------------------------------------
 1.0  - Reset
-	1.1 - General
-	1.2 - Typography
-	1.3 - Elements
+	1.1 - Normalize
+	1.2 - Elements
+	1.3 - Typography
 	1.4 - Forms
 2.0  - Utilities
-	2.1 - Screen Readers
+	2.1 - Accessibility
 	2.2 - Clearing
 3.0  - Media
 	3.1 - Captions
@@ -59,29 +60,337 @@ Decode is based on Underscores http://underscores.me/, (C) 2012-2014 Automattic,
 1.0 - Reset
 --------------------------------------------------------------*/
 /*--------------------------------------------------------------
-1.1 - General
+1.1 - Normalize
 --------------------------------------------------------------*/
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
-  font-family: inherit;
-  font-size: 100%;
-  font-weight: inherit;
-  font-style: inherit;
+/*! normalize.css v3.0.2 | MIT License | git.io/normalize */
+/**
+ * 1. Set default font family to sans-serif.
+ * 2. Prevent iOS text size adjust after orientation change, without disabling
+ *    user zoom.
+ */
+html {
+  font-family: sans-serif;
+  /* 1 */
+  -ms-text-size-adjust: 100%;
+  /* 2 */
+  -webkit-text-size-adjust: 100%;
+  /* 2 */ }
+
+/**
+ * Remove default margin.
+ */
+body {
+  margin: 0; }
+
+/* HTML5 display definitions
+   ========================================================================== */
+/**
+ * Correct `block` display not defined for any HTML5 element in IE 8/9.
+ * Correct `block` display not defined for `details` or `summary` in IE 10/11
+ * and Firefox.
+ * Correct `block` display not defined for `main` in IE 11.
+ */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+  display: block; }
+
+/**
+ * 1. Correct `inline-block` display not defined in IE 8/9.
+ * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.
+ */
+audio, canvas, progress, video {
+  display: inline-block;
+  /* 1 */
   vertical-align: baseline;
-  padding: 0;
-  border: 0;
-  margin: 0;
+  /* 2 */ }
+
+/**
+ * Prevent modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
+ */
+audio:not([controls]) {
+  display: none;
+  height: 0; }
+
+/**
+ * Address `[hidden]` styling not present in IE 8/9/10.
+ * Hide the `template` element in IE 8/9/11, Safari, and Firefox < 22.
+ */
+[hidden], template {
+  display: none; }
+
+/* Links
+   ========================================================================== */
+/**
+ * Remove the gray background color from active links in IE 10.
+ */
+a {
+  background-color: transparent; }
+
+/**
+ * Improve readability when focused and also mouse hovered in all browsers.
+ */
+a:active, a:hover {
   outline: 0; }
 
-html {
-  font-size: 62.5%;
-  /* Corrects text resizing oddly in IE6/7 when body font-size is set using em units http://clagnut.com/blog/348/#c790 */
+/* Text-level semantics
+   ========================================================================== */
+/**
+ * Address styling not present in IE 8/9/10/11, Safari, and Chrome.
+ */
+abbr[title] {
+  border-bottom: 1px dotted; }
+
+/**
+ * Address style set to `bolder` in Firefox 4+, Safari, and Chrome.
+ */
+b, strong {
+  font-weight: bold; }
+
+/**
+ * Address styling not present in Safari and Chrome.
+ */
+dfn {
+  font-style: italic; }
+
+/**
+ * Address variable `h1` font-size and margin within `section` and `article`
+ * contexts in Firefox 4+, Safari, and Chrome.
+ */
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0; }
+
+/**
+ * Address styling not present in IE 8/9.
+ */
+mark {
+  background: #ff0;
+  color: #000; }
+
+/**
+ * Address inconsistent and variable font size in all browsers.
+ */
+small {
+  font-size: 80%; }
+
+/**
+ * Prevent `sub` and `sup` affecting `line-height` in all browsers.
+ */
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline; }
+
+sup {
+  top: -0.5em; }
+
+sub {
+  bottom: -0.25em; }
+
+/* Embedded content
+   ========================================================================== */
+/**
+ * Remove border when inside `a` element in IE 8/9/10.
+ */
+img {
+  border: 0; }
+
+/**
+ * Correct overflow not hidden in IE 9/10/11.
+ */
+svg:not(:root) {
+  overflow: hidden; }
+
+/* Grouping content
+   ========================================================================== */
+/**
+ * Address margin not present in IE 8/9 and Safari.
+ */
+figure {
+  margin: 1em 40px; }
+
+/**
+ * Address differences between Firefox and other browsers.
+ */
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0; }
+
+/**
+ * Contain overflow in all browsers.
+ */
+pre {
+  overflow: auto; }
+
+/**
+ * Address odd `em`-unit font size rendering in all browsers.
+ */
+code, kbd, pre, samp {
+  font-family: monospace, monospace;
+  font-size: 1em; }
+
+/* Forms
+   ========================================================================== */
+/**
+ * Known limitation: by default, Chrome and Safari on OS X allow very limited
+ * styling of `select`, unless a `border` property is set.
+ */
+/**
+ * 1. Correct color not being inherited.
+ *    Known issue: affects color of disabled elements.
+ * 2. Correct font properties not being inherited.
+ * 3. Address margins set differently in Firefox 4+, Safari, and Chrome.
+ */
+button, input, optgroup, select, textarea {
+  color: inherit;
+  /* 1 */
+  font: inherit;
+  /* 2 */
+  margin: 0;
+  /* 3 */ }
+
+/**
+ * Address `overflow` set to `hidden` in IE 8/9/10/11.
+ */
+button {
+  overflow: visible; }
+
+/**
+ * Address inconsistent `text-transform` inheritance for `button` and `select`.
+ * All other form control elements do not inherit `text-transform` values.
+ * Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.
+ * Correct `select` style inheritance in Firefox.
+ */
+button, select {
+  text-transform: none; }
+
+/**
+ * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+ *    and `video` controls.
+ * 2. Correct inability to style clickable `input` types in iOS.
+ * 3. Improve usability and consistency of cursor style between image-type
+ *    `input` and others.
+ */
+button, html input[type="button"], input[type="reset"], input[type="submit"] {
+  -webkit-appearance: button;
+  /* 2 */
+  cursor: pointer;
+  /* 3 */ }
+
+/**
+ * Re-set default cursor for disabled elements.
+ */
+button[disabled], html input[disabled] {
+  cursor: default; }
+
+/**
+ * Remove inner padding and border in Firefox 4+.
+ */
+button::-moz-focus-inner, input::-moz-focus-inner {
+  border: 0;
+  padding: 0; }
+
+/**
+ * Address Firefox 4+ setting `line-height` on `input` using `!important` in
+ * the UA stylesheet.
+ */
+input {
+  line-height: normal; }
+
+/**
+ * It's recommended that you don't attempt to style these elements.
+ * Firefox's implementation doesn't respect box-sizing, padding, or width.
+ *
+ * 1. Address box sizing set to `content-box` in IE 8/9/10.
+ * 2. Remove excess padding in IE 8/9/10.
+ */
+input[type="checkbox"], input[type="radio"] {
   -moz-box-sizing: border-box;
        box-sizing: border-box;
-  /* http://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/ */
-  -webkit-text-size-adjust: 100%;
-  /* Prevents iOS text size adjust after orientation change, without disabling user zoom */
-  -ms-text-size-adjust: 100%;
-  /* www.456bereastreet.com/archive/201012/controlling_text_size_in_safari_for_ios_without_disabling_user_zoom/ */ }
+  /* 1 */
+  padding: 0;
+  /* 2 */ }
+
+/**
+ * Fix the cursor style for Chrome's increment/decrement buttons. For certain
+ * `font-size` values of the `input`, it causes the cursor style of the
+ * decrement button to change from `default` to `text`.
+ */
+input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button {
+  height: auto; }
+
+/**
+ * 1. Address `appearance` set to `searchfield` in Safari and Chrome.
+ * 2. Address `box-sizing` set to `border-box` in Safari and Chrome
+ *    (include `-moz` to future-proof).
+ */
+input[type="search"] {
+  -webkit-appearance: textfield;
+  /* 1 */
+  -moz-box-sizing: content-box;
+  /* 2 */
+  box-sizing: content-box; }
+
+/**
+ * Remove inner padding and search cancel button in Safari and Chrome on OS X.
+ * Safari (but not Chrome) clips the cancel button when the search input has
+ * padding (and `textfield` appearance).
+ */
+input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none; }
+
+/**
+ * Define consistent border, margin, and padding.
+ */
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em; }
+
+/**
+ * 1. Correct `color` not being inherited in IE 8/9/10/11.
+ * 2. Remove padding so people aren't caught out if they zero out fieldsets.
+ */
+legend {
+  border: 0;
+  /* 1 */
+  padding: 0;
+  /* 2 */ }
+
+/**
+ * Remove default vertical scrollbar in IE 8/9/10/11.
+ */
+textarea {
+  overflow: auto; }
+
+/**
+ * Don't inherit the `font-weight` (applied by a rule above).
+ * NOTE: the default cannot safely be changed in Chrome and Safari on OS X.
+ */
+optgroup {
+  font-weight: bold; }
+
+/* Tables
+   ========================================================================== */
+/**
+ * Remove most spacing between table cells.
+ */
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+td, th {
+  padding: 0; }
+
+/*--------------------------------------------------------------
+1.2 - Elements
+--------------------------------------------------------------*/
+html {
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+  /* http://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/ */ }
 
 *, *:before, *:after {
   -moz-box-sizing: inherit;
@@ -91,44 +400,43 @@ body {
   background: #ECF0F1;
   /* Fallback for when there is no custom background color defined. */ }
 
-article, aside, details, figcaption, figure, footer, header, main, nav, section {
-  display: block; }
+hr {
+  height: 1px;
+  border: 0;
+  margin-bottom: 1.5em;
+  background-color: #CCC; }
 
-ol, ul {
-  list-style: none; }
+/* Lists */
+ul, ol {
+  margin: 0 0 1.5em 3em; }
 
+ul {
+  list-style: disc; }
+
+ol {
+  list-style: decimal; }
+
+li > ul, li > ol {
+  margin-bottom: 0;
+  margin-left: 1.5em; }
+
+dt {
+  font-weight: bold; }
+
+dd {
+  margin: 0 1.5em 1.5em; }
+
+/* Tables */
 table {
-  border-spacing: 0;
-  /* tables still need 'cellspacing="0"' in the markup */
-  border-collapse: separate; }
-
-caption, th, td {
-  font-weight: normal;
-  text-align: left; }
-
-blockquote:before, blockquote:after, q:before, q:after {
-  content: ''; }
-
-blockquote, q {
-  quotes: '' ''; }
-
-a:focus {
-  outline: thin dotted; }
-
-a:hover, a:active {
-  outline: 0; }
-
-a img {
-  border: 0; }
+  width: 100%;
+  margin: 0 0 1.5em; }
 
 /*--------------------------------------------------------------
-1.2 - Typography
+1.3 - Typography
 --------------------------------------------------------------*/
 body, button, input, select, textarea {
-  color: #4C4C4C;
+  color: #444;
   font-family: 'Oxygen', 'Helvetica Neue', 'Arial', sans-serif;
-  font-size: 18px;
-  font-size: 1.8rem;
   font-weight: 300;
   line-height: 1.5; }
 
@@ -141,8 +449,11 @@ body {
 
 /* Headings */
 h1, h2, h3, h4, h5, h6 {
-  clear: both; }
+  font-weight: inherit;
+  clear: both;
+  margin: 0; }
 
+/* Links */
 a {
   -webkit-transition: color 0.4s ease;
           transition: color 0.4s ease;
@@ -163,38 +474,7 @@ a {
   .no-touch .site-description a:active, .no-touch .entry-content a:active, .no-touch .categories a:active, .no-touch .tags a:active, .no-touch .comments-link a:active, .no-touch .edit-link a:active, .no-touch .author-site a:active, .no-touch .theme-info a:active, .no-touch .site-colophon a:active {
     border-bottom: 1px solid #008094; }
 
-/*--------------------------------------------------------------
-1.3 - Elements
---------------------------------------------------------------*/
-hr {
-  height: 1px;
-  border: 0;
-  margin-bottom: 1.5em;
-  background-color: #CCC; }
-
-/* Text elements */
-p {
-  margin-bottom: 1.5em; }
-
-ul, ol {
-  margin: 0 0 1.5em 3em; }
-
-ul {
-  list-style: disc; }
-
-ol {
-  list-style: decimal; }
-
-li > ul, li > ol {
-  margin-bottom: 0;
-  margin-left: 1.5em; }
-
-dt {
-  font-weight: bold; }
-
-dd {
-  margin: 0 1.5em 1.5em; }
-
+/* Copy */
 b, strong {
   font-weight: bold; }
 
@@ -203,6 +483,12 @@ dfn, cite, em, i {
 
 blockquote {
   margin: 0 1.5em; }
+
+blockquote:before, blockquote:after, q:before, q:after {
+  content: ""; }
+
+blockquote, q {
+  quotes: "" ""; }
 
 address {
   margin: 0 0 1.5em; }
@@ -217,7 +503,7 @@ pre {
   background: #EEE; }
 
 code, kbd, tt, var {
-  font: 15px Monaco, Consolas, 'Andale Mono', 'DejaVu Sans Mono', monospace; }
+  font-family: Monaco, Consolas, 'Andale Mono', 'DejaVu Sans Mono', monospace; }
 
 abbr, acronym {
   border-bottom: 1px dotted #666;
@@ -227,61 +513,25 @@ mark, ins {
   text-decoration: none;
   background: #FFF9C0; }
 
-sup, sub {
-  position: relative;
-  font-size: 75%;
-  line-height: 0;
-  vertical-align: baseline;
-  height: 0; }
-
-sup {
-  bottom: 1ex; }
-
-sub {
-  top: 0.5ex; }
-
 small {
   font-size: 75%; }
 
 big {
   font-size: 125%; }
 
-figure {
-  margin: 0; }
-
-table {
-  width: 100%;
-  margin: 0 0 1.5em; }
-
-th {
-  font-weight: bold; }
-
 /*--------------------------------------------------------------
 1.4 - Forms
 --------------------------------------------------------------*/
-button, input, select, textarea {
-  font-size: 100%;
-  /* Corrects font size not being inherited in all browsers */
-  vertical-align: baseline;
-  /* Improves appearance and consistency in all browsers */
-  vertical-align: middle;
-  /* Improves appearance and consistency in all browsers */
-  margin: 0;
-  /* Addresses margins set differently in IE6/7, F3/4, S5, Chrome */ }
-
 button, input[type='button'], input[type='reset'], input[type='submit'] {
   -webkit-transition: border 0.25s ease-out, color 0.25s ease-out;
           transition: border 0.25s ease-out, color 0.25s ease-out;
   color: #00B0CC;
-  height: 2.15em;
+  min-height: 22px;
+  min-height: 2rem;
   padding: 0 0.7em;
   border: 1px solid #C0C0C0;
   border-radius: 3px;
-  background: transparent;
-  cursor: pointer;
-  /* Improves usability and consistency of cursor style between image-type 'input' and others */
-  -webkit-appearance: button;
-  /* Corrects inability to style clickable 'input' types in iOS */ }
+  background: transparent; }
   .no-touch button:hover, .no-touch input[type='button']:hover, .no-touch input[type='reset']:hover, .no-touch input[type='submit']:hover {
     border: 1px solid #00B0CC; }
   .no-touch button:focus, .touch button:focus, .no-touch button:active, .touch button:active, .no-touch input[type='button']:focus, .touch input[type='button']:focus, .no-touch input[type='button']:active, .touch input[type='button']:active, .no-touch input[type='reset']:focus, .touch input[type='reset']:focus, .no-touch input[type='reset']:active, .touch input[type='reset']:active, .no-touch input[type='submit']:focus, .touch input[type='submit']:focus, .no-touch input[type='submit']:active, .touch input[type='submit']:active {
@@ -291,59 +541,45 @@ button, input[type='button'], input[type='reset'], input[type='submit'] {
 textarea {
   -webkit-transition: border 0.25s ease-out, color 0.25s ease-out, background 0.25s ease-out;
           transition: border 0.25s ease-out, color 0.25s ease-out, background 0.25s ease-out;
-  overflow: auto;
-  /* Removes default vertical scrollbar in IE6/7/8/9 */
   color: #C0C0C0;
-  vertical-align: top;
-  /* Improves readability and alignment in all browsers */
   width: 100%;
   padding: 0.3em;
   border: 1px solid #C0C0C0;
   border-radius: 3px;
   background: rgba(255, 255, 255, 0); }
-
-input[type='checkbox'], input[type='radio'] {
-  padding: 0;
-  /* Addresses excess padding in IE8/9 */ }
-
-input[type='search'] {
-  -webkit-appearance: textfield;
-  /* Addresses appearance set to searchfield in S5, Chrome */ }
-  input[type='search']::-webkit-search-decoration {
-    -webkit-appearance: none;
-    /* Corrects inner padding displayed oddly in S5, Chrome on OSX */ }
-
-button::-moz-focus-inner, input::-moz-focus-inner {
-  padding: 0;
-  /* Corrects inner padding and border displayed oddly in FF3/4 www.sitepen.com/blog/2008/05/14/the-devils-in-the-details-fixing-dojos-toolbar-buttons/ */
-  border: 0; }
 
 input[type='text'], input[type='email'], input[type='password'], input[type='search'], input[type='tel'], input[type='url'] {
   -webkit-transition: border 0.25s ease-out, color 0.25s ease-out, background 0.25s ease-out;
           transition: border 0.25s ease-out, color 0.25s ease-out, background 0.25s ease-out;
   color: #C0C0C0;
   width: 100%;
-  height: 2.15em;
+  min-height: 22px;
+  min-height: 2rem;
   padding: 0.3em;
   border: 1px solid #C0C0C0;
   border-radius: 3px;
   background: rgba(255, 255, 255, 0); }
 
 .no-touch input[type='text']:hover, .no-touch input[type='email']:hover, .no-touch input[type='password']:hover, .no-touch input[type='search']:hover, .no-touch input[type='tel']:hover, .no-touch input[type='url']:hover, .no-touch textarea:hover {
-  color: #8C8C8C;
-  border-color: #8C8C8C;
-  background: rgba(255, 255, 255, 0.35); }
+  color: #808080;
+  border-color: #808080; }
 .no-touch input[type='text']:focus, .touch input[type='text']:focus, .no-touch input[type='email']:focus, .touch input[type='email']:focus, .no-touch input[type='password']:focus, .touch input[type='password']:focus, .no-touch input[type='search']:focus, .touch input[type='search']:focus, .no-touch input[type='tel']:focus, .touch input[type='tel']:focus, .no-touch input[type='url']:focus, .touch input[type='url']:focus, .no-touch textarea:focus, .touch textarea:focus {
-  color: #4C4C4C;
+  color: #444;
   border-color: #00B0CC;
-  outline: none;
-  background: white; }
+  outline: none; }
+
+input[type='search'] {
+  -webkit-appearance: none;
+  /* Override Normalize.css. Allows styling on iOS. */
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+  /* Override Normalize.css. */ }
 
 /*--------------------------------------------------------------
 2.0 - Utilities
 --------------------------------------------------------------*/
 /*--------------------------------------------------------------
-2.1 - Screen Readers
+2.1 - Accessibility
 --------------------------------------------------------------*/
 body .screen-reader-text {
   overflow: hidden;
@@ -354,16 +590,15 @@ body .screen-reader-text {
   padding: 0;
   border: 0;
   margin: -1px; }
-
-body .screen-reader-text:active, body .screen-reader-text:focus {
-  overflow: visible;
-  clip: auto;
-  position: static;
-  z-index: 100000;
-  /* Above WP toolbar */
-  width: auto;
-  height: auto;
-  margin: 0; }
+  body .screen-reader-text:hover, body .screen-reader-text:active, body .screen-reader-text:focus {
+    overflow: visible;
+    clip: auto;
+    position: static;
+    z-index: 100000;
+    /* Above WP toolbar */
+    width: auto;
+    height: auto;
+    margin: 0; }
 
 /*--------------------------------------------------------------
 2.2 - Clearing
@@ -389,15 +624,15 @@ body .screen-reader-text:active, body .screen-reader-text:focus {
   max-width: 100%;
   height: auto; }
 
-/* Make sure embeds and iframes fit their containers */
-embed, iframe, object {
-  max-width: 100%; }
-
 /* Make sure images with WordPress-added height and width attributes are scaled correctly */
 .entry-content img, img[class*='align'], img[class*='wp-image-'] {
   height: auto; }
 
-.page-content img.wp-smiley, .entry-content img.wp-smiley, .comment-content img.wp-smiley {
+/* Make sure embeds and iframes fit their containers. */
+embed, iframe, object {
+  max-width: 100%; }
+
+.page-content .wp-smiley, .entry-content .wp-smiley, .comment-content .wp-smiley {
   padding: 0;
   border: none;
   margin-top: 0;
@@ -531,8 +766,8 @@ embed, iframe, object {
   -webkit-transition: opacity 0.5s ease-out;
           transition: opacity 0.5s ease-out;
   width: auto;
-  max-height: 8.5em;
-  max-height: 15rem;
+  max-height: 9.5em;
+  max-height: 9.5rem;
   margin: 0 auto 2%;
   opacity: 1;
   -webkit-user-drag: none;
@@ -543,6 +778,7 @@ embed, iframe, object {
     opacity: 0.85; }
 
 .site-title {
+  font-size: 2.15em;
   line-height: 1;
   text-align: center;
   word-wrap: break-word;
@@ -551,8 +787,7 @@ embed, iframe, object {
   .site-title a {
     -webkit-transition: color 0.5s;
             transition: color 0.5s;
-    color: #4C4C4C;
-    font-size: 1.95em;
+    color: #444;
     -webkit-font-smoothing: subpixel-antialiased; }
   .no-touch .site-title a:hover {
     color: #00B0CC; }
@@ -571,6 +806,7 @@ embed, iframe, object {
   border-bottom: 1px solid #00B0CC; }
 
 .site-description {
+  font-size: 1.1em;
   text-align: center;
   margin-bottom: 0.75%; }
 
@@ -600,8 +836,8 @@ embed, iframe, object {
     margin-right: 0; }
   .social-link svg, .social-link img {
     overflow: visible;
-    width: 2em;
-    height: 2em; }
+    width: 2.25em;
+    height: 2.25em; }
   .no-inlinesvg .social-link svg {
     display: none; }
   .no-inlinesvg .social-link {
@@ -650,6 +886,8 @@ embed, iframe, object {
   background-image: url('images/Delicious.png'); }
 .no-inlinesvg .InstagramLink {
   background-image: url('images/Instagram.png'); }
+.no-inlinesvg .VSCOLink {
+  background-image: url('images/VSCO.png'); }
 .no-inlinesvg .Five00pxLink {
   background-image: url('images/500px.png'); }
 .no-inlinesvg .FlickrLink {
@@ -714,8 +952,10 @@ embed, iframe, object {
   background-image: url('images/PSN.png'); }
 .no-inlinesvg .XboxLiveLink {
   background-image: url('images/XboxLive.png'); }
-.no-inlinesvg .Steam {
+.no-inlinesvg .SteamLink {
   background-image: url('images/Steam.png'); }
+.no-inlinesvg .TwitchLink {
+  background-image: url('images/Twitch.png'); }
 .no-inlinesvg .SkypeLink {
   background-image: url('images/Skype.png'); }
 .no-inlinesvg .RSSLink {
@@ -735,6 +975,7 @@ embed, iframe, object {
 .horizontal-menu {
   position: relative;
   /* Sets context for absolutely positoned submenus */
+  font-size: 1.1em;
   text-align: center; }
 
 .header-menu {
@@ -792,7 +1033,7 @@ embed, iframe, object {
 
 /* Down Arrow */
 .menu ul .menu-item-has-children > a::after, .menu ul .page_item_has_children > a::after, .sidebar-menu ul .menu-item-has-children > a::after, .sidebar-menu ul .page_item_has_children > a::after {
-  border-top: 5px solid #4C4C4C;
+  border-top: 5px solid #444;
   border-right: 5px solid transparent;
   border-bottom: none;
   border-left: 5px solid transparent; }
@@ -801,14 +1042,14 @@ embed, iframe, object {
 .footer-menu ul .menu-item-has-children > a::after, .footer-menu ul .page_item_has_children > a::after {
   border-top: none;
   border-right: 5px solid transparent;
-  border-bottom: 5px solid #4C4C4C;
+  border-bottom: 5px solid #444;
   border-left: 5px solid transparent; }
 
 .menu a {
-  color: #4C4C4C; }
+  color: #444; }
 
 .menu ul > .menu-item-has-children > a::after, .menu ul > .page_item_has_children > a::after {
-  border-top-color: #4C4C4C; }
+  border-top-color: #444; }
 
 .no-touch .menu a:hover, .menu ul li.open > a {
   color: #00B0CC; }
@@ -835,7 +1076,7 @@ embed, iframe, object {
   border-top-color: #008094; }
 
 .footer-menu ul > .menu-item-has-children > a::after, .footer-menu ul > .page_item_has_children > a::after {
-  border-bottom-color: #4C4C4C; }
+  border-bottom-color: #444; }
 
 .no-touch .footer-menu ul > .menu-item-has-children > a:hover::after, .no-touch .footer-menu ul > .page_item_has_children > a:hover::after, .footer-menu ul > li.open > a::after {
   border-bottom-color: #00B0CC; }
@@ -953,6 +1194,9 @@ embed, iframe, object {
 /*--------------------------------------------------------------
 5.0 - Content
 --------------------------------------------------------------*/
+.site-content {
+  font-size: 1.1em; }
+
 .site-main, .site-footer {
   width: 92.5%;
   margin: 0 auto; }
@@ -973,10 +1217,6 @@ embed, iframe, object {
   word-wrap: break-word;
   overflow-wrap: break-word;
   margin: 0 0 2.5%; }
-
-.page-links {
-  clear: both;
-  margin: 0 0 1.5em; }
 
 .entry-header {
   text-align: center;
@@ -1014,10 +1254,12 @@ a .attachment-post-thumbnail {
   width: 90%;
   margin: 0 auto; }
   .entry-title a {
-    color: #4C4C4C; }
+    color: #444; }
 
 .entry-content {
   font-size: 1em; }
+  .entry-content p {
+    margin-bottom: 1.5em; }
   .entry-content h1 {
     font-size: 2.35em; }
   .entry-content h2 {
@@ -1056,7 +1298,23 @@ a .attachment-post-thumbnail {
     margin: 0 auto 2.5%; }
 
 .read-more {
-  color: #4C4C4C; }
+  color: #444; }
+
+.page-links {
+  clear: both;
+  margin: 0 0 1.5em; }
+
+.page-link {
+  -webkit-transition: border 0.25s ease;
+          transition: border 0.25s ease;
+  text-align: center;
+  padding: 0 0.5em;
+  border: 1px solid #444;
+  border-radius: 3px; }
+  a .page-link {
+    border: 1px solid #00B0CC; }
+  a .page-link:active {
+    border-color: #008094; }
 
 .entry-footer {
   width: 90%;
@@ -1073,7 +1331,7 @@ a .attachment-post-thumbnail {
 
 article .date, article .tags, article .categories {
   clear: both;
-  color: #8C8C8C;
+  color: #808080;
   font-size: 0.8em;
   margin: 1.5% 0; }
 article .date {
@@ -1081,14 +1339,14 @@ article .date {
   article .date a {
     -webkit-transition-duration: 0.25s;
             transition-duration: 0.25s;
-    color: #8C8C8C; }
+    color: #808080; }
     .no-touch article .date a:hover {
       color: #00B0CC; }
     .no-touch article .date a:active {
       color: #008094; }
 
 .theme-info, .site-colophon {
-  font-size: 0.8em;
+  font-size: 0.9em;
   text-align: center;
   margin-top: 1em; }
   .theme-info p, .site-colophon p {
@@ -1100,7 +1358,7 @@ article .date {
 6.1 - Link Posts
 --------------------------------------------------------------*/
 .format-link .entry-title a {
-  color: #4C4C4C;
+  color: #444;
   text-decoration: underline; }
   .no-touch .format-link .entry-title a:hover {
     color: #00B0CC;
@@ -1173,13 +1431,13 @@ article .date {
     display: block;
     border-radius: 50%;
     opacity: 1;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0); }
-  .no-touch .author-image:hover {
-    opacity: 1;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); }
-  .no-touch .author-image:active {
-    opacity: 0.85;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4); }
+    box-shadow: 0 0 5px transparent; }
+    .no-touch .author-image img:hover {
+      opacity: 1;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); }
+    .no-touch .author-image img:active {
+      opacity: 0.85;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4); }
 
 .author-text {
   float: left;
@@ -1189,7 +1447,7 @@ article .date {
 .author-name {
   font-size: 1.4em; }
   .author-name a {
-    color: #4C4C4C; }
+    color: #444; }
 
 .author-site, .author-bio {
   font-size: 0.9em; }
@@ -1239,7 +1497,7 @@ article .date {
   margin: 0; }
 
 .comment-metadata a {
-  color: #8C8C8C;
+  color: #808080;
   font-size: 0.8em;
   margin-right: 1.5%; }
   .no-touch .comment-metadata a:hover {
@@ -1253,6 +1511,7 @@ li.comment {
 .comment-respond {
   margin-top: 7.5%; }
 
+/* Comments Form */
 .comment-form:not(.jetpack-comments-active) {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1273,7 +1532,7 @@ li.comment {
           flex: 1 100%; }
 
 .comment-form-comment {
-  margin-bottom: 0; }
+  margin-bottom: -1%; }
 
 .comment-form-comment textarea {
   height: 7em;
@@ -1289,7 +1548,7 @@ li.comment {
   border-bottom: 1px solid transparent;
   border-left: 1px solid #C0C0C0;
   border-radius: 0 0 0 3px;
-  margin-bottom: 0;
+  margin: 0;
   opacity: 0; }
   .form-allowed-tags.visible {
     max-height: 12em;
@@ -1297,17 +1556,19 @@ li.comment {
     border-bottom-color: #C0C0C0;
     opacity: 1; }
 
-.form-submit input[type=submit] {
-  float: right;
-  position: relative;
-  top: -1px;
-  border-top-color: transparent;
-  border-radius: 0 0 3px 3px; }
+.form-submit {
+  margin: 0; }
+  .form-submit input[type=submit] {
+    float: right;
+    position: relative;
+    top: -1px;
+    border-top-color: transparent;
+    border-radius: 0 0 3px 3px; }
 
 /*--------------------------------------------------------------
 9.0 - Navigation
 --------------------------------------------------------------*/
-.post-navigation, .paging-navigation, .image-navigation {
+.post-navigation, .posts-navigation, .image-navigation {
   overflow: hidden;
   margin: 2.5%; }
 
@@ -1319,11 +1580,19 @@ li.comment {
   float: left;
   text-align: left;
   width: 50%; }
+  .nav-previous a::before {
+    content: '\2190';
+    /* Left arrow */
+    padding-right: 0.5%; }
 
 .nav-next {
   float: right;
   text-align: right;
   width: 50%; }
+  .nav-next a::after {
+    content: '\2192';
+    /* Right arrow */
+    padding-left: 0.5%; }
 
 .nav-links a {
   -webkit-transition: padding 0.25s ease-out, color 0.25s ease-out;
@@ -1362,7 +1631,7 @@ li.comment {
 .search-entry, .search-entry .entry-title {
   -webkit-transition-duration: 0.25s;
           transition-duration: 0.25s;
-  color: #4C4C4C; }
+  color: #444; }
 
 .search-entry .entry-title {
   font-size: 1.25em;
@@ -1371,20 +1640,19 @@ li.comment {
 .search .site-main .search-form {
   margin-top: 2.5%; }
 
-.search .page-header input[type='search'] {
-  color: #8C8C8C;
+.search .page-header .search-field {
+  color: #808080;
   font-size: 1.25em;
   border-top-color: transparent;
   border-right-color: transparent;
   border-left-color: transparent;
   border-radius: 0; }
-  .no-touch .search .page-header input[type='search']:hover {
-    border-color: #8C8C8C;
+  .no-touch .search .page-header .search-field:hover {
+    border-color: #808080;
     border-radius: 3px; }
-  .no-touch .search .page-header input[type='search']:focus, .touch .search .page-header input[type='search']:focus {
+  .no-touch .search .page-header .search-field:focus, .touch .search .page-header .search-field:focus {
     border-color: #00B0CC;
     border-radius: 3px; }
-
 .search .page-header .search-submit {
   font-size: 1.25em;
   padding: 0 0.5em;
@@ -1411,7 +1679,7 @@ li.comment {
   display: inline-block;
   position: absolute;
   top: 0.5em;
-  height: 1.5em;
+  height: 1.75em;
   padding: 0;
   border: none;
   margin-bottom: 2.5%;
@@ -1437,11 +1705,12 @@ li.comment {
   .no-inlinesvg .sidebar-link svg {
     display: none; }
   .sidebar-link svg, .sidebar-link img {
-    width: 1.5em;
-    height: 1.5em; }
+    width: 1.75em;
+    height: 1.75em; }
 
 .sidebar-top {
-  z-index: 1;
+  z-index: 3;
+  /* Submenus have z-index of 2. */
   width: 100%;
   border-bottom: 1px solid #00B0CC;
   margin-bottom: 7.5%;
@@ -1457,8 +1726,7 @@ li.comment {
 
 @media screen and (max-width: 782px) {
   .admin-bar .sidebar {
-    top: 46px; }
- }
+    top: 46px; } }
 
 .sidebar-close {
   -webkit-transition: opacity 0.25s ease-out;
@@ -1497,7 +1765,6 @@ li.comment {
   position: fixed;
   z-index: 5;
   top: 0;
-  font-size: 0.95em;
   width: 95%;
   height: 100%;
   background-color: #ECF0F1; }
@@ -1515,6 +1782,8 @@ li.comment {
             transform: translateX(110%);
     right: 0;
     box-shadow: -1px 0 15px rgba(0, 0, 0, 0.5); }
+  .sidebar h2 {
+    font-size: 1em; }
 
 .sidebar-content {
   margin: 0 5%; }
@@ -1622,7 +1891,7 @@ li.comment {
   text-align: center; }
 
 .explore-page .widget h1 {
-  color: #4C4C4C;
+  color: #444;
   font-size: 1.15em;
   padding-bottom: 1%;
   border-bottom: 1px solid #00B0CC; }
@@ -1656,7 +1925,7 @@ li.comment {
 14.0 - Infinite Scroll
 --------------------------------------------------------------*/
 /* Globally hidden elements when Infinite Scroll is supported and in use. */
-.infinite-scroll .paging-navigation, .infinite-scroll.neverending .site-footer {
+.infinite-scroll .posts-navigation, .infinite-scroll.neverending .site-footer {
   /* Theme Footer (when set to scrolling) */
   display: none; }
 
@@ -1672,16 +1941,14 @@ li.comment {
 @media only screen and (min-width: 35em) {
   .site-header, .site-breadcrumbs, .site-main, .site-footer, .sidebar-style-constant .site-header, .sidebar-style-constant .site-main, .sidebar-style-constant .site-footer {
     width: 82.5%; }
-
   .site-breadcrumbs-container {
     width: 100%; }
-
   .sidebar-link {
     position: fixed;
     z-index: 1;
     top: 2.5%;
-    width: 1.75em;
-    height: 1.75em; }
+    width: 2em;
+    height: 2em; }
     .sidebar-link.left {
       left: 2.5%; }
     .sidebar-link.right {
@@ -1692,69 +1959,51 @@ li.comment {
         .admin-bar .sidebar-link {
           top: calc(2.5% + 46px); } }
     .sidebar-link svg, .sidebar-link img {
-      width: 1.75em;
-      height: 1.75em; }
-
+      width: 2em;
+      height: 2em; }
   .sidebar {
     width: 55%; }
-
   .social-links {
     margin: 1.5% auto; }
-
   .social-link svg, .social-link img {
-    width: 2.25em;
-    height: 2.25em; }
-
+    width: 2.5em;
+    height: 2.5em; }
   /* The CSS below causes the absolutely positioned dropdowns
    to display relative to the menu items that they are children of. */
   .menu li {
     position: relative; }
-
   .no-touch .menu ul li:hover > ul, .no-touch .menu ul ul:hover, .menu ul li.open > ul {
     width: auto; }
-
   .menu ul li.open ul {
     float: left;
     position: absolute; }
-
   .header-menu ul ul {
     right: auto;
     left: auto; }
-
   .menu ul ul {
     padding: 0.25em 0.5em; }
-
   .menu ul ul a {
     width: 10em; }
-
   .horizontal-menu ul ul ul {
     left: -6%; }
-
   .footer-menu ul ul ul {
     top: auto; }
-
   .vertical-menu ul ul ul {
     left: -0.5em; }
-
   .gallery-columns-3 .gallery-caption, .gallery-columns-4 .gallery-caption {
     display: block;
     /* Show galleries that will fit on tablet-sized screens. */ }
-
   .comment-form .comment-form-author, .comment-form .comment-form-email, .comment-form .comment-form-url {
     margin: 0 0.25em;
     -webkit-flex-basis: 30%;
         -ms-flex-preferred-size: 30%;
             flex-basis: 30%; }
-
   .comment-form .comment-form-author {
     margin-left: 0; }
-
   .comment-form .comment-form-url {
     margin-right: 0; }
-
   .form-allowed-tags.visible {
-    max-height: 7em; }
- }
+    max-height: 7em; } }
 
 /*--------------------------------------------------------------
 15.2 - Desktop (<50ems)
@@ -1762,7 +2011,6 @@ li.comment {
 @media only screen and (min-width: 50em) {
   .site-header, .site-breadcrumbs, .site-main, .site-footer {
     width: 80%; }
-
   .sidebar-style-constant .site-breadcrumbs, .sidebar-style-constant .site-header, .sidebar-style-constant .site-main, .sidebar-style-constant .site-footer {
     width: 100%;
     max-width: 45em; }
@@ -1788,79 +2036,58 @@ li.comment {
       border-right: 1px solid #00B0CC; }
     .sidebar-style-constant .sidebar.right {
       border-left: 1px solid #00B0CC; }
-
   .sidebar-style-left .site {
     right: 0; }
-
   .sidebar-style-right .site {
     left: 0; }
-
   .site-scroll {
     margin: 3.5% 2.5% 0; }
     .site-scroll .site-header {
       margin-top: 0; }
-
   .page-header {
     margin: 0 auto 5%; }
-
-  .site-title a {
-    font-size: 2.8em; }
-
+  .site-title {
+    font-size: 3.15em; }
   .author .author-section {
     font-size: 1.25em;
     width: 75%;
     max-width: 100%;
     margin-top: 3.5%; }
-
   .social-link svg, .social-link img {
-    width: 2.5em;
-    height: 2.5em; }
-
+    width: 2.75em;
+    height: 2.75em; }
   .no-inlinesvg .social-link {
     margin: 1%; }
-
   .horizontal-menu li {
     margin: 0 1.5%; }
-
   .sidebar-link {
     top: 5%; }
-
   .sidebar {
     width: 33%; }
     .no-csstransforms .sidebar.left {
       left: -40%; }
     .no-csstransforms .sidebar.right {
       right: -40%; }
-
   .sidebar-close {
     padding: 2.5%; }
-
   .post {
     margin: 2.5% auto 5%; }
-
   .entry-title {
     font-size: 1.75em;
     width: 80%; }
-
   .gallery-columns-5 .gallery-caption {
     display: block;
     /* Show galleries that will fit on desktop-sized screens. */ }
-
   .entry-footer {
     width: 85%; }
-
   .search article {
     margin-bottom: 5%; }
-
   .explore-page .widget.search {
     margin-bottom: 3.5%; }
-
   .blog .format-quote .entry-content, .single .format-quote .entry-content, .archive .format-quote .entry-content {
     font-size: 2.75em; }
-
   .sidebar-style-constant .site-footer {
-    margin-bottom: 5%; }
- }
+    margin-bottom: 5%; } }
 
 /*--------------------------------------------------------------
 15.3 - Large Screen (<68.5ems)
@@ -1869,32 +2096,23 @@ li.comment {
   .site-header, .site-breadcrumbs, .site-main, .site-footer {
     width: 60%;
     max-width: 45em; }
-
   .site-header {
     max-width: 60em; }
-
-  .site-title a {
-    font-size: 3.5em; }
-
+  .site-title {
+    font-size: 4em; }
   .social-link svg, .social-link img {
-    width: 2.75em;
-    height: 2.75em; }
-
+    width: 3em;
+    height: 3em; }
   .page-header {
     margin-bottom: 3.5%; }
-
   .entry-title {
-    font-size: 2em; }
-
+    font-size: 2.1em; }
   .sidebar-style-constant .site {
     width: 75%; }
-
   .sidebar-link.left {
     left: 7.5%; }
-
   .sidebar-link.right {
     right: 7.5%; }
-
   .sidebar {
     width: 25%;
     max-width: 30em; }
@@ -1902,24 +2120,19 @@ li.comment {
       right: -30%; }
     .no-csstransforms .sidebar.left {
       left: -30%; }
-
   .content-area article {
-    margin-bottom: 10%; }
- }
+    margin-bottom: 10%; } }
 
 /*--------------------------------------------------------------
 15.4 - Print
 --------------------------------------------------------------*/
 @media only print {
-  .sidebar, .sidebar-link, .social-links, .menu, .paging-navigation, .comments-link, .edit-link, .post-navigation, .comments-area, .site-breadcrumbs {
+  .sidebar, .sidebar-link, .social-links, .menu, .posts-navigation, .comments-link, .edit-link, .post-navigation, .comments-area, .site-breadcrumbs {
     display: none; }
-
   .custom-background {
     background: none;
     /* Remove custom background on body element. */ }
-
   .site-header {
     padding-bottom: 2.5%;
-    margin-top: 0; }
- }
+    margin-top: 0; } }
 /*# sourceMappingURL=style.css.map */

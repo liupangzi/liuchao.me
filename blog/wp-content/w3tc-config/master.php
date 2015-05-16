@@ -642,7 +642,7 @@ return array(
 	'notes.support_us' => false,
 	'notes.no_curl' => true,
 	'notes.no_zlib' => true,
-	'notes.zlib_output_compression' => true,
+	'notes.zlib_output_compression' => false,
 	'notes.no_permalink_rules' => true,
 	'notes.browsercache_rules_no404wp' => true,
 	'timelimit.email_send' => 180,

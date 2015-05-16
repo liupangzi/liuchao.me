@@ -1,3 +1,4 @@
 sitemap.xml
 sitemap.xml.gz
 wp-content/cache/
+wp-content/plugins/si-captcha-for-wordpress/captcha/cache/

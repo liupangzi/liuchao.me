@@ -25,7 +25,7 @@ if (!empty($_REQUEST['action'])){
 
 		case 'delete-records':
 			$rows_affected = 0;
-			if (key_exists($_POST['f'], wp_slimstat_db::$filters_names)){
+			if (key_exists($_POST['f'], wp_slimstat_db::$columns_names)){
 				$rows_affected = wp_slimstat::$wpdb->query("
 					DELETE t1.* 
 					FROM {$GLOBALS['wpdb']->prefix}slim_stats t1
@@ -159,6 +159,7 @@ if (!empty($_REQUEST['action'])){
 		case 'restore-views':
 			$GLOBALS['wpdb']->query("DELETE FROM {$GLOBALS['wpdb']->prefix}usermeta WHERE meta_key LIKE '%meta-box-order_slimstat%'");
 			$GLOBALS['wpdb']->query("DELETE FROM {$GLOBALS['wpdb']->prefix}usermeta WHERE meta_key LIKE '%metaboxhidden_slimstat%'");
+			$GLOBALS['wpdb']->query("DELETE FROM {$GLOBALS['wpdb']->prefix}usermeta WHERE meta_key LIKE '%closedpostboxes_slimstat%'");
 			wp_slimstat_admin::show_alert_message(__('Your reports were successfully restored to their default arrangement.','wp-slimstat'), 'wp-ui-highlight below-h2');
 			break;
 
@@ -257,7 +258,7 @@ $suffixes = array('bytes', 'KB', 'MB', 'GB', 'TB');
 				
 				<select name="f" id="slimstat-filter-name">
 					<?php 
-						foreach (wp_slimstat_db::$filters_names as $a_filter_id => $a_filter_info){
+						foreach (wp_slimstat_db::$columns_names as $a_filter_id => $a_filter_info){
 							echo "<option value='$a_filter_id'>{$a_filter_info[0]}</option>";
 						}
 					?>

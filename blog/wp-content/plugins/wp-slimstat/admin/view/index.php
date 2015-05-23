@@ -6,7 +6,7 @@
 	<form action="<?php echo wp_slimstat_reports::fs_url(); ?>" method="post" id="slimstat-filters-form">
 		<fieldset id="slimstat-filters"><?php
 			$filter_name_html = '<select name="f" id="slimstat-filter-name">';
-			foreach (wp_slimstat_db::$filters_names as $a_filter_label => $a_filter_info){
+			foreach (wp_slimstat_db::$columns_names as $a_filter_label => $a_filter_info){
 				$filter_name_html .= "<option value='$a_filter_label'>{$a_filter_info[0]}</option>";
 			}
 			$filter_name_html .= '</select>';
@@ -96,7 +96,7 @@
 				<input type="hidden" class="slimstat-filter-date" name="slimstat-filter-date" value=""/>
 				<br/>
 				<select name="interval_direction" class="short" id="slimstat-filter-interval_direction">
-					<option value="minus" <?php selected(wp_slimstat_db::$filters_normalized['date']['interval_direction'], array('', 'minus')) ?>>-</option>
+					<option value="minus" <?php selected(wp_slimstat_db::$filters_normalized['date']['interval_direction'], 'minus') ?>>-</option>
 					<option value="plus" <?php selected(wp_slimstat_db::$filters_normalized['date']['interval_direction'], 'plus') ?>>+</option>
 				</select>
 				<input type="text" name="interval" id="slimstat-filter-interval" placeholder="<?php _e('days', 'wp-slimstat') ?>" class="short empty-on-focus" value="<?php echo !empty(wp_slimstat_db::$filters_normalized['date']['interval'])?wp_slimstat_db::$filters_normalized['date']['interval']:'' ?>">,
@@ -141,25 +141,17 @@
 	<div class="meta-box-sortables">
 		<form method="get" action=""><input type="hidden" id="meta-box-order-nonce" name="meta-box-order-nonce" value="<?php echo wp_create_nonce('meta-box-order') ?>" /></form><?php
 
-		switch ( $_GET[ 'page' ] ) {
-			case 'wp-slim-view-1':
-				include_once(dirname(__FILE__).'/right-now.php');
-				break;
+		foreach( wp_slimstat_reports::$reports_info as $a_report_id => $a_report_info ) {
+			if ( empty( $a_report_info[ 'screens' ] ) || !in_array( $_GET[ 'page' ], $a_report_info[ 'screens' ] ) ) {
+				continue;
+			}
 
-			default:
-				foreach( wp_slimstat_reports::$reports_info as $a_report_id => $a_report_info ) {
-					if ( empty( $a_report_info[ 'screens' ] ) || !in_array( $_GET[ 'page' ], $a_report_info[ 'screens' ] ) ) {
-						continue;
-					}
+			wp_slimstat_reports::report_header( $a_report_id );
 
-					wp_slimstat_reports::report_header( $a_report_id );
+			// Third party reports will extend wp_slimstat_reports and add their own methods
+			call_user_func( array( 'wp_slimstat_reports', 'callback_wrapper' ), array( 'id' => $a_report_id ) );
 
-					// Third party reports will extend wp_slimstat_reports and add their own methods
-					call_user_func( array( 'wp_slimstat_reports', $a_report_info[ 'callback' ] ), $a_report_id ); 
-
-					wp_slimstat_reports::report_footer();
-				}
-				break;
+			wp_slimstat_reports::report_footer();
 		}
 	?></div>
 </div>

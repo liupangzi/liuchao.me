@@ -1,0 +1,576 @@
+<?php
+/**
+Plugin Name: Github Ribbon
+Plugin Script: github-ribbon.php
+Plugin URI: http://sudarmuthu.com/wordpress/github-ribbon
+Description: Adds "Fork me on Github" ribbons to your WordPress posts
+Author: Sudar
+Version: 1.2
+License: GPL
+Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
+Author URI: http://sudarmuthu.com/
+Text Domain: github-ribbon
+Domain Path: languages/
+
+=== RELEASE NOTES ===
+Check readme file for full release notes
+*/
+
+/**  Copyright 2010  Sudar Muthu  (email : sudar@sudarmuthu.com)
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License, version 2, as
+    published by the Free Software Foundation.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
+
+/**
+ * Github Ribbon Plugin Class
+ */
+class GithubRibbon {
+    const VERSION = '1.2';
+
+    /**
+     * Initalize the plugin by registering the hooks
+     */
+    function __construct() {
+
+        // Load localization domain
+        load_plugin_textdomain( 'github-ribbon', FALSE, dirname(plugin_basename(__FILE__)) . '/languages' );
+
+        // Register hooks
+
+        // Settings hooks
+        add_action( 'admin_menu', array(&$this, 'register_settings_page') );
+        add_action( 'admin_init', array(&$this, 'add_settings') );
+
+        /* Use the admin_menu action to define the custom boxes */
+        add_action('admin_menu', array(&$this, 'add_custom_box'));
+
+        /* Use the save_post action to do something with the data entered */
+        add_action( 'save_post', array( &$this, 'save_postdata' ) );
+
+        // Enqueue the script
+        add_action('template_redirect', array(&$this, 'add_style'));
+
+        // Register action
+        add_action( 'wp_footer', array( $this, 'add_ribbon' ) );
+
+        $plugin = plugin_basename(__FILE__);
+        add_filter("plugin_action_links_$plugin", array(&$this, 'add_action_links'));
+    }
+
+    /**
+     * Register the settings page
+     */
+    function register_settings_page() {
+        add_options_page( __( 'Github Ribbon', 'github-ribbon' ), __( 'Github Ribbon', 'github-ribbon' ), 'manage_options', 'github-ribbon', array( &$this, 'settings_page' ) );
+    }
+
+    /**
+     * add options
+     */
+    function add_settings() {
+        // Register options
+        register_setting( 'github-ribbon-options', 'github-ribbon-options', array(&$this, 'validate_settings'));
+
+        //Global Options section
+        add_settings_section('gr_global_section', __('Global Settings', 'github-ribbon'), array(&$this, 'print_gr_global_section_text'), __FILE__);
+
+        add_settings_field('enable-ribbon', __('Show Github Ribbons', 'github-ribbon'), array(&$this, 'gr_enable_ribbon_callback'), __FILE__, 'gr_global_section');
+        add_settings_field('ribbon-type', __('Ribbon Type', 'github-ribbon'), array(&$this, 'gr_ribbon_type_callback'), __FILE__, 'gr_global_section');
+        add_settings_field('ribbon-button-type', __('Ribbon Button Type', 'github-ribbon'), array(&$this, 'gr_ribbon_button_type_callback'), __FILE__, 'gr_global_section');
+        add_settings_field('github-url', __('Github URL', 'github-ribbon'), array(&$this, 'gr_github_url_callback'), __FILE__, 'gr_global_section');
+        add_settings_field('ribbon-new-tab', __('', 'github-ribbon'), array(&$this, 'gr_ribbon_new_tab_callback'), __FILE__, 'gr_global_section');
+    }
+
+    /**
+     * Adds the custom section in the Post and Page edit screens
+     */
+    function add_custom_box() {
+
+        $post_types = get_post_types( array(
+		    'public' => true
+	    ) );
+
+        foreach ( $post_types as $post_type ) {
+
+	        add_meta_box(
+		        'github_ribbon_box',
+		        __( 'Github Ribbon', 'github-ribbon' ),
+		        array(&$this, 'inner_custom_box'),
+		        $post_type,
+		        'side'
+	        );
+
+        }
+        
+    }
+
+    /**
+     * Prints the inner fields for the custom post/page section
+     */
+    function inner_custom_box() {
+        global $post;
+        $post_id = $post->ID;
+
+        $gr_options = $this->get_ribbon_options();
+
+        if ($post_id > 0) {
+            $gr_overridden = get_post_meta($post_id, 'gr_overridden', true);
+            if ($gr_overridden == '1') {
+                $gr_options = get_post_meta($post_id, 'gr_options', true);
+            }
+        }
+        // Use nonce for verification
+?>
+        <input type="hidden" name="gr_noncename" id="gr_noncename" value="<?php echo wp_create_nonce( plugin_basename(__FILE__) );?>" />
+        <p>
+            <label><input type="checkbox" name="gr_overridden" value = "1" <?php checked('1', $gr_overridden); ?> /> <?php _e('Override global option', 'github-ribbon'); ?></label>
+        </p>
+
+        <p>
+<?php
+        $items = array("Show", "Hide");
+        foreach($items as $item) {
+            echo "<label><input " . checked($item, $gr_options['enable-ribbon'], false) . " value='$item' name='enable-ribbon' type='radio' /> $item</label> ";
+        }
+?>
+        </p>
+        <p>
+            <label><?php _e('Github Url:', 'github-ribbon'); ?><input type ="text" name="github-url" value ="<?php echo $gr_options['github-url'];?>" /></label>
+        </p>
+
+        <p>
+            <label><?php _e('Ribbon type:', 'github-ribbon'); ?>
+<?php
+        $ribbon_class = new ReflectionClass('GithubRibbonType');
+        $ribbon_types = $ribbon_class->getConstants();
+        $ribbon_types = array_flip($ribbon_types);
+
+        echo "<select id='github-ribbon-types' name='ribbon-type'>";
+        foreach($ribbon_types as $item) {
+            echo "<option value='" . $ribbon_class->getConstant($item) . "' " . selected($ribbon_class->getConstant($item), $gr_options['ribbon-type'], false) . " >$item</option>";
+        }
+        echo "</select>";
+?>
+            </label></p>
+<?php
+    }
+
+    /**
+     * When the post is saved, saves our custom data
+     * @param string $post_id
+     * @return string return post id if nothing is saved
+     */
+    function save_postdata( $post_id ) {
+
+        // verify this came from the our screen and with proper authorization,
+        // because save_post can be triggered at other times
+
+        if ( !isset( $_POST['gr_noncename'] ) || !wp_verify_nonce( $_POST['gr_noncename'], plugin_basename( __FILE__ ) ) ) {
+            return $post_id;
+        }
+
+        if ( 'page' == $_POST['post_type'] ) {
+            if ( !current_user_can( 'edit_page', $post_id ))
+                return $post_id;
+        } else {
+            if ( !current_user_can( 'edit_post', $post_id ))
+                return $post_id;
+        }
+
+        // OK, we're authenticated: we need to find and save the data
+
+        if (isset($_POST['gr_overridden'])) {
+            $choice = $_POST['gr_overridden'];
+            $choice = ($choice == '1')? '1' : '0';
+            update_post_meta($post_id, 'gr_overridden', $choice);
+
+            $enable_ribbon = ($_POST['enable-ribbon'] == 'Hide') ? 'Hide' : 'Show' ;
+            $github_url = esc_url($_POST['github-url'], array('http', 'https'));
+            $ribbon_type = absint($_POST['ribbon-type']);
+
+            $gr_options = array(
+                'enable-ribbon' => $enable_ribbon,
+                'github-url' => $github_url,
+                'ribbon-type' => $ribbon_type
+            );
+            update_post_meta($post_id, 'gr_options', $gr_options);
+        }
+
+        return $post_id;
+    }
+
+    /**
+     * hook to add action links
+     * @param <type> $links
+     * @return <type>
+     */
+    function add_action_links( $links ) {
+        // Add a link to this plugin's settings page
+        $settings_link = '<a href="options-general.php?page=github-ribbon">' . __("Settings", 'github-ribbon') . '</a>';
+        array_unshift( $links, $settings_link );
+        return $links;
+    }
+
+    /**
+     * Adds Footer links.
+     *
+     * Based on http://striderweb.com/nerdaphernalia/2008/06/give-your-wordpress-plugin-credit/
+     */
+    function add_footer_links() {
+        $plugin_data = get_plugin_data( __FILE__ );
+        printf('%1$s ' . __("plugin", 'github-ribbon') .' | ' . __("Version", 'github-ribbon') . ' %2$s | '. __('by', 'github-ribbon') . ' %3$s<br />', $plugin_data['Title'], $plugin_data['Version'], $plugin_data['Author']);
+    }
+
+    /**
+     * Dipslay the Settings page
+     */
+    function settings_page() {
+?>
+        <div class="wrap">
+            <h2><?php _e( 'Github Ribbon Settings', 'github-ribbon' ); ?></h2>
+
+            <div id = "poststuff" style = "float:left; width:75%">
+                <form id="smer_form" method="post" action="options.php">
+                    <?php settings_fields('github-ribbon-options'); ?>
+                    <?php do_settings_sections(__FILE__); ?>
+
+                    <p class="submit">
+                        <input type="submit" name="github-ribbon-submit" class="button-primary" value="<?php _e('Save Changes', 'github-ribbon') ?>" />
+                    </p>
+                </form>
+            </div>
+
+            <iframe frameBorder="0" height = "550" src = "http://sudarmuthu.com/projects/wordpress/github-ribbon/sidebar.php?color=<?php echo get_user_option('admin_color'); ?>&version=<?php echo self::VERSION; ?>"></iframe>
+        </div>
+<?php
+        // Display credits in Footer
+        add_action( 'in_admin_footer', array(&$this, 'add_footer_links'));
+    }
+
+    /**
+     * Include CSS3 Ribbon styles
+     *
+     */
+    function add_style() {
+        $options = $this->get_ribbon_options();
+        if ($options['ribbon-button-type'] == 'CSS3 ribbons') {
+            wp_enqueue_style('github-ribbon', plugin_dir_url(__FILE__) . 'styles/github-ribbon.css');
+            wp_enqueue_style('github-ribbon-print', plugin_dir_url(__FILE__) . 'styles/github-ribbon-print.css', array(), false, 'print');
+        }
+    }
+
+    /**
+     * Add the github ribbon
+     *
+     * @global object $post Current post
+     */
+    function add_ribbon() {
+        global $post;
+
+        if ( !is_feed() ) {
+            $global_options = $this->get_ribbon_options();
+
+            if ( is_singular() ) {
+
+                $gr_overridden = get_post_meta($post->ID, 'gr_overridden', TRUE);
+
+                if ( $gr_overridden == '1' ) {
+                    // if option per post/page is set
+                    $gr_options = get_post_meta($post->ID, 'gr_options', TRUE);
+
+                    if ( $gr_options['enable-ribbon'] == "Show" ) {
+                        // Ribbon is enabled
+                        echo $this->get_ribbon_code($gr_options);
+                    }
+				} else {
+					if ($global_options['enable-ribbon'] == "Show") {
+						echo $this->get_ribbon_code($global_options);
+					}
+				}
+			} else {
+				if ($global_options['enable-ribbon'] == "Show") {
+					echo $this->get_ribbon_code($global_options);
+				}
+			}
+        }
+    }
+
+    /**
+     * Helper function for add_ribbon
+     *
+     * @param array $options Options
+     * @return string Ribbon content
+     */
+    function get_ribbon_code( $options ) {
+		$global_options = $this->get_ribbon_options();
+		return github_ribbon($options['ribbon-type'], $options['github-url'], $global_options['ribbon-new-tab'], $global_options['ribbon-button-type'], false);
+    }
+
+    // ---------------------------Callback functions ----------------------------------------------------------
+
+    /**
+     * Validate the options entered by the user
+     *
+     * @param <type> $input
+     * @return <type>
+     */
+    function validate_settings($input) {
+        $input['enable-ribbon'] = ($input['enable-ribbon'] == 'Hide') ? 'Hide' : 'Show' ;
+        $input['github-url'] = esc_url($input['github-url'], array('http', 'https'));
+        $input['ribbon-type'] = absint($input['ribbon-type']);
+
+        return $input;
+    }
+
+    /**
+     * Print global section text
+     */
+    function  print_gr_global_section_text() {
+        echo '<p>' . __('Enter the global configuration options for Github Ribbon.', 'github-ribbon') . '</p>';
+    }
+
+    /**
+     * Callback for printing radio setting
+     */
+    function gr_enable_ribbon_callback() {
+        $options = $this->get_ribbon_options();
+        $items = array("Show", "Hide");
+        foreach($items as $item) {
+            echo "<label><input " . checked($item, $options['enable-ribbon'], false) . " value='$item' name='github-ribbon-options[enable-ribbon]' type='radio' /> $item</label> ";
+        }
+    }
+
+    /**
+     * Callback for printing github url Setting
+     */
+    function gr_github_url_callback() {
+        $options = $this->get_ribbon_options();
+        echo "<input id='github-url' name='github-ribbon-options[github-url]' size='40' type='text' value='{$options['github-url']}' ><br>";
+        echo "<input id='ribbon-new-tab' name='github-ribbon-options[ribbon-new-tab]' type='checkbox' value='true' ", checked('true', $options['ribbon-new-tab']), " > ";
+        _e('Open in new tab', 'github-ribbon');
+    }
+
+    /**
+     * Callback for Ribbon type Setting
+     */
+    function gr_ribbon_type_callback() {
+        $options = $this->get_ribbon_options();
+        $ribbon_class = new ReflectionClass('GithubRibbonType');
+        $ribbon_types = $ribbon_class->getConstants();
+        $ribbon_types = array_flip($ribbon_types);
+
+        echo "<select id='github-ribbon-types' name='github-ribbon-options[ribbon-type]'>";
+        foreach($ribbon_types as $item) {
+            echo "<option value='" . $ribbon_class->getConstant($item) . "' " . selected($ribbon_class->getConstant($item), $options['ribbon-type'], false) . " >$item</option>";
+        }
+        echo "</select>";
+    }
+
+    /**
+     * Callback for Ribbon button type
+     *
+     */
+    function gr_ribbon_button_type_callback() {
+        $options = $this->get_ribbon_options();
+
+        $ribbon_button_type = $options['ribbon-button-type'];
+        $ribbon_button_type = ($ribbon_button_type == 'CSS3 ribbons') ? $ribbon_button_type : 'Image ribbons' ;
+
+        $items = array("Image ribbons", "CSS3 ribbons");
+        foreach($items as $item) {
+            echo "<label><input " . checked($item, $ribbon_button_type , false) . " value='$item' name='github-ribbon-options[ribbon-button-type]' type='radio' /> $item</label> ";
+        }
+        _e("(Will not work in IE)", 'github-ribbon');
+    }
+
+    function gr_ribbon_new_tab_callback() {
+
+    }
+
+    /**
+     * Get Ribbon options, after replacing default values
+     *
+     * @access private
+     * @since 1.1.1
+     *
+     * @return array Ribbon options
+     */
+    private function get_ribbon_options() {
+        return wp_parse_args( get_option( 'github-ribbon-options' ), array(
+			'enable-ribbon'      => 'Hide',
+            'ribbon-type'        => 0,
+            'github-url'         => '',
+            'ribbon-new-tab'     => false,
+            'ribbon-button-type' => 'Image ribbons',
+        ) );
+    }
+}
+
+// Start this plugin once all other plugins are fully loaded
+add_action( 'init', 'GithubRibbon' ); function GithubRibbon() { global $GithubRibbon; $GithubRibbon = new GithubRibbon(); }
+
+/**
+ * Class to store the ribbon types
+ */
+Class GithubRibbonType {
+    const RED_LEFT = 0;
+    const RED_RIGHT = 1;
+
+    const GREEN_LEFT = 2;
+    const GREEN_RIGHT = 3;
+
+    const BLACK_LEFT = 4;
+    const BLACK_RIGHT = 5;
+
+    const ORANGE_LEFT = 6;
+    const ORANGE_RIGHT = 7;
+
+    const GRAY_LEFT = 8;
+    const GRAY_RIGHT = 9;
+
+    const WHITE_LEFT = 10;
+    const WHITE_RIGHT = 11;
+
+    /**
+     * Get the ribbom image tag based on the image type
+     *
+     * @param <type> $ribbon_type
+     * @return <type>
+     */
+    static function get_ribbon_image ($ribbon_type) {
+        switch($ribbon_type) {
+            case self::RED_LEFT:
+                return <<<EOD
+<img style="position: fixed; top: 0; left: 0; border: 0;" src="//s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub" />
+EOD;
+                break;
+
+            case self::RED_RIGHT:
+                return <<<EOD
+<img style="position: fixed; top: 0; right: 0; border: 0;" src="//s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" />
+EOD;
+                break;
+
+            case self::GREEN_LEFT:
+                return <<<EOD
+<img style="position: fixed; top: 0; left: 0; border: 0;" src="//s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub" />
+EOD;
+                break;
+
+            case self::GREEN_RIGHT:
+                return <<<EOD
+<img style="position: fixed; top: 0; right: 0; border: 0;" src="//s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub" />
+EOD;
+                break;
+
+            case self::BLACK_LEFT:
+                return <<<EOD
+<img style="position: fixed; top: 0; left: 0; border: 0;" src="//s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub" />
+EOD;
+                break;
+
+            case self::BLACK_RIGHT:
+                return <<<EOD
+<img style="position: fixed; top: 0; right: 0; border: 0;" src="//s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" />
+EOD;
+                break;
+
+            case self::ORANGE_LEFT:
+                return <<<EOD
+<img style="position: fixed; top: 0; left: 0; border: 0;" src="//s3.amazonaws.com/github/ribbons/forkme_left_orange_ff7600.png" alt="Fork me on GitHub" />
+EOD;
+                break;
+
+            case self::ORANGE_RIGHT:
+                return <<<EOD
+<img style="position: fixed; top: 0; right: 0; border: 0;" src="//s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub" />
+EOD;
+                break;
+
+            case self::GRAY_LEFT:
+                return <<<EOD
+<img style="position: fixed; top: 0; left: 0; border: 0;" src="//s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png" alt="Fork me on GitHub" />
+EOD;
+                break;
+
+            case self::GRAY_RIGHT:
+                return <<<EOD
+<img style="position: fixed; top: 0; right: 0; border: 0;" src="//s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub" />
+EOD;
+                break;
+
+            case self::WHITE_LEFT:
+                return <<<EOD
+<img style="position: fixed; top: 0; left: 0; border: 0;" src="//s3.amazonaws.com/github/ribbons/forkme_left_white_ffffff.png" alt="Fork me on GitHub" />
+EOD;
+                break;
+
+            case self::WHITE_RIGHT:
+                return <<<EOD
+<img style="position: fixed; top: 0; right: 0; border: 0;" src="//s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub" />
+EOD;
+                break;
+
+        }
+    }
+}
+
+/**
+ * Template function to add the retweet button
+ *
+ * @param GithubRibbonType $ribbon_type
+ * @param string $github_url
+ * @param boolean $in_tab
+ * @param boolean $display
+ * @return either return the ribbon tags or print it based on display parameter
+ */
+function github_ribbon($ribbon_type, $github_url, $in_tab = FALSE, $ribbon_button_type = 'Image ribbons', $display = TRUE) {
+
+    $output = '';
+
+    if ($in_tab) {
+        $target = ' target = "_blank" ';
+    } else {
+        $target = '';
+    }
+
+    if ($ribbon_button_type == 'CSS3 ribbons') {
+        $ribbon_class = new ReflectionClass('GithubRibbonType');
+        $ribbon_types = $ribbon_class->getConstants();
+        $ribbon_types = array_flip($ribbon_types);
+
+        $ribbon_options = split('_', $ribbon_types[$ribbon_type]);
+        $ribbon_color = strtolower($ribbon_options[0]);
+        $ribbon_pos   = strtolower($ribbon_options[1]);
+
+        $output = <<<EOD
+
+      <div class = "github-ribbon $ribbon_pos ribbon-holder">
+        <a href="$github_url" class="$ribbon_color ribbon" $target>
+          <span class="text">Fork me on GitHub</span>
+        </a>
+      </div>
+
+EOD;
+    } else {
+        $output = '<a class = "github-ribbon" href="' . $github_url . '"' . $target . '>' . GithubRibbonType::get_ribbon_image($ribbon_type) . '</a>';
+    }
+
+    if ($display) {
+        echo $output;
+    } else {
+        return $output;
+    }
+}
+?>

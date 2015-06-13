@@ -35,7 +35,7 @@ class wp_slimstat_db {
 			'no_filter_selected_1' => array( '&nbsp;', 'none' ),
 			'browser' => array( __( 'Browser', 'wp-slimstat' ), 'varchar' ),
 			'country' => array( __( 'Country Code', 'wp-slimstat' ), 'varchar' ),
-			'ip' => array( __( 'IP Address', 'wp-slimstat' ), 'int' ),
+			'ip' => array( __( 'IP Address', 'wp-slimstat' ), 'varchar' ),
 			'searchterms' => array( __( 'Search Terms', 'wp-slimstat' ), 'varchar' ),
 			'language' => array( __( 'Language Code', 'wp-slimstat' ), 'varchar' ),
 			'platform' => array( __( 'Operating System', 'wp-slimstat' ), 'varchar' ),
@@ -54,7 +54,7 @@ class wp_slimstat_db {
 			'server_latency' => array( __( 'Server Latency', 'wp-slimstat' ), 'int' ),
 			'author' => array( __( 'Post Author', 'wp-slimstat' ), 'varchar' ),
 			'category' => array( __( 'Post Category ID', 'wp-slimstat' ), 'varchar' ),
-			'other_ip' => array( __( 'Originating IP', 'wp-slimstat' ), 'int' ),
+			'other_ip' => array( __( 'Originating IP', 'wp-slimstat' ), 'varchar' ),
 			'content_type' => array( __( 'Resource Content Type', 'wp-slimstat' ), 'varchar' ),
 			'content_id' => array( __( 'Resource ID', 'wp-slimstat' ), 'int' ),
 			'screen_width' => array( __( 'Screen Width', 'wp-slimstat' ), 'int' ),
@@ -95,16 +95,13 @@ class wp_slimstat_db {
 
 		// Hook for the array of normalized filters
 		self::$filters_normalized = apply_filters( 'slimstat_db_filters_normalized', self::$filters_normalized, $_filters );
-
-		self::$sql_where[ 'columns' ] = self::_get_sql_where( self::$filters_normalized[ 'columns' ] );
-		self::$sql_where[ 'time_range' ] = '(dt BETWEEN '.self::$filters_normalized[ 'utime' ][ 'start' ].' AND '.self::$filters_normalized[ 'utime' ][ 'end' ].')';
 	}
 	// end init
 
 	/**
 	 * Builds the array of WHERE clauses to be used later in our SQL queries
 	 */
-	protected static function _get_sql_where( $_filters_normalized = array() ) {
+	protected static function _get_sql_where( $_filters_normalized = array(), $_slim_stats_table_alias = '' ) {
 		$sql_array = array();
 
 		foreach ( $_filters_normalized as $a_filter_column => $a_filter_data ) {
@@ -113,7 +110,7 @@ class wp_slimstat_db {
 				continue;
 			}
 
-			$sql_array[] = self::_get_single_where_clause( $a_filter_column, $a_filter_data[ 0 ], $a_filter_data[ 1 ] );
+			$sql_array[] = self::_get_single_where_clause( $a_filter_column, $a_filter_data[ 0 ], $a_filter_data[ 1 ], $_slim_stats_table_alias );
 		}
 
 		// Flatten array
@@ -124,29 +121,33 @@ class wp_slimstat_db {
 		return '';
 	}
 
-	public static function get_combined_where( $_where = '', $_column = '*', $_use_time_range = true ) {
+	public static function get_combined_where( $_where = '', $_column = '*', $_use_time_range = true, $_slim_stats_table_alias = '' ) {
+		$dt_with_alias = 'dt';
+		if ( !empty( $_slim_stats_table_alias ) ) {
+			$dt_with_alias = $_slim_stats_table_alias . '.' . $dt_with_alias;
+		}
 
 		if ( empty( $_where ) ) {
-			if ( !empty( self::$sql_where[ 'columns' ] ) ) {
-				$_where = self::$sql_where[ 'columns' ];
-				
+			if ( !empty( self::$filters_normalized[ 'columns' ] ) ) {
+				$_where = self::_get_sql_where( self::$filters_normalized[ 'columns' ], $_slim_stats_table_alias );
+
 				if ($_use_time_range) {
-					$_where .= ' AND '.self::$sql_where[ 'time_range' ];
+					$_where .= " AND $dt_with_alias BETWEEN " . self::$filters_normalized[ 'utime' ][ 'start' ] . ' AND ' . self::$filters_normalized[ 'utime' ][ 'end' ];
 				}
 			}
 			elseif ( $_use_time_range ) {
-				$_where = self::$sql_where[ 'time_range' ];
+				$_where = "$dt_with_alias BETWEEN " . self::$filters_normalized[ 'utime' ][ 'start' ] . ' AND ' . self::$filters_normalized[ 'utime' ][ 'end' ];
 			}
 			else {
 				$_where = '1=1';
 			}
 		}
 		else {
-			if ( $_where != '1=1' && !empty( self::$sql_where[ 'columns' ] ) ) {
-				$_where .= ' AND '.self::$sql_where[ 'columns' ];
+			if ( $_where != '1=1' && !empty( self::$filters_normalized[ 'columns' ] ) ) {
+				$_where .= ' AND ' . self::_get_sql_where( self::$filters_normalized[ 'columns' ], $_slim_stats_table_alias );
 			}
 			if ( $_use_time_range ) {
-				$_where .= ' AND '.self::$sql_where[ 'time_range' ];
+				$_where .= " AND $dt_with_alias BETWEEN " . self::$filters_normalized[ 'utime' ][ 'start' ] . ' AND ' . self::$filters_normalized[ 'utime' ][ 'end' ];
 			}
 		}
 
@@ -165,14 +166,18 @@ class wp_slimstat_db {
 	/**
 	 * Translates user-friendly operators into SQL conditions
 	 */
-	protected static function _get_single_where_clause( $_column = 'id', $_operator = 'equals', $_value = '' ) {
+	protected static function _get_single_where_clause( $_column = 'id', $_operator = 'equals', $_value = '', $_slim_stats_table_alias = 'b' ) {
 		$filter_empty = ( self::$columns_names[ $_column ] [ 1 ] == 'varchar' ) ? 'IS NULL' : '= 0';
 		$filter_not_empty = ( self::$columns_names[ $_column ] [ 1 ] == 'varchar' ) ? 'IS NOT NULL' : '<> 0';
+
+		$column_with_alias = $_column;
+		if ( !empty( $_slim_stats_table_alias ) ) {
+			$column_with_alias = $_slim_stats_table_alias . '.' . $_column;
+		}
 
 		switch( $_column ) {
 			case 'ip':
 			case 'other_ip':
-				$_column = "INET_NTOA( $_column )";
 				$filter_empty = '= "0.0.0.0"';
 				break;
 			default:
@@ -182,64 +187,64 @@ class wp_slimstat_db {
 		$where = array( '', $_value );
 		switch ( $_operator ) {
 			case 'is_not_equal_to':
-				$where[0] = "$_column <> %s";
+				$where[0] = "$column_with_alias <> %s";
 				break;
 
 			case 'contains':
-				$where = array( "$_column LIKE %s", '%'.$_value.'%' );
+				$where = array( "$column_with_alias LIKE %s", '%'.$_value.'%' );
 				break;
 
 			case 'includes_in_set':
-				$where[0] = "FIND_IN_SET(%s, $_column) > 0";
+				$where[0] = "FIND_IN_SET(%s, $column_with_alias) > 0";
 				break;
 
 			case 'does_not_contain':
-				$where = array( "$_column NOT LIKE %s", '%'.$_value.'%' );
+				$where = array( "$column_with_alias NOT LIKE %s", '%'.$_value.'%' );
 				break;
 
 			case 'starts_with':
-				$where = array( "$_column LIKE %s", $_value.'%' );
+				$where = array( "$column_with_alias LIKE %s", $_value.'%' );
 				break;
 
 			case 'ends_with':
-				$where = array( "$_column LIKE %s", '%'.$_value );
+				$where = array( "$column_with_alias LIKE %s", '%'.$_value );
 				break;
 
 			case 'sounds_like':
-				$where[0] = "SOUNDEX($_column) = SOUNDEX(%s)";
+				$where[0] = "SOUNDEX($column_with_alias) = SOUNDEX(%s)";
 				break;
 
 			case 'is_empty':
-				$where = array( "$_column $filter_empty", array() );
+				$where = array( "$column_with_alias $filter_empty", array() );
 				break;
 
 			case 'is_not_empty':
-				$where = array( "$_column $filter_not_empty", array() );
+				$where = array( "$column_with_alias $filter_not_empty", array() );
 				break;
 
 			case 'is_greater_than':
-				$where[0] = "$_column > %d";
+				$where[0] = "$column_with_alias > %d";
 				break;
 
 			case 'is_less_than':
-				$where[0] = "$_column < %d";
+				$where[0] = "$column_with_alias < %d";
 				break;
 
 			case 'between':
 				$range = explode(',', $_value);
-				$where = array( "$_column BETWEEN %d AND %d", array( $range[0], $range[1] ) );
+				$where = array( "$column_with_alias BETWEEN %d AND %d", array( $range[0], $range[1] ) );
 				break;
 
 			case 'matches':
-				$where[0] = "$_column REGEXP %s";
+				$where[0] = "$column_with_alias REGEXP %s";
 				break;
 
 			case 'does_not_match':
-				$where[0] = "$_column NOT REGEXP %s";
+				$where[0] = "$column_with_alias NOT REGEXP %s";
 				break;
 
 			default:
-				$where[0] = "$_column = %s";
+				$where[0] = "$column_with_alias = %s";
 				break;
 		}
 
@@ -300,11 +305,13 @@ class wp_slimstat_db {
 
 				switch( $a_filter[ 1 ] ) {
 					case 'strtotime':
-						$custom_date = strtotime( $a_filter[ 3 ].' UTC' );
+						$custom_date = strtotime( $a_filter[ 3 ], date_i18n( 'U' ) );
 
-						$filters_normalized[ 'date' ][ 'day' ] = date( 'j', $custom_date );
-						$filters_normalized[ 'date' ][ 'month' ] = date( 'n', $custom_date );
-						$filters_normalized[ 'date' ][ 'year' ] = date( 'Y', $custom_date );
+						$filters_normalized[ 'date' ][ 'minute' ] = intval( date( 'i', $custom_date ) );
+						$filters_normalized[ 'date' ][ 'hour' ] = intval( date( 'H', $custom_date ) );
+						$filters_normalized[ 'date' ][ 'day' ] = intval( date( 'j', $custom_date ) );
+						$filters_normalized[ 'date' ][ 'month' ] = intval( date( 'n', $custom_date ) );
+						$filters_normalized[ 'date' ][ 'year' ] = intval( date( 'Y', $custom_date ) );
 						break;
 
 					case 'minute':
@@ -319,25 +326,25 @@ class wp_slimstat_db {
 							// Try to apply strtotime to value
 							switch( $a_filter[ 1 ] ) {
 								case 'minute':
-									$filters_normalized[ 'date' ][ 'minute' ] = date( 'i', strtotime( $a_filter[ 3 ], date_i18n( 'U' ) ) );
+									$filters_normalized[ 'date' ][ 'minute' ] = intval( date( 'i', strtotime( $a_filter[ 3 ], date_i18n( 'U' ) ) ) );
 									$filters_normalized[ 'date' ][ 'is_past' ] = true;
 									break;
 
 								case 'hour':
-									$filters_normalized[ 'date' ][ 'hour' ] = date( 'H', strtotime( $a_filter[ 3 ], date_i18n( 'U' ) ) );
+									$filters_normalized[ 'date' ][ 'hour' ] = intval( date( 'H', strtotime( $a_filter[ 3 ], date_i18n( 'U' ) ) ) );
 									$filters_normalized[ 'date' ][ 'is_past' ] = true;
 									break;
 
 								case 'day':
-									$filters_normalized[ 'date' ][ 'day' ] = date( 'j', strtotime( $a_filter[ 3 ], date_i18n( 'U' ) ) );
+									$filters_normalized[ 'date' ][ 'day' ] = intval( date( 'j', strtotime( $a_filter[ 3 ], date_i18n( 'U' ) ) ) );
 									break;
 
 								case 'month':
-									$filters_normalized[ 'date' ][ 'month' ] = date( 'n', strtotime( $a_filter[ 3 ], date_i18n( 'U' ) ) );
+									$filters_normalized[ 'date' ][ 'month' ] = intval( date( 'n', strtotime( $a_filter[ 3 ], date_i18n( 'U' ) ) ) );
 									break;
 
 								case 'year':
-									$filters_normalized[ 'date' ][ 'year' ] = date( 'Y', strtotime( $a_filter[ 3 ], date_i18n( 'U' ) ) );
+									$filters_normalized[ 'date' ][ 'year' ] = intval( date( 'Y', strtotime( $a_filter[ 3 ], date_i18n( 'U' ) ) ) );
 									break;
 
 								default:
@@ -483,14 +490,14 @@ class wp_slimstat_db {
 			$sign = ( $filters_normalized[ 'date' ][ 'interval_direction' ] == 'plus' )?'+':'-';
 
 			$filters_normalized[ 'utime' ][ 'end' ] = $filters_normalized[ 'utime' ][ 'start' ] + intval( $sign.( 
-					( !empty( $filters_normalized[ 'date' ][ 'interval' ] )?intval( $filters_normalized[ 'date' ][ 'interval' ] + 1 ):0 ) * 86400 + 
+					( !empty( $filters_normalized[ 'date' ][ 'interval' ] )?intval( $filters_normalized[ 'date' ][ 'interval' ] + 1):0 ) * 86400 + 
 					( !empty( $filters_normalized[ 'date' ][ 'interval_hours' ] )?intval( $filters_normalized[ 'date' ][ 'interval_hours' ] ):0 ) * 3600 +
 					( !empty( $filters_normalized[ 'date' ][ 'interval_minutes' ] )?intval( $filters_normalized[ 'date' ][ 'interval_minutes' ] ):0 ) * 60
 				 ) ) - 1;
 
 			// Swap boundaries if we're going back in time
 			if ( $filters_normalized[ 'date' ][ 'interval_direction' ] == 'minus' ) {
-				list( $filters_normalized[ 'utime' ][ 'start' ], $filters_normalized[ 'utime' ][ 'end' ] ) = array( $filters_normalized[ 'utime' ][ 'end' ] + 86401, $filters_normalized[ 'utime' ][ 'start' ] + 86399 );
+				list( $filters_normalized[ 'utime' ][ 'start' ], $filters_normalized[ 'utime' ][ 'end' ] ) = array( $filters_normalized[ 'utime' ][ 'end' ] + 1, $filters_normalized[ 'utime' ][ 'start' ] - 1 );
 			}
 		}
 

@@ -3,7 +3,7 @@
 Plugin Name: WP Slimstat
 Plugin URI: http://wordpress.org/plugins/wp-slimstat/
 Description: The leading web analytics plugin for WordPress
-Version: 4.1.3.2
+Version: 4.1.4
 Author: Camu
 Author URI: http://www.wp-slimstat.com/
 */
@@ -11,7 +11,7 @@ Author URI: http://www.wp-slimstat.com/
 if ( !empty( wp_slimstat::$options ) ) return true;
 
 class wp_slimstat {
-	public static $version = '4.1.3.2';
+	public static $version = '4.1.4';
 	public static $options = array();
 
 	public static $wpdb = '';
@@ -138,7 +138,12 @@ class wp_slimstat {
 
 			// Are we tracking an outbound click?
 			if (!empty(self::$data_js['res'])){
-				self::$stat['outbound_resource'] = strip_tags(trim(base64_decode(self::$data_js['res'])));
+				$outbound_resource = strip_tags( trim( base64_decode( self::$data_js[ 'res' ] ) ) );
+				$outbound_host = parse_url( $outbound_resource, PHP_URL_HOST );
+				$site_host = parse_url( get_site_url(), PHP_URL_HOST );
+				if ( $outbound_host != $site_host ) {
+					self::$stat[ 'outbound_resource' ] = $outbound_resource;
+				}
 			}
 
 			self::_update_row(self::$stat, $GLOBALS['wpdb']->prefix.'slim_stats');
@@ -393,12 +398,12 @@ class wp_slimstat {
 				list( $ip_to_ignore, $cidr_mask ) = explode( '/', trim( $ip_to_ignore ) );
 			}
 			else{
-				$cidr_mask = self::_get_mask_length( $ip_to_ignore );
+				$cidr_mask = self::get_mask_length( $ip_to_ignore );
 			}
 
-			$long_masked_ip_to_ignore = substr( self::_dtr_pton( $ip_to_ignore ), 0, $cidr_mask );
-			$long_masked_user_ip = substr( self::_dtr_pton( self::$stat[ 'ip' ] ), 0, $cidr_mask );
-			$long_masked_user_other_ip = substr( self::_dtr_pton( self::$stat[ 'other_ip' ] ), 0 , $cidr_mask );
+			$long_masked_ip_to_ignore = substr( self::dtr_pton( $ip_to_ignore ), 0, $cidr_mask );
+			$long_masked_user_ip = substr( self::dtr_pton( self::$stat[ 'ip' ] ), 0, $cidr_mask );
+			$long_masked_user_other_ip = substr( self::dtr_pton( self::$stat[ 'other_ip' ] ), 0 , $cidr_mask );
 
 			if ( $long_masked_user_ip === $long_masked_ip_to_ignore || $long_masked_user_other_ip === $long_masked_ip_to_ignore ) {
 				self::$stat['id'] = -204;
@@ -416,7 +421,7 @@ class wp_slimstat {
 			// IPv4 or IPv6
 			$needle = '.';
 			$replace = '.0';
-			if ( self::_get_mask_length( self::$stat['ip'] ) == 128 ) {
+			if ( self::get_mask_length( self::$stat['ip'] ) == 128 ) {
 				$needle = ':';
 				$replace = ':0000';
 			}
@@ -539,7 +544,7 @@ class wp_slimstat {
 	 * Searches for the country code associated to a given IP address
 	 */
 	public static function get_country( $_ip_address = '0.0.0.0' ){
-		$float_ipnum = (float) sprintf( "%u", bindec( self::_dtr_pton( $_ip_address ) ) );
+		$float_ipnum = (float) sprintf( "%u", bindec( self::dtr_pton( $_ip_address ) ) );
 		$country_output = 'xx';
 
 		// Is this a RFC1918 (local) IP?
@@ -1205,7 +1210,7 @@ class wp_slimstat {
 		self::$options['last_tracker_error'] = array( $error_code, $_error_message, date_i18n( 'U' ) );
 	}
 
-	protected static function _dtr_pton( $ip ){
+	public static function dtr_pton( $ip ){
 		if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
 			$unpacked = unpack( 'A4', inet_pton( $ip ) );
 		}
@@ -1223,7 +1228,7 @@ class wp_slimstat {
 		return $binary_ip;
 	}
 	
-	protected static function _get_mask_length( $ip ){
+	public static function get_mask_length( $ip ){
 		if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
 			return 32;
 		}
@@ -1460,6 +1465,7 @@ class wp_slimstat {
 			'add_dashboard_widgets' => $val_yes,
 			'posts_column_day_interval' => 30,
 			'posts_column_pageviews' => $val_yes,
+			'hide_addons' => $val_no,
 			'use_separate_menu' => $val_yes,
 			'auto_purge_delete' => $val_yes,
 			'auto_purge' => 0,
@@ -1676,25 +1682,33 @@ class wp_slimstat {
 	 * Removes old entries from the main table
 	 */
 	public static function wp_slimstat_purge(){
-		if (($autopurge_interval = intval(self::$options['auto_purge'])) <= 0) return;
-
-		$days_ago = strtotime(date_i18n('Y-m-d H:i:s')." -$autopurge_interval days");
-
-		// Copy entries to the archive table, if needed
-		if (self::$options['auto_purge_delete'] != 'yes'){
-			self::$wpdb->query("
-				INSERT INTO {$GLOBALS['wpdb']->prefix}slim_stats_archive (ip, other_ip, username, country, referer, resource, searchterms, plugins, notes, visit_id, server_latency, page_performance, browser, browser_version, browser_type, platform, language, user_agent, resolution, screen_width, screen_height, colordepth, antialias, content_type, category, author, content_id, outbound_resource, dt)
-				SELECT ip, other_ip, username, country, referer, resource, searchterms, plugins, notes, visit_id, server_latency, page_performance, browser, browser_version, browser_type, platform, language, user_agent, resolution, screen_width, screen_height, colordepth, antialias, content_type, category, author, content_id, outbound_resource, dt
-				FROM {$GLOBALS['wpdb']->prefix}slim_stats
-				WHERE dt < $days_ago");
+		$autopurge_interval = intval( self::$options[ 'auto_purge' ] );
+		if ( $autopurge_interval <= 0 ) {
+			return;
 		}
 
-		// Delete old entries
-		self::$wpdb->query("DELETE ts FROM {$GLOBALS['wpdb']->prefix}slim_stats ts WHERE ts.dt < $days_ago");
+		$days_ago = strtotime( date_i18n( 'Y-m-d H:i:s' ) . " -$autopurge_interval days" );
+
+		// Copy entries to the archive table, if needed
+		if ( self::$options[ 'auto_purge_delete' ] != 'yes' ) {
+			$is_copy_done = self::$wpdb->query("
+				INSERT INTO {$GLOBALS['wpdb']->prefix}slim_stats_archive (ip, other_ip, username, country, referer, resource, searchterms, plugins, notes, visit_id, server_latency, page_performance, browser, browser_version, browser_type, platform, language, user_agent, resolution, screen_width, screen_height, content_type, category, author, content_id, outbound_resource, dt)
+				SELECT ip, other_ip, username, country, referer, resource, searchterms, plugins, notes, visit_id, server_latency, page_performance, browser, browser_version, browser_type, platform, language, user_agent, resolution, screen_width, screen_height, content_type, category, author, content_id, outbound_resource, dt
+				FROM {$GLOBALS[ 'wpdb' ]->prefix}slim_stats
+				WHERE dt < $days_ago");
+				
+			if ( $is_copy_done !== false ) {
+				self::$wpdb->query("DELETE ts FROM {$GLOBALS[ 'wpdb' ]->prefix}slim_stats ts WHERE ts.dt < $days_ago");
+			}
+		}
+		else {
+			// Delete old entries
+			self::$wpdb->query("DELETE ts FROM {$GLOBALS[ 'wpdb' ]->prefix}slim_stats ts WHERE ts.dt < $days_ago");
+		}
 
 		// Optimize tables
-		self::$wpdb->query("OPTIMIZE TABLE {$GLOBALS['wpdb']->prefix}slim_stats");
-		self::$wpdb->query("OPTIMIZE TABLE {$GLOBALS['wpdb']->prefix}slim_stats_archive");
+		self::$wpdb->query( "OPTIMIZE TABLE {$GLOBALS[ 'wpdb' ]->prefix}slim_stats" );
+		self::$wpdb->query( "OPTIMIZE TABLE {$GLOBALS[ 'wpdb' ]->prefix}slim_stats_archive" );
 	}
 	// end wp_slimstat_purge
 
@@ -1734,22 +1748,22 @@ class wp_slimstat {
 // end of class declaration
 
 // Ok, let's go, Sparky!
-if (function_exists('add_action')){
+if ( function_exists( 'add_action' ) ) {
 	// Init the Ajax listener
-	if (!empty($_POST['action']) && $_POST['action'] == 'slimtrack'){
-		add_action('wp_ajax_nopriv_slimtrack', array('wp_slimstat', 'slimtrack_ajax'));
-		add_action('wp_ajax_slimtrack', array('wp_slimstat', 'slimtrack_ajax')); 
+	if ( !empty( $_POST[ 'action' ] ) && $_POST[ 'action' ] == 'slimtrack' ) {
+		add_action( 'wp_ajax_nopriv_slimtrack', array( 'wp_slimstat', 'slimtrack_ajax' ) );
+		add_action( 'wp_ajax_slimtrack', array( 'wp_slimstat', 'slimtrack_ajax' ) ); 
 	}
 
 	// Load the admin API, if needed
 	// From the codex: You can't call register_activation_hook() inside a function hooked to the 'plugins_loaded' or 'init' hooks (or any other hook). These hooks are called before the plugin is loaded or activated.
-	if (is_admin()){
-		include_once(dirname(__FILE__).'/admin/wp-slimstat-admin.php');
-		add_action('plugins_loaded', array('wp_slimstat_admin', 'init'), 15);
-		register_activation_hook(__FILE__, array('wp_slimstat_admin', 'init_environment'));
-		register_deactivation_hook(__FILE__, array('wp_slimstat_admin', 'deactivate'));
+	if ( is_admin() ) {
+		include_once ( plugin_dir_path( __FILE__ ) . '/admin/wp-slimstat-admin.php' );
+		add_action( 'plugins_loaded', array( 'wp_slimstat_admin', 'init' ), 15 );
+		register_activation_hook( __FILE__, array( 'wp_slimstat_admin', 'init_environment' ) );
+		register_deactivation_hook( __FILE__, array( 'wp_slimstat_admin', 'deactivate' ) );
 	}
 
 	// Add the appropriate actions
-	add_action('plugins_loaded', array('wp_slimstat', 'init'), 10);
+	add_action( 'plugins_loaded', array( 'wp_slimstat', 'init' ), 10 );
 }

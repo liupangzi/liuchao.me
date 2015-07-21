@@ -15,6 +15,9 @@ class wp_slimstat_db {
 	// Filters that are not visible in the dropdown
 	public static $all_columns_names = array();
 
+	// Debug message
+	public static $debug_message = '';
+
 	/*
 	 * Sets the filters and other structures needed to store the data retrieved from the DB
 	 */
@@ -65,6 +68,8 @@ class wp_slimstat_db {
 
 		// The following filters will not be displayed in the dropdown
 		self::$all_columns_names = array_merge( array(
+
+			// Date and Time
 			'minute' => array( __( 'Minute', 'wp-slimstat' ), 'int' ),
 			'hour' => array( __( 'Hour', 'wp-slimstat' ), 'int' ),
 			'day' => array( __( 'Day', 'wp-slimstat' ), 'int' ),
@@ -75,6 +80,15 @@ class wp_slimstat_db {
 			'interval_hours' => array( __( 'hours', 'wp-slimstat' ), 'int' ),
 			'interval_minutes' => array( __( 'minutes', 'wp-slimstat' ), 'int' ),
 			'dt' => array( __( 'Unix Timestamp', 'wp-slimstat' ), 'int' ),
+
+			// Other columns
+			'language_substring' => array( __( 'Language', 'wp-slimstat' ), 'varchar' ),
+			'platform_substring' => array( __( 'Operating System', 'wp-slimstat' ), 'varchar' ),
+			'resource_substring' => array( __( 'Permalink', 'wp-slimstat' ), 'varchar' ),
+			'metric' => array( __( 'Metric', 'wp-slimstat' ), 'varchar' ),
+			'value' => array( __( 'Value', 'wp-slimstat' ), 'varchar' ),
+			'tooltip' => array( __( 'Notes', 'wp-slimstat' ), 'varchar' ),
+			'details' => array( __( 'Notes', 'wp-slimstat' ), 'varchar' ),
 
 			// Events
 			'event_id' => array( __( 'Event ID', 'wp-slimstat' ), 'int' ),
@@ -281,15 +295,11 @@ class wp_slimstat_db {
 		}
 	}
 
-	protected static function _show_debug( $_message = '' ) {
-		echo "<p class='debug'>$_message</p>";
-	}
-
 	public static function get_results( $_sql = '', $_select_no_aggregate_values = '', $_order_by = '', $_group_by = '', $_aggregate_values_add = '' ) {
 		$_sql = apply_filters( 'slimstat_get_results_sql', $_sql, $_select_no_aggregate_values, $_order_by, $_group_by, $_aggregate_values_add );
 
 		if ( wp_slimstat::$options[ 'show_sql_debug' ] == 'yes' ) {
-			self::_show_debug( $_sql );
+			self::$debug_message .= "<p class='debug'>$_sql</p>";
 		}
 
 		return wp_slimstat::$wpdb->get_results( $_sql, ARRAY_A );
@@ -299,7 +309,7 @@ class wp_slimstat_db {
 		$_sql = apply_filters( 'slimstat_get_var_sql', $_sql, $_aggregate_value );
 
 		if ( wp_slimstat::$options[ 'show_sql_debug' ] == 'yes' ) {
-			self::_show_debug( $_sql );
+			self::$debug_message .= "<p class='debug'>$_sql</p>";
 		}
 
 		return wp_slimstat::$wpdb->get_var( $_sql );
@@ -314,7 +324,7 @@ class wp_slimstat_db {
 			),
 			'misc' => $_init_misc?array(
 				'direction' => 'DESC',
-				'limit_results' => 1000,
+				'limit_results' => wp_slimstat::$options[ 'limit_results' ],
 				'start_from' => 0
 			) : array(),
 			'utime' => array(
@@ -857,10 +867,27 @@ class wp_slimstat_db {
 	}
 
 	public static function get_top_aggr( $_column = 'id', $_where = '', $_outer_select_column = '', $_aggr_function = 'MAX' ) {
+		if ( is_array( $_column ) ) {
+			$_where = !empty( $_column[ 'where' ] ) ? $_column[ 'where' ] : '';
+			$_having = !empty( $_column[ 'having' ] ) ? $_column[ 'having' ] : '';
+			$_use_date_filters = !empty( $_column[ 'use_date_filters' ] ) ? $_column[ 'use_date_filters' ] : true;
+			$_as_column = !empty( $_column[ 'as_column' ] ) ? $_column[ 'as_column' ] : '';
+			$_outer_select_column = !empty( $_column[ 'outer_select_column' ] ) ? $_column[ 'outer_select_column' ] : '';
+			$_aggr_function = !empty( $_column[ 'aggr_function' ] ) ? $_column[ 'aggr_function' ] : '';
+			$_column = $_column[ 'columns' ];
+		}
+
+		if ( !empty( $_as_column ) ) {
+			$_column = "$_column AS $_as_column";
+		}
+		else {
+			$_as_column = $_column;
+		}
+
 		$_where = self::get_combined_where( $_where, $_column );
 
 		return self::get_results( "
-			SELECT $_outer_select_column, ts1.aggrid, COUNT(*) counthits
+			SELECT $_outer_select_column, ts1.aggrid as $_column, COUNT(*) counthits
 			FROM (
 				SELECT $_column, $_aggr_function(id) aggrid
 				FROM {$GLOBALS['wpdb']->prefix}slim_stats

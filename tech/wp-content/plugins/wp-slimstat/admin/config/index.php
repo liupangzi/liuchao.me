@@ -38,7 +38,7 @@ if (!empty($_POST['options']['ignore_users'])){
 	$post_data = trim($_POST['options']['ignore_users']);
 
 	if (is_array($user_array) && !empty($post_data)){
-		$sql_user_placeholders = implode(', ', array_fill(0, count($user_array), '%s COLLATE utf8_bin'));
+		$sql_user_placeholders = implode(', ', array_fill(0, count($user_array), '%s'));
 		if ($GLOBALS['wpdb']->get_var($GLOBALS['wpdb']->prepare("SELECT COUNT(*) FROM {$GLOBALS['wpdb']->users} WHERE user_login IN ($sql_user_placeholders)", $user_array)) == count($user_array)){
 			wp_slimstat::$options['ignore_users'] = $_POST['options']['ignore_users'];
 
@@ -47,9 +47,6 @@ if (!empty($_POST['options']['ignore_users'])){
 			wp_slimstat_admin::$faulty_fields[] = __('Ignore users (username not found)','wp-slimstat');
 		}
 	}
-}
-else {
-	wp_slimstat::$options['ignore_users'] = '';
 }
 
 if (!empty($_POST['options']['ignore_capabilities'])){
@@ -70,9 +67,6 @@ if (!empty($_POST['options']['ignore_capabilities'])){
 		wp_slimstat_admin::$faulty_fields[] = __('Invalid capability. Please check <a href="http://codex.wordpress.org/Roles_and_Capabilities" target="_new">this page</a> for more information','wp-slimstat');
 	}
 }
-else {
-	wp_slimstat::$options['ignore_capabilities'] = '';
-}
 
 if (!empty($_POST['options']['can_view'])){
 	// Make sure all the users exist in the system 
@@ -80,7 +74,7 @@ if (!empty($_POST['options']['can_view'])){
 	$user_array = wp_slimstat::string_to_array($_POST['options']['can_view']);
 
 	if (is_array($user_array) && !empty($post_data)){
-		$sql_user_placeholders = implode(', ', array_fill(0, count($user_array), '%s COLLATE utf8_bin'));
+		$sql_user_placeholders = implode(', ', array_fill(0, count($user_array), '%s'));
 		if ($GLOBALS['wpdb']->get_var($GLOBALS['wpdb']->prepare("SELECT COUNT(*) FROM {$GLOBALS['wpdb']->users} WHERE user_login IN ($sql_user_placeholders)", $user_array)) == count($user_array)){
 			wp_slimstat::$options['can_view'] = $_POST['options']['can_view'];
 		}
@@ -88,9 +82,6 @@ if (!empty($_POST['options']['can_view'])){
 			wp_slimstat_admin::$faulty_fields[] = __('Read access: username not found','wp-slimstat');
 		}
 	}
-}
-else {
-	wp_slimstat::$options['can_view'] = '';
 }
 
 if (!empty($_POST['options']['capability_can_view'])){
@@ -101,9 +92,6 @@ if (!empty($_POST['options']['capability_can_view'])){
 		wp_slimstat_admin::$faulty_fields[] = __('Invalid minimum capability. Please check <a href="http://codex.wordpress.org/Roles_and_Capabilities" target="_new">this page</a> for more information','wp-slimstat');
 	}
 }
-else {
-	wp_slimstat::$options['capability_can_view'] = '';
-}
 
 if (!empty($_POST['options']['can_admin'])){
 	// Make sure all the users exist in the system
@@ -111,7 +99,7 @@ if (!empty($_POST['options']['can_admin'])){
 	$user_array = wp_slimstat::string_to_array($_POST['options']['can_admin']);
 
 	if (is_array($user_array) && !empty($post_data)){
-		$sql_user_placeholders = implode(', ', array_fill(0, count($user_array), '%s COLLATE utf8_bin'));
+		$sql_user_placeholders = implode(', ', array_fill(0, count($user_array), '%s'));
 		if ($GLOBALS['wpdb']->get_var($GLOBALS['wpdb']->prepare("SELECT COUNT(*) FROM {$GLOBALS['wpdb']->users} WHERE user_login IN ($sql_user_placeholders)", $user_array)) == count($user_array)){
 			wp_slimstat::$options['can_admin'] = $_POST['options']['can_admin'];
 		}
@@ -120,10 +108,7 @@ if (!empty($_POST['options']['can_admin'])){
 		}
 	}
 }
-else {
-	wp_slimstat::$options['can_admin'] = '';
-}
-
+			
 if (!empty($_POST['options']['capability_can_admin'])){
 	if (isset($GLOBALS['wp_roles']->role_objects['administrator']->capabilities) && array_key_exists($_POST['options']['capability_can_admin'], $GLOBALS['wp_roles']->role_objects['administrator']->capabilities)){
 		wp_slimstat::$options['capability_can_admin'] = $_POST['options']['capability_can_admin'];
@@ -131,9 +116,6 @@ if (!empty($_POST['options']['capability_can_admin'])){
 	else{
 		wp_slimstat_admin::$faulty_fields[] = __('Invalid minimum capability. Please check <a href="http://codex.wordpress.org/Roles_and_Capabilities" target="_new">this page</a> for more information','wp-slimstat');
 	}
-}
-else {
-	wp_slimstat::$options['capability_can_admin'] = '';
 }
 
 $current_tab = empty( $_GET[ 'tab' ] ) ? 1 : intval( $_GET[ 'tab' ] );
@@ -158,7 +140,7 @@ $options = array(
 			'hide_addons' => array( 'description' => __('Hide Add-ons','wp-slimstat'), 'type' => 'yesno', 'long_description' => __('Enable this option to hide all your <strong>active</strong> premium add-ons from the list of plugins in WordPress. Please note that you will still receive updates for hidden add-ons.','wp-slimstat') ),
 
 			'general_database_header' => array('description' => __('Database','wp-slimstat'), 'type' => 'section_header'),
-			'auto_purge' => array( 'description' => __('Retain data for','wp-slimstat'), 'type' => 'integer', 'long_description' => __("Clean-up log entries older than the number of days specified here above. Enter <strong>0</strong> (number zero) if you want to preserve your data regardless of its age.",'wp-slimstat').(wp_get_schedule('wp_slimstat_purge')?' '.__('Next clean-up on','wp-slimstat').' <strong>'.date_i18n(get_option('date_format').', '.get_option('time_format'), wp_next_scheduled('wp_slimstat_purge')).'</strong>. '.sprintf(__('Entries logged on or before %s will be archived or deleted according to the option here below.','wp-slimstat'), date_i18n(get_option('date_format'), strtotime('-'.wp_slimstat::$options['auto_purge'].' days'))):''), 'after_input_field' => __('days','wp-slimstat') ),
+			'auto_purge' => array( 'description' => __('Retain data for','wp-slimstat'), 'type' => 'integer', 'long_description' => __("Clean-up log entries older than the number of days specified here above. Enter <strong>0</strong> (number zero) if you want to preserve your data regardless of its age.",'wp-slimstat').( (wp_slimstat::$options[ 'auto_purge' ] > 0)?' '.__('Next clean-up on','wp-slimstat').' <strong>'.date_i18n(get_option('date_format').', '.get_option('time_format'), wp_next_scheduled('wp_slimstat_purge')).'</strong>. '.sprintf(__('Entries logged on or before %s will be archived or deleted according to the option here below.','wp-slimstat'), date_i18n(get_option('date_format'), strtotime('-'.wp_slimstat::$options['auto_purge'].' days'))):''), 'after_input_field' => __('days','wp-slimstat') ),
 			'auto_purge_delete' => array( 'description' => __('Delete records','wp-slimstat'), 'type' => 'yesno', 'long_description' => __('If DB space is not an issue, you can decide to archive older records in another table, instead of deleting them. This way performance is preserved, but you will still be able to access your data at a later time, if needed. Please note that the archive table (<code>wp_slim_stats_archive</code>) will be <strong>deleted</strong> along with all the other tables, when Slimstat is uninstalled. Make sure to backup your data before you proceed.','wp-slimstat') )
 		)
 	),
@@ -178,6 +160,7 @@ $options = array(
 			'use_slimscroll' => array('description' => __('SlimScroll','wp-slimstat'), 'type' => 'yesno', 'long_description' => __('Enable SlimScroll, a slick jQuery library that replaces the built-in browser scrollbar.','wp-slimstat')),
 			'expand_details' => array('description' => __('Expand Details','wp-slimstat'), 'type' => 'yesno', 'long_description' => __("Expand each row's details by default, insted of on mousehover.",'wp-slimstat')),
 			'rows_to_show' => array('description' => __('Rows to Display','wp-slimstat'), 'type' => 'integer', 'long_description' => __('Specify the number of items in each report.','wp-slimstat')),
+			'limit_results' => array('description' => __('Max Results','wp-slimstat'), 'type' => 'integer', 'long_description' => __('Decide how many records should be retrieved from the database in total. Depending on your server configuration, you may want to fine tune this value to avoid exceeding your PHP memory limit.','wp-slimstat')),
 
 			'reports_right_now_header' => array('description' => __('Activity Log','wp-slimstat'), 'type' => 'section_header'),
 			'refresh_interval' => array('description' => __('Live Stream','wp-slimstat'), 'type' => 'integer', 'long_description' => __('Enable the Live view, which refreshes the Activity Log every X seconds. Enter <strong>0</strong> (number zero) to deactivate this feature.','wp-slimstat'), 'after_input_field' => __('seconds','wp-slimstat')),
@@ -277,7 +260,9 @@ $options = apply_filters( 'slimstat_options_on_page', $options );
 
 $tabs_html = '';
 foreach ( $options as $a_tab_id => $a_tab_info ) {
-	$tabs_html .= "<li class='nav-tab nav-tab".(($current_tab == $a_tab_id)?'-active':'-inactive')."'><a href='".wp_slimstat_admin::$config_url.$a_tab_id."'>{$a_tab_info[ 'title' ]}</a></li>";
+	if ( !empty( $a_tab_info[ 'rows' ] ) || !empty( $a_tab_info[ 'include' ] ) ) {
+		$tabs_html .= "<li class='nav-tab nav-tab".(($current_tab == $a_tab_id)?'-active':'-inactive')."'><a href='".wp_slimstat_admin::$config_url.$a_tab_id."'>{$a_tab_info[ 'title' ]}</a></li>";
+	}
 }
 
 echo '<div class="wrap slimstat"><h2>'.__('Settings','wp-slimstat').'</h2><ul class="nav-tabs">'.$tabs_html.'</ul>';

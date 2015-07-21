@@ -11,9 +11,9 @@ class wp_slimstat_admin{
 	 */
 	public static function init(){
 		if ((wp_slimstat::$options['enable_ads_network'] == 'yes' || wp_slimstat::$options['enable_ads_network'] == 'no')){
-			self::$admin_notice = "Join us in welcoming our new partner <a href='' target='_blank'>GetSocial.io</a>, a service that allows you to find your true influencers and understand which users are driving your traffic and conversions through their shares. Our users get <strong>free access</strong> to their platform through a new report located in the Site Analysis screen. We hope you will enjoy all the benefits of social media analytics. Please note: by enabling this feature, you agree to have Slimstat send GetSocial your posts' URLs once daily for analysis. No other information is disclosed. You can always opt-out and deactivate this functionality by using the corresponding option under Settings > Reports.";
-			// self::$admin_notice = "We are still getting support requests from users having issues with Slimstat because of the Geolite add-on that was distributed a few months ago. If you are still using this separate add-on, we'd like to remind you that Slimstat 4 introduced a new more intuitive way of managing the MaxMind Geolocation database bundled with our software. Actually, the free Geolite plugin <strong>is not compatible</strong> with the latest version of Slimstat, because of the IPv6 support we implemented. We recommend that you uninstall the add-on from your systems, thus improving the overall performance of your website. As usual, do not hesitate to contact us if you have any questions.";
-			self::$admin_notice .= '<br/><br/><a id="slimstat-hide-admin-notice" href="#" class="button-secondary">I got it, thanks</a>';
+			self::$admin_notice = "Two new members just joined the big family of add-ons available on our store: <a href='http://www.wp-slimstat.com/downloads/heartbeat/' target='_blank'>Heartbeat</a> and <a href='http://www.wp-slimstat.com/downloads/whitelist-manager/' target='_blank'>Whitelist Manager</a>. The former increases the accuracy of visit durations, and the latter allows you to determine what pageviews should be tracked by Slimstat, based on criteria like username, IP address, permalink, country and referring URL. Go get your copy today!";
+			// self::$admin_notice = "Isn't it nice when a WordPress Forum moderator <a href='https://wordpress.org/support/topic/statistics-30' target='_blank'>recommends our plugin</a> to users asking what analytics tool to use for their website? And what about the joy of being listed on the <a href='http://plugintable.com/' target='_blank'>Periodic Table of WordPress Plugins</a> ranking? Thank you 1.6 million times for showing your appreciation and support, and making Slimstat one of the leading analytics tools for WordPress.";
+			self::$admin_notice .= '<br/><br/><a id="slimstat-hide-admin-notice" href="#" class="button-secondary">Got it, thanks</a>';
 		}
 		else {
 			self::$admin_notice = "
@@ -111,7 +111,7 @@ class wp_slimstat_admin{
 				add_action('manage_posts_custom_column', array(__CLASS__, 'add_post_column'), 10, 2);
 				add_action('manage_pages_custom_column', array(__CLASS__, 'add_post_column'), 10, 2);
 
-				if( strpos( $_SERVER['REQUEST_URI'], '/wp-admin/edit.php' ) !== false ) {
+				if ( strpos( $_SERVER['REQUEST_URI'], 'edit.php' ) !== false ) {
 					add_action('admin_enqueue_scripts', array(__CLASS__, 'wp_slimstat_stylesheet'));
 				}
 			}
@@ -607,7 +607,7 @@ class wp_slimstat_admin{
 		$params = array(
 			'datepicker_image' => plugins_url('/admin/images/datepicker.png', dirname(__FILE__)),
 			'expand_details' => isset(wp_slimstat::$options['expand_details'])?wp_slimstat::$options['expand_details']:'no',
-			'refresh_interval' => ( !empty( $_GET[ 'page' ] ) && $_GET[ 'page' ] == 'wp-slim-view-1' ) ? intval( wp_slimstat::$options[ 'refresh_interval' ] ) : 0,
+			'refresh_interval' => intval( wp_slimstat::$options[ 'refresh_interval' ] ),
 			'text_direction' => $GLOBALS['wp_locale']->text_direction,
 			'use_slimscroll' => isset(wp_slimstat::$options['use_slimscroll'])?wp_slimstat::$options['use_slimscroll']:'yes'
 		);
@@ -821,7 +821,7 @@ class wp_slimstat_admin{
 	 * Displays a message related to the current version of Slimstat
 	 */
 	public static function show_admin_notice(){
-		echo '<div class="updated slimstat-notice" style="padding:10px"><span>'.self::$admin_notice.'</span></div>';
+		echo '<div class="notice slimstat-notice" style="padding:10px"><span>'.self::$admin_notice.'</span></div>';
 	}
 	
 	/**

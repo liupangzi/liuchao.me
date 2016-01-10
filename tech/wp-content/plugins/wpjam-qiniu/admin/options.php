@@ -1,19 +1,42 @@
 <?php
 
-add_action( 'admin_menu', 'wpjam_qiniutek_admin_menu');
-function wpjam_qiniutek_admin_menu() {
-	add_menu_page(						'七牛镜像存储',			'七牛镜像存储',	'manage_options',	'wpjam-qiniutek',			'wpjam_qiniutek_setting_page',	'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNS4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IuWbvuWxgl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCINCgkgd2lkdGg9IjE1My44OHB4IiBoZWlnaHQ9IjEwMy4zcHgiIHZpZXdCb3g9IjAgMCAxNTMuODggMTAzLjMiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDE1My44OCAxMDMuMyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cGF0aCBmaWxsPSIjRkZGRkZGIiBkPSJNMTUzLjY4NCwwLjc5MWMtMC4yNjYtMC40OTctMC44My0wLjk2My0xLjg1LTAuNzI4Yy0xLjk4NCwwLjQ2NS0yNS4xMzksMzkuMTY5LTc0Ljg4NywzOC4wOThoLTAuMDE2DQoJYy05LjQ1MiwwLjIwMy0xOC42MjgtMS4wMy0yNi4xODgtMy4xNTZsLTQuMzI3LTEzLjk4YzAsMC0wLjgwMS0zLjQzOC00LjExNS01LjE5NmMtMi4yOTMtMS4yMDctMy42MzEtMC44MjEtMy45MTEtMC40ODQNCgljLTAuMjUyLDAuMzE2LTAuMjA0LDAuNjUzLTAuMjA0LDAuNjUzbDIuMDUzLDE1LjI2NkMxNC44OTEsMjAuNCwzLjQ3NCwwLjQwMywyLjA0MiwwLjA2M2MtMS4wMTUtMC4yMzUtMS41NzgsMC4yMy0xLjg0NSwwLjcyOA0KCWMtMC40MjcsMC44LTAuMDIxLDEuOTI5LTAuMDIxLDEuOTI5YzcuMTUyLDIxLjMxMSwyMi41ODcsMzguMTI2LDQyLjU2Nyw0Ny4wOWw1LjUwOSwzNi45MzENCgljMC4zNzQsMTAuNTMzLDcuNDE2LDE2LjU1OSwxNi41NjksMTYuNTU5aDI3LjM5YzkuMTUzLDAsMTYuMDA4LTYuNTg4LDE2LjU3NS0xNi41NTlsNS4wMTktMzAuNTM3YzAsMCwwLjA4NS0wLjQyNi0wLjE2Ni0wLjYwNA0KCWMtMC4zMTItMC4xOTEtMi42OTgtMC4yNjQtNy41MjgsMy4zMTRjLTQuODMsMy41ODItNi40NjMsOC43NTYtNi40NjMsOC43NTZzLTUuMjE5LDEyLjY5OS02LjU5MSwxOC4xMjUNCgljLTEuNDQ0LDUuNzEzLTcuODUsNS4yMDMtNy44NSw1LjIwM3MtOS43ODksMC0xNC42ODEsMGMtNC44OTUsMC01LjM5Ni00LjM5NS01LjM5Ni00LjM5NWwtOS4xNi0zMi4yMTUNCgljNi42NzEsMS42ODYsMTMuNjg0LDIuNTY4LDIwLjk2MiwyLjU0M2gwLjAxNmMzNS45NzUsMC4xNDEsNjUuODk3LTIxLjg4Myw3Ni43NTYtNTQuMjEyQzE1My43MDMsMi43MTksMTU0LjExLDEuNTksMTUzLjY4NCwwLjc5MXoiDQoJLz4NCjwvc3ZnPg0K'	);
-	add_submenu_page( 'wpjam-qiniutek',	'七牛镜像存储设置',		'设置',			'manage_options',	'wpjam-qiniutek',			'wpjam_qiniutek_setting_page'	);
+add_filter('wpjam_pages', 'wpjam_qiniutek_admin_pages');
+function wpjam_qiniutek_admin_pages($wpjam_pages){
+	$qiniu_icon = 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNS4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IuWbvuWxgl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCINCgkgd2lkdGg9IjE1My44OHB4IiBoZWlnaHQ9IjEwMy4zcHgiIHZpZXdCb3g9IjAgMCAxNTMuODggMTAzLjMiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDE1My44OCAxMDMuMyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cGF0aCBmaWxsPSIjRkZGRkZGIiBkPSJNMTUzLjY4NCwwLjc5MWMtMC4yNjYtMC40OTctMC44My0wLjk2My0xLjg1LTAuNzI4Yy0xLjk4NCwwLjQ2NS0yNS4xMzksMzkuMTY5LTc0Ljg4NywzOC4wOThoLTAuMDE2DQoJYy05LjQ1MiwwLjIwMy0xOC42MjgtMS4wMy0yNi4xODgtMy4xNTZsLTQuMzI3LTEzLjk4YzAsMC0wLjgwMS0zLjQzOC00LjExNS01LjE5NmMtMi4yOTMtMS4yMDctMy42MzEtMC44MjEtMy45MTEtMC40ODQNCgljLTAuMjUyLDAuMzE2LTAuMjA0LDAuNjUzLTAuMjA0LDAuNjUzbDIuMDUzLDE1LjI2NkMxNC44OTEsMjAuNCwzLjQ3NCwwLjQwMywyLjA0MiwwLjA2M2MtMS4wMTUtMC4yMzUtMS41NzgsMC4yMy0xLjg0NSwwLjcyOA0KCWMtMC40MjcsMC44LTAuMDIxLDEuOTI5LTAuMDIxLDEuOTI5YzcuMTUyLDIxLjMxMSwyMi41ODcsMzguMTI2LDQyLjU2Nyw0Ny4wOWw1LjUwOSwzNi45MzENCgljMC4zNzQsMTAuNTMzLDcuNDE2LDE2LjU1OSwxNi41NjksMTYuNTU5aDI3LjM5YzkuMTUzLDAsMTYuMDA4LTYuNTg4LDE2LjU3NS0xNi41NTlsNS4wMTktMzAuNTM3YzAsMCwwLjA4NS0wLjQyNi0wLjE2Ni0wLjYwNA0KCWMtMC4zMTItMC4xOTEtMi42OTgtMC4yNjQtNy41MjgsMy4zMTRjLTQuODMsMy41ODItNi40NjMsOC43NTYtNi40NjMsOC43NTZzLTUuMjE5LDEyLjY5OS02LjU5MSwxOC4xMjUNCgljLTEuNDQ0LDUuNzEzLTcuODUsNS4yMDMtNy44NSw1LjIwM3MtOS43ODksMC0xNC42ODEsMGMtNC44OTUsMC01LjM5Ni00LjM5NS01LjM5Ni00LjM5NWwtOS4xNi0zMi4yMTUNCgljNi42NzEsMS42ODYsMTMuNjg0LDIuNTY4LDIwLjk2MiwyLjU0M2gwLjAxNmMzNS45NzUsMC4xNDEsNjUuODk3LTIxLjg4Myw3Ni43NTYtNTQuMjEyQzE1My43MDMsMi43MTksMTU0LjExLDEuNTksMTUzLjY4NCwwLjc5MXoiDQoJLz4NCjwvc3ZnPg0K';
+
+	$subs = array();
+	$subs['wpjam-qiniutek']	= array('menu_title' => '设置', 'function'=>'option');
+
 	if( wpjam_qiniutek_get_setting('bucket') && wpjam_qiniutek_get_setting('access') && wpjam_qiniutek_get_setting('secret') ){
-		add_submenu_page( 'wpjam-qiniutek',	'七牛镜像存储 &gt; 文件更新',			'文件更新',		'manage_options',	'wpjam-qiniutek-update','wpjam_qiniutek_update_page'	);
-		add_submenu_page( 'wpjam-qiniutek',	'七牛镜像存储 &gt; 上传 Robots.txt',	'Robots.txt',	'manage_options',	'wpjam-qiniutek-robots','wpjam_qiniutek_robots_page'	);
+		$subs['wpjam-qiniutek-update']	= array('menu_title' => '文件更新');
+		$subs['wpjam-qiniutek-robots']	= array('menu_title' => 'Robots.txt');
 	}
-	add_submenu_page( 'wpjam-qiniutek',	'七牛镜像存储 &gt; 充值优惠码',				'充值优惠码',		'manage_options',	'wpjam-qiniutek-coupon',	'wpjam_qiniutek_coupon_page'	);	
+	if(isset($_GET['page']) && $_GET['page']=='wpjam-qiniutek-coupon'){
+		$subs['wpjam-qiniutek-coupon']		= array('menu_title' => '充值优惠码');
+	}
+
+	$wpjam_pages['wpjam-qiniutek']	= array(
+		'menu_title'	=> '七牛云存储',		
+		'icon'			=> $qiniu_icon,
+		'function'		=> 'option',
+		'subs'			=> $subs,
+	);
+
+	return $wpjam_pages;
 }
 
 // 设置
 include(WPJAM_QINIUTEK_PLUGIN_DIR.'/admin/setting.php');
 include(WPJAM_QINIUTEK_PLUGIN_DIR.'/admin/thumbnail.php');
+
+if(!function_exists('wpjam_list_table')){
+	include(WPJAM_QINIUTEK_PLUGIN_DIR.'/include/wpjam-list-table.php');		// 加载 WPJAM 数据列表展示类
+}
+
+if(!function_exists('wpjam_topics_page')){
+	include(WPJAM_QINIUTEK_PLUGIN_DIR.'/include/topic.php');
+}
+
 
 function wpjam_qiniutek_update_page(){
 	global $plugin_page;
@@ -63,10 +86,10 @@ function wpjam_qiniutek_update_page(){
 		<table class="form-table" cellspacing="0">
 			<tbody>
 				<tr valign="top">
-					<td>
+					<th>
 						<p>请输入需要更新的文件，每行一个：</p>
 						<textarea name="updates" rows="10" cols="50" id="updates" class="large-text code"><?php echo $updates; ?></textarea>
-					</td>
+					</th>
 				</tr>
 			</tbody>
 		</table>
@@ -135,10 +158,10 @@ Allow: /
 		<table class="form-table" cellspacing="0">
 			<tbody>
 				<tr valign="top">
-					<td>
+					<th>
 						<p>上传 Robots.txt 文件，防止搜索引擎索引镜像的网页。</p>
 						<textarea name="robots" rows="10" cols="50" id="robots" class="large-text code"><?php echo $qiniutek_robots; ?></textarea>
-					</td>
+					</th>
 				</tr>
 			</tbody>
 		</table>
@@ -152,17 +175,14 @@ Allow: /
 
 function wpjam_qiniutek_coupon_page(){
 ?>
-	<div class="wrap">
-		<h2>如何使用七牛云存储的优惠码</h2>
-		<p>简单说就是<strong>复制专属我爱水煮鱼用户的优惠码“<span style="color:red;">d706b222</span>”，充值就能享受9折优惠</strong>。</p>
-		<p>1. 登陆七牛开发者平台：<a href="https://portal.qiniu.com/">https://portal.qiniu.com/</a></p>
-		<p>2. 然后点击“充值”，进入充值页面</p>
-		<p><img src="<?php echo WPJAM_QINIUTEK_PLUGIN_URL; ?>/static//qiniu-coupon.png" alt="使用七牛优惠码" /></p>
-		<p>3. 点击“使用优惠码”，并输入优惠码“<strong><span style="color:red;">d706b222</span></strong>”，点击“使用”。</p>
-		<p>4. 输入计划充值的金额，点击“马上充值”，进入支付宝页面，完成支付。<br />
-		*注意七牛的优惠不是在原价上优惠，是赠送的方式，所以比如你要充值100，你只要输入90即可，这个需要数学比较好的同学算下 <img src="http://wpjam.qiniudn.com/wpjam/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" />  。</p>
-		<p>5. 完成支付后，可至财务->>财务概况->>账户余额 查看实际到账金额。</p>	
-	</div>
+	<h2>如何使用七牛云存储的优惠码</h2>
+	<p>简单说使用<strong>WordPress插件用户专属的优惠码</strong>“<strong style="color:red;">d706b222</strong>”充值，一次性充值2000元及以内99折，2000元以上则95折</strong>。详细使用流程：</p>
+	<p>1. 登陆<a href="http://wpjam.com/go/qiniu" target="_blank">七牛开发者平台</a></p>
+	<p>2. 然后点击“充值”，进入充值页面</p>
+	<p><img srcset="<?php echo WPJAM_QINIUTEK_PLUGIN_URL; ?>/static/qiniu-coupon.png 2x" src="<?php echo WPJAM_QINIUTEK_PLUGIN_URL; ?>/static/qiniu-coupon.png" alt="使用七牛优惠码" style="max-width:400px;" /></p>
+	<p>3. 点击“使用优惠码”，并输入优惠码“<strong><span style="color:red;">d706b222</span></strong>”，点击“使用”。</p>
+	<p>4. 输入计划充值的金额，点击“马上充值”，进入支付宝页面，完成支付。</p>
+	<p>5. 完成支付后，可至财务->>财务概况->>账户余额 查看实际到账金额。</p>
 <?php
 }
 
@@ -248,7 +268,7 @@ function wpjam_get_qiniutek_client(){
 	$wpjam_qiniutek = get_option( 'wpjam-qiniutek' );
 	if(!class_exists('Qiniu_MacHttpClient')){
 		require_once(WP_CONTENT_DIR."/plugins/wpjam-qiniu/sdk/rs.php");
-	}	
+	}
 	Qiniu_SetKeys($wpjam_qiniutek['access'], $wpjam_qiniutek['secret']);
 	$qiniutek_client = new Qiniu_MacHttpClient(null);
 

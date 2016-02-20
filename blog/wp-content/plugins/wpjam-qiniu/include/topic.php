@@ -1,20 +1,32 @@
 <?php
 
 function wpjam_topic_get_openid(){
-	$current_user_id= get_current_user_id();
+	$current_user_id	= get_current_user_id();
 	return get_user_meta($current_user_id, 'wpjam_openid', true);
 }
 
-function wpjam_topic_get_weixin_user(){
-	if(!wpjam_topic_get_openid())	return false;
+function wpjam_topic_get_weixin_user($openid=''){
+	if($openid == ''){
+		if(!wpjam_topic_get_openid())	return false;
 
-	$wpjam_weixin_user = get_transient('wpjam_weixin_user');
-	if($wpjam_weixin_user === false){
-		$wpjam_weixin_user = wpjam_topic_remote_request('http://jam.wpweixin.com/api/get_user.json');
-		if(is_wp_error($wpjam_weixin_user)){
-			return $wpjam_weixin_user;
+		$current_user_id	= get_current_user_id();
+		$wpjam_weixin_user 	= get_transient('wpjam_weixin_user_'.$current_user_id);
+		if($wpjam_weixin_user === false){
+			$wpjam_weixin_user = wpjam_topic_remote_request('http://jam.wpweixin.com/api/get_user.json');
+			if(is_wp_error($wpjam_weixin_user)){
+				return $wpjam_weixin_user;
+			}
+			set_transient( 'wpjam_weixin_user_'.$current_user_id, $wpjam_weixin_user, DAY_IN_SECONDS*15 );	// 15天检查一次
 		}
-		set_transient( 'wpjam_weixin_user', $wpjam_weixin_user, DAY_IN_SECONDS*15 );	// 15天检查一次
+	}else{
+		$wpjam_weixin_user = wp_cache_get($openid, 'wpjam_weixin_user');
+		// if($wpjam_weixin_user === false){
+			$wpjam_weixin_user = wpjam_topic_remote_request('http://jam.wpweixin.com/api/get_user.json?openid='.$openid);
+		// 	if(is_wp_error($wpjam_weixin_user)){
+		// 		return $wpjam_weixin_user;
+		// 	}
+		// 	wp_cache_set($openid, $wpjam_weixin_user, 'wpjam_weixin_user', HOUR_IN_SECONDS);	
+		// }
 	}
 
 	return $wpjam_weixin_user;
@@ -71,15 +83,26 @@ function wpjam_topic_remote_request($url,  $args=''){
 add_filter('wpjam_pages', 'wpjam_topic_admin_pages');
 add_filter('wpjam_network_pages', 'wpjam_topic_admin_pages');
 function wpjam_topic_admin_pages($wpjam_pages){
-
 	$subs = array();
-	if(wpjam_topic_get_openid()){
-		$subs['wpjam-topics']		= array('menu_title' => '所有问答',	'function'=>'wpjam_topics_page',	'capability' => 'read');
-		$subs['wpjam-topic']		= array('menu_title' => '我要提问',	'function'=>'wpjam_topic_edit_page','capability' => 'read');
+	$menu_title = 'WP问题';
+
+	if(wpjam_topic_get_weixin_user()){
+
+		$wpjam_topic_messages = wpjam_get_topic_messages();
+		if($unread_count	= $wpjam_topic_messages['unread_count']){
+			$menu_title .= '<span class="update-plugins count-'.$unread_count.'"><span class="plugin-count">'.$unread_count.'</span></span>';
+		}
+
+		$subs['wpjam-topics']			= array('menu_title'=> '所有问答',	'function'=>'wpjam_topics_page',	'capability' => 'read');
+		$subs['wpjam-topic']			= array('menu_title'=> '我要提问',	'function'=>'wpjam_topic_edit_page','capability' => 'read');
+		$subs['wpjam-topic-user']		= array('menu_title'=> '个人资料',	'function'=>'wpjam_topic_user_page','capability' => 'read');
+		if(isset($_GET['page']) && ($_GET['page'] == 'wpjam-topic-messages')){
+			$subs['wpjam-topic-messages']	= array('menu_title'=> '消息提醒',	'function'=>'wpjam_topic_messages_page','capability' => 'read');
+		}
 	}
-		
+
 	$wpjam_pages['wpjam-topics']	= array(
-		'menu_title'	=> 'WP问答',		
+		'menu_title'	=> $menu_title,		
 		'icon'			=> 'dashicons-wordpress',
 		'subs'			=> $subs,
 		'capability'	=> 'read'
@@ -89,7 +112,7 @@ function wpjam_topic_admin_pages($wpjam_pages){
 }
 
 function wpjam_topics_page_load(){
-	global $wpjam_list_table;
+	global $wpjam_list_table, $plugin_page;
 
 	if(wpjam_topic_get_openid() == false) return;
 
@@ -107,11 +130,10 @@ function wpjam_topics_page_load(){
 	);
 
 	$style = '
-	th.column-user{width:128px;}
+	th.column-title{width:36%;}
 	td.column-user img{float:left; margin-right:6px;}
-	th.column-time{width:108px;}
-	th.column-group{width:120px;}
-	th.column-last_reply{width:138px;}
+	th.column-time{width:10%;}
+	th.column-actions{width:16%;}
 	';
 
 	$wpjam_list_table = wpjam_list_table( array(
@@ -154,13 +176,17 @@ function wpjam_topics_page(){
 		delete_user_meta( get_current_user_id(), 'wpjam_openid' );
 	}
 
-	if(wpjam_topic_get_openid()){
+	if(wpjam_topic_get_weixin_user()){
 		$action = isset($_GET['action'])?$_GET['action']:'';
 
 		if($action == 'reply' ){
 			wpjam_topic_reply_page();
 		}else{
-			wpjam_topic_list_page();
+			if($callback = apply_filters('wpjam_topics_action_callback',false, $action)){
+				call_user_func($callback);
+			}else{
+				wpjam_topic_list_page();
+			}
 		}
 	}else{
 		wpjam_topic_setting_page();
@@ -192,7 +218,7 @@ function wpjam_topic_setting_page($title='', $description=''){
 		}else{
 			$wpjam_openid = $response['openid'];
 			update_user_meta($current_user_id, 'wpjam_openid', $wpjam_openid);
-			delete_transient('wpjam_weixin_user');
+			delete_transient('wpjam_weixin_user_'.$current_user_id);
 			wp_redirect($current_admin_url);
 			exit;
 		}
@@ -231,16 +257,19 @@ function wpjam_topic_setting_page($title='', $description=''){
 function wpjam_topic_list_page(){
 	global $wpjam_list_table,  $current_admin_url;
 
-	echo '<h2>WP问答<a title="我要提问" class="add-new-h2" href="'.admin_url('admin.php?page=wpjam-topic').'">我要提问</a></h2>';
+	echo '<h2>WP问答 <a title="我要提问" class="add-new-h2" href="'.admin_url('admin.php?page=wpjam-topic').'">我要提问</a></h2>';
 
 	$view		= isset($_GET['view']) ? $_GET['view'] : '';
 	$s			= isset($_GET['s']) ? $_GET['s'] : '';
 	$group		= isset($_GET['group']) ? $_GET['group'] : '';
+	// $openid		= isset($_GET['openid'])?$_GET['openid']:'';
 	$paged		= isset($_GET['paged'])?$_GET['paged']:1;
-	$orderby	= isset($_GET['orderby'])?$_GET['orderby']:'last_reply_time';
-	$order		= isset($_GET['order'])?$_GET['order']:'DESC';
+	
+	// $orderby	= isset($_GET['orderby'])?$_GET['orderby']:'last_reply_time';
+	// $order		= isset($_GET['order'])?$_GET['order']:'DESC';
 
-	$args		= compact('paged','view','s','group','orderby', 'order');
+	// $args		= compact('paged','view','s','group','orderby', 'order');
+	$args		= compact('paged','view','s','group');
 	$url		= add_query_arg($args, 'http://jam.wpweixin.com/api/get_topics.json');
 
 	$wpjam_topics = wpjam_topic_remote_request($url);
@@ -265,17 +294,22 @@ function wpjam_topic_item($item){
 
 	$reply_count			= ($item['reply_count'])?'（'.$item['reply_count'].'）':'';
 
-	$item['user']			= '<img src="'.str_replace('/0', '/46', $item['user']['avatar']).'" alt="'.$item['user']['nickname'].'" width="24" />'.$item['user']['nickname'];
+	$item['user']			= '<img src="'.str_replace('/0', '/46', $item['user']['avatar']).'" alt="'.$item['user']['nickname'].'" width="24" height="24" />'.$item['user']['nickname'];
 	$item['time']			= human_time_diff($item['time']).'前';
 	$item['last_reply']		= ($item['last_reply_openid'])?$item['last_reply_user']['nickname'].' (<a href="'.$current_admin_url.'&action=reply&id='.$item['id'].'">'.human_time_diff($item['last_reply_time']).'前'.'</a>)':'';
 	$item['title']			= '<a href="'.$current_admin_url.'&action=reply&id='.$item['id'].'">'.$item['title'].$reply_count.'</a>';
 	$item['reply_count']	= '<a href="'.$current_admin_url.'&action=reply&id='.$item['id'].'">'.$item['reply_count'].'</a>';
 	$item['group']			= ($item['group'])?'<a href="'.$current_admin_url.'&group='.$item['group'].'">'.$group_list[$item['group']].'</a>':'';
+
+	if($item['sticky'])	$item['title'] = '<span style="color:#0073aa; width:16px; height:16px; font-size:16px; line-height:18px;" class="dashicons dashicons-sticky"></span> '.$item['title'] ;
+
 	return $item;
 }
 
 function wpjam_topic_reply_page(){
 	global $current_admin_url;
+
+	add_thickbox();
 
 	$group_list	= wpjam_topic_get_group_list();
 
@@ -311,7 +345,7 @@ function wpjam_topic_reply_page(){
 	$wpjam_topic = wpjam_topic_remote_request('http://jam.wpweixin.com/api/get_topic.json?id='.$topic_id);
 
 	if(is_wp_error( $wpjam_topic )){
-		wpjam_admin_add_error($wpjam_topics->get_error_message(),'error');
+		wpjam_admin_add_error($wpjam_topic->get_error_message(),'error');
 	}
 
 	?>
@@ -319,17 +353,19 @@ function wpjam_topic_reply_page(){
 	<style type="text/css">
 		.topic-avatar{ float:left; margin:1em 1em 0 0; }
 		.topic-content, .reply-content, .replies{ max-width:640px; }
+		.topic-content p{font-size:14px; }
 		.topic-content:after{content: "."; display: block; height: 0; clear: both; visibility: hidden;}
 		.topic-content pre, .reply-content pre{ background: #eaeaea; background: rgba(0,0,0,.07); white-space: pre-wrap; word-wrap: break-word; padding:8px; }
 		.topic-content code, .reply-content code{ background: none; }
 		.topic-content img{max-width: 640px; }
 		.topic-meta{margin: 1em 0 2em; }
-		.wrap h1 a{text-decoration:none;}
+		.wrap h1 a, .reply-meta a{text-decoration:none;}
 		/*.wrap h3 { margin-top:30px; }*/
 		ul.replies li { padding:1px 1em; margin:1em 0; background: #fff;}
 		ul.replies li.alternate{background: #f9f9f9;}
 		.reply-meta, .reply-content{margin: 1em 0;}
-		.reply-avatar { float:left; margin-right:1em; }
+		.reply-meta .dashicons{width:18px; height:18px; font-size:14px; line-height: 18px;}
+		.reply-avatar { float:left; margin:1em 1em 0 0; }
 		.form-table textarea { max-width:640px; margin:-1em 0; }
 		.form-table th{padding:10px 0;}
 	</style>
@@ -344,7 +380,7 @@ function wpjam_topic_reply_page(){
 		<span class="topic-author"><?php echo $wpjam_topic['user']['nickname'];?></span>
 		- <span class="topic-time"><?php echo human_time_diff($wpjam_topic['time']); ?>前</span>
 		<?php if(time()-$wpjam_topic['time'] < 10*MINUTE_IN_SECONDS && (wpjam_topic_get_openid() == $wpjam_topic['openid']) ){?>
-		- <span class="edit"><a href="<?php echo admin_url('admin.php?page=wpjam-topic').'&action=edit&id='.$topic_id; ?>">编辑</a></span> -
+		- <span class="edit"><a href="<?php echo admin_url('admin.php?page=wpjam-topic').'&action=edit&id='.$topic_id; ?>">编辑</a></span>
 		<?php } ?>
 	</div>
 
@@ -352,7 +388,7 @@ function wpjam_topic_reply_page(){
 		<?php echo wpautop(convert_smilies($wpjam_topic['content']));?>
 		<?php if($wpjam_topic['images'] && ($images = maybe_unserialize(wp_unslash($wpjam_topic['images'])))){
 			foreach ($images as $image ) {
-				echo '<img src="'.$image.'" />'."\n";
+				echo '<img srcset="'.$image.' 2x" src="'.$image.'" />'."\n";
 			}
 		}?>
 		<?php echo ($wpjam_topic['modified'])?'<p><i><small>最后编辑于'.human_time_diff($wpjam_topic['modified']).'前</small></i></p>':'';?>
@@ -363,9 +399,24 @@ function wpjam_topic_reply_page(){
 	<ul class="replies">
 		<?php foreach ($wpjam_topic['replies'] as $wpjam_reply) { $alternate = empty($alternate)?'alternate':'';?>
 		<li id="reply-<?php echo $wpjam_reply['id']; ?>" class="<?php echo $alternate; ?>">
+			<div class="reply-avatar"><img src="<?php echo str_replace('/0', '/132', $wpjam_reply['user']['avatar']); ?>" width="48" alt="<?php echo $wpjam_reply['user']['nickname'];?>" /></div>
 			<div class="reply-meta">
-				<span class="reply-avatar"><img src="<?php echo str_replace('/0', '/132', $wpjam_reply['user']['avatar']); ?>" width="48" alt="<?php echo $wpjam_reply['user']['nickname'];?>" /></span>
-				<span class="reply-author"><?php echo $wpjam_reply['user']['nickname'];?></span> - <span class="reply-time"><?php echo human_time_diff($wpjam_reply['time']); ?>前</span>
+				<span class="reply-author"><?php echo $wpjam_reply['user']['nickname'];?></span>
+				- <span class="reply-time"><?php echo human_time_diff($wpjam_reply['time']); ?>前</span>
+				<?php //if($wpjam_topic['openid'] != $wpjam_reply['user']['openid']){?>
+				<span class="donate"><a class="thickbox" title="感谢 <?php echo $wpjam_reply['user']['nickname'];?>" href="#TB_inline?test=1&amp;height=220&amp;width=220&amp;inlineId=donate-<?php echo $wpjam_reply['id']; ?>"><span class="dashicons dashicons-heart"></span>感谢</a></span>
+				<?php /* #TB_inline?test=1 加上 test=1 才能使得 width 和 height 有效*/?>
+			</div>
+			<div id="donate-<?php echo $wpjam_reply['id']; ?>" style="display:none;">
+			<?php if(!empty($wpjam_reply['user']['donate'])){?>
+				<p><img src="<?php echo $wpjam_reply['user']['donate'];?>" srcset="<?php echo $wpjam_reply['user']['donate'];?> 2x" width="207" /></p>
+			<?php }else{ ?>
+				<p>该用户还未上传微信收款二维码！</p>
+				<?php $wpjam_weixin_user = wpjam_topic_get_weixin_user();?>
+				<?php if(empty($wpjam_weixin_user['donate'])){?>
+				<p>你也可以在<a href="<?php echo admin_url('admin.php?page=wpjam-topic-user&action=edit'); ?>">个人资料</a>页面上传微信收款二维码，回答问题，其他用户也会捐助你。 :-) </p>
+				<?php } ?>
+			<?php } ?>
 			</div>
 			<div class="reply-content">
 				<?php echo wpautop(convert_smilies($wpjam_reply['content']));?>
@@ -376,14 +427,16 @@ function wpjam_topic_reply_page(){
 	<?php } ?>
 
 	<h3>我要回复</h3>
-
+	<?php if($wpjam_topic['status']){ ?>
+	<p>帖子已关闭，不能再留言！</p>
+	<?php }else{?>
 	<?php
-
 	$form_url		= $current_admin_url.'&action=reply&id='.$topic_id;
 	$action_text	= '回复';
-	
-	 
 	wpjam_form($form_fields, $form_url, $nonce_action, $action_text);
+	?>
+	<?php } ?>
+	<?php
 }
 
 function wpjam_topic_edit_page(){
@@ -456,9 +509,9 @@ function wpjam_topic_edit_page(){
 
 	$form_url		= ($action == 'add')?$current_admin_url:$current_admin_url.'&action=edit&id='.$topic_id;
 	$action_text	= ($action == 'add')?'提问':'编辑';
-
+	echo ($action == 'edit')?'<h1>编辑帖子</h1>':'<h1>我要提问</h1>';
 	?>
-	<h1>我要提问</h1>
+	
 	<style type="text/css">
 	.form-table { max-width:640px; }
 	.form-table th {width:60px; }
@@ -468,4 +521,139 @@ function wpjam_topic_edit_page(){
 	wpjam_form($form_fields, $form_url, $nonce_action, $action_text);
 }
 
+function wpjam_topic_user_page(){
+	global $current_admin_url;
 
+	$action	= isset($_GET['action'])?$_GET['action']:'view';
+
+	$wpjam_weixin_user	= wpjam_topic_get_weixin_user();
+
+	$nonce_action		= 'wpjam-topic-user';
+
+	$form_fields = array(
+		'openid'		=> array('title'=>'微信昵称',		'type'=>'view',	'value'=>$wpjam_weixin_user['nickname']),
+		'qq'			=> array('title'=>'QQ号',		'type'=>'number'),
+		'site'			=> array('title'=>'个人站点',		'type'=>'mu-text'),
+		'donate'		=> array('title'=>'收款图片',		'type'=>'image'),
+		'description'	=> array('title'=>'个人说明',		'type'=>'textarea', 'class'=>'regular-text',	'rows'=>8),
+	);
+
+	if( $_SERVER['REQUEST_METHOD'] == 'POST' ){
+		$data			= wpjam_get_form_post($form_fields, $nonce_action);
+		$data['site']	= maybe_serialize($data['site']);
+
+		$response	= wpjam_topic_remote_request('http://jam.wpweixin.com/api/user.json', array(
+			'method'	=> 'POST',
+			'body'		=> $data,
+		));
+
+		if(is_wp_error( $response )){
+			wpjam_admin_add_error($response->get_error_message(),'error');
+		}else{
+			$wpjam_weixin_user = $response;
+			$current_user_id = get_current_user_id();
+			delete_transient('wpjam_weixin_user_'.$current_user_id);
+		}
+	}
+
+	foreach ($form_fields as $key=>$form_field) {
+		if($key == 'site'){
+			$form_fields[$key]['value'] = isset($wpjam_weixin_user[$key])?maybe_unserialize(wp_unslash($wpjam_weixin_user[$key])):'';
+		}elseif($key != 'openid'){
+			$form_fields[$key]['value'] = isset($wpjam_weixin_user[$key])?$wpjam_weixin_user[$key]:'';
+		}
+	}
+
+	if($action == 'view'){
+		foreach ($form_fields as $key=>$form_field) {
+			$form_fields[$key]['type'] ='view';
+			if($key == 'site'){
+				$form_fields[$key]['value'] = ($form_fields[$key]['value'])?implode("\n", $form_fields[$key]['value']):'';
+			}elseif($key == 'donate'){
+				$form_fields[$key]['value'] = ($form_fields[$key]['value'])?'<img src="'.$form_fields[$key]['value'].'" width="207" />':'';
+			}
+		}
+		echo '<h1>个人资料 <a class="add-new-h2" href="'.$current_admin_url.'&action=edit">编辑</a></h1>';
+		$submit_text = false;
+	}else{
+		echo '<h1>个人资料 <a class="add-new-h2" href="'.$current_admin_url.'&action=view">查看</a></h1>';
+		$submit_text = '修改';
+	}
+
+	wpjam_form($form_fields, $current_admin_url, $nonce_action, $submit_text);
+}
+
+function wpjam_topic_messages_page(){
+
+	echo '<h1>消息提醒</h1>';
+	echo '<p>每小时更新刷新！</p>';
+
+	$wpjam_topic_messages = wpjam_get_topic_messages();
+
+	$unread_count	= $wpjam_topic_messages['unread_count'];
+	$messages		= $wpjam_topic_messages['messages'];
+
+	if($messages){ ?>
+	<ul class="messages">
+		<?php foreach ($messages as $message) { $alternate = empty($alternate)?'alternate':'';?>
+		<li id="messages-<?php echo $message['id']; ?>" class="<?php echo $alternate; echo empty($message['status'])?' unread':'' ?>">
+			<div class="message-avatar"><img src="<?php echo str_replace('/0', '/132', $message['sender_user']['avatar']); ?>" width="48" alt="<?php echo $message['sender_user']['nickname'];?>" /></div>
+			<p><?php echo $message['sender_user']['nickname'];?> 在<?php echo human_time_diff($message['time']);?>前回复了你的问题《<a target="_blank" href="<?php echo admin_url('admin.php?page=wpjam-topics&action=reply&id='.$message['topic_id'].'#reply-'.$message['reply_id']); ?>"><?php echo $message['topic_title'];?></a>》：</p>
+			
+			<?php echo wpautop($message['content']);?>
+		</li>
+		<?php } ?>
+	</ul>
+	<style type="text/css">
+		ul.messages{ max-width:640px; }
+		ul.messages li a {text-decoration:none;}
+		ul.messages li {margin: 1em 0; padding:1px 1em; margin:1em 0; background: #fff;}
+		ul.messages li.alternate{background: #f9f9f9;}
+		ul.messages li.unread{font-weight: bold;}
+		.message-avatar { float:left; margin:1em 1em 1em 0; }
+	</style>
+	<?php }
+
+	if($unread_count){
+		wpjam_topic_remote_request('http://jam.wpweixin.com/api/update_topic_messages_unread_count.json');
+		$wpjam_topic_messages['unread_count'] = 0;
+		
+		foreach ($messages as $key => $message) {
+			$messages[$key]['status'] = 1;
+		}
+		$wpjam_topic_messages['messages'] = $messages;
+
+		set_transient('wpjam_topic_messages', $wpjam_topic_messages, HOUR_IN_SECONDS);
+	}
+}
+
+function wpjam_get_topic_messages(){
+	$current_user_id	= get_current_user_id();
+
+	$wpjam_topic_messages = get_transient('wpjam_topic_messages_'.$current_user_id);
+
+	if($wpjam_topic_messages === false){
+		$wpjam_topic_messages = wpjam_topic_remote_request('http://jam.wpweixin.com/api/get_topic_messages.json');
+		if(is_wp_error($wpjam_topic_messages)){
+			$wpjam_topic_messages = array('unread_count'=>0, 'messages'=>array());
+		}
+		set_transient('wpjam_topic_messages_'.$current_user_id, $wpjam_topic_messages, HOUR_IN_SECONDS);
+	}
+
+	return $wpjam_topic_messages;
+}
+
+add_action( 'admin_notices', 'wpjam_add_topic_messages_admin_notices' );
+function wpjam_add_topic_messages_admin_notices() {
+	global $plugin_page;
+
+	if(wpjam_topic_get_weixin_user()){
+		$wpjam_topic_messages = wpjam_get_topic_messages();
+
+		$unread_count	= $wpjam_topic_messages['unread_count'];
+
+		if($plugin_page != 'wpjam-topic-messages' && $unread_count){
+			echo '<div class="updated"><p>你在《WP问答》的问题有<strong>'.$unread_count.'</strong>条回复了，请<a href="'.admin_url('admin.php?page=wpjam-topic-messages').'">点击查看</a>！</p></div>';
+		}
+	}
+}

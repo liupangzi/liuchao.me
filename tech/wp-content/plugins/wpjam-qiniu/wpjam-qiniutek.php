@@ -5,7 +5,7 @@ Description: 使用七牛云存储实现 WordPress 博客静态文件 CDN 加速
 Plugin URI: http://blog.wpjam.com/project/wpjam-qiniutek/
 Author: Denis
 Author URI: http://blog.wpjam.com/
-Version: 1.4.2
+Version: 1.4.3
 */
 
 define('WPJAM_QINIUTEK_PLUGIN_URL', plugins_url('', __FILE__));
@@ -38,14 +38,14 @@ function wpjam_qiniutek_get_setting($setting_name){
 
 //定义在七牛绑定的域名。
 if(wpjam_qiniutek_get_setting('host')){
-	define('CDN_HOST',wpjam_qiniutek_get_setting('host'));
+	define('CDN_HOST',untrailingslashit(wpjam_qiniutek_get_setting('host')));
 }else{
-	define('CDN_HOST',home_url());
+	define('CDN_HOST',untrailingslashit(home_url()));
 }
 if(wpjam_qiniutek_get_setting('local')){
-	define('LOCAL_HOST',wpjam_qiniutek_get_setting('local'));
+	define('LOCAL_HOST',untrailingslashit(wpjam_qiniutek_get_setting('local')));
 }else{
-	define('LOCAL_HOST',home_url());
+	define('LOCAL_HOST',untrailingslashit(home_url()));
 }
 
 add_action('wp_loaded', 'wpjam_qiniutek_ob_cache');
@@ -208,16 +208,15 @@ function wpjam_qiniutek_template_redirect(){
 }
 
 function wpjam_qiniutek_enqueue_scripts() {
-
 	if(wpjam_qiniutek_get_setting('jquery')){
 		wp_deregister_script( 'jquery' );
-	    wp_register_script( 'jquery', 'http://cdn.staticfile.org/jquery/2.1.1/jquery.min.js', array(), '2.1.0' );
+	    wp_register_script( 'jquery', '//dn-staticfile.qbox.me/jquery/2.1.4/jquery.min.js', array(), '2.1.0' );
 	}else{
 		wp_deregister_script( 'jquery-core' );
-	    wp_register_script( 'jquery-core', 'http://cdn.staticfile.org/jquery/1.11.1/jquery.min.js', array(), '1.10.2' );
+	    wp_register_script( 'jquery-core', '//dn-staticfile.qbox.me/jquery/1.11.1/jquery.min.js', array(), '1.10.2' );
 
 		wp_deregister_script( 'jquery-migrate' );
-	    wp_register_script( 'jquery-migrate', 'http://cdn.staticfile.org/jquery-migrate/1.2.1/jquery-migrate.min.js', array(), '1.2.1' );
+	    wp_register_script( 'jquery-migrate', '//dn-staticfile.qbox.me/jquery-migrate/1.2.1/jquery-migrate.min.js', array(), '1.2.1' );
 	}
 }
 

@@ -1,8 +1,0 @@
-**PHP**
-php.ini
-php-fpm.conf
-
-**Javascript**
-
-
-**Linux**

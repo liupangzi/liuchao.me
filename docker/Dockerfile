@@ -1,11 +1,13 @@
 # This dockerfile uses the CentOS 7 image
-# VERSION 1 - EDITION 2
+# VERSION 1 - EDITION 3
 # Author: liuchao
 
 FROM centos:7.2.1511
 MAINTAINER liuchao "thesedays@126.com"
 ENV OPENRESTY_VERSION 1.9.7.4
 ENV PHP_VERSION 7.0.5
+ENV PERCONA_URL https://www.percona.com/downloads/Percona-Server-5.7/Percona-Server-5.7.11-4/binary/tarball/Percona-Server-5.7.11-4-Linux.x86_64.ssl101.tar.gz
+ENV PERCONA Percona-Server-5.7.11-4-Linux.x86_64.ssl101
 
 # add epel
 RUN yum install -y epel-release
@@ -39,23 +41,13 @@ RUN yum install -y \
 
 RUN mkdir -p /data/
 
-# intsall letsencrypt
-RUN cd /data/ \
- && git clone https://github.com/letsencrypt/letsencrypt
-COPY letsencrypt/cli.ini /data/letsencrypt/cli.ini
-RUN /data/letsencrypt/letsencrypt-auto certonly \
-    --agree-tos \
-    --renew-by-default \
-    -c /data/letsencrypt/cli.ini
-RUN openssl dhparam -out /etc/letsencrypt/dhparams.pem 2048
-
 # install openresty
 RUN mkdir -p /var/log/nginx/
 RUN wget https://openresty.org/download/openresty-$OPENRESTY_VERSION.tar.gz \
     -O /data/openresty-$OPENRESTY_VERSION.tar.gz
 RUN cd /data/ \
  && tar zxf openresty-$OPENRESTY_VERSION.tar.gz
-RUN cd /data/ngx_openresty-$OPENRESTY_VERSION \
+RUN cd /data/openresty-$OPENRESTY_VERSION \
  && ./configure \
     --prefix=/opt/openresty-$OPENRESTY_VERSION \
     --with-luajit \
@@ -102,6 +94,9 @@ RUN cd /data/php-$PHP_VERSION/ \
  &&  make \
  &&  make install
 RUN  ln -s /opt/php-$PHP_VERSION /opt/php
+COPY php/php-fpm.conf /opt/php/etc/php-fpm.conf
+COPY php/php.ini /opt/php/lib/php.ini
+COPY php/cert.pem /opt/php/etc/cert.pem
 
 # install PHP redis
 RUN cd /data/ \
@@ -112,7 +107,9 @@ RUN cd /data/phpredis \
  && make \
  && make install
 
-# init PHP config files
-COPY php/php-fpm.conf /opt/php/etc/php-fpm.conf
-COPY php/php.ini /opt/php/lib/php.ini
-COPY php/cert.pem /opt/php/etc/cert.pem
+# install percona
+RUN mkdir -p /var/log/mysql/
+RUN wget $PERCONA_URL -O /data/
+RUN tar zxf /data/$PERCONA.tar.gz -C /opt/
+RUN ln -s /opt/$PERCONA /opt/percona-server
+COPY mysql/my.cnf /etc/my.cnf

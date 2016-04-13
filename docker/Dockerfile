@@ -70,6 +70,7 @@ COPY openresty/conf/servers /opt/openresty/nginx/conf/servers
 COPY openresty/conf/wordpress /opt/openresty/nginx/conf/wordpress
 
 # install PHP
+RUN mkdir -p /var/log/php/
 RUN wget http://hk1.php.net/get/php-$PHP_VERSION.tar.gz/from/this/mirror \
     -O /data/php-$PHP_VERSION.tar.gz
 RUN cd /data/ \

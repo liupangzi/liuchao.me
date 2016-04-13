@@ -11,6 +11,7 @@ docker run \
     -d \
     -p 80:80 \
     -v /var/www/:/var/www/ \
+    -v /var/log/liuchao.me/:/var/log/liuchao.me/ \
     liuchao.me/docker:v1.0 \
     supervisord
 ```

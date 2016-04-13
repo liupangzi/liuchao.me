@@ -42,13 +42,10 @@ RUN mkdir -p /data/
 # intsall letsencrypt
 RUN cd /data/ \
  && git clone https://github.com/letsencrypt/letsencrypt
+COPY letsencrypt/cli.ini /data/letsencrypt/cli.ini
 RUN /data/letsencrypt/letsencrypt-auto certonly \
-    -a standalone \
-    -d liuchao.me \
-    -d www.liuchao.me \
-    -d blog.liuchao.me \
-    -d tech.liuchao.me \
-    -d 404.liuchao.me
+    --renew-by-default \
+    -c /data/letsencrypt/cli.ini
 RUN openssl dhparam -out /etc/letsencrypt/dhparams.pem 2048
 
 # install openresty

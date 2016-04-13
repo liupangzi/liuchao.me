@@ -44,6 +44,7 @@ RUN cd /data/ \
  && git clone https://github.com/letsencrypt/letsencrypt
 COPY letsencrypt/cli.ini /data/letsencrypt/cli.ini
 RUN /data/letsencrypt/letsencrypt-auto certonly \
+    --agree-tos \
     --renew-by-default \
     -c /data/letsencrypt/cli.ini
 RUN openssl dhparam -out /etc/letsencrypt/dhparams.pem 2048

@@ -22,6 +22,7 @@ RUN yum install -y \
     gcc gcc-c++ \
     autoconf \
     iproute \
+    libaio libaio-devel \
     libcurl libcurl-devel \
     libxml2 libxml2-devel \
     openssl openssl-devel \
@@ -42,7 +43,6 @@ RUN yum install -y \
 RUN mkdir -p /data/
 
 # install openresty
-RUN mkdir -p /var/log/nginx/
 RUN wget https://openresty.org/download/openresty-$OPENRESTY_VERSION.tar.gz \
     -O /data/openresty-$OPENRESTY_VERSION.tar.gz
 RUN cd /data/ \
@@ -60,7 +60,6 @@ COPY openresty/conf/servers /opt/openresty/nginx/conf/servers
 COPY openresty/conf/wordpress /opt/openresty/nginx/conf/wordpress
 
 # install PHP
-RUN mkdir -p /var/log/php/
 RUN wget http://hk1.php.net/get/php-$PHP_VERSION.tar.gz/from/this/mirror \
     -O /data/php-$PHP_VERSION.tar.gz
 RUN cd /data/ \
@@ -108,8 +107,7 @@ RUN cd /data/phpredis \
  && make install
 
 # install percona
-RUN mkdir -p /var/log/mysql/ /var/lib/mysql/
-RUN wget $PERCONA_URL -O /data/
+RUN wget $PERCONA_URL -O /data/$PERCONA.tar.gz
 RUN tar zxf /data/$PERCONA.tar.gz -C /opt/
 RUN ln -s /opt/$PERCONA /opt/percona-server
 COPY mysql/my.cnf /etc/my.cnf
@@ -125,7 +123,5 @@ RUN yum install -y python-pip python-meld3
 RUN pip install supervisor
 COPY supervisor/supervisord.conf /etc/supervisord.conf
 
-EXPOSE 80 443
-VOLUME ["/var/www", "/var/log/nginx", "var/log/php", "var/log/mysql", "/var/log/supervisor", "etc/letsencrypt", "/var/lib/letsencrypt"]
-
-CMD /usr/bin/supervisord -c /etc/supervisord.conf
+ENTRYPOINT ["/usr/bin/supervisord"]
+CMD ["-c", "/etc/supervisord.conf"]

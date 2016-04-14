@@ -30,5 +30,18 @@ curl -fsSL https://get.docker.com/ | sh
 usermod -aG docker nobody
 
 docker build -t "liuchao.me/docker:v1.0" /var/www/liuchao.me/docker
-docker run -it -d liuchao.me/docker:v1.0
+docker run \
+    -it \
+    -d \
+    -p 127.0.0.1:3306:3306 \
+    -p 80:80 \
+    -p 443:443 \
+    -v "/var/www:/var/www" \
+    -v "/var/log/nginx:/var/log/nginx" \
+    -v "/var/log/php:/var/log/php" \
+    -v "/var/log/mysql:/var/log/mysql" \
+    -v "/var/log/supervisor:/var/log/supervisor" \
+    -v "/etc/letsencrypt:/etc/letsencrypt" \
+    -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
+    liuchao.me/docker:v1.0
 ```

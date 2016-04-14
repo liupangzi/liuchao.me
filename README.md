@@ -3,7 +3,7 @@ liuchao.me
 
 ### install.sh
 ```
-mkdir -p /var/www/ /var/log/{nginx,php,mysql}
+mkdir -p /var/www/ /var/log/{nginx,php,mysql,supervisor}
 
 git clone https://github.com/liupangzi/liuchao.me.git /var/www/liuchao.me
 
@@ -30,18 +30,5 @@ curl -fsSL https://get.docker.com/ | sh
 usermod -aG docker nobody
 
 docker build -t "liuchao.me/docker:v1.0" /var/www/liuchao.me/docker
-
-docker run \
-    -it \
-    -d \
-    -p 80:80 \
-    -p 443:443 \
-    -v "/var/www:/var/www" \
-    -v "/var/log/nginx:/var/log/nginx" \
-    -v "/var/log/php:/var/log/php" \
-    -v "/var/log/mysql:/var/log/mysql" \
-    -v "/etc/letsencrypt:/etc/letsencrypt" \
-    -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
-    liuchao.me/docker:v1.0 \
-    supervisord
+docker run -it -d liuchao.me/docker:v1.0
 ```

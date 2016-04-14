@@ -108,8 +108,24 @@ RUN cd /data/phpredis \
  && make install
 
 # install percona
-RUN mkdir -p /var/log/mysql/
+RUN mkdir -p /var/log/mysql/ /var/lib/mysql/
 RUN wget $PERCONA_URL -O /data/
 RUN tar zxf /data/$PERCONA.tar.gz -C /opt/
 RUN ln -s /opt/$PERCONA /opt/percona-server
 COPY mysql/my.cnf /etc/my.cnf
+RUN /opt/percona-server/bin/mysqld --initialize-insecure
+RUN chown -R mysql:mysql /var/log/mysql/
+RUN /opt/percona-server/bin/mysql -uroot -e "create database blog_liuchao_me;"
+RUN /opt/percona-server/bin/mysql -uroot -e "create database tech_liuchao_me;"
+RUN /opt/percona-server/bin/mysql -uroot blog_liuchao_me < /var/www/liuchao.me/blog/data/blog_liuchao_me.sql
+RUN /opt/percona-server/bin/mysql -uroot tech_liuchao_me < /var/www/liuchao.me/tech/data/tech_liuchao_me.sql
+
+# install supervisor
+RUN yum install -y python-pip python-meld3
+RUN pip install supervisor
+COPY supervisor/supervisord.conf /etc/supervisord.conf
+
+EXPOSE 80 443
+VOLUME ["/var/www", "/var/log/nginx", "var/log/php", "var/log/mysql", "/var/log/supervisor", "etc/letsencrypt", "/var/lib/letsencrypt"]
+
+CMD /usr/bin/supervisord -c /etc/supervisord.conf

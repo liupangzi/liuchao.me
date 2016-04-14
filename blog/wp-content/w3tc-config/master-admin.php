@@ -1,10 +1,10 @@
 <?php
 
 return array(
-	'version' => '0.9.4',
+	'version' => '0.9.4.1',
 	'browsercache.configuration_sealed' => false,
 	'cdn.configuration_sealed' => false,
-	'common.install' => 1378540495,
+	'common.install' => 1460649211,
 	'common.visible_by_master_only' => true,
 	'dbcache.configuration_sealed' => false,
 	'minify.configuration_sealed' => false,

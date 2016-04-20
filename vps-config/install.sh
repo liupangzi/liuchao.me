@@ -67,7 +67,7 @@ ln -s /opt/openresty-${OPENRESTY_VERSION} /opt/openresty
 rm -f /opt/openresty/nginx/conf/nginx.conf
 ln -s /var/www/liuchao.me/vps-config/openresty/conf/nginx.conf /opt/openresty/nginx/conf/nginx.conf
 ln -s /var/www/liuchao.me/vps-config/openresty/conf/servers /opt/openresty/nginx/conf/servers
-ln -s /var/www/liuchao.me/vps-config/openresty/conf/wordpress /opt/openresty/nginx/conf/wordpress
+ln -s /var/www/liuchao.me/vps-config/openresty/conf/common /opt/openresty/nginx/conf/common
 
 # install PHP
 wget http://hk1.php.net/get/php-${PHP_VERSION}.tar.gz/from/this/mirror -O /data/php-${PHP_VERSION}.tar.gz

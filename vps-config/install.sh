@@ -35,9 +35,8 @@ yum install -y \
     libicu libicu-devel
 
 # checkout code && config
-mkdir -p /var/www/ /var/log/{nginx,php,mysql,supervisor}
+mkdir -p /var/www/ /data/ /var/log/{nginx,php,mysql,supervisor}
 git clone https://github.com/liupangzi/liuchao.me.git /var/www/liuchao.me
-chown -R nobody:nobody /var/www/liuchao.me
 
 # os
 rm /etc/sysctl.conf && ln -s /var/www/liuchao.me/vps-config/os/sysctl.conf /etc/sysctl.conf

@@ -1,3 +1,0 @@
-ua,user-agent,userAgent
-js,javascript
-internet explore=>ie

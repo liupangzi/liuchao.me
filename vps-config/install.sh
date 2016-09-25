@@ -1,10 +1,9 @@
 #!/bin/sh
 
-OPENRESTY_VERSION="1.9.7.4"
-PHP_VERSION="7.0.5"
-PERCONA_URL="https://www.percona.com/downloads/Percona-Server-5.7/Percona-Server-5.7.11-4/binary/tarball/Percona-Server-5.7.11-4-Linux.x86_64.ssl101.tar.gz"
-PERCONA="Percona-Server-5.7.11-4-Linux.x86_64.ssl101"
-ES_VERSION="2.3.1"
+OPENRESTY_VERSION="1.11.2.1"
+PHP_VERSION="7.0.11"
+PERCONA_URL="https://www.percona.com/downloads/Percona-Server-5.7/Percona-Server-5.7.14-8/binary/tarball/Percona-Server-5.7.14-8-Linux.x86_64.ssl101.tar.gz"
+PERCONA="Percona-Server-5.7.14-8-Linux.x86_64.ssl101"
 
 yum install -y epel-release
 yum update -y
@@ -66,8 +65,8 @@ wget https://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz -O /da
 cd /data/ && tar zxf openresty-${OPENRESTY_VERSION}.tar.gz
 cd /data/openresty-${OPENRESTY_VERSION} \
 && ./configure --prefix=/opt/openresty-${OPENRESTY_VERSION} --with-luajit --with-http_iconv_module \
-&& make \
-&& make install
+&& gmake \
+&& gmake install
 ln -s /opt/openresty-${OPENRESTY_VERSION} /opt/openresty
 rm -f /opt/openresty/nginx/conf/nginx.conf
 ln -s /var/www/liuchao.me/vps-config/openresty/conf/nginx.conf /opt/openresty/nginx/conf/nginx.conf
@@ -126,34 +125,6 @@ wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-
 tar zxf /data/jdk-8u74-linux-x64.tar.gz -C /opt/
 ln -s /opt/jdk1.8.0_74 /opt/jdk
 chown -R nobody:nobody /opt/jdk*
-
-# install elasticsearch
-groupadd es && useradd es -g es
-wget https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/${ES_VERSION}/elasticsearch-${ES_VERSION}.tar.gz -O /data/elasticsearch-${ES_VERSION}.tar.gz
-tar zxf /data/elasticsearch-${ES_VERSION}.tar.gz -C /opt/
-ln -s /opt/elasticsearch-${ES_VERSION} /opt/elasticsearch
-
-# install elsaticsearch ik plugin
-mkdir -p /opt/elasticsearch/plugins/ik
-wget https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v1.9.1/elasticsearch-analysis-ik-1.9.1.zip -O /opt/elasticsearch/plugins/ik
-cd /opt/elasticsearch/plugins/ik && unzip elasticsearch-analysis-ik-1.9.1.zip
-
-# update elasticsearch synonym config
-mkdir -p /opt/elasticsearch/config/analysis
-ln -s /var/www/liuchao.me/vps-config/elasticsearch/synonym.txt /opt/elasticsearch/config/analysis/synonym.txt
-
-# install plugin marvel
-su es /opt/elasticsearch/bin/plugin install license
-su es /opt/elasticsearch/bin/plugin install marvel-agent
-
-chown -R es:es /opt/elasticsearch*
-
-# install kibana
-wget https://download.elastic.co/kibana/kibana/kibana-4.5.0-linux-x64.tar.gz -O /data/kibana-4.5.0-linux-x64.tar.gz
-tar zxf /data/kibana-4.5.0-linux-x64.tar.gz -C /opt/
-ln -s /opt/kibana-4.5.0-linux-x64 /opt/kibana
-/opt/kibana/bin/kibana plugin --install elasticsearch/marvel/latest
-chown -R es:es /opt/kibana*
 
 # install supervisor
 yum install -y python-pip python-meld3

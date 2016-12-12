@@ -1,0 +1,9 @@
+[user]
+        email = thesedays@126.com
+        name = holyghost
+[alias]
+        st = status
+        co = checkout
+        ci = commit
+        ps = push
+        pl = pull

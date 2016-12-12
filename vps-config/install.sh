@@ -1,9 +1,7 @@
 #!/bin/sh
 
-OPENRESTY_VERSION="1.11.2.1"
-PHP_VERSION="7.0.11"
-PERCONA_URL="https://www.percona.com/downloads/Percona-Server-5.7/Percona-Server-5.7.14-8/binary/tarball/Percona-Server-5.7.14-8-Linux.x86_64.ssl101.tar.gz"
-PERCONA="Percona-Server-5.7.14-8-Linux.x86_64.ssl101"
+OPENRESTY_VERSION="1.11.2.2"
+PHP_VERSION="7.1.0"
 
 yum install -y epel-release
 yum update -y
@@ -40,6 +38,7 @@ git clone https://github.com/liupangzi/liuchao.me.git /var/www/liuchao.me
 # os
 rm /etc/sysctl.conf && ln -s /var/www/liuchao.me/vps-config/os/sysctl.conf /etc/sysctl.conf
 rm /root/.bashrc && ln -s /var/www/liuchao.me/vps-config/os/dotbashrc /root/.bashrc && source /root/.bashrc
+ln -s /var/www/liuchao.me/vps-config/os/dotgitconfig /root/.gitconfig
 
 # letsencrypt
 git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt
@@ -75,7 +74,7 @@ ln -s /var/www/liuchao.me/vps-config/openresty/conf/common /opt/openresty/nginx/
 chown -R nobody:nobody /opt/openresty*
 
 # install PHP
-wget http://hk1.php.net/get/php-${PHP_VERSION}.tar.gz/from/this/mirror -O /data/php-${PHP_VERSION}.tar.gz
+wget http://us2.php.net/get/php-${PHP_VERSION}.tar.gz/from/this/mirror -O /data/php-${PHP_VERSION}.tar.gz
 cd /data/ && tar zxf php-${PHP_VERSION}.tar.gz
 cd /data/php-${PHP_VERSION}/ \
 && ./configure \
@@ -112,28 +111,25 @@ ln -s /var/www/liuchao.me/vps-config/php/cert.pem /opt/php/etc/cert.pem
 chown -R nobody:nobody /opt/php*
 
 # install percona
-groupadd mysql && useradd mysql -g mysql
-wget ${PERCONA_URL} -O /data/${PERCONA}.tar.gz
-tar zxf /data/${PERCONA}.tar.gz -C /opt/
-ln -s /opt/${PERCONA} /opt/percona-server
+yum install -y http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm
+yum install -y Percona-Server-server-57
 rm -f /etc/my.cnf && ln -s /var/www/liuchao.me/vps-config/mysql/my.cnf /etc/my.cnf
-/opt/percona-server/bin/mysqld --initialize-insecure
-chown -R mysql:mysql /var/log/mysql/ /opt/percona-server /opt/Percona-Server*
+service mysqld start
+
+> A temporary password is generated for root@localhost: ,DV<:guOc0y4
+
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY '';
+
+service mysqld restart
 
 # install JDK
-wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u74-b02/jdk-8u74-linux-x64.tar.gz -O /data/jdk-8u74-linux-x64.tar.gz
-tar zxf /data/jdk-8u74-linux-x64.tar.gz -C /opt/
-ln -s /opt/jdk1.8.0_74 /opt/jdk
+wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u112-b15/jdk-8u112-linux-x64.tar.gz -O /data/jdk-8u112-linux-x64.tar.gz
+tar zxf /data/jdk-8u112-linux-x64.tar.gz -C /opt/
+ln -s /opt/jdk1.8.0_112 /opt/jdk
 chown -R nobody:nobody /opt/jdk*
-
-# install supervisor
-yum install -y python-pip python-meld3
-pip install supervisor
-ln -s /var/www/liuchao.me/vps-config/supervisor/supervisord.conf /etc/supervisord.conf
 
 # RUN!
 chown -R nobody:nobody /var/www/liuchao.me
-/usr/bin/supervisord -c /etc/supervisord.conf
 
 # init MySQL data
 /opt/percona-server/bin/mysql -uroot < /var/www/liuchao.me/vps-config/mysql/liuchao.me.sql

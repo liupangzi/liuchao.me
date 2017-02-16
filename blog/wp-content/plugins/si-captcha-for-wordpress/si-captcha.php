@@ -8,10 +8,10 @@ Author URI: http://www.642weather.com/weather/scripts.php
 Text Domain: si-captcha
 Domain Path: /languages
 License: GPLv2 or later
-Version: 3.0.0.2
+Version: 3.0.0.3
 */
 
-$si_captcha_version = '3.0.0.2';
+$si_captcha_version = '3.0.0.3';
 
 /*  Copyright (C) 2008-2017 Mike Challis  (http://www.642weather.com/weather/contact_us.php)
 
@@ -142,6 +142,7 @@ function si_captcha_init() {
 	   if(is_wpforo_page()){
          add_action('register_form', array($this, 'si_captcha_register_form'), 99);
          add_filter('registration_errors', array($this, 'si_captcha_register_post'), 10, 3);
+         add_action('wp_footer', array($this, 'si_captcha_add_script'));
        }
      }
 
@@ -794,10 +795,6 @@ function si_captcha_wc_checkout_post() {
 // this function adds the captcha to the register form
 function si_captcha_register_form() {
    global $si_captcha_opt;
-
-   if ($si_captcha_opt['register'] != 'true') {
-        return true; // captcha setting is disabled for registration
-   }
 
 
 // Test for some required things, print error message right here if not OK.

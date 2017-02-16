@@ -5,7 +5,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: captcha, recaptcha, buddypress, woocommerce, wpforo, multisite, comment, comments, login, register, anti-spam, spam, security
 Requires at least: 3.1.0
 Tested up to: 4.7.2
-Stable tag: 3.0.0.2
+Stable tag: 3.0.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -246,6 +246,9 @@ Please read [How to update a translation of SI Captcha Anti-Spam for WordPress](
 
 
 == Changelog ==
+
+= 3.0.0.3 =
+* (12 Feb 2017) - Fixed reCAPTCHA on wpForo Registration page was not working unless comment form was also checked.
 
 = 3.0.0.2 =
 * (12 Feb 2017) - Added CAPTCHA for wpForo Forum Registration page. (you can enable/disable it on the settings page).

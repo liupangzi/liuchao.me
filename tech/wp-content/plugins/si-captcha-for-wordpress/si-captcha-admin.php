@@ -17,32 +17,33 @@ if ( strpos(strtolower($_SERVER['SCRIPT_NAME']),strtolower(basename(__FILE__))) 
         check_admin_referer( 'si-captcha-options_update'); // nonce
    // post changes to the options array
    $optionarray_update = array(
-         'donated' =>            (isset( $_POST['si_captcha_donated'] ) ) ? 'true' : 'false',// true or false
-         'bypass_comment' =>               (isset( $_POST['si_captcha_bypass_comment'] ) ) ? 'true' : 'false',
-         'comment' =>            (isset( $_POST['si_captcha_comment'] ) ) ? 'true' : 'false',
-         'login' =>              (isset( $_POST['si_captcha_login'] ) ) ? 'true' : 'false',
-         'register' =>           (isset( $_POST['si_captcha_register'] ) ) ? 'true' : 'false',
+         'donated' =>               (isset( $_POST['si_captcha_donated'] ) ) ? 'true' : 'false',// true or false
+         'bypass_comment' =>        (isset( $_POST['si_captcha_bypass_comment'] ) ) ? 'true' : 'false',
+         'comment' =>               (isset( $_POST['si_captcha_comment'] ) ) ? 'true' : 'false',
+         'login' =>                 (isset( $_POST['si_captcha_login'] ) ) ? 'true' : 'false',
+         'register' =>              (isset( $_POST['si_captcha_register'] ) ) ? 'true' : 'false',
          'bp_register' =>           (isset( $_POST['si_captcha_bp_register'] ) ) ? 'true' : 'false',
          'ms_register' =>           (isset( $_POST['si_captcha_ms_register'] ) ) ? 'true' : 'false',
          'wpforo_register' =>       (isset( $_POST['si_captcha_wpforo_register'] ) ) ? 'true' : 'false',
          'lostpwd' =>               (isset( $_POST['si_captcha_lostpwd'] ) ) ? 'true' : 'false',
          'wc_checkout' =>           (isset( $_POST['si_captcha_wc_checkout'] ) ) ? 'true' : 'false',
+         'jetpack' =>               (isset( $_POST['si_captcha_jetpack'] ) ) ? 'true' : 'false',
          'enable_session' =>        (isset( $_POST['si_captcha_enable_session'] ) ) ? 'true' : 'false',
          'captcha_small' =>         (isset( $_POST['si_captcha_captcha_small'] ) ) ? 'true' : 'false',
          'external_css' =>          (isset( $_POST['si_captcha_external_css'] ) ) ? 'true' : 'false',
-         'comment_label_position' => (trim($_POST['si_captcha_comment_label_position']) != '' ) ? strip_tags(trim($_POST['si_captcha_comment_label_position'])) : $si_captcha_option_defaults['comment_label_position'], // use default if empty
-         'network_individual_on' =>           (isset( $_POST['si_captcha_network_individual_on'] ) ) ? 'true' : 'false',
-         'required_indicator' =>    strip_tags(trim($_POST['si_captcha_required_indicator'])),
-         'error_spambot' =>         strip_tags(trim($_POST['si_captcha_error_spambot'])),
-         'error_incorrect' =>       strip_tags(trim($_POST['si_captcha_error_incorrect'])),
-         'error_empty' =>           strip_tags(trim($_POST['si_captcha_error_empty'])),
-         'error_token' =>           strip_tags(trim($_POST['si_captcha_error_token'])),
-         'error_error' =>           strip_tags(trim($_POST['si_captcha_error_error'])),
-         'error_unreadable' =>      strip_tags(trim($_POST['si_captcha_error_unreadable'])),
-         'error_cookie' =>          strip_tags(trim($_POST['si_captcha_error_cookie'])),
-         'label_captcha' =>         strip_tags(trim($_POST['si_captcha_label_captcha'])),
-         'tooltip_captcha' =>       strip_tags(trim($_POST['si_captcha_tooltip_captcha'])),
-         'tooltip_refresh' =>       strip_tags(trim($_POST['si_captcha_tooltip_refresh'])),
+         'comment_label_position' =>       ($_POST['si_captcha_comment_label_position'] != '' ) ? sanitize_text_field($_POST['si_captcha_comment_label_position']) : sanitize_text_field($si_captcha_option_defaults['comment_label_position']), // use default if empty
+         'network_individual_on' => (isset( $_POST['si_captcha_network_individual_on'] ) ) ? 'true' : 'false',
+         'required_indicator' =>    sanitize_text_field($_POST['si_captcha_required_indicator']),
+         'error_spambot' =>         sanitize_text_field($_POST['si_captcha_error_spambot']),
+         'error_incorrect' =>       sanitize_text_field($_POST['si_captcha_error_incorrect']),
+         'error_empty' =>           sanitize_text_field($_POST['si_captcha_error_empty']),
+         'error_token' =>           sanitize_text_field($_POST['si_captcha_error_token']),
+         'error_error' =>           sanitize_text_field($_POST['si_captcha_error_error']),
+         'error_unreadable' =>      sanitize_text_field($_POST['si_captcha_error_unreadable']),
+         'error_cookie' =>          sanitize_text_field($_POST['si_captcha_error_cookie']),
+         'label_captcha' =>         sanitize_text_field($_POST['si_captcha_label_captcha']),
+         'tooltip_captcha' =>       sanitize_text_field($_POST['si_captcha_tooltip_captcha']),
+         'tooltip_refresh' =>       sanitize_text_field($_POST['si_captcha_tooltip_refresh']),
 
                    );
 
@@ -221,7 +222,7 @@ if (isset($api->version)) {
           <input type="submit" name="submit"class="button button-primary" value="<?php _e('Save Changes', 'si-captcha') ?>" />
         </p>
 
-      <p>If you don't like image captcha and code entry, you can uninstall this plugin and try my new plugin <a href="https://wordpress.org/plugins/fast-secure-recaptcha/" target="_blank"><?php echo __('Fast Secure reCAPTCHA', 'si-captcha'); ?></a>, it uses Google No CAPTCHA reCAPTCHA.
+      <p><?php echo __('If you do not like image captcha and code entry, you can uninstall this plugin and try my new plugin:', 'si-captcha' ).' <a href="https://wordpress.org/plugins/fast-secure-recaptcha/" target="_blank">'. __('Fast Secure reCAPTCHA with Google No CAPTCHA reCAPTCHA', 'si-captcha').'</a>'; ?>
        </p>
        
         <fieldset class="options">
@@ -230,11 +231,11 @@ if (isset($api->version)) {
 
 
      <tr>
-       <th scope="row" style="width: 75px;"><?php _e('Forms:', 'si-captcha'); ?></th>
+       <th scope="row" style="width: 75px;"><?php _e('Enable CAPTCHA:', 'si-captcha'); ?></th>
       <td>
 
     <input name="si_captcha_login" id="si_captcha_login" type="checkbox" <?php if ( $si_captcha_opt['login'] == 'true' ) echo ' checked="checked" '; ?> />
-    <label for="si_captcha_login"><?php _e('Enable CAPTCHA on the login form.', 'si-captcha') ?></label>
+    <label for="si_captcha_login"><?php _e('Login form.', 'si-captcha') ?></label>
     <a style="cursor:pointer;" title="<?php esc_attr_e('Click for Help!', 'si-captcha'); ?>" onclick="toggleVisibility('si_captcha_login_tip');"><?php _e('help', 'si-captcha'); ?></a>
     <div class="fscf_tip" id="si_captcha_login_tip">
     <?php _e('Require that the user pass a CAPTCHA test before login.', 'si-captcha') ?>
@@ -242,7 +243,7 @@ if (isset($api->version)) {
     <br />
 
     <input name="si_captcha_register" id="si_captcha_register" type="checkbox" <?php if ( $si_captcha_opt['register'] == 'true' ) echo ' checked="checked" '; ?> />
-    <label for="si_captcha_register"><?php _e('Enable CAPTCHA on the register form.', 'si-captcha') ?></label>
+    <label for="si_captcha_register"><?php _e('Register form.', 'si-captcha') ?></label>
     <a style="cursor:pointer;" title="<?php esc_attr_e('Click for Help!', 'si-captcha'); ?>" onclick="toggleVisibility('si_captcha_register_tip');"><?php _e('help', 'si-captcha'); ?></a>
     <div class="fscf_tip" id="si_captcha_register_tip">
     <?php _e('Require that the user pass a CAPTCHA test before registering.', 'si-captcha') ?>
@@ -250,7 +251,7 @@ if (isset($api->version)) {
     <br />
 
     <input name="si_captcha_lostpwd" id="si_captcha_lostpwd" type="checkbox" <?php if ( $si_captcha_opt['lostpwd'] == 'true' ) echo ' checked="checked" '; ?> />
-    <label for="si_captcha_lostpwd"><?php _e('Enable CAPTCHA on the lost password form.', 'si-captcha') ?></label>
+    <label for="si_captcha_lostpwd"><?php _e('Lost password form.', 'si-captcha') ?></label>
     <a style="cursor:pointer;" title="<?php esc_attr_e('Click for Help!', 'si-captcha'); ?>" onclick="toggleVisibility('si_captcha_lostpwd_tip');"><?php _e('help', 'si-captcha'); ?></a>
     <div class="fscf_tip" id="si_captcha_lostpwd_tip">
     <?php _e('Require that the user pass a CAPTCHA test before lost password request.', 'si-captcha') ?>
@@ -258,7 +259,7 @@ if (isset($api->version)) {
     <br />
 
     <input name="si_captcha_comment" id="si_captcha_comment" type="checkbox" <?php if ( $si_captcha_opt['comment'] == 'true' ) echo ' checked="checked" '; ?> />
-    <label for="si_captcha_comment"><?php _e('Enable CAPTCHA on the comment form.', 'si-captcha') ?></label>
+    <label for="si_captcha_comment"><?php _e('Comment form.', 'si-captcha') ?></label>
     <a style="cursor:pointer;" title="<?php esc_attr_e('Click for Help!', 'si-captcha'); ?>" onclick="toggleVisibility('si_captcha_comment_tip');"><?php _e('help', 'si-captcha'); ?></a>
     <div class="fscf_tip" id="si_captcha_comment_tip">
     <?php _e('Require that the user pass a CAPTCHA test before posting comments.', 'si-captcha') ?>
@@ -266,7 +267,7 @@ if (isset($api->version)) {
     <br />
 
     <input name="si_captcha_ms_register" id="si_captcha_ms_register" type="checkbox" <?php if ( $si_captcha_opt['ms_register'] == 'true' ) echo ' checked="checked" '; ?> />
-    <label for="si_captcha_ms_register"><?php _e('Enable CAPTCHA on Multisite register form.', 'si-captcha') ?></label>
+    <label for="si_captcha_ms_register"><?php _e('Multisite register form.', 'si-captcha') ?></label>
     <a style="cursor:pointer;" title="<?php esc_attr_e('Click for Help!', 'si-captcha'); ?>" onclick="toggleVisibility('si_captcha_ms_register_tip');"><?php _e('help', 'si-captcha'); ?></a>
     <div class="fscf_tip" id="si_captcha_ms_register_tip">
     <?php _e('Require that the user pass a CAPTCHA test before registering in Multisite.', 'si-captcha') ?>
@@ -274,7 +275,7 @@ if (isset($api->version)) {
     <br />
 
     <input name="si_captcha_bp_register" id="si_captcha_bp_register" type="checkbox" <?php if ( $si_captcha_opt['bp_register'] == 'true' ) echo ' checked="checked" '; ?> />
-    <label for="si_captcha_bp_register"><?php _e('Enable CAPTCHA on BuddyPress register form.', 'si-captcha') ?></label>
+    <label for="si_captcha_bp_register"><?php _e('BuddyPress register form.', 'si-captcha') ?></label>
     <a style="cursor:pointer;" title="<?php esc_attr_e('Click for Help!', 'si-captcha'); ?>" onclick="toggleVisibility('si_captcha_bp_register_tip');"><?php _e('help', 'si-captcha'); ?></a>
     <div class="fscf_tip" id="si_captcha_bp_register_tip">
     <?php _e('Require that the user pass a CAPTCHA test before registering in BuddyPress.', 'si-captcha') ?>
@@ -282,7 +283,7 @@ if (isset($api->version)) {
     <br />
 
     <input name="si_captcha_wpforo_register" id="si_captcha_wpforo_register" type="checkbox" <?php if ( $si_captcha_opt['wpforo_register'] == 'true' ) echo ' checked="checked" '; ?> />
-    <label for="si_captcha_wpforo_register"><?php _e('Enable CAPTCHA on wpForo Forum register form.', 'si-captcha') ?></label>
+    <label for="si_captcha_wpforo_register"><?php _e('wpForo Forum register form.', 'si-captcha') ?></label>
     <a style="cursor:pointer;" title="<?php esc_attr_e('Click for Help!', 'si-captcha'); ?>" onclick="toggleVisibility('si_captcha_wpforo_register_tip');"><?php _e('help', 'si-captcha'); ?></a>
     <div class="fscf_tip" id="si_captcha_wpforo_register_tip">
     <?php _e('Require that the user pass a CAPTCHA test before registering in wpForo Forum.', 'si-captcha') ?>
@@ -290,10 +291,18 @@ if (isset($api->version)) {
     <br />
 
     <input name="si_captcha_wc_checkout" id="si_captcha_woocommerce" type="checkbox" <?php if ( $si_captcha_opt['wc_checkout'] == 'true' ) echo ' checked="checked" '; ?> />
-    <label for="si_captcha_wc_checkout"><?php _e('Enable CAPTCHA on WooCommerce checkout.', 'si-captcha') ?></label>
+    <label for="si_captcha_wc_checkout"><?php _e('WooCommerce checkout.', 'si-captcha') ?></label>
     <a style="cursor:pointer;" title="<?php esc_attr_e('Click for Help!', 'si-captcha'); ?>" onclick="toggleVisibility('si_captcha_wc_checkout_tip');"><?php _e('help', 'si-captcha'); ?></a>
     <div class="fscf_tip" id="si_captcha_wc_checkout_tip">
     <?php _e('Require that the user pass a CAPTCHA test on WooCommerce checkout form.', 'si-captcha') ?>
+    </div>
+    <br />
+
+    <input name="si_captcha_jetpack" id="si_captcha_jetpack" type="checkbox" <?php if ( $si_captcha_opt['jetpack'] == 'true' ) echo ' checked="checked" '; ?> />
+    <label for="si_captcha_jetpack"><?php _e('Jetpack Contact Form.', 'si-captcha') ?></label>
+    <a style="cursor:pointer;" title="<?php esc_attr_e('Click for Help!', 'si-captcha'); ?>" onclick="toggleVisibility('si_captcha_jetpack_tip');"><?php _e('help', 'si-captcha'); ?></a>
+    <div class="fscf_tip" id="si_captcha_jetpack_tip">
+    <?php _e('Require that the user pass a CAPTCHA test on Jetpack Contact Form.', 'si-captcha') ?>
     </div>
     <br />
 
@@ -522,7 +531,8 @@ if ($si_captcha_opt['donated'] != 'true') {
          <h3><?php echo __('Donate', 'si-captcha'); ?></h3>
 
 <?php
-_e('If you find this plugin useful to you, please consider making a donation to help contribute to my time invested and to further development. Thanks for your kind support!', 'si-captcha') ?> - <a style="cursor:pointer;" title="<?php esc_attr_e('You have 1 message from Mike Challis', 'si-captcha'); ?>" onclick="toggleVisibility('si_captcha_mike_challis_tip');"><?php _e('You have 1 message from Mike Challis', 'si-captcha'); ?></a>
+_e('If you find this plugin useful to you, please consider making a donation to help contribute to my time invested and to further development. Thanks for your kind support!', 'si-captcha') ?><br />
+<a style="cursor:pointer;" title="<?php esc_attr_e('You have 1 message from Mike Challis', 'si-captcha'); ?>" onclick="toggleVisibility('si_captcha_mike_challis_tip');"><?php _e('You have 1 message from Mike Challis', 'si-captcha'); ?></a>
 <br /><br />
    </div>
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post">

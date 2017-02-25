@@ -2,16 +2,16 @@
 /*
 Plugin Name: SI Captcha Anti-Spam
 Plugin URI: https://wordpress.org/plugins/si-captcha-for-wordpress/
-Description: Adds Secure Image CAPTCHA to protect the forms for comments, login, registration, lost password, BuddyPress register, and WooCommerce checkout. Prevent spam from automated bots and humans. Compatible with Multisite Network Activate.
+Description: Adds Secure Image CAPTCHA on the forms for comments, login, registration, lost password, BuddyPress register, wpForo Forum register, Jetpack Contact Form, and WooCommerce checkout. Prevent spam from automated bots and humans. Compatible with Multisite Network Activate.
 Author: Mike Challis
 Author URI: http://www.642weather.com/weather/scripts.php
 Text Domain: si-captcha
 Domain Path: /languages
 License: GPLv2 or later
-Version: 3.0.0.3
+Version: 3.0.0.4
 */
 
-$si_captcha_version = '3.0.0.3';
+$si_captcha_version = '3.0.0.4';
 
 /*  Copyright (C) 2008-2017 Mike Challis  (http://www.642weather.com/weather/contact_us.php)
 
@@ -44,6 +44,7 @@ class siCaptcha {
     public $si_captcha_version;
     public $si_captcha_add_script = false;
     private $si_captcha_networkwide = false;
+    private $si_captcha_on_comments = false;
 
 function si_captcha_admin_menu() {
 
@@ -96,9 +97,11 @@ function si_captcha_init() {
      // comment form
      if ($si_captcha_opt['comment'] == 'true') {
        if( ! is_user_logged_in() ) {
-		       add_action('comment_form_after_fields', array($this, 'si_captcha_comment_form'), 99);
+               add_action('comment_form_after_fields', array($this, 'si_captcha_comment_form'), 99);
+               add_action('comment_form', array($this, 'si_captcha_comment_form_legacy'), 99); // legacy themes
 	   } else {
-               add_filter ('comment_form_field_comment', array($this, 'si_captcha_comment_form_logged_in'), 11);
+	           add_filter ('comment_form_field_comment', array($this, 'si_captcha_comment_form_logged_in'), 11);
+               add_action('comment_form', array($this, 'si_captcha_comment_form_legacy'), 99); // legacy themes
 	   }
         add_action('wp_footer', array($this, 'si_captcha_add_script'));
         add_filter('preprocess_comment', array($this, 'si_captcha_comment_post'), 1);
@@ -162,6 +165,14 @@ function si_captcha_init() {
         add_filter('wpmu_validate_blog_signup', array($this, 'si_captcha_mu_site_signup_validate'));
      }
 
+     // jetpack contact form
+      if ($si_captcha_opt['jetpack'] == 'true') {
+        add_filter('jetpack_contact_form_is_spam', array($this, 'si_captcha_jetpack_validate'));
+        add_filter('the_content', array($this, 'si_captcha_jetpack_form'));
+        add_shortcode('si-captcha', array($this, 'si_captcha_jetpack_shortcode'));
+        add_action('wp_footer', array($this, 'si_captcha_add_script'));
+     }
+
 } // end function si_captcha_init
 
 
@@ -181,6 +192,7 @@ function si_captcha_get_options() {
          'wpforo_register' => 'true', // enable on wpForo Forum register form
          'lostpwd'  => 'true',        // enable on lost password form
          'wc_checkout' => 'true',     // enable on WooCommerce checkout form
+         'jetpack' => 'true',         // enable on Jetpack contact form
          'enable_session' => 'false',
          'captcha_small' => 'true',   // enable small CAPTCHA size
          'comment_label_position' => $default_position,
@@ -276,8 +288,6 @@ function si_captcha_check_requires() {
 } // end function si_captcha_check_requires
 
 
-
-
 // displays the CAPTCHA in the forms
 function si_captcha_captcha_html($label = 'si_image', $form_id = 'com', $no_echo = false) {
   global $si_captcha_url, $si_captcha_dir, $si_captcha_url_ns, $si_captcha_dir_ns, $si_captcha_opt;
@@ -346,10 +356,9 @@ function si_captcha_captcha_html($label = 'si_image', $form_id = 'com', $no_echo
 
 
 function si_captcha_start_session() {
-
-   // a PHP session cookie is set so that the captcha can be remembered and function
-  // this has to be set before any header output
-   //echo "before starting session si captcha";
+ // a PHP session cookie is set so that the captcha can be remembered and function
+ // this has to be set before any header output
+ // echo "before starting session si captcha";
   if( !isset( $_SESSION ) ) { // play nice with other plugins
    if ( !defined('XMLRPC_REQUEST') ) { // buddypress fix
       //set the $_SESSION cookie into HTTPOnly mode for better security
@@ -406,20 +415,7 @@ function si_captcha_clean_temp_dir($dir, $minutes = 60) {
 		closedir( $handle );
 	}
 	return $count;
-}
-
-
-function si_captcha_convert_css($string,$css) {
-    global $si_captcha_option_defaults;
-    if( preg_match("/^style=\"(.*)\"$/i", $string, $matches) ){
-      return $matches[1];
-    }
-    if( preg_match("/^class=\"(.*)\"$/i", $string) ){
-      return (isset($si_captcha_option_defaults[$css])) ? $si_captcha_option_defaults[$css] : $string;
-    }
-    return $string;
-
-} // end function si_captcha_convert_css
+} // end function si_captcha_clean_temp_dir
 
 
 function si_captcha_admin_head() {
@@ -443,7 +439,7 @@ div.fs-star img {width:19px; height:19px; border-left:1px solid #fff; border-rig
 <?php
   } // end if(isset($_GET['page'])
 
-}
+} // end function si_captcha_admin_head
 
 function si_captcha_head(){
   global $si_captcha_opt;
@@ -465,18 +461,20 @@ $styles = $this->si_captcha_get_styles();
 </style>
 <!-- end SI CAPTCHA Anti-Spam - login/register form style -->
 <?php
-}
+} // end function si_captcha_head
 
 
 // this function adds the recaptcha to the comment form
 function si_captcha_comment_form() {
-    global $si_captcha_opt;
+    global $si_captcha_opt, $si_captcha_on_comments;
 
     // skip the captcha if user is logged in and the settings allow
     if (is_user_logged_in() && $si_captcha_opt['bypass_comment'] == 'true')
                // logged in user can bypass recaptcha
                return;
 
+    if ($si_captcha_on_comments)
+      return;
 
 // the captch html
 // Test for some required things, print error message right here if not OK.
@@ -491,52 +489,97 @@ $this->si_captcha_captcha_html('si_image_com','com');
 echo '</div>
 
 ';
-echo '<p id="si_captcha_code">';
-
-$label_string = '<label for="si_captcha_code" >';
-$label_string .= ($si_captcha_opt['label_captcha'] != '') ? $si_captcha_opt['label_captcha'] : __('CAPTCHA Code', 'si-captcha');
-$label_string .= '</label>';
-$required_string = '<span class="required">'.$si_captcha_opt['required_indicator']."</span>\n";
-$input_string = '<input id="si_captcha_code" name="si_captcha_code" type="text" />
+echo '<p id="si_captcha_code">
 ';
-
- if ($si_captcha_opt['comment_label_position'] == 'label-required-input' || $si_captcha_opt['comment_label_position'] == 'left'  ) { // buddypress (label-required-input)(label left)
-      echo $label_string . $required_string . $input_string; // BP
- } else if ($si_captcha_opt['comment_label_position'] == 'label-required-linebreak-input' ||  $si_captcha_opt['comment_label_position'] == 'top' ) {
-      echo $label_string . $required_string .'<br />'. $input_string; // regular WP - twenty ten
- } else if ($si_captcha_opt['comment_label_position'] == 'label-input-required' ||  $si_captcha_opt['comment_label_position'] == 'right' ) {
-      echo $label_string . $input_string . $required_string; // suffusion
- } else if ($si_captcha_opt['comment_label_position'] == 'input-label-required' ) {
-      echo $input_string . $label_string . $required_string; // regular WP
- } else {
-      echo $input_string . $label_string . $required_string;  // regular WP
- }
+echo $this->si_captcha_comment_label_html();
 echo '</p>
 
 ';
 
-
 }
-
     // prevent double captcha fields
-    remove_action('comment_form', array(&$this, 'si_captcha_comment_form'), 1);
-
+    $si_captcha_on_comments = true;
     return true;
 } // end function si_captcha_comment_form
 
+// this function adds the recaptcha to the comment form on old themes
+function si_captcha_comment_form_legacy() {
+    global $si_captcha_opt, $si_captcha_on_comments;
+
+    // skip the captcha if user is logged in and the settings allow
+    if (is_user_logged_in() && $si_captcha_opt['bypass_comment'] == 'true')
+               // logged in user can bypass recaptcha
+               return;
+
+    if ($si_captcha_on_comments)
+      return;
+
+echo '
+<div id="captchaImgDiv">
+';
+
+// the captch html
+// Test for some required things, print error message right here if not OK.
+if ($this->si_captcha_check_requires()) {
+
+echo '
+<div ';
+echo ($si_captcha_opt['captcha_small'] == 'true') ? 'class="si_captcha_small"' : 'class="si_captcha_large"';
+echo '>';
+$this->si_captcha_captcha_html('si_image_com','com');
+echo '</div>
+
+';
+echo '<p id="si_captcha_code">
+';
+echo $this->si_captcha_comment_label_html();
+echo '</p>
+</div>
+';
+
+// rearrange submit button display order
+//if ($si_captcha_opt['captcha_rearrange'] == 'true') {
+     print  <<<EOT
+      <script type='text/javascript'>
+          var sUrlInput = document.getElementById("comment");
+                  var oParent = sUrlInput.parentNode;
+          var sSubstitue = document.getElementById("captchaImgDiv");
+                  oParent.appendChild(sSubstitue, sUrlInput);
+      </script>
+            <noscript>
+          <style type='text/css'>#submit {display:none;}</style><br />
+EOT;
+  echo '           <input name="submit" type="submit" id="submit-alt" tabindex="6" value="'.__('Submit Comment', 'si-captcha').'" />
+          </noscript>
+  ';
+
+//}
+
+
+}else{
+ echo '</div>';
+}
+
+    // prevent double captcha fields
+    $si_captcha_on_comments = true;
+    return true;
+} // end function si_captcha_comment_form_legacy
+
 // this function adds the recaptcha to the comment form when user is logged in
 function si_captcha_comment_form_logged_in($comment_field) {
-    global $si_captcha_opt;
+    global $si_captcha_opt, $si_captcha_on_comments;
 
     // skip the captcha if user is logged in and the settings allow
     if (is_user_logged_in() && $si_captcha_opt['bypass_comment'] == 'true')
                // logged in user can bypass recaptcha
                return $comment_field;
 
+    if ($si_captcha_on_comments)
+          return $comment_field;
+
 // the captch html
 // Test for some required things, print error message right here if not OK.
 if ($this->si_captcha_check_requires()) {
-
 $html = '
 
 <div ';
@@ -546,7 +589,21 @@ $html .= $this->si_captcha_captcha_html('si_image_com','com', true);
 $html .= '</div>
 <br />
 ';
-$html .= '<p>';
+$html .= '<p>
+';
+$html .= $this->si_captcha_comment_label_html();
+$html .= '</p>
+
+';
+}
+    // prevent double captcha fields
+    $si_captcha_on_comments = true;
+    return $comment_field . "\n" . $html;
+} // end function si_captcha_comment_form_logged_in
+
+
+function si_captcha_comment_label_html() {
+    global $si_captcha_opt;
 
 $label_string = '<label for="si_captcha_code" >';
 $label_string .= ($si_captcha_opt['label_captcha'] != '') ? $si_captcha_opt['label_captcha'] : __('CAPTCHA Code', 'si-captcha');
@@ -554,6 +611,8 @@ $label_string .= '</label>';
 $required_string = '<span class="required">'.$si_captcha_opt['required_indicator']."</span>\n";
 $input_string = '<input id="si_captcha_code" name="si_captcha_code" type="text" />
 ';
+
+$html = '';
 
  if ($si_captcha_opt['comment_label_position'] == 'label-required-input' || $si_captcha_opt['comment_label_position'] == 'left'  ) { // buddypress (label-required-input)(label left)
       $html .= $label_string . $required_string . $input_string; // BP
@@ -566,15 +625,9 @@ $input_string = '<input id="si_captcha_code" name="si_captcha_code" type="text" 
  } else {
       $html .= $input_string . $label_string . $required_string;  // regular WP
  }
-$html .= '</p>
 
-';
-
-
-}
-
-    return $comment_field . "\n" . $html;
-} // end function si_captcha_comment_form_logged_in
+ return $html;
+} // end function si_captcha_comment_label_html
 
 
 // this function checks the recaptcha posted with comments
@@ -607,8 +660,7 @@ function si_captcha_comment_post($comment) {
 
    }
 
-   return($comment);
-
+   return $comment;
 } // end function si_captcha_comment_post
 
 
@@ -622,7 +674,6 @@ function si_captcha_login_form() {
 
 // Test for some required things, print error message right here if not OK.
 if ($this->si_captcha_check_requires()) {
-
 // the captcha html - login form
 echo '
 
@@ -644,7 +695,6 @@ echo '</div>
 }
 
   return true;
-
 } //  end function si_captcha_login_form
 
 
@@ -658,7 +708,6 @@ function si_captcha_wc_login_form() {
 
 // Test for some required things, print error message right here if not OK.
 if ($this->si_captcha_check_requires()) {
-
 // the captcha html - login form
 echo '
 
@@ -679,7 +728,6 @@ echo '</div>
 }
 
   return true;
-
 } //  end function si_captcha_login_form
 
 // this function adds the captcha to the buddypress inline login form
@@ -744,7 +792,6 @@ function si_captcha_check_login_captcha($user) {
 		}
 
 		return $user;
-
 } // end function si_captcha_check_login_recaptcha
 
 
@@ -755,7 +802,6 @@ function si_captcha_wc_checkout_form() {
 
 // Test for some required things, print error message right here if not OK.
 if ($this->si_captcha_check_requires()) {
-
 // the captcha html -  form
 echo '
 <div class="clear"></div>
@@ -788,7 +834,6 @@ function si_captcha_wc_checkout_post() {
        wc_add_notice( $validate_result, 'error' );
    }
    return;
-
 } // function si_captcha_wc_checkout_post
 
 
@@ -796,10 +841,8 @@ function si_captcha_wc_checkout_post() {
 function si_captcha_register_form() {
    global $si_captcha_opt;
 
-
 // Test for some required things, print error message right here if not OK.
 if ($this->si_captcha_check_requires()) {
-
 // the captcha html - register form
 echo '
 
@@ -836,8 +879,6 @@ function si_captcha_register_post(WP_Error $errors) {
 } // end function si_captcha_register_post
 
 
-
-
 // this function adds the captcha to the bp register form
 function si_captcha_bp_register_form() {
    global $bp, $si_captcha_opt;
@@ -854,7 +895,6 @@ if (!empty($bp->signup->errors['si_captcha_field']))
 
 // Test for some required things, print error message right here if not OK.
 if ($this->si_captcha_check_requires()) {
-
 // the captcha html - register form
 echo '
 
@@ -870,7 +910,6 @@ echo '</div>
   echo '<br />
 <input id="si_captcha_code" name="si_captcha_code" class="input" type="text" value="" /></label>
 </p>
-
 
 ';
 }
@@ -889,6 +928,7 @@ function si_captcha_bp_signup_validate() {
    return;
 } // end function si_captcha_bp_signup_validate
 
+
 // this function adds the captcha to the multisite register form
 function si_captcha_ms_register_form( $errors ) {
    global $si_captcha_opt;
@@ -903,7 +943,6 @@ function si_captcha_ms_register_form( $errors ) {
 // the recaptcha html - ms register form
 // Test for some required things, print error message right here if not OK.
 if ($this->si_captcha_check_requires()) {
-
 // the captcha html - register form
 echo '
 
@@ -933,7 +972,6 @@ function si_captcha_lostpassword_form() {
 
 // Test for some required things, print error message right here if not OK.
 if ($this->si_captcha_check_requires()) {
-
 // the captcha html - lostpassword form
 echo '
 
@@ -967,7 +1005,6 @@ function si_captcha_lostpassword_post() {
        wp_die( "<strong>$error</strong>: $validate_result", $error, array( 'back_link' => true ) ); // back link makes go back link
    }
    return;
-
 } // function si_captcha_lostpassword_post
 
 
@@ -985,6 +1022,7 @@ function si_captcha_mu_signup_validate( $result ) {
    return $result;
 } // end function si_captcha_mu_signup_validate
 
+
 // multisite
 // the user is already registered and is registering a new site
 function si_captcha_mu_site_signup_validate(array $result) {
@@ -999,6 +1037,78 @@ function si_captcha_mu_site_signup_validate(array $result) {
  } // end si_captcha_mu_site_signup_validate
 
 
+function si_captcha_jetpack_validate($bool) {
+       $success = false;
+
+       $validate_result = $this->si_captcha_validate_code('jetpack', 'unlink');
+       if($validate_result == 'valid') {
+           $success = true;
+       }
+       if ( !$success && apply_filters('si_captcha_fail', true, $bool) ) {
+            $this->jetpack_failed = $validate_result;
+            return new WP_Error( 'si_captcha_error', $validate_result );
+       }
+
+       return $bool;
+} // end function si_captcha_jetpack_validate
+
+
+// append field to jetpack contact form shortcode
+function si_captcha_jetpack_form($content) {
+   return preg_replace_callback( '/\[contact-form(.*?)?\](.*?)?\[\/contact-form\]/si',
+   array($this, 'si_captcha_jetpack_append_field_callback'),
+   $content );
+} // end function si_captcha_jetpack_form
+
+
+function si_captcha_jetpack_append_field_callback($m)   {
+        $fields = isset($m[2]) ? $m[2] : null;
+        $_fields = $fields . '[si-captcha]';
+        return str_replace($fields, $_fields, array_shift($m));
+} // end function si_captcha_jetpack_append_field_callback
+
+
+function si_captcha_jetpack_shortcode($atts) {
+   global $si_captcha_opt;
+
+   $text_incorrect = ($si_captcha_opt['error_incorrect'] != '') ? $si_captcha_opt['error_incorrect'] : __('Wrong CAPTCHA', 'si-captcha');
+
+// the captcha html - jetpack contact form
+        ob_start();
+
+// Test for some required things, print error message right here if not OK.
+if ($this->si_captcha_check_requires()) {
+// the captcha html - lostpassword form
+
+echo '
+
+<div ';
+echo ($si_captcha_opt['captcha_small'] == 'true') ? 'class="si_captcha_small"' : 'class="si_captcha_large"';
+echo '>';
+$this->si_captcha_captcha_html('si_image_jetpack','jetpack');
+echo '</div>
+
+<div>
+<br />
+ <label>';
+  echo ($si_captcha_opt['label_captcha'] != '') ? $si_captcha_opt['label_captcha'] : __('CAPTCHA Code', 'si-captcha');
+  echo '<br />
+<input id="si_captcha_code" name="si_captcha_code" class="input" type="text" value="" /></label>
+</div>
+
+';
+
+           if ( isset($this->jetpack_failed) && $this->jetpack_failed ) : ?>
+                <p class="si-captcha-jetpack-error">
+                    <?php echo $this->jetpack_failed; ?>
+                </p>
+            <?php endif; ?>
+
+        <?php
+}
+
+        return apply_filters('si_captcha_field', ob_get_clean());
+} // end function si_captcha_jetpack_shortcode
 
 
 // check if the posted capcha code was valid for any of the forms called
@@ -1041,9 +1151,7 @@ function si_captcha_validate_code($form_id = 'com', $unlink = 'unlink') {
    //captcha with PHP sessions
    if (!isset($_SESSION["securimage_code_si_$form_id"]) || empty($_SESSION["securimage_code_si_$form_id"])) {
           return ($si_captcha_opt['error_cookie'] != '') ? $si_captcha_opt['error_cookie'] : __('Unreadable CAPTCHA cookie', 'si-captcha');
-
    }else{
-
       $captcha_code = trim(strip_tags($_POST['si_captcha_code']));
 
       require_once "$si_captcha_dir/securimage.php";
@@ -1059,8 +1167,8 @@ function si_captcha_validate_code($form_id = 'com', $unlink = 'unlink') {
       }
    }
   }
-
 } // end function si_captcha_validate_code
+
 
 function si_captcha_get_styles(){
     $styles = array(
@@ -1071,15 +1179,16 @@ function si_captcha_get_styles(){
     'img#si_image_log { border-style:none; margin:0; padding-right:5px; float:left; }',
     'img#si_image_side_login { border-style:none; margin:0; padding-right:5px; float:left; }',
     'img#si_image_checkout { border-style:none; margin:0; padding-right:5px; float:left; }',
+    'img#si_image_jetpack { border-style:none; margin:0; padding-right:5px; float:left; }',
     '.si_captcha_refresh { border-style:none; margin:0; vertical-align:bottom; }',
     'div#si_captcha_input { display:block; padding-top:15px; padding-bottom:5px; }',
     'label#si_captcha_code_label { margin:0; }',
     'input#si_captcha_code_input { width:65px; }',
     'p#si_captcha_code { clear: left; padding-top:10px; }',
-
+    '.si-captcha-jetpack-error { color:#DC3232; }',
       );
       return $styles;
-}
+} // end function si_captcha_get_styles
 
 
 function si_captcha_add_css(){
@@ -1114,7 +1223,8 @@ $('head').append(si_captcha_styles);
 </script>
 <?php
   }
-}
+} // end function si_captcha_add_css
+
 
 // only load this javascript on the blog pages where recaptcha needs to display
 function si_captcha_add_script(){
@@ -1128,13 +1238,15 @@ function si_captcha_add_script(){
 
 } // end  function si_captcha_add_script
 
+
 // set a transient used to remind admin to enter API keys upon activation
 function si_captcha_admin_activated() {
 
     if ( current_user_can( 'manage_options' ) ) {
 		          set_transient( 'si_captcha_admin_notice', true, 5 );
     }
-}
+} // end function si_captcha_admin_activated
+
 
 function si_captcha_activated_notice() {
           // remind admin to configure settings upon activation
@@ -1153,8 +1265,7 @@ function si_captcha_activated_notice() {
         // Delete transient, only display this notice once.
         delete_transient('si_captcha_admin_notice');
     }
-
-}
+} // end function si_captcha_activated_notice
 
 
 function si_captcha_determine_current_page() {
@@ -1163,6 +1274,13 @@ function si_captcha_determine_current_page() {
 		$login_path    = preg_replace('#https?://[^/]+/#i', '', wp_login_url());
 		$register_path = preg_replace('#https?://[^/]+/#i', '', wp_registration_url());
         $lostpassword_path = preg_replace('#https?://[^/]+/#i', '', wp_lostpassword_url());
+        $myaccount_page_url = '';
+        if ( class_exists( 'WooCommerce' ) ) {
+              $myaccount_page = get_option( 'woocommerce_myaccount_page_id' );
+             if ( $myaccount_page ) {
+               $myaccount_page_url =  preg_replace('#https?://[^/]+/#i', '',  get_permalink( $myaccount_page ) );
+              }
+        }
 
 		global $pagenow;
 
@@ -1175,6 +1293,10 @@ function si_captcha_determine_current_page() {
 			// user is requesting regular user registration page
 			$this->is_reg = true;
 		}
+        elseif (  (class_exists( 'WooCommerce' ) && $myaccount_page_url != '') && strpos($request_uri, $myaccount_page_url) === 0) {
+            // user is requesting woocommerce registration page
+			$this->is_reg = true;
+        }
 		elseif (strpos($request_uri, $login_path) === 0) {
 			// user is requesting the wp-login page
 			$this->is_login = true;

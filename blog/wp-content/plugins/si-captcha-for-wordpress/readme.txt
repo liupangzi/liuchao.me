@@ -2,18 +2,18 @@
 Contributors: mikechallis
 Author URI: http://www.642weather.com/weather/scripts.php
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KXJWLPPWZG83S
-Tags: captcha, recaptcha, buddypress, woocommerce, wpforo, multisite, comment, comments, login, register, anti-spam, spam, security
-Requires at least: 3.1.0
+Tags: captcha, recaptcha, buddypress, woocommerce, wpforo, multisite, jetpack, comment, comments, login, register, anti-spam, spam, security
+Requires at least: 3.6.0
 Tested up to: 4.7.2
 Stable tag: 3.0.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Adds Secure Image CAPTCHA to protect the forms for comments, login, registration, lost password, BuddyPress register, wpForo Register, and WooCommerce checkout.
+Adds Secure Image CAPTCHA on the forms for comments, login, registration, lost password, BuddyPress register, wpForo Register, and WooCommerce checkout.
 
 == Description ==
 
-Adds Secure Image CAPTCHA anti-spam to WordPress pages for comments, login, registration, lost password, BuddyPress register, wpForo Register, and WooCommerce checkout.
+Adds Secure Image CAPTCHA anti-spam to WordPress pages for comments, login, registration, lost password, BuddyPress register, wpForo Register, Jetpack Contact Form, and WooCommerce checkout.
 In order to post comments, login, or register, users will have to pass the CAPTCHA test. This prevents spam from automated bots, adds security, and is even compatible Akismet. Compatible with Multisite Network Activate. 
 If you don't like image captcha and code entry, you can uninstall this plugin and try my new plugin [Fast Secure reCAPTCHA](https://wordpress.org/plugins/fast-secure-recaptcha/) 
 
@@ -26,13 +26,14 @@ Features:
 --------
  * Secure Image CAPTCHA.
  * Optional setting to hide the Comments CAPTCHA from logged in users.
- * Enable or disable the CAPTCHA on any of the pages for comments, login, registration, lost password, BuddyPress register, wpForo Register, and WooCommerce checkout.
+ * Enable or disable the CAPTCHA on any of the pages for comments, login, registration, lost password, BuddyPress register, wpForo Register, Jetpack Contact Form, and WooCommerce checkout.
  * Login form - WordPress, BuddyPress, wpForo Forum, WooCommerce, WP Multisite
  * Lost Password form - WordPress, BuddyPress, wpForo Forum, WooCommerce, WP Multisite. 
- * Register form - WordPress, BuddyPress, wpForo Forum, WooCommerce, WP Multisite  
+ * Register form - WordPress, BuddyPress, wpForo Forum, WooCommerce, WP Multisite.
+ * Comment form - WordPress, WP Multisite.  
  * Signup new site - WP Multisite.
  * Checkout form - WooCommerce.
- * Comment form - WordPress, WP Multisite.
+ * Jetpack Contact Form.
  * You can disable any of the forms you don't want CAPTCHA on.
  * Style however you need with CSS.
  * I18n language translation support.
@@ -211,7 +212,7 @@ The following translations are included:
 * Czech (cs_CZ) - Radovan
 * Danish (da_DK) - Parry
 * Dutch (nl_NL) - Robert Jan Lamers
-* French (fr_FR) - Pierre Sudarovich
+* French (fr_FR) - BONALDI
 * German (de_DE) - Sebastian Kreideweiss
 * Greek (el) - Ioannis
 * Hungarian (hu_HU) - Vil
@@ -224,7 +225,7 @@ The following translations are included:
 * Portuguese Brazil (pt_BR) - Newton Dan Faoro
 * Portuguese Portugal (pt_PT) - PL Monteiro
 * Romanian (ro_RO) - Laszlo SZOKE
-* Russian (ru_RU) - Neponyatka
+* Russian (ru_RU) - Urvanov
 * Serbian (sr_SR) - Milan Dinic
 * Slovakian (sk_SK) - Marek Chochol
 * Spanish (en_ES) - zinedine
@@ -246,6 +247,15 @@ Please read [How to update a translation of SI Captcha Anti-Spam for WordPress](
 
 
 == Changelog ==
+
+= 3.0.0.4 =
+* (18 Feb 2017) - Added CAPTCHA for Jetpack Contact Form.
+- Fix CAPTCHA not showing on Woocommerce /my-account/ page when "My account page" is enabled in Woocommerce settings.
+- Fix CAPTCHA missing on comment form on some old themes.
+- Improved text on enable forms settings.
+- Fix some strings that could not be internationalized.
+- Update French (fr_FR) - BONALDI (thank you).
+- Update Russian (ru_RU) - Urvanov (thank yuu).
 
 = 3.0.0.3 =
 * (12 Feb 2017) - Fixed reCAPTCHA on wpForo Registration page was not working unless comment form was also checked.

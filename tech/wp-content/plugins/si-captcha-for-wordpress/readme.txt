@@ -2,18 +2,18 @@
 Contributors: mikechallis
 Author URI: http://www.642weather.com/weather/scripts.php
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KXJWLPPWZG83S
-Tags: captcha, recaptcha, buddypress, woocommerce, wpforo, multisite, jetpack, comment, comments, login, register, anti-spam, spam, security
+Tags: captcha, recaptcha, buddypress, bbpress, woocommerce, wpforo, multisite, jetpack, comment, comments, login, register, anti-spam, spam, security
 Requires at least: 3.6.0
 Tested up to: 4.7.2
-Stable tag: 3.0.0.3
+Stable tag: 3.0.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Adds Secure Image CAPTCHA on the forms for comments, login, registration, lost password, BuddyPress register, wpForo Register, and WooCommerce checkout.
+Adds Secure Image CAPTCHA on the forms for comments, login, registration, lost password, BuddyPress, bbPress, wpForo, and WooCommerce checkout.
 
 == Description ==
 
-Adds Secure Image CAPTCHA anti-spam to WordPress pages for comments, login, registration, lost password, BuddyPress register, wpForo Register, Jetpack Contact Form, and WooCommerce checkout.
+Adds Secure Image CAPTCHA anti-spam to WordPress pages for comments, login, registration, lost password, BuddyPress register, bbPress register, wpForo register, bbPress New Topic and Reply to Topic Forms, Jetpack Contact Form, and WooCommerce checkout.
 In order to post comments, login, or register, users will have to pass the CAPTCHA test. This prevents spam from automated bots, adds security, and is even compatible Akismet. Compatible with Multisite Network Activate. 
 If you don't like image captcha and code entry, you can uninstall this plugin and try my new plugin [Fast Secure reCAPTCHA](https://wordpress.org/plugins/fast-secure-recaptcha/) 
 
@@ -26,14 +26,15 @@ Features:
 --------
  * Secure Image CAPTCHA.
  * Optional setting to hide the Comments CAPTCHA from logged in users.
- * Enable or disable the CAPTCHA on any of the pages for comments, login, registration, lost password, BuddyPress register, wpForo Register, Jetpack Contact Form, and WooCommerce checkout.
- * Login form - WordPress, BuddyPress, wpForo Forum, WooCommerce, WP Multisite
- * Lost Password form - WordPress, BuddyPress, wpForo Forum, WooCommerce, WP Multisite. 
- * Register form - WordPress, BuddyPress, wpForo Forum, WooCommerce, WP Multisite.
+ * Enable or disable the CAPTCHA on any of the pages for comments, login, registration, lost password, BuddyPress register, bbPress register, wpForo Register, Jetpack Contact Form, and WooCommerce checkout.
+ * Login form - WordPress, BuddyPress, bbPress, wpForo Forum, WooCommerce, WP Multisite
+ * Lost Password form - WordPress, BuddyPress, bbPress, wpForo Forum, WooCommerce, WP Multisite. 
+ * Register form - WordPress, BuddyPress, bbPress, wpForo Forum, WooCommerce, WP Multisite.
  * Comment form - WordPress, WP Multisite.  
  * Signup new site - WP Multisite.
  * Checkout form - WooCommerce.
  * Jetpack Contact Form.
+ * bbPress New Topic, Reply to Topic Forms.
  * You can disable any of the forms you don't want CAPTCHA on.
  * Style however you need with CSS.
  * I18n language translation support.
@@ -247,6 +248,13 @@ Please read [How to update a translation of SI Captcha Anti-Spam for WordPress](
 
 
 == Changelog ==
+
+= 3.0.0.6 =
+* (27 Feb 2017) - Fixed WooCommerce checkout CAPTCHA was still on the form when not enabled.
+
+= 3.0.0.5 =
+* (25 Feb 2017) - Fixed bbPress Register form did not have the CAPTCHA.
+- Added support for bbPress New Topic and Reply to Topic Forms.
 
 = 3.0.0.4 =
 * (18 Feb 2017) - Added CAPTCHA for Jetpack Contact Form.

@@ -2,16 +2,16 @@
 /*
 Plugin Name: SI Captcha Anti-Spam
 Plugin URI: https://wordpress.org/plugins/si-captcha-for-wordpress/
-Description: Adds Secure Image CAPTCHA on the forms for comments, login, registration, lost password, BuddyPress register, wpForo Forum register, Jetpack Contact Form, and WooCommerce checkout. Prevent spam from automated bots and humans. Compatible with Multisite Network Activate.
+Description: Adds Secure Image CAPTCHA to WordPress pages for comments, login, registration, lost password, BuddyPress register, bbPress register, wpForo register, bbPress New Topic and Reply to Topic Forms, Jetpack Contact Form, and WooCommerce checkout. In order to post comments, login, or register, users will have to pass the CAPTCHA test. Prevents spam from automated bots. Compatible with Akismet and Multisite Network Activate.
 Author: Mike Challis
 Author URI: http://www.642weather.com/weather/scripts.php
 Text Domain: si-captcha
 Domain Path: /languages
 License: GPLv2 or later
-Version: 3.0.0.4
+Version: 3.0.0.6
 */
 
-$si_captcha_version = '3.0.0.4';
+$si_captcha_version = '3.0.0.6';
 
 /*  Copyright (C) 2008-2017 Mike Challis  (http://www.642weather.com/weather/contact_us.php)
 
@@ -52,6 +52,14 @@ function si_captcha_admin_menu() {
 
 }
 
+function si_captcha_plugin_row_meta( $links, $file ) {
+    if ( $file == plugin_basename( __FILE__ ) ) {
+	    $links[] = '<a href="https://wordpress.org/support/plugin/si-captcha-for-wordpress" target="_new">'.__('Support', 'si-captcha').'</a>';
+		$links[] = '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KXJWLPPWZG83S" target="_new">'.__('Donate', 'si-captcha').'</a>';
+	}
+	return $links;
+}
+
 
 function si_captcha_plugin_action_links( $links, $file ) {
     //Static so we don't call plugin_basename on every plugin row.
@@ -71,6 +79,7 @@ function si_captcha_init() {
 
          load_plugin_textdomain('si-captcha', false, dirname(plugin_basename(__FILE__)).'/languages' );
 
+ 	add_filter( 'plugin_row_meta', array($this,'si_captcha_plugin_row_meta'), 10, 2 );
 
   // is it networkwide installed?
  if ( ! function_exists( 'is_plugin_active_for_network' ) )
@@ -108,12 +117,11 @@ function si_captcha_init() {
      }
 
      // register form
-     if ($si_captcha_opt['register'] == 'true' && isset($this->is_reg)) {
+     // if ($si_captcha_opt['register'] == 'true' && isset($this->is_reg)) { // was not working on bbPress [bbp-register] shortcode 
+     if ($si_captcha_opt['register'] == 'true' ) {
         add_action('register_form', array($this, 'si_captcha_register_form'), 99);
         add_filter('registration_errors', array($this, 'si_captcha_register_post'), 10, 3);
         add_action('login_footer', array($this, 'si_captcha_add_script'), 10);
-  	    add_action('woocommerce_checkout_after_order_review', array($this, 'si_captcha_wc_checkout_form'), 99);
-        add_filter('woocommerce_registration_errors', array($this, 'si_captcha_register_post'), 10, 3);
      }
 
      // login form
@@ -165,6 +173,20 @@ function si_captcha_init() {
         add_filter('wpmu_validate_blog_signup', array($this, 'si_captcha_mu_site_signup_validate'));
      }
 
+     // bbPress New Topic, Reply to Topic
+     if(class_exists( 'bbPress' )) {
+            if ($si_captcha_opt['bbpress_topic'] == 'true') {
+                add_action('bbp_theme_after_topic_form_content', array($this, 'si_captcha_bbpress_topic_form'));
+                add_action('bbp_new_topic_pre_extras', array($this, 'si_captcha_bbpress_topic_validate'));
+                add_action('wp_footer', array($this, 'si_captcha_add_script'));
+            }
+            if ($si_captcha_opt['bbpress_reply'] == 'true') {
+                add_action('bbp_theme_after_reply_form_content', array($this, 'si_captcha_bbpress_topic_form'));
+                add_action('bbp_new_reply_pre_extras', array($this, 'si_captcha_bbpress_topic_validate'));
+                add_action('wp_footer', array($this, 'si_captcha_add_script'));
+            }
+     }
+
      // jetpack contact form
       if ($si_captcha_opt['jetpack'] == 'true') {
         add_filter('jetpack_contact_form_is_spam', array($this, 'si_captcha_jetpack_validate'));
@@ -193,6 +215,8 @@ function si_captcha_get_options() {
          'lostpwd'  => 'true',        // enable on lost password form
          'wc_checkout' => 'true',     // enable on WooCommerce checkout form
          'jetpack' => 'true',         // enable on Jetpack contact form
+         'bbpress_topic' => 'true',   // enable on bbPress New Topic form
+         'bbpress_reply' => 'true',   // enable on bbPress Reply to Topic form
          'enable_session' => 'false',
          'captcha_small' => 'true',   // enable small CAPTCHA size
          'comment_label_position' => $default_position,
@@ -1037,6 +1061,47 @@ function si_captcha_mu_site_signup_validate(array $result) {
  } // end si_captcha_mu_site_signup_validate
 
 
+// this function adds the captcha to the bbPress New Topic and Reply form
+function si_captcha_bbpress_topic_form() {
+   global $si_captcha_opt;
+
+// Test for some required things, print error message right here if not OK.
+if ($this->si_captcha_check_requires()) {
+// the captcha html - lostpassword form
+echo '
+
+<div ';
+echo ($si_captcha_opt['captcha_small'] == 'true') ? 'class="si_captcha_small"' : 'class="si_captcha_large"';
+echo '>';
+$this->si_captcha_captcha_html('si_image_bbpress_topic','bbpress_topic');
+echo '</div>
+
+<p>
+ <label>';
+  echo ($si_captcha_opt['label_captcha'] != '') ? $si_captcha_opt['label_captcha'] : __('CAPTCHA Code', 'si-captcha');
+  echo '<br />
+<input id="si_captcha_code" name="si_captcha_code" class="input" type="text" value="" /></label>
+</p>
+
+';
+}
+  return true;
+} // end function si_captcha_bbpress_topic_form
+
+
+  // this function checks the recaptcha posted with bbPress New Topic and Reply form
+function si_captcha_bbpress_topic_validate() {
+   global $si_captcha_opt;
+
+   $validate_result = $this->si_captcha_validate_code('bbpress_topic', 'unlink');
+      if($validate_result != 'valid') {
+       $error = ($si_captcha_opt['error_error'] != '') ? $si_captcha_opt['error_error'] : __('ERROR', 'si-captcha');
+       bbp_add_error('si-captcha-wrong', "<strong>$error</strong>: $validate_result");
+   }
+   return;
+} // end function si_captcha_bp_signup_validate
+
+
 function si_captcha_jetpack_validate($bool) {
        $success = false;
 
@@ -1180,6 +1245,7 @@ function si_captcha_get_styles(){
     'img#si_image_side_login { border-style:none; margin:0; padding-right:5px; float:left; }',
     'img#si_image_checkout { border-style:none; margin:0; padding-right:5px; float:left; }',
     'img#si_image_jetpack { border-style:none; margin:0; padding-right:5px; float:left; }',
+    'img#si_image_bbpress_topic { border-style:none; margin:0; padding-right:5px; float:left; }',
     '.si_captcha_refresh { border-style:none; margin:0; vertical-align:bottom; }',
     'div#si_captcha_input { display:block; padding-top:15px; padding-bottom:5px; }',
     'label#si_captcha_code_label { margin:0; }',

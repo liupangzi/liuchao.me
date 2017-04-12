@@ -5,7 +5,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: captcha, recaptcha, buddypress, bbpress, woocommerce, wpforo, multisite, jetpack, comment, comments, login, register, anti-spam, spam, security
 Requires at least: 3.6.0
 Tested up to: 4.7.3
-Stable tag: 3.0.0.8
+Stable tag: 3.0.0.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -256,6 +256,12 @@ Please read [How to update a translation of SI Captcha Anti-Spam for WordPress](
 
 
 == Changelog ==
+
+= 3.0.0.10 =
+* (10 Apr 2017) - Fix double CAPTCHA WooCommerce register My Account forms WooCommerce 2.x
+
+= 3.0.0.9 =
+* (10 Apr 2017) - Fix CAPTCHA did not work on WooCommerce register My Account forms since WooCommerce 3.
 
 = 3.0.0.8 =
 * (21 Mar 2017) - Fixed error caused by uninitialized value si_captcha_login on line 764.

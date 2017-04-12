@@ -8,10 +8,10 @@ Author URI: http://www.642weather.com/weather/scripts.php
 Text Domain: si-captcha
 Domain Path: /languages
 License: GPLv2 or later
-Version: 3.0.0.8
+Version: 3.0.0.10
 */
 
-$si_captcha_version = '3.0.0.8';
+$si_captcha_version = '3.0.0.10';
 
 /*  Copyright (C) 2008-2017 Mike Challis  (http://www.642weather.com/weather/contact_us.php)
 
@@ -43,6 +43,7 @@ class siCaptcha {
 
     public $si_captcha_version;
     public $si_captcha_add_script = false;
+    private $si_captcha_add_reg = false;
     private $si_captcha_networkwide = false;
     private $si_captcha_on_comments = false;
 
@@ -119,6 +120,8 @@ function si_captcha_init() {
      // register form
      // if ($si_captcha_opt['register'] == 'true' && isset($this->is_reg)) { // was not working on bbPress [bbp-register] shortcode 
      if ($si_captcha_opt['register'] == 'true' ) {
+        add_action('woocommerce_register_form', array($this, 'si_captcha_register_form'), 70);
+        add_filter('woocommerce_registration_errors', array($this, 'si_captcha_register_post'), 10, 3);
         add_action('register_form', array($this, 'si_captcha_register_form'), 99);
         add_filter('registration_errors', array($this, 'si_captcha_register_post'), 10, 3);
         add_action('login_footer', array($this, 'si_captcha_add_script'), 10);
@@ -128,17 +131,17 @@ function si_captcha_init() {
      if ($si_captcha_opt['login'] == 'true' ) {
         add_action('login_form', array($this, 'si_captcha_login_form' ), 99);
         add_filter('login_form_middle', array($this, 'si_captcha_inline_login_form'), 99);
-        add_action('login_footer', array($this, 'si_captcha_add_script'), 10);
+        add_action('woocommerce_login_form' ,array($this, 'si_captcha_wc_login_form' ), 99);		
 	    add_filter('authenticate', array($this, 'si_captcha_check_login_captcha'), 15);
-        add_action('woocommerce_login_form' ,array($this, 'si_captcha_wc_login_form' ), 99 );
+        add_action('login_footer', array($this, 'si_captcha_add_script'), 10);
      }
 
      // lost passwordform
      if ($si_captcha_opt['lostpwd'] == 'true' && isset($this->is_lostpassword)) {
  	    add_action('lostpassword_form', array( $this, 'si_captcha_lostpassword_form'), 99);
         add_action('woocommerce_lostpassword_form', array($this, 'si_captcha_lostpassword_form'), 99);
-        add_action('login_footer', array($this, 'si_captcha_add_script'), 10);
-	    add_action('lostpassword_post', array($this, 'si_captcha_lostpassword_post'), 10);
+	    add_action('lostpassword_post', array($this, 'si_captcha_lostpassword_post'), 10);		
+        add_action('login_footer', array($this, 'si_captcha_add_script'), 10);		
      }
 
      // woocommerce checkout form
@@ -866,7 +869,10 @@ function si_captcha_wc_checkout_post() {
 
 // this function adds the captcha to the register form
 function si_captcha_register_form() {
-   global $si_captcha_opt;
+   global $si_captcha_opt, $si_captcha_add_reg;
+
+  if ( $si_captcha_add_reg )     // prevent double reg captcha fields woocommerce 2
+          return true;
 
 // Test for some required things, print error message right here if not OK.
 if ($this->si_captcha_check_requires()) {
@@ -887,7 +893,10 @@ echo '</div>
 </p>
 
 ';
+      // prevent double captcha fields woocommerce 2
+  $si_captcha_add_reg = true;
 }
+
 
   return true;
 } // end function si_captcha_register_form

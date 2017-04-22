@@ -4,8 +4,8 @@ Author URI: http://www.642weather.com/weather/scripts.php
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KXJWLPPWZG83S
 Tags: captcha, recaptcha, buddypress, bbpress, woocommerce, wpforo, multisite, jetpack, comment, comments, login, register, anti-spam, spam, security
 Requires at least: 3.6.0
-Tested up to: 4.7.3
-Stable tag: 3.0.0.9
+Tested up to: 4.7.4
+Stable tag: 3.0.0.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -256,6 +256,12 @@ Please read [How to update a translation of SI Captcha Anti-Spam for WordPress](
 
 
 == Changelog ==
+
+= 3.0.0.12 =
+* (21 Apr 2017) - Fix "You have selected an incorrect reCAPTCHA value" error on WooCommerce checkout page if "Create an account" is checked.
+
+= 3.0.0.11 =
+* (20 Apr 2017) - Fix WooCommerce /my-account/lost-password/ page validation error causes cannot click "Reset password".
 
 = 3.0.0.10 =
 * (10 Apr 2017) - Fix double CAPTCHA WooCommerce register My Account forms WooCommerce 2.x

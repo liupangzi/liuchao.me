@@ -509,8 +509,8 @@ function showQueries()
 {
 	global $wpdb, $cpd_path, $cpd_version, $cpd_geoip_dir;
 	
-	$serverinfo = (isset($wpdb->dbh->server_info)) ? $wpdb->dbh->server_info : mysql_get_server_info($wpdb->dbh);
-	$clientinfo = (isset($wpdb->dbh->client_info)) ? $wpdb->dbh->client_info : mysql_get_client_info();
+	$serverinfo = (isset($wpdb->dbh->server_info)) ? $wpdb->dbh->server_info : mysqli_get_server_info($wpdb->dbh);
+	$clientinfo = (isset($wpdb->dbh->client_info)) ? $wpdb->dbh->client_info : mysqli_get_client_info();
 	
 	echo '<div style="position:absolute;margin:10px;padding:10px;border:1px red solid;background:#fff;clear:both">
 		<b>Count per Day - DEBUG: '.round($this->queries[0], 3).' s</b><ol>'."\n";

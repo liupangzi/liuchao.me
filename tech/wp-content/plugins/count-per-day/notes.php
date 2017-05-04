@@ -34,12 +34,13 @@ $note = isset($_POST['note']) ? strip_tags($_POST['note']) : '';
 $n = (array) get_option('count_per_day_notes');
 
 // save changes
+$id = isset($_POST['id']) ? (int) strip_tags($_POST['id']) : 0;
 if ( isset($_POST['new']) )
 	$n[] = array( $date, $note );
 else if ( isset($_POST['edit']) )
-	$n[$_POST['id']] = array( $date, $note );
+	$n[$id] = array( $date, $note );
 else if ( isset($_POST['delete']) )
-	unset($n[$_POST['id']]);
+	unset($id);
 update_option('count_per_day_notes', $n);
 ?>
 

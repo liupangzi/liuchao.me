@@ -3,7 +3,7 @@
 Plugin Name: Count Per Day
 Plugin URI: http://www.tomsdimension.de/wp-plugins/count-per-day
 Description: Counter, shows reads and visitors per page; today, yesterday, last week, last months ... on dashboard, per shortcode or in widget.
-Version: 3.5.6
+Version: 3.5.7
 License: Postcardware
 Author: Tom Braider
 Author URI: http://www.tomsdimension.de
@@ -13,7 +13,7 @@ if (!defined('ABSPATH'))
 	exit;
 
 $cpd_dir_name = 'count-per-day';
-$cpd_version = '3.5.6';
+$cpd_version = '3.5.7';
 
 if (strpos($_SERVER['SERVER_NAME'], '.test'))
 	$cpd_path = str_replace('/', DIRECTORY_SEPARATOR, ABSPATH.PLUGINDIR.'/'.$cpd_dir_name.'/');

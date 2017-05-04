@@ -2,8 +2,8 @@
 Contributors: Tom Braider
 Tags: counter, count, posts, visits, reads, dashboard, widget, shortcode
 Requires at least: 3.0
-Tested up to: 4.7
-Stable tag: 3.5.6
+Tested up to: 4.8
+Stable tag: 3.5.7
 License: GPLv2
 Donate link: http://www.tomsdimension.de/postcards
 
@@ -305,6 +305,9 @@ show( $before, $after, $show, $count, $page )'
 
 
 == Changelog ==
+
+= 3.5.7 =
++ Bugfix: security fixes in notes, options
 
 = 3.5.6 =
 + Bugfix: check/block stored bad referrers

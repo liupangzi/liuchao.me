@@ -14,7 +14,7 @@ if(!empty($_POST['do']))
 	{
 		// update options
 		case 'cpd_update' :
-			$_POST['cpd_bots'] = preg_replace('/\r\n\r\n/', '', $_POST['cpd_bots']);
+			$_POST['cpd_bots'] = preg_replace('/\r\n\r\n/', '', strip_tags($_POST['cpd_bots']));
 			$count_per_day->options['onlinetime'] = $_POST['cpd_onlinetime'];
 			$count_per_day->options['user'] = empty( $_POST['cpd_user'] ) ? 0 : 1 ;
 			$count_per_day->options['user_level'] = $_POST['cpd_user_level'];
@@ -32,7 +32,7 @@ if(!empty($_POST['do']))
 			$count_per_day->options['startreads'] = $_POST['cpd_startreads'];
 			$count_per_day->options['anoip'] = empty( $_POST['cpd_anoip'] ) ? 0 : 1 ;
 			$count_per_day->options['clients'] = $_POST['cpd_clients'];
-			$count_per_day->options['exclude_countries'] = strtolower(str_replace(' ', '', $_POST['cpd_exclude_countries']));
+			$count_per_day->options['exclude_countries'] = strtolower(str_replace(' ', '', strip_tags($_POST['cpd_exclude_countries'])));
 			$count_per_day->options['ajax'] = empty( $_POST['cpd_ajax'] ) ? 0 : 1 ;
 			$count_per_day->options['debug'] = empty( $_POST['cpd_debug'] ) ? 0 : 1 ;
 			$count_per_day->options['localref'] = empty( $_POST['cpd_localref'] ) ? 0 : 1 ;

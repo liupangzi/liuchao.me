@@ -8,10 +8,10 @@ Author URI: http://www.642weather.com/weather/scripts.php
 Text Domain: si-captcha
 Domain Path: /languages
 License: GPLv2 or later
-Version: 3.0.0.13
+Version: 3.0.0.15
 */
 
-$si_captcha_version = '3.0.0.13';
+$si_captcha_version = '3.0.0.15';
 
 /*  Copyright (C) 2008-2017 Mike Challis  (http://www.642weather.com/weather/contact_us.php)
 
@@ -44,6 +44,7 @@ class siCaptcha {
     public $si_captcha_version;
     public $si_captcha_add_script = false;
     private $si_captcha_add_reg = false;
+    private $si_captcha_add_jetpack = false;
     private $si_captcha_networkwide = false;
     private $si_captcha_on_comments = false;
     private $si_captcha_checkout_validated = false;
@@ -1155,6 +1156,13 @@ function si_captcha_jetpack_validate($bool) {
 
 // append field to jetpack contact form shortcode
 function si_captcha_jetpack_form($content) {
+  global $si_captcha_add_jetpack;
+
+  //if ( $si_captcha_add_jetpack )     // prevent double captcha fields jetpack
+  //        return $content;
+
+   $si_captcha_add_jetpack = true;
+
    return preg_replace_callback( '/\[contact-form(.*?)?\](.*?)?\[\/contact-form\]/si',
    array($this, 'si_captcha_jetpack_append_field_callback'),
    $content );

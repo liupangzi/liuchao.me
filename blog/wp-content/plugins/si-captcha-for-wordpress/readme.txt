@@ -5,7 +5,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: captcha, recaptcha, buddypress, bbpress, woocommerce, wpforo, multisite, jetpack, comment, comments, login, register, anti-spam, spam, security
 Requires at least: 3.6.0
 Tested up to: 4.7.4
-Stable tag: 3.0.0.14
+Stable tag: 3.0.0.15
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -256,6 +256,9 @@ Please read [How to update a translation of SI Captcha Anti-Spam for WordPress](
 
 
 == Changelog ==
+
+= 3.0.0.16 =
+* (09 May 2017) - Fix typo in code causing validation error on WooCommerce checkout. Sorry for any inconvenience.
 
 = 3.0.0.15 =
 * (04 May 2017) - Revert changes to last update to fix missing CAPTCHA on JetPack Contact form.

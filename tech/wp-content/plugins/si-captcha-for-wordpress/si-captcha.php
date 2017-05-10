@@ -8,10 +8,10 @@ Author URI: http://www.642weather.com/weather/scripts.php
 Text Domain: si-captcha
 Domain Path: /languages
 License: GPLv2 or later
-Version: 3.0.0.15
+Version: 3.0.0.16
 */
 
-$si_captcha_version = '3.0.0.15';
+$si_captcha_version = '3.0.0.16';
 
 /*  Copyright (C) 2008-2017 Mike Challis  (http://www.642weather.com/weather/contact_us.php)
 
@@ -865,7 +865,7 @@ return true;
 function si_captcha_wc_checkout_post() {
     global $si_captcha_dir, $si_captcha_dir_ns, $si_captcha_opt, $si_captcha_checkout_validated;
 
-   if ($fs_recaptcha_opt['wc_checkout'] == 'true' ) {
+   if ($si_captcha_opt['wc_checkout'] == 'true' ) {
       $validate_result = $this->si_captcha_validate_code('checkout', 'unlink');
       if($validate_result != 'valid') {
                wc_add_notice( $validate_result, 'error' );

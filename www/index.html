@@ -1,11 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>liuchao.me</title>
+    <title>Homepage</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="assets/css/main.css"/>
 </head>
-<body>
-<a href="https://tech.liuchao.me">tech.liuchao.me</a>
-<a href="https://blog.liuchao.me">blog.liuchao.me</a>
+<body class="loading">
+<div id="wrapper">
+    <div id="bg"></div>
+    <div id="overlay"></div>
+    <div id="main">
+        <header id="header">
+            <h1>Chao Liu</h1>
+            <p>Developer</p>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="https://blog.liuchao.me/" class="icon fa-wordpress">
+                            <span class="label">Blog</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://tech.liuchao.me/" class="icon fa-sticky-note">
+                            <span class="label">Notes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.justice.plus" target="_blank" class="icon fa-balance-scale">
+                            <span class="label">Justice PLUS</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://2.718281828459045235.com" target="_blank" class="icon fa-edge">
+                            <span class="label">E</span></a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/liupangzi" target="_blank" class="icon fa-github">
+                            <span class="label">Github</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <footer id="footer">
+            <span class="copyright">Handcrafted with &hearts;</span>
+        </footer>
+    </div>
+</div>
+<script>
+    window.onload = function () {
+        document.body.className = '';
+    }
+    window.ontouchmove = function () {
+        return false;
+    }
+    window.onorientationchange = function () {
+        document.body.scrollTop = 0;
+    }
+</script>
 </body>
 </html>

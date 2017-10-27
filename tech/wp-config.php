@@ -18,9 +18,9 @@ define('WP_REDIS_DATABASE', 1);
 /** WordPress数据库的名称 */
 define('DB_NAME', 'tech_liuchao_me');
 /** MySQL数据库用户名 */
-define('DB_USER', 'root');
+define('DB_USER', 'liuchao');
 /** MySQL数据库密码 */
-define('DB_PASSWORD', '');
+define('DB_PASSWORD', 'liuchao');
 /** MySQL主机 */
 define('DB_HOST', '127.0.0.1');
 /** 创建数据表时默认的文字编码 */

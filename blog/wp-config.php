@@ -25,10 +25,10 @@ define('WP_REDIS_DATABASE', 2);
 define('DB_NAME', 'blog_liuchao_me');
 
 /** MySQL database username */
-define('DB_USER', 'root');
+define('DB_USER', 'liuchao');
 
 /** MySQL database password */
-define('DB_PASSWORD', '');
+define('DB_PASSWORD', 'liuchao');
 
 /** MySQL hostname */
 define('DB_HOST', '127.0.0.1');

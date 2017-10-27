@@ -3,8 +3,9 @@ Contributors: ascom
 Donate link: https://andrewsun.com/donate/
 Tags: katex, latex, mathjax, math, equation, equations, tex
 Requires at least: 3.9
-Tested up to: 4.7
-Stable tag: 1.7.0
+Tested up to: 4.8
+Stable tag: 1.8.3
+Requires PHP: 5.3
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +39,60 @@ Jetpack has a LaTeX plugin that uses the WordPress.com service to render the equ
 1. Various equations rendered with WP-KaTeX
 
 == Changelog ==
+= 1.8.3 =
+* Updated KaTeX library to 0.8.0
+    * Breaking changes:
+        * Implicit `\color`, explicitly grouped `\textcolor`
+    * New features:
+        * added some international operators (`\arctg`, `\arcctg`, `\ch`, `\cosec`, `\cotg`, `\ctg`, `\cth`, `\sh`, `\tanh`, `\tg`, `\th`)
+        * Old font command support: `\rm`, `\sf`, `\tt`, `\bf`, `\it`
+        * Builtin macros, macro arguments, `\overset` and `\underset`
+        * Add `\iff`, `\implies`, `\impliedby` support
+        * Support `<`, `>`, `|` and many `\text...` commands in text mode
+        * Implement `$...$` via styling node
+        * Support Windows high-contrast mode
+        * Add `\jot` lineskip to aligned environment, switch contents to displaystyle, and add gathered
+        * Fix high contrast mode better, thanks to @GeeLaw
+        * Support stretchy wide elements.
+        * Implement `\coloneqq`, `\colonequals`, etc. based on mathtools and colonequals
+        * Support absolute TeX units
+    * Other changes:
+        * Revert "Remove trailing commas for IE 9 compatibility"
+        * Fix all AMS mathord symbols
+        * Fix `x'^2`
+        * Use utils.deflt for Settings
+        * Fix font typo math -> main
+        * Fix spaces before `\middle`
+        * Refactor and comment space splicing code
+        * Fix issue with multiple superscripts.
+        * Fix interaction between styles and sizes.
+        * Vertically center single-character `\mathop`.
+        * Correct handling of unbraced kerns followed by spaces.
+        * Associate font metrics with Options, not Style.
+        * Set maxFontSize on rules.
+        * Correct computation of TeX sizes.
+        * Use `\displaystyle` within `\over`/`\underbrace`
+        * Shrinkwrap `vlists` in table-like CSS.
+        * Solve Safari rendering issues with font-size overrides.
+        * Improve rule coding, including for `\sqrt`.
+* Updated KaTeX library to 0.8.1
+* Updated KaTeX library to 0.8.2
+    * New features:
+        * Accept all existing Greek letters using unicode characters in math mode
+    * Bug fixes:
+        * Fix MathML output for `'` and large operators with limits
+        * Fix color support for `stretchy`, `strikethrough`, and `fbox`
+* Updated KaTeX library to 0.8.3
+    * New features:
+        * Add latin-1 letters as math symbols
+        * Support CJK full-width punctuation + Unicode dots
+        * Support for `'` `` ` `` `^` `~` `=` `\u` `.` `"` `\r` `\H` `\v` text-mode accents
+        * Added support for `\not`
+    * Bug fixes:
+        * Use inline SVG for stretchy elements
+        * Improve `\sqrt`
+
+
 = 1.7.0 =
 * New rendering method - improved experience for users with JavaScript disabled
 * Updated KaTeX library to 0.7.0
@@ -120,6 +175,9 @@ Jetpack has a LaTeX plugin that uses the WordPress.com service to render the equ
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.8.3 =
+Lots of commands and features now supported
 
 = 1.7.0 =
 New rendering method and a few new commands now supported

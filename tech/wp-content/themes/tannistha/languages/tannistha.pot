@@ -1,0 +1,388 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-09-23 11:18+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/"
+
+#: searchform.php:8
+msgctxt "placeholder"
+msgid "Search your criteria"
+msgstr ""
+
+#: searchform.php:9
+msgctxt "submit input"
+msgid "<span class=\"fa fa-search\"></span>"
+msgstr ""
+
+#: search.php:19
+#, php-format
+msgid "Search Results for: %s"
+msgstr ""
+
+#: search.php:38 archive.php:39 index.php:35
+msgid "&laquo; Previous Page"
+msgstr ""
+
+#: search.php:39 archive.php:40 index.php:36
+msgid "Next Page &raquo;"
+msgstr ""
+
+#: 404.php:16
+msgid "Oops! That page can&rsquo;t be found."
+msgstr ""
+
+#: 404.php:20
+msgid "It looks like nothing was found at this location. Maybe try a search?"
+msgstr ""
+
+#: single.php:27
+msgctxt "Parent post link"
+msgid ""
+"<span class=\"meta-nav\">Published in</span><span class=\"post-title\">"
+"%title</span>"
+msgstr ""
+
+#: single.php:32
+msgid "Next Post"
+msgstr ""
+
+#: single.php:33
+msgid "Previous Post"
+msgstr ""
+
+#: single.php:34
+msgid " "
+msgstr ""
+
+#: archive.php:41
+msgid "&nbsp;"
+msgstr ""
+
+#: functions.php:76
+msgid "Primary Menu"
+msgstr ""
+
+#: functions.php:77
+msgid "Footer Menu"
+msgstr ""
+
+#: functions.php:152
+msgid "Sidebar"
+msgstr ""
+
+#: functions.php:154
+msgid "Add widgets here to appear in your sidebar."
+msgstr ""
+
+#: functions.php:162
+msgid "Footer 1"
+msgstr ""
+
+#: functions.php:164
+msgid "Appears at the first column of secondary footer."
+msgstr ""
+
+#: functions.php:172
+msgid "Footer 2"
+msgstr ""
+
+#: functions.php:174 functions.php:184 functions.php:194
+msgid "Appears at the second column of secondary footer."
+msgstr ""
+
+#: functions.php:182
+msgid "Footer 3"
+msgstr ""
+
+#: functions.php:192
+msgid "Footer 4"
+msgstr ""
+
+#: functions.php:523
+msgid "By:"
+msgstr ""
+
+#: functions.php:539 template-parts/content.php:17
+#: template-parts/content-search.php:19
+msgid "Posted: "
+msgstr ""
+
+#: footer.php:62
+msgid "Back to top"
+msgstr ""
+
+#: comments.php:29
+#, php-format
+msgctxt "comments title"
+msgid "<span>%s response to </span>"
+msgstr ""
+
+#. 1: number of comments, 2: post title
+#: comments.php:33
+#, php-format
+msgctxt "comments title"
+msgid "<span>%1$s response to <strong>\"%2$s\"</strong></span>"
+msgid_plural "<span>%1$s response to <strong>\"%2$s\"</strong></span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: comments.php:61
+msgid "Comments are closed."
+msgstr ""
+
+#: include/customizer.php:65
+msgid "Primary Color"
+msgstr ""
+
+#: include/customizer.php:97
+msgid "Secondary Color"
+msgstr ""
+
+#: include/customizer.php:125
+msgid "Hover Color"
+msgstr ""
+
+#: include/customizer.php:135
+msgid "Header Section"
+msgstr ""
+
+#: include/customizer.php:139
+msgid "Enter banner heading text here"
+msgstr ""
+
+#: include/customizer.php:145
+msgid "Enter banner description text here"
+msgstr ""
+
+#: include/customizer.php:150
+msgid "Banner Heading Text"
+msgstr ""
+
+#: include/customizer.php:156
+msgid "Banner Description Text"
+msgstr ""
+
+#: include/customizer.php:165
+msgid "Footer Section"
+msgstr ""
+
+#: include/customizer.php:169
+msgid "Enter copyright text here"
+msgstr ""
+
+#: include/customizer.php:174
+msgid "Footer Copyright Text"
+msgstr ""
+
+#: include/customizer.php:183
+msgid "Single Blog Section"
+msgstr ""
+
+#: include/customizer.php:187
+msgid "Enter Blog Banner Heading Here"
+msgstr ""
+
+#: include/customizer.php:193
+msgid "Enter Blog Banner Description Here"
+msgstr ""
+
+#: include/customizer.php:198
+msgid "Single Blog Banner Heading"
+msgstr ""
+
+#: include/customizer.php:204
+msgid "Single Blog Banner Description"
+msgstr ""
+
+#: include/customizer.php:216
+msgid "Single Blog Banner ( 1583px X 270px )"
+msgstr ""
+
+#: include/customizer.php:225
+msgid "Layout Section"
+msgstr ""
+
+#: include/customizer.php:228 include/customizer.php:230
+msgid "post_layout_with_right_sidebar"
+msgstr ""
+
+#: include/customizer.php:234
+msgid "Post Layout"
+msgstr ""
+
+#: include/customizer.php:241
+msgid "Post Layout with Left Sidebar"
+msgstr ""
+
+#: include/customizer.php:242
+msgid "Post Layout with Right Sidebar"
+msgstr ""
+
+#: include/customizer.php:243
+msgid "Post Layout without Sidebar"
+msgstr ""
+
+#: include/customizer.php:247 include/customizer.php:249
+msgid "page_layout_with_right_sidebar"
+msgstr ""
+
+#: include/customizer.php:253
+msgid "Page Layout"
+msgstr ""
+
+#: include/customizer.php:260
+msgid "Page Layout with Left Sidebar"
+msgstr ""
+
+#: include/customizer.php:261
+msgid "Page Layout with Right Sidebar"
+msgstr ""
+
+#: include/customizer.php:262
+msgid "Page Layout without Sidebar"
+msgstr ""
+
+#: include/template-tags.php:22
+msgctxt "Used before post author name."
+msgid "Author"
+msgstr ""
+
+#: include/template-tags.php:35
+msgctxt "Used before post format."
+msgid "Format"
+msgstr ""
+
+#: include/template-tags.php:47
+#, php-format
+msgid "Leave a comment<span class=\"screen-reader-text\"> on %s</span>"
+msgstr ""
+
+#: include/template-tags.php:75
+msgctxt "Used before publish date."
+msgid "Posted on"
+msgstr ""
+
+#: include/template-tags.php:90 include/template-tags.php:98
+msgctxt "Used between list items, there is a space after the comma."
+msgid ", "
+msgstr ""
+
+#: include/template-tags.php:93
+msgctxt "Used before category names."
+msgid "Categories"
+msgstr ""
+
+#: include/template-tags.php:101
+msgctxt "Used before tag names."
+msgid "Tags"
+msgstr ""
+
+#. %s: Name of current post
+#: include/template-tags.php:175
+#, php-format
+msgid "Continue reading<span class=\"screen-reader-text\"> \"%s\"</span>"
+msgstr ""
+
+#: include/back-compat.php:29 include/back-compat.php:41
+#: include/back-compat.php:56
+#, php-format
+msgid ""
+"Tanni requires at least WordPress version 4.4. You are running version %s. "
+"Please upgrade and try again."
+msgstr ""
+
+#: template-parts/content.php:10 template-parts/content-search.php:12
+msgid "Featured"
+msgstr ""
+
+#: template-parts/content.php:29 template-parts/content-search.php:31
+msgid "Under: "
+msgstr ""
+
+#: template-parts/content.php:38 template-parts/content-single.php:34
+#: template-parts/content-search.php:40
+msgid "By"
+msgstr ""
+
+#: template-parts/content.php:63 template-parts/content-search.php:65
+msgid "Read More"
+msgstr ""
+
+#: template-parts/content-page.php:19 template-parts/content-single.php:61
+msgid "Pages:"
+msgstr ""
+
+#: template-parts/content-page.php:23 template-parts/content-single.php:65
+msgid "Page"
+msgstr ""
+
+#. %s: Name of current post
+#: template-parts/content-page.php:33
+#, php-format
+msgid "Edit<span class=\"screen-reader-text\"> \"%s\"</span>"
+msgstr ""
+
+#: template-parts/content-single.php:13
+msgid "Posted:"
+msgstr ""
+
+#: template-parts/content-single.php:21
+msgid "Under:"
+msgstr ""
+
+#: template-parts/content-none.php:11
+msgid "Nothing Found"
+msgstr ""
+
+#: template-parts/content-none.php:17
+#, php-format
+msgid ""
+"Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+msgstr ""
+
+#: template-parts/content-none.php:21
+msgid ""
+"Sorry, but nothing matched your search terms. Please try again with some "
+"different keywords."
+msgstr ""
+
+#: template-parts/content-none.php:26
+msgid ""
+"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+"searching can help."
+msgstr ""
+
+#. Name of the theme
+msgid "Tannistha"
+msgstr ""
+
+#. Description of the theme
+msgid ""
+"Tannistha is a wordpress theme with modernized layout — the horizontal "
+"header banner with an optional left, right sidebar and full-width option "
+"just works perfectly for blogs and websites. It has custom unlimited color "
+"options, its also responsive and mobile freindly. Tannistha will make your "
+"WordPress look like a professional blog."
+msgstr ""
+
+#. URI of the theme
+msgid "http://wcmpdemos.com/themes/tannistha/about-tannistha/"
+msgstr ""
+
+#. Author of the theme
+msgid "Dualcube, thegreyparrots"
+msgstr ""
+
+#. Author URI of the theme
+msgid "https://thegreyparrots.com/"
+msgstr ""

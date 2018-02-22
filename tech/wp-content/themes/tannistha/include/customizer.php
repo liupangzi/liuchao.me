@@ -70,6 +70,14 @@ function tannistha_register_theme_customizer( $wp_customize ) {
     return ( $min <= $number && $number <= $max && is_int( $number / $step ) ? $number : $setting->default );
   }
 
+  function tannistha_sanitize_number_absint( $number, $setting ) {
+		// Ensure $number is an absolute integer (whole number, zero or greater).
+		$number = absint( $number );
+	
+		// If the input is an absolute integer, return it; otherwise, return the default
+		return ( $number ? $number : $setting->default );
+	}
+
 	$wp_customize->add_setting(
 		'tannistha_primary_color',
 		array(
@@ -261,134 +269,151 @@ function tannistha_register_theme_customizer( $wp_customize ) {
   $wp_customize->add_setting( 
 		'top_header_phone' , 
 			array(
-			'default' => __( '', 'tannistha' ),
-			'capability'     => 'edit_theme_options',
-			'sanitize_callback' => 'sanitize_text_field'
-		) 
+				'default' => __( '', 'tannistha' ),
+				'capability'     => 'edit_theme_options',
+				'sanitize_callback' => 'sanitize_text_field'
+			) 
 	);
   
   $wp_customize->add_control('top_header_phone', array(
-	 'label'   => __( 'Header Phone No. Field', 'tannistha' ),
-	 'sanitize_callback' => 'sanitize_text_field',
-	 'section' => 'top_header',
-	 'type'    => 'text',
+		'label'   => __( 'Header Phone No. Field', 'tannistha' ),
+		'sanitize_callback' => 'sanitize_text_field',
+		'section' => 'top_header',
+		'type'    => 'text',
 	));
   
   /* Top Header Address Field */
   $wp_customize->add_setting( 
 		'top_header_address' , 
 			array(
-			'default' => __( '', 'tannistha' ),
-			'capability'     => 'edit_theme_options',
-			'sanitize_callback' => 'sanitize_text_field'
+				'default' => __( '', 'tannistha' ),
+				'capability'     => 'edit_theme_options',
+				'sanitize_callback' => 'sanitize_text_field'
 		) 
 	);
   
   $wp_customize->add_control('top_header_address', array(
-	 'label'   => __( 'Header Address Field', 'tannistha' ),
-	 'sanitize_callback' => 'sanitize_text_field',
-	 'section' => 'top_header',
-	 'type'    => 'text',
+		'label'   => __( 'Header Address Field', 'tannistha' ),
+		'sanitize_callback' => 'sanitize_text_field',
+		'section' => 'top_header',
+		'type'    => 'text',
 	));
   
   /* Top Header Facebook */
   $wp_customize->add_setting ( 
 		'top_header_fb_link' , 
 			array(
-			'default' => __( '', 'tannistha' ),
-			'capability'     => 'edit_theme_options',
-			'sanitize_callback' => 'tannistha_sanitize_url'
+				'default' => __( '', 'tannistha' ),
+				'capability'     => 'edit_theme_options',
+				'sanitize_callback' => 'tannistha_sanitize_url'
 		) 
 	);
   
   $wp_customize->add_control('top_header_fb_link', array(
-	 'label'   => __( 'Header Facebook Link', 'tannistha' ),
-	 'sanitize_callback' => 'tannistha_sanitize_url',
-	 'section' => 'top_header',
-	 'type'    => 'text',
+		'label'   => __( 'Header Facebook Link', 'tannistha' ),
+		'sanitize_callback' => 'tannistha_sanitize_url',
+		'section' => 'top_header',
+		'type'    => 'text',
 	));
   
   /* Top Header Twitter */
   $wp_customize->add_setting ( 
 		'top_header_tw_link' , 
 			array(
-			'default' => __( '', 'tannistha' ),
-			'capability'     => 'edit_theme_options',
-			'sanitize_callback' => 'tannistha_sanitize_url'
+				'default' => __( '', 'tannistha' ),
+				'capability'     => 'edit_theme_options',
+				'sanitize_callback' => 'tannistha_sanitize_url'
 		) 
 	);
   
   $wp_customize->add_control('top_header_tw_link', array(
-	 'label'   => __( 'Header Twitter Link', 'tannistha' ),
-	 'sanitize_callback' => 'tannistha_sanitize_url',
-	 'section' => 'top_header',
-	 'type'    => 'text',
+	 	'label'   => __( 'Header Twitter Link', 'tannistha' ),
+	 	'sanitize_callback' => 'tannistha_sanitize_url',
+	 	'section' => 'top_header',
+	 	'type'    => 'text',
 	));
   
   /* Top Header G PLus */
   $wp_customize->add_setting ( 
 		'top_header_gp_link' , 
 			array(
-			'default' => __( '', 'tannistha' ),
-			'capability'     => 'edit_theme_options',
-			'sanitize_callback' => 'tannistha_sanitize_url'
+				'default' => __( '', 'tannistha' ),
+				'capability'     => 'edit_theme_options',
+				'sanitize_callback' => 'tannistha_sanitize_url'
 		) 
 	);
   
   $wp_customize->add_control('top_header_gp_link', array(
-	 'label'   => __( 'Header Google Plus Link', 'tannistha' ),
-	 'sanitize_callback' => 'tannistha_sanitize_url',
-	 'section' => 'top_header',
-	 'type'    => 'text',
+	 	'label'   => __( 'Header Google Plus Link', 'tannistha' ),
+	 	'sanitize_callback' => 'tannistha_sanitize_url',
+	 	'section' => 'top_header',
+	 	'type'    => 'text',
 	));
   
   /* Top Header Linkedin */
   $wp_customize->add_setting ( 
 		'top_header_in_link' , 
 			array(
-			'default' => __( '', 'tannistha' ),
-			'capability'     => 'edit_theme_options',
-			'sanitize_callback' => 'tannistha_sanitize_url'
+				'default' => __( '', 'tannistha' ),
+				'capability'     => 'edit_theme_options',
+				'sanitize_callback' => 'tannistha_sanitize_url'
 		) 
 	);
   
   $wp_customize->add_control('top_header_in_link', array(
-	 'label'   => __( 'Header Linkedin Link', 'tannistha' ),
-	 'sanitize_callback' => 'tannistha_sanitize_url',
-	 'section' => 'top_header',
-	 'type'    => 'text',
+	 	'label'   => __( 'Header Linkedin Link', 'tannistha' ),
+	 	'sanitize_callback' => 'tannistha_sanitize_url',
+	 	'section' => 'top_header',
+	 	'type'    => 'text',
 	));
   
   /* Top Header Instagram */
   $wp_customize->add_setting ( 
 		'top_header_ing_link' , 
 			array(
+				'default' => __( '', 'tannistha' ),
+				'capability'     => 'edit_theme_options',
+				'sanitize_callback' => 'tannistha_sanitize_url'
+		) 
+	);
+  
+  $wp_customize->add_control('top_header_ing_link', array(
+	 	'label'   => __( 'Header Instagram Link', 'tannistha' ),
+	 	'sanitize_callback' => 'tannistha_sanitize_url',
+	 	'section' => 'top_header',
+	 	'type'    => 'text',
+	));
+  
+  /* Top Header Pinterest */
+  $wp_customize->add_setting ( 
+		'top_header_pin_link' , 
+			array(
 			'default' => __( '', 'tannistha' ),
 			'capability'     => 'edit_theme_options',
 			'sanitize_callback' => 'tannistha_sanitize_url'
 		) 
 	);
   
-  $wp_customize->add_control('top_header_ing_link', array(
-	 'label'   => __( 'Header Instagram Link', 'tannistha' ),
-	 'sanitize_callback' => 'tannistha_sanitize_url',
-	 'section' => 'top_header',
-	 'type'    => 'text',
+  $wp_customize->add_control('top_header_pin_link', array(
+	 	'label'   => __( 'Header Pinterest Link', 'tannistha' ),
+	 	'sanitize_callback' => 'tannistha_sanitize_url',
+	 	'section' => 'top_header',
+	 	'type'    => 'text',
 	));
-  
+
 	/*Header Text Customizer Code*/
 	//adding section in wordpress customizer   
 	$wp_customize->add_section('tannistha_header_settings_section', array(
 	  'title'          => __( 'Header Section( Pages )', 'tannistha' )
 	));
   
-  /* Top Header Banner Hide/Shoe Home Page */		
+  /* Top Header Banner Hide/Show Home Page */		
 	$wp_customize->add_setting( 
 		'hide_show_home_banner' , 
 			array(
-			'default' => __( 'on', 'tannistha' ),
-			'capability'     => 'edit_theme_options',
-			'sanitize_callback' => 'tannistha_sanitize_select'
+				'default' => __( 'on', 'tannistha' ),
+				'capability'     => 'edit_theme_options',
+				'sanitize_callback' => 'tannistha_sanitize_select'
 		) 
 	);
   
@@ -410,13 +435,13 @@ function tannistha_register_theme_customizer( $wp_customize ) {
     )
 	);
   
-  /* Top Header Banner Hide/Shoe Other Page */		
+  /* Top Header Banner Hide/Show Other Page */		
 	$wp_customize->add_setting( 
 		'hide_show_other_pages_banner' , 
 			array(
-			'default' => __( 'on', 'tannistha' ),
-			'capability'     => 'edit_theme_options',
-			'sanitize_callback' => 'tannistha_sanitize_select'
+				'default' => __( 'on', 'tannistha' ),
+				'capability'     => 'edit_theme_options',
+				'sanitize_callback' => 'tannistha_sanitize_select'
 		) 
 	);
   
@@ -440,27 +465,27 @@ function tannistha_register_theme_customizer( $wp_customize ) {
   
 	//banner heading text
 	$wp_customize->add_setting('tannistha_banner_heading', array(
-	 'default'        => __( 'Enter banner heading text here', 'tannistha' ),
-	 'sanitize_callback' => 'sanitize_text_field',
-	 'transport'         => 'postMessage',
+	 	'default'        => __( 'Enter banner heading text here', 'tannistha' ),
+	 	'sanitize_callback' => 'sanitize_text_field',
+	 	'transport'         => 'postMessage',
 	));
 	//banner description text
 	$wp_customize->add_setting('tannistha_banner_description', array(
-	 'default'        => __( 'Enter banner description text here', 'tannistha' ),
-	 'sanitize_callback' => 'sanitize_text_field',
-	 'transport'         => 'postMessage',
+	 	'default'        => __( 'Enter banner description text here', 'tannistha' ),
+	 	'sanitize_callback' => 'sanitize_text_field',
+	 	'transport'         => 'postMessage',
 	));
 	$wp_customize->add_control('tannistha_banner_heading', array(
-	 'label'   => __( 'Banner Heading Text', 'tannistha' ),
-	 'sanitize_callback' => 'sanitize_text_field',
-	 'section' => 'tannistha_header_settings_section',
-	 'type'    => 'text',
+	 	'label'   => __( 'Banner Heading Text', 'tannistha' ),
+	 	'sanitize_callback' => 'sanitize_text_field',
+	 	'section' => 'tannistha_header_settings_section',
+	 	'type'    => 'text',
 	));
 	$wp_customize->add_control('tannistha_banner_description', array(
-	 'label'   => __( 'Banner Description Text', 'tannistha' ),
-	 'sanitize_callback' => 'sanitize_textarea_field',
-	 'section' => 'tannistha_header_settings_section',
-	 'type'    => 'textarea',
+	 	'label'   => __( 'Banner Description Text', 'tannistha' ),
+	 	'sanitize_callback' => 'sanitize_textarea_field',
+	 	'section' => 'tannistha_header_settings_section',
+	 	'type'    => 'textarea',
 	));
   
   $wp_customize->add_setting( 'tannistha_banner_grayness', array(
@@ -471,17 +496,17 @@ function tannistha_register_theme_customizer( $wp_customize ) {
   ) );
 
   $wp_customize->add_control( 'tannistha_banner_grayness', array(
-      'type' => 'range',
-      'priority' => 10,
-      'section' => 'tannistha_header_settings_section',
-      'label' => __( 'Choose Grayness( Overlay ) of Header Image', 'tannistha' ),
-      'description' => 'Lowest 0 for least grayness and 1 for highest',
-      'input_attrs' => array(
-          'min' => 1,
-          'max' => 11,
-          'step' => 1,
-          'style' => 'color: #0a0',
-      ),
+    'type' => 'range',
+    'priority' => 10,
+    'section' => 'tannistha_header_settings_section',
+    'label' => __( 'Choose Grayness( Overlay ) of Header Image', 'tannistha' ),
+    'description' => 'Lowest 0 for least grayness and 1 for highest',
+    'input_attrs' => array(
+     	'min' => 1,
+      'max' => 11,
+      'step' => 1,
+      'style' => 'color: #0a0',
+    ),
   ) );
 
 /*Footer Customizer Code*/
@@ -491,15 +516,15 @@ function tannistha_register_theme_customizer( $wp_customize ) {
 	));
 	//adding setting for footer copyright text area
 	$wp_customize->add_setting('tannistha_copyright_text', array(
-	 'default'        => __( 'Enter copyright text here', 'tannistha' ),
-	 'sanitize_callback' => 'sanitize_textarea_field',
-	 'transport'         => 'postMessage',
+		'default'        => __( 'Enter copyright text here', 'tannistha' ),
+		'sanitize_callback' => 'sanitize_textarea_field',
+		'transport'         => 'postMessage',
 	));
 	$wp_customize->add_control('tannistha_copyright_text', array(
-	 'label'   => __( 'Footer Copyright Text', 'tannistha' ),
-	 'sanitize_callback' => 'sanitize_textarea_field',
-	 'section' => 'tannistha_footer_settings_section',
-	 'type'    => 'textarea',
+		'label'   => __( 'Footer Copyright Text', 'tannistha' ),
+		'sanitize_callback' => 'sanitize_textarea_field',
+		'section' => 'tannistha_footer_settings_section',
+		'type'    => 'textarea',
 	));
 
 /*Blog Customizer Code*/
@@ -511,7 +536,7 @@ function tannistha_register_theme_customizer( $wp_customize ) {
   /* Top Header Banner Hide/Show Other Page */		
 	$wp_customize->add_setting( 
 		'hide_show_blog_banner' , 
-			array(
+		array(
 			'default' => __( 'on', 'tannistha' ),
 			'capability'     => 'edit_theme_options',
 			'sanitize_callback' => 'tannistha_sanitize_select'
@@ -538,60 +563,58 @@ function tannistha_register_theme_customizer( $wp_customize ) {
   
 	//adding setting for blog banner heading
 	$wp_customize->add_setting('tannistha_blog_banner_heading', array(
-	 'default'        => __( 'Enter Blog Banner Heading Here', 'tannistha' ),
-	 'sanitize_callback' => 'sanitize_text_field',
-	 'transport'         => 'postMessage',
+	 	'default'        => __( 'Enter Blog Banner Heading Here', 'tannistha' ),
+	 	'sanitize_callback' => 'sanitize_text_field',
+	 	'transport'         => 'postMessage',
 	));
 	//adding setting for blog banner description
 	$wp_customize->add_setting('tannistha_blog_banner_description', array(
-	 'default'        => __( 'Enter Blog Banner Description Here', 'tannistha' ),
-	 'sanitize_callback' => 'sanitize_text_field',
-	 'transport'         => 'postMessage',
+	 	'default'        => __( 'Enter Blog Banner Description Here', 'tannistha' ),
+	 	'sanitize_callback' => 'sanitize_text_field',
+	 	'transport'         => 'postMessage',
 	));
 	$wp_customize->add_control('tannistha_blog_banner_heading', array(
-	 'label'   => __( 'Single Blog Banner Heading', 'tannistha' ),
-	 'sanitize_callback' => 'sanitize_text_field',
-	 'section' => 'tannistha_blog_settings_section',
-	 'type'    => 'text',
+	 	'label'   => __( 'Single Blog Banner Heading', 'tannistha' ),
+	 	'sanitize_callback' => 'sanitize_text_field',
+	 	'section' => 'tannistha_blog_settings_section',
+	 	'type'    => 'text',
 	));
 	$wp_customize->add_control('tannistha_blog_banner_description', array(
-	 'label'   => __( 'Single Blog Banner Description', 'tannistha' ),
-	 'sanitize_callback' => 'sanitize_textarea_field',
-	 'section' => 'tannistha_blog_settings_section',
-	 'type'    => 'textarea',
+	 	'label'   => __( 'Single Blog Banner Description', 'tannistha' ),
+	 	'sanitize_callback' => 'sanitize_textarea_field',
+	 	'section' => 'tannistha_blog_settings_section',
+	 	'type'    => 'textarea',
 	));
 	//adding setting for blog banner
 	$wp_customize->add_setting('tannistha_blog_banner', array(
-	 'sanitize_callback' => 'esc_url_raw',
-	 'transport'         => 'postMessage',
-	 'default'    => get_template_directory_uri() . '/images/blog-banner.jpg',
+	 	'sanitize_callback' => 'esc_url_raw',
+	 	'transport'         => 'postMessage',
+	 	'default'    => get_template_directory_uri() . '/images/blog-banner.jpg',
 	));
 	$wp_customize->add_control(new WP_Customize_Image_Control($wp_customize,'tannistha_blog_banner',array(
-	 'label'      => __( 'Single Blog Banner ( 1583px X 270px )', 'tannistha' ),
-	 'sanitize_callback' => 'esc_url_raw',
-	 'section'    => 'tannistha_blog_settings_section',
-	 'settings'   => 'tannistha_blog_banner',
+	 	'label'      => __( 'Single Blog Banner ( 1583px X 270px )', 'tannistha' ),
+	 	'sanitize_callback' => 'esc_url_raw',
+	 	'section'    => 'tannistha_blog_settings_section',
+	 	'settings'   => 'tannistha_blog_banner',
 	)));
   
   $wp_customize->add_setting( 'tannistha_blog_banner_grayness', array(
-    
     'capability' => 'edit_theme_options',
-    
     'sanitize_callback' => 'tannistha_sanitize_number_range',
   ) );
 
   $wp_customize->add_control( 'tannistha_blog_banner_grayness', array(
-      'type' => 'range',
-      'priority' => 10,
-      'section' => 'tannistha_blog_settings_section',
-      'label' => __( 'Choose Grayness( Overlay ) of Single Blog Header Image', 'tannistha' ),
-      'description' => 'Lowest 0 for least grayness and 1 for highest',
-      'input_attrs' => array(
-          'min' => 1,
-          'max' => 11,
-          'step' => 1,
-          'style' => 'color: #0a0',
-      ),
+    'type' => 'range',
+    'priority' => 10,
+    'section' => 'tannistha_blog_settings_section',
+    'label' => __( 'Choose Grayness( Overlay ) of Single Blog Header Image', 'tannistha' ),
+    'description' => 'Lowest 0 for least grayness and 1 for highest',
+    'input_attrs' => array(
+     	'min' => 1,
+     	'max' => 11,
+      'step' => 1,
+      'style' => 'color: #0a0',
+    ),
   ) );
 
 /*Page Layout Customizer Code*/
@@ -606,17 +629,17 @@ function tannistha_register_theme_customizer( $wp_customize ) {
 	  'transport'         => 'postMessage',
   ) );
   $wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'tannistha_post_layout', array(
-      'label'     => __( 'Post Layout', 'tannistha' ),
-      'sanitize_callback' => 'tannistha_sanitize_radio',
-      'section'   => 'tannistha_layout_section',
-      'settings'  => 'tannistha_post_layout',
-      'transport'   => 'refresh',
-      'type'      => 'radio',
-      'choices'   => array(
-						          'post_layout_with_left_sidebar'   => __( 'Post Layout with Left Sidebar', 'tannistha' ),
-						          'post_layout_with_right_sidebar'   => __( 'Post Layout with Right Sidebar', 'tannistha' ),
-						          'post_layout_without_sidebar'   => __( 'Post Layout without Sidebar', 'tannistha' )
-						        ),
+    'label'     => __( 'Post Layout', 'tannistha' ),
+    'sanitize_callback' => 'tannistha_sanitize_radio',
+    'section'   => 'tannistha_layout_section',
+    'settings'  => 'tannistha_post_layout',
+    'transport'   => 'refresh',
+    'type'      => 'radio',
+    'choices'   => array(
+					          'post_layout_with_left_sidebar'   => __( 'Post Layout with Left Sidebar', 'tannistha' ),
+					          'post_layout_with_right_sidebar'   => __( 'Post Layout with Right Sidebar', 'tannistha' ),
+					          'post_layout_without_sidebar'   => __( 'Post Layout without Sidebar', 'tannistha' )
+					        ),
   ) ) );
   $wp_customize->add_setting( 'tannistha_page_layout', array(
 		'title'          => __( 'page_layout_with_right_sidebar', 'tannistha' ),
@@ -637,6 +660,168 @@ function tannistha_register_theme_customizer( $wp_customize ) {
           'page_layout_without_sidebar'   => __( 'Page Layout without Sidebar', 'tannistha' )
           ),
   ) ) );
+  $wp_customize->add_panel(
+    'tannistha_typography_settings',
+    array(
+        'title'       => __( 'Typography', 'tannistha' ),
+    )
+  );
+    $wp_customize->add_section( 
+    	'main_header_text_section', 
+    	array(
+		    'title' => __( 'Main Header Text', 'tannistha' ),
+		    'description' => __( 'Applicable for all Banner Texts', 'tannistha' ),
+		    'panel' => 'tannistha_typography_settings',
+			)
+	);
+
+    /** Header Text Font */
+    $wp_customize->add_setting(
+    	'tannistha_heading_typography',
+    array(
+      'default'=> 'Raleway',
+      'sanitize_callback'=> 'sanitize_text_field'
+      )
+    );
+    $wp_customize-> add_control(
+       'tannistha_heading_typography',
+        array(
+          'label' => __('Select Font for Main Header Text','tannistha'),
+          'type' => 'select',
+          'sanitize_callback'=> 'sanitize_text_field',
+          'section' => 'main_header_text_section', 
+          'choices' => array(
+          	'Raleway' => __( 'Raleway', 'tannistha'),
+          	'Open Sans'=> __( 'Open Sans', 'tannistha'),
+            'Oswald' => __('Oswald', 'tannistha'),
+            'Cedarville Cursive' => __( 'Cedarville Cursive', 'tannistha'),
+            'Comfortaa' => __( 'Comfortaa', 'tannistha'),
+            'Montserrat' => __( 'Montserrat', 'tannistha'),
+            'Pacifico' => __( 'Pacifico', 'tannistha'),
+            'Indie Flower' => __( 'Indie Flower', 'tannistha'),
+          ),
+    ));
+    /** Header Text Font Size */
+    $wp_customize->add_setting(
+      'tannistha_heading_fontsize_typography',
+      array(
+        'default'=> 44,
+        'sanitize_callback'=> 'tannistha_sanitize_number_absint',
+      )
+    );
+    $wp_customize-> add_control(
+      'tannistha_heading_fontsize_typography',
+      array(
+       	'label' => __('Font Size for Main Header Text','tannistha'),
+        'type' => 'number',
+        'section' => 'main_header_text_section',
+        'sanitize_callback'=> 'tannistha_sanitize_number_absint',         
+    	)
+    );
+
+    /** Header Text Font Weight */
+    $wp_customize->add_setting(
+      'tannistha_heading_fontweight_typography',
+      array(
+        'default'=> 600,
+        'sanitize_callback'=> 'tannistha_sanitize_select',
+      )
+    );
+    $wp_customize-> add_control(
+        'tannistha_heading_fontweight_typography',
+        array(
+          'label' => __('Font Weight for Main Header Text','tannistha'),
+          'type' => 'select',
+          'section' => 'main_header_text_section',
+          'sanitize_callback'=> 'tannistha_sanitize_select',
+          'choices' => array(
+            '100' => __('100', 'tannistha'),
+            '400'=> __( '400', 'tannistha'),
+            '600' => __( '600', 'tannistha'),
+            '700' => __( '700', 'tannistha'),
+            '800'=> __( '800', 'tannistha'),
+            'bold' => __( 'bold', 'tannistha'),
+            'normal' => __( 'normal', 'tannistha')
+           ),         
+    ));
+		/*************Header Description***************/
+    $wp_customize->add_section( 
+    	'header_description_section', 
+    	array(
+		    'title' => __( 'Header Description', 'tannistha' ),
+		    'description' => __( 'Applicable for all Banner Descriptions', 'tannistha' ),
+		    'panel' => 'tannistha_typography_settings',
+		)
+	);
+    /** Header Description Font */
+    $wp_customize->add_setting(
+      'tannistha_heading_desc_typography',
+      array(
+        'default'=> 'Raleway',
+        'sanitize_callback'=> 'sanitize_text_field'
+      )
+    );
+    $wp_customize-> add_control(
+      'tannistha_heading_desc_typography',
+      array(
+        'label' => __('Select Font for Header Description','tannistha'),
+        'type' => 'select',
+        'section' => 'header_description_section', 
+        'sanitize_callback'=> 'sanitize_text_field',
+        'choices' => array(
+          'Raleway' => __( 'Raleway', 'tannistha'),
+        	'Open Sans'=> __( 'Open Sans', 'tannistha'),
+          'Oswald' => __('Oswald', 'tannistha'),
+          'Cedarville Cursive' => __( 'Cedarville Cursive', 'tannistha'),
+          'Comfortaa' => __( 'Comfortaa', 'tannistha'),
+          'Montserrat' => __( 'Montserrat', 'tannistha'),
+          'Pacifico' => __( 'Pacifico', 'tannistha'),
+          'Indie Flower' => __( 'Indie Flower', 'tannistha'),
+        ),
+         
+    ));
+    /** Header Description Font Size */
+    $wp_customize->add_setting(
+      'tannistha_heading_desc_fontsize_typography',
+      array(
+        'default'=> 20,
+        'sanitize_callback'=> 'tannistha_sanitize_number_absint',
+     	)
+    );
+    $wp_customize-> add_control(
+      'tannistha_heading_desc_fontsize_typography',
+      array(
+        'label' => __('Font Size for Header Description','tannistha'),
+        'type' => 'number',
+        'section' => 'header_description_section',
+        'sanitize_callback'=> 'tannistha_sanitize_number_absint', 
+    ));
+
+    /** Header Description Font Weight */
+    $wp_customize->add_setting(
+      'tannistha_heading_desc_fontweight_typography',
+      array(
+        'default'=> 600,
+        'sanitize_callback'=> 'tannistha_sanitize_select',
+      )
+    );
+    $wp_customize-> add_control(
+      'tannistha_heading_desc_fontweight_typography',
+      array(
+        'label' => __('Font Weight for Header Description','tannistha'),
+        'type' => 'select',
+        'section' => 'header_description_section',
+        'sanitize_callback'=> 'tannistha_sanitize_select',
+        'choices' => array(
+	        '100' => __('100', 'tannistha'),
+	        '400'=> __( '400', 'tannistha'),
+	        '600' => __( '600', 'tannistha'),
+	        '700' => __( '700', 'tannistha'),
+	        '800'=> __( '800', 'tannistha'),
+	        'bold' => __( 'bold', 'tannistha'),
+	        'normal' => __( 'normal', 'tannistha')
+	      ),         
+    ));
 
 } // end tannistha_register_theme_customizer
 add_action( 'customize_register', 'tannistha_register_theme_customizer' );

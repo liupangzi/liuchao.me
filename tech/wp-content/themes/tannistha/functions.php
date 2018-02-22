@@ -208,8 +208,14 @@
 		wp_enqueue_style( 'tannistha-bootstrap', get_template_directory_uri() . '/css/bootstrap.css', array(), '1.0' );
 
 		// Google Fonts
-		wp_enqueue_style( 'tannistha-open-sans', 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700,800', false );
-		wp_enqueue_style( 'tannistha-raleway', 'https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700,800,900', false );
+		wp_enqueue_style( 'tannistha-open-sans', '//fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700,800', false );
+		wp_enqueue_style( 'tannistha-raleway', '//fonts.googleapis.com/css?family=Raleway:300,400,500,600,700,800,900', false );
+		wp_enqueue_style( 'tannistha-comfortaa', '//fonts.googleapis.com/css?family=Comfortaa:300,400,700', false );
+		wp_enqueue_style( 'tannistha-montserrat', '//fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i', false );
+		wp_enqueue_style( 'tannistha-pacifico', '//fonts.googleapis.com/css?family=Pacifico', false );
+		wp_enqueue_style( 'tannistha-indie-flower', '//fonts.googleapis.com/css?family=Indie+Flower', false );
+		wp_enqueue_style( 'tannistha-oswald', '//fonts.googleapis.com/css?family=Oswald:200,300,400,500,600,700', false );
+		wp_enqueue_style( 'tannistha-cedarville-cursive', '//fonts.googleapis.com/css?family=Cedarville+Cursive', false );
 
 		// Theme stylesheet.
 		wp_enqueue_style( 'tannistha-style', get_template_directory_uri() . '/style.css', array(), '1.1' );
@@ -234,11 +240,17 @@
 		$tannistha_header_text_color = esc_html( get_theme_mod( 'header_textcolor' ) );
 		$tannistha_primary_color = esc_html( get_theme_mod( 'tannistha_primary_color' ) );
 		$tannistha_secondary_color = esc_html( get_theme_mod( 'tannistha_secondary_color' ) );
-    $tannistha_top_header_bg_color = esc_html( get_theme_mod( 'tannistha_top_header_bg_color' ) ); 
-    $tannistha_top_header_text_color = esc_html( get_theme_mod( 'tannistha_top_header_text_color' ) );
+	    $tannistha_top_header_bg_color = esc_html( get_theme_mod( 'tannistha_top_header_bg_color' ) ); 
+	    $tannistha_top_header_text_color = esc_html( get_theme_mod( 'tannistha_top_header_text_color' ) );
 		$tannistha_hover_color = esc_html( get_theme_mod( 'tannistha_hover_color' ) );
-    $tannistha_banner_grayness = esc_html( get_theme_mod( 'tannistha_banner_grayness' ) );
-    $tannistha_blog_banner_grayness = esc_html( get_theme_mod( 'tannistha_blog_banner_grayness' ) );
+	    $tannistha_banner_grayness = esc_html( get_theme_mod( 'tannistha_banner_grayness' ) );
+	    $tannistha_blog_banner_grayness = esc_html( get_theme_mod( 'tannistha_blog_banner_grayness' ) );
+	    $tannistha_heading_typography = esc_html( get_theme_mod( 'tannistha_heading_typography' ) );
+	    $tannistha_heading_fontsize_typography = esc_html( get_theme_mod( 'tannistha_heading_fontsize_typography' ) );
+	    $tannistha_heading_fontweight_typography = esc_html( get_theme_mod( 'tannistha_heading_fontweight_typography' ) );
+	    $tannistha_heading_desc_typography = esc_html( get_theme_mod( 'tannistha_heading_desc_typography' ) );
+	    $tannistha_heading_desc_fontsize_typography = esc_html( get_theme_mod( 'tannistha_heading_desc_fontsize_typography' ) );
+	    $tannistha_heading_desc_fontweight_typography = esc_html( get_theme_mod( 'tannistha_heading_desc_fontweight_typography' ) );
 
 		if ( empty( $tannistha_body_background_color ) ) {
 			$tannistha_body_background_color = '#dddddd';
@@ -303,6 +315,41 @@
 		else {
 	  	$tannistha_blog_banner_grayness = ( esc_html( get_theme_mod( 'tannistha_blog_banner_grayness' ) ) -1 ) * 0.1;
 	  }
+
+	if ( empty( $tannistha_heading_typography ) ) {
+		$tannistha_heading_typography = 'Raleway';
+	} else {
+	  	$tannistha_heading_typography = ( esc_html( get_theme_mod( 'tannistha_heading_typography' ) ) );
+	}
+
+	if ( empty( $tannistha_heading_fontsize_typography ) ) {
+		$tannistha_heading_fontsize_typography = '44px';
+	} else {
+	  	$tannistha_heading_fontsize_typography = ( esc_html( get_theme_mod( 'tannistha_heading_fontsize_typography' ).'px' ) );
+	}
+
+	if ( empty( $tannistha_heading_fontweight_typography ) ) {
+		$tannistha_heading_fontweight_typography = 600;
+	} else {
+	  	$tannistha_heading_fontweight_typography = ( esc_html( get_theme_mod( 'tannistha_heading_fontweight_typography' ) ) );
+	}
+	if ( empty( $tannistha_heading_desc_typography ) ) {
+		$tannistha_heading_desc_typography = 'Raleway';
+	} else {
+	  	$tannistha_heading_desc_typography = ( esc_html( get_theme_mod( 'tannistha_heading_desc_typography' ) ) );
+	}
+
+	if ( empty( $tannistha_heading_desc_fontsize_typography ) ) {
+		$tannistha_heading_desc_fontsize_typography = '20px';
+	} else {
+	  	$tannistha_heading_desc_fontsize_typography = ( esc_html( get_theme_mod( 'tannistha_heading_desc_fontsize_typography' ).'px' ) );
+	}
+
+	if ( empty( $tannistha_heading_desc_fontweight_typography ) ) {
+		$tannistha_heading_desc_fontweight_typography = 600;
+	} else {
+	  	$tannistha_heading_desc_fontweight_typography = ( esc_html( get_theme_mod( 'tannistha_heading_desc_fontweight_typography' ) ) );
+	}
            
     
 
@@ -325,7 +372,19 @@
             }
             .all-banner::after {
               background: rgba(0, 0, 0, {$tannistha_blog_banner_grayness}) none repeat scroll 0 0;
-            }            
+            } 
+            .home-banner h1,
+            .all-banner h1{
+            	font-family: {$tannistha_heading_typography};
+            	font-size: {$tannistha_heading_fontsize_typography};
+            	font-weight: {$tannistha_heading_fontweight_typography};
+            }
+            .home-banner h4,
+            .all-banner h4{
+            	font-family: {$tannistha_heading_desc_typography};
+            	font-size: {$tannistha_heading_desc_fontsize_typography};
+            	font-weight: {$tannistha_heading_desc_fontweight_typography};
+            }        
             .top-header-band span {
               color: {$tannistha_top_header_text_color};
             }

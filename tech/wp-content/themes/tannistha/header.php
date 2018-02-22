@@ -62,6 +62,12 @@
             <a target="_blank" href="<?php echo $top_header_ing_link; ?>"><span class="fa fa-instagram"></span> </a>       
             <?php
             }
+            $top_header_pin_link = esc_html( get_theme_mod( 'top_header_pin_link' ) ); 
+            if ( isset($top_header_pin_link) && $top_header_pin_link !=  '' ) {
+            ?>
+            <a target="_blank" href="<?php echo $top_header_pin_link; ?>"><span class="fa fa-pinterest"></span> </a>       
+            <?php
+            }
             ?>
           </div>
         </div>

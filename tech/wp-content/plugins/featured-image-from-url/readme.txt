@@ -325,6 +325,9 @@ was removed. To finish, a Premium version is now been presented.
 = 1.7.2 =
 * Disable product lightbox and zoom.
 
+= 1.7.3 =
+* Bug fix.
+
 == Upgrade Notice ==
 
 = 1.0 =
@@ -498,3 +501,6 @@ was removed. To finish, a Premium version is now been presented.
 
 = 1.7.2 =
 * Disable product lightbox and zoom.
+
+= 1.7.3 =
+* Bug fix.

@@ -27,6 +27,7 @@ jQuery(function () {
     jQuery("#fifu_input_slider_speed").spinner({min: 0});
     jQuery("#fifu_input_slider_pause").spinner({min: 0});
     jQuery("#tabsApi").tabs();
+    jQuery("#tabsPremium").tabs();
 });
 
 function save(formName, url) {

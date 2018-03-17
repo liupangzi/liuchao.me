@@ -3,7 +3,7 @@
 Author: Dualcube, thegreyparrots
 Requires at least: WordPress 4.1
 Tested up to: WordPress 4.9.1
-Version: 1.1.10
+Version: 1.1.12
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,7 +27,7 @@ For support: admin@dualcube.com
 
 == Copyright ==
 
-Tannistha, Copyright 2016 dualcube.com
+Tannistha, Copyright 2018 dualcube.com
 It is distributed under the terms of the GNU GPL
 
 This program is free software: you can redistribute it and/or modify

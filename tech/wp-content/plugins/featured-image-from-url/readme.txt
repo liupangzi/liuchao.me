@@ -1,10 +1,10 @@
 === Plugin Name ===
 Contributors: marceljm
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8BLDLZ3HDBGQG
-Tags: featured image, external featured image, featured image from url, url featured image, featured, image, external, url, flickr, s3, picasa, woocommerce, product image, product gallery, product, gallery, column, list, page, post, all, content, custom, type, custom post type, category, video, external video, youtube, vimeo, featured video, hover, effects, hover effects, sirv, wp all import, css, style, slider, thumbnail, social, network,  auto, publish, hide, first image, content, lightbox, size, grid, auto post thumbnail, link, uri, affiliate, wp, rest, api, wp rest api, lazy, load, google, drive, instagram, validation, jetpack, visual composer, play, pause, crop, resize, zoom, enable, disable
+Tags: featured image, external featured image, featured image from url, url featured image, featured, image, external, url, flickr, s3, picasa, woocommerce, product image, product gallery, product, gallery, column, list, page, post, all, content, custom, type, custom post type, category, video, external video, youtube, vimeo, featured video, hover, effects, hover effects, sirv, wp all import, css, style, slider, thumbnail, social, network,  auto, publish, hide, first image, content, lightbox, size, grid, auto post thumbnail, link, uri, affiliate, wp, rest, api, wp rest api, lazy, load, google, drive, instagram, validation, jetpack, visual composer, play, pause, crop, resize, zoom, enable, disable, default, automatic, auto set, cloudinary, schedule, event, cron
 Requires at least: 4.0
-Tested up to: 4.9.1
-Stable tag: 4.9.1
+Tested up to: 4.9.4
+Stable tag: 4.9.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,15 +32,21 @@ Features:
 
 * some nonstandard image URLs, such as Instagram and Google Drive's, will work as well;
 
+* you can define a default external featured image to be shown when there is no featured image;
+
 * you can disable the product lightbox and zoom;
 
 * supports WP REST API (**premium feature**);
 
-* all features created for external images are available for external videos from YouTube and Vimeo. For YouTube videos, it's possible to set player parameters. And you can define the video size for each screen type (**premium feature**);
+* allows to schedule an cron event to set all first images as featured images. So it can run hourly, daily etc. (**premium feature**);
+
+* all features created for external images are available for external videos from YouTube, Vimeo and Cloudinary. For YouTube videos, it's possible to set player parameters. And you can define the video size for each screen type (**premium feature**);
 
 * you can use a slider of images as featured image (**premium feature**);
 
 * you can use a video thumbnail or a video as featured image (**premium feature**);
+
+* auto set product category images, with each image being chosen among the external product images from that category (**premium feature**);
 
 * it's also possible to use external images in the WooCommerce Product Gallery and WooCommerce Product Category (**premium feature**);
 
@@ -328,6 +334,27 @@ was removed. To finish, a Premium version is now been presented.
 = 1.7.3 =
 * Bug fix.
 
+= 1.7.4 =
+* Bug fix: Instagram URLs. Scripts removed: no more support to WooCommerce 2.
+
+= 1.7.5 =
+* Check compatibility between the user theme and Premium version features.
+
+= 1.7.6 =
+* Default external featured image.
+
+= 1.7.7 =
+* Removed empty() function. Not supported by PHP 5.
+
+= 1.7.8 =
+* Premium advertisement: auto set product category images.
+
+= 1.7.9 =
+* Premium advertisement: support to Cloudinary videos.
+
+= 1.8.0 =
+* Premium advertisement: schedule cron event.
+
 == Upgrade Notice ==
 
 = 1.0 =
@@ -504,3 +531,24 @@ was removed. To finish, a Premium version is now been presented.
 
 = 1.7.3 =
 * Bug fix.
+
+= 1.7.4 =
+* Bug fix: Instagram URLs. Scripts removed: no more support to WooCommerce 2.
+
+= 1.7.5 =
+* Check compatibility between the user theme and Premium version features.
+
+= 1.7.6 =
+* Default external featured image.
+
+= 1.7.7 =
+* Removed empty() function. Not supported by PHP 5.
+
+= 1.7.8 =
+* Premium advertisement: auto set product category images.
+
+= 1.7.9 =
+* Premium advertisement: support to Cloudinary videos.
+
+= 1.8.0 =
+* Premium advertisement: schedule cron event.

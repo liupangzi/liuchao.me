@@ -42,7 +42,7 @@
 		<span>
         <i class="fa fa-comments"></i>  
         <span class="entry-comments-link">
-					<a href="<?php echo esc_url( get_comments_link( get_the_ID() ) ); ?>"><?php comments_number( 'no Comments', '1 Comment', '% Comments' ); ?></a>
+					<a href="<?php echo esc_url( get_comments_link( get_the_ID() ) ); ?>"><?php comments_number( esc_html__( 'No Comments', 'tannistha' ), esc_html__( '1 Comment', 'tannistha' ), '% ' . esc_html__( 'Comments', 'tannistha' ) ); ?></a>
 				</span>  
 	  </span>
   </p>

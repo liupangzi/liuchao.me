@@ -514,24 +514,57 @@
             <b>Premium feature</b><br><br>
             If you are not happy with the different sizes of external featured images on your home/shop, enable the toggle below to crop them to the same size.
         </div>
-        <p/>
-        <table style="text-align:left">
-            <tr>
-                <th>
-                    <input 
-                        type="image" 
-                        href="javascript:void(0)" 
-                        class="toggleoff" 
-                        value=""
-                        style="display:block">
-                </th>
-                <th>   
-                    crop images to the same size
-                </th>
-            </tr>             
-        </table>
-    </div>
+        <br>
 
+        <div id="accordionCrop">
+
+            <h3>crop images</h3> 
+            <div>       
+                <input 
+                    type="image" 
+                    href="javascript:void(0)" 
+                    class="toggleoff" 
+                    value=""
+                    style="display:block">
+                <br>
+                P.S.: if the crop doesn't work, use a Selector to inform where is the group of external images that you want to crop. 
+            </div>
+
+            <h3>inform a Selector</h3>    
+            <div>
+                Examples of valid selectors: <b>#</b><i>products</i> (if the element <b>id</b>="<i>products</i>"), <b>.</b><i>my-post-area</i> (if the element <b>class</b>="<i>my-post-area</i>")
+                <br>
+                <br>
+                <input id="fifu_input_crop0" 
+                       type="text" 
+                       placeholder="selector 1"
+                       style="width:130px" 
+                       value="">
+                <input id="fifu_input_crop1" 
+                       type="text" 
+                       placeholder="selector 2"
+                       style="width:130px" 
+                       value="">
+                <input id="fifu_input_crop2" 
+                       type="text" 
+                       placeholder="selector 3"
+                       style="width:130px" 
+                       value="">
+                <input id="fifu_input_crop3" 
+                       type="text" 
+                       placeholder="selector 4"
+                       style="width:130px" 
+                       value="">
+                <input id="fifu_input_crop4" 
+                       type="text" 
+                       placeholder="selector 5"
+                       style="width:130px" 
+                       value="">                           
+                <input type="submit" 
+                       value="Submit" disabled>
+            </div>
+        </div>
+    </div>
 
     <div class="box">
         <h2>CSS Style</h2>

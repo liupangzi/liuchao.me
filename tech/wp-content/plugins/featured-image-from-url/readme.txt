@@ -159,396 +159,402 @@ Features:
 
 == Changelog ==
 
-= 1.0 =
-* It's the first and only version so far.
+= 1.8.1 =
+* Alt attribute used as image title as well.
 
-= 1.0.1 =
-* The help link in admin menu was wrong. It's fixed now.
+= 1.8.0 =
+* Premium advertisement: schedule cron event.
 
-= 1.0.2 =
-* Now it's possible to use an external image as Featured Image of your WooCommerce products.
+= 1.7.9 =
+* Premium advertisement: support to Cloudinary videos.
 
-= 1.1 =
-* Now it's possible to use external images in the WooCommerce Product Gallery (since your site is hosted on a Linux server).
+= 1.7.8 =
+* Premium advertisement: auto set product category images.
 
-= 1.1.1 =
-* Now, when you access "All Posts", "All Pages" or "Products" in admin menu, the Featured Images (internal or external) are shown in a new column.
+= 1.7.7 =
+* Removed empty() function. Not supported by PHP 5.
 
-= 1.1.2 =
-* Menu toggles weren't been shown on Firefox. Fixed!
+= 1.7.6 =
+* Default external featured image.
 
-= 1.1.3 =
-* If your theme don't show Featured Image (internal or external) in Posts, Pages or Products, now it's possible to include that at the beginning of the content automatically.
+= 1.7.5 =
+* Check compatibility between the user theme and Premium version features.
 
-= 1.1.4 =
-* Now it's possible to use external images as Featured Images of your Custom Post Types. On the menu settings, you can define for now until 5 Custom Post Types.
+= 1.7.4 =
+* Bug fix: Instagram URLs. Scripts removed: no more support to WooCommerce 2.
 
-= 1.1.5 =
-* Now it's possible to use an external image as Featured Image of your WooCommerce Product Category. Then an "External Featured Image" box will be shown when you create/edit a Product Category. Depending on your theme, you must enable "WooCommerce Full Integration" on Featured Image from URL settings.
-
-= 1.2 =
-* It was included a Featured Image column in Product Categories. Moreover, it was fixed a problem with a toggle (Featured Image in Content) that didn't appear in Firefox. And another toggle, for backlink,
-was removed. To finish, a Premium version is now been presented.
-
-= 1.2.1 =
-* Readme fixed.
-
-= 1.2.2 =
-* Bug fixed.
-
-= 1.2.3 =
-* Bug fixed in WooCommerce Product Category.
-
-= 1.2.4 =
-* It's possible to hide the plugin meta boxes now. 
-
-= 1.2.5 =
-* All the "PHP Notices" shown on "debug.log" file were resolved. So the log will be completely clean.
-
-= 1.3 =
-* The plugin should be compatible with any theme now.
-
-= 1.3.1 =
-* Bug fixes.
-
-= 1.3.2 =
-* Bug fixes.
-
-= 1.3.3 =
-* Bug fixes.
-
-= 1.3.4 =
-* Bug fixes.
-
-= 1.3.5 =
-* Bug fixes.
-
-= 1.3.6 =
-* Bug fixes and hover effect presentation.
-
-= 1.3.7 =
-* Links and contact info updated.
-
-= 1.3.8 =
-* WooCommerce compatibility notice and showcase links.
-
-= 1.3.9 =
-* The last toggle wasn't shown in Firefox. Fixed.
-
-= 1.4.0 =
-* Compatibility with Sirv CDN & Image Manager plugin.
-
-= 1.4.2 =
-* CSS style.
-
-= 1.4.3 =
-* Full integration with Sirv plugin.
-
-= 1.4.4 =
-* Bug fixes.
-
-= 1.4.5 =
-* Add External Featured Image Slider.
-
-= 1.4.6 =
-* Bug fixes.
-
-= 1.4.7 =
-* Flickr integration advertisement.
-
-= 1.4.8 =
+= 1.7.3 =
 * Bug fix.
 
-= 1.4.9 =
-* Add information about theme compatibility.
+= 1.7.2 =
+* Disable product lightbox and zoom.
 
-= 1.5.0 =
-* Social tags toggle.
+= 1.7.1 =
+* Crop all external featured images to the same size.
 
-= 1.5.1 =
-* Genesis Framework integration, external JS minification and WooCommerce 3 note.
+= 1.7.0 =
+* Video thumbnail as featured image and Update All button.
 
-= 1.5.2 =
-* Hide external featured media.
+= 1.6.9 =
+* Auto play/pause video and support to list of URLs (WP All Import).
 
-= 1.5.3 =
-* Auto set featured image.
-
-= 1.5.4 =
-* Bug fix: compatibility with old PHP versions.
-
-= 1.5.5 =
-* URL field isn't hidden anymore.
-
-= 1.5.6 =
-* Compatible with any theme now.
-
-= 1.5.7 =
-* Resize featured image column.
-
-= 1.5.8 =
-* FAQ update.
-
-= 1.5.9 =
-* New support email.
-
-= 1.6.0 =
-* WP REST API.
-
-= 1.6.1 =
-* Bug fix.
-
-= 1.6.2 =
-* Bug fix.
-
-= 1.6.3 =
-* Lazy load.
-
-= 1.6.4 =
-* Bug fix.
-
-= 1.6.5 =
-* Bug fix.
-
-= 1.6.6 =
-* Support to Google Drive images.
+= 1.6.8 =
+* Image validation and fake internal featured image.
 
 = 1.6.7 =
 * Support to Instagram images.
 
-= 1.6.8 =
-* Image validation and fake internal featured image.
+= 1.6.6 =
+* Support to Google Drive images.
 
-= 1.6.9 =
-* Auto play/pause video and support to list of URLs (WP All Import).
-
-= 1.7.0 =
-* Video thumbnail as featured image and Update All button.
-
-= 1.7.1 =
-* Crop all external featured images to the same size.
-
-= 1.7.2 =
-* Disable product lightbox and zoom.
-
-= 1.7.3 =
+= 1.6.5 =
 * Bug fix.
 
-= 1.7.4 =
-* Bug fix: Instagram URLs. Scripts removed: no more support to WooCommerce 2.
-
-= 1.7.5 =
-* Check compatibility between the user theme and Premium version features.
-
-= 1.7.6 =
-* Default external featured image.
-
-= 1.7.7 =
-* Removed empty() function. Not supported by PHP 5.
-
-= 1.7.8 =
-* Premium advertisement: auto set product category images.
-
-= 1.7.9 =
-* Premium advertisement: support to Cloudinary videos.
-
-= 1.8.0 =
-* Premium advertisement: schedule cron event.
-
-== Upgrade Notice ==
-
-= 1.0 =
-* No upgraded yet.
-
-= 1.0.1 =
-* The help link in admin menu was wrong. It's fixed now.
-
-= 1.0.2 =
-* Now it's possible to use an external image as Featured Image of your WooCommerce products.
-
-= 1.1 =
-* Now it's possible to use until 10 external images in the WooCommerce Product Gallery (since your site is hosted on a Linux server). Go to Featured Image from URL settings to enable that.
-
-= 1.1.1 =
-* Now, when you access "All Posts", "All Pages" or "Products" in admin menu, the Featured Images (internal or external) are shown in a new column. Moreover, now it's possible to use until 10 external images in the WooCommerce Product Gallery (since your site is hosted on a Linux server). Go to Featured Image from URL settings to enable that.
-
-= 1.1.2 =
-* Menu toggles weren't been shown on Firefox. Fixed!
-
-= 1.1.3 =
-* If your theme don't show Featured Image (internal or external) in Posts, Pages or Products, now it's possible to include that at the beginning of the content automatically.
-
-= 1.1.4 =
-* Now it's possible to use external images as Featured Images of your Custom Post Types. On the menu settings, you can define for now until 5 Custom Post Types.
-
-= 1.1.5 =
-* Now it's possible to use an external image as Featured Image of your WooCommerce Product Category. Then an "External Featured Image" box will be shown when you create/edit a Product Category. Depending on your theme, you must enable "WooCommerce Full Integration" on Featured Image from URL settings.
-
-= 1.2 =
-* It was included a Featured Image column in Product Categories. Moreover, it was fixed a problem with a toggle (Featured Image in Content) that didn't appear in Firefox. And another toggle, for backlink,
-was removed. To finish, a Premium version is now been presented.
-
-= 1.2.1 =
-* Readme fixed.
-
-= 1.2.2 =
-* Bug fixed.
-
-= 1.2.3 =
-* Bug fixed in WooCommerce Product Category.
-
-= 1.2.4 =
-* It's possible to hide the plugin meta boxes now.
-
-= 1.2.5 =
-* All the "PHP Notices" shown on "debug.log" file were resolved. So the log will be completely clean.
-
-= 1.3 =
-* The plugin should be compatible with any theme now.
-
-= 1.3.1 =
-* Bug fixes.
-
-= 1.3.2 =
-* Bug fixes.
-
-= 1.3.3 =
-* Bug fixes.
-
-= 1.3.4 =
-* Bug fixes.
-
-= 1.3.5 =
-* Bug fixes.
-
-= 1.3.6 =
-* Bug fixes and hover effect presentation.
-
-= 1.3.7 =
-* Links and contact info updated.
-
-= 1.3.8 =
-* WooCommerce compatibility notice and showcase links.
-
-= 1.3.9 =
-* The last toggle wasn't shown in Firefox. Fixed.
-
-= 1.4.0 =
-* Compatibility with Sirv CDN & Image Manager plugin.
-
-= 1.4.2 =
-* CSS style.
-
-= 1.4.3 =
-* Full integration with Sirv plugin.
-
-= 1.4.4 =
-* Bug fixes.
-
-= 1.4.5 =
-* Add External Featured Image Slider.
-
-= 1.4.6 =
-* Bug fixes.
-
-= 1.4.7 =
-* Flickr integration advertisement.
-
-= 1.4.8 =
-* Bug fix.
-
-= 1.4.9 =
-* Add information about theme compatibility.
-
-= 1.5.0 =
-* Social tags toggle.
-
-= 1.5.1 =
-* Genesis Framework integration, external JS minification and WooCommerce 3 note.
-
-= 1.5.2 =
-* Hide external featured media.
-
-= 1.5.3 =
-* Auto set featured image.
-
-= 1.5.4 =
-* Bug fix: compatibility with old PHP versions.
-
-= 1.5.5 =
-* URL field isn't hidden anymore.
-
-= 1.5.6 =
-* Compatible with any theme now.
-
-= 1.5.7 =
-* Resize featured image column.
-
-= 1.5.8 =
-* FAQ update.
-
-= 1.5.9 =
-* New support email.
-
-= 1.6.0 =
-* WP REST API.
-
-= 1.6.1 =
-* Bug fix.
-
-= 1.6.2 =
+= 1.6.4 =
 * Bug fix.
 
 = 1.6.3 =
 * Lazy load.
 
-= 1.6.4 =
+= 1.6.2 =
 * Bug fix.
 
-= 1.6.5 =
+= 1.6.1 =
 * Bug fix.
 
-= 1.6.6 =
-* Support to Google Drive images.
+= 1.6.0 =
+* WP REST API.
 
-= 1.6.7 =
-* Support to Instagram images
+= 1.5.9 =
+* New support email.
 
-= 1.6.8 =
-* Image validation and fake internal featured image.
+= 1.5.8 =
+* FAQ update.
 
-= 1.6.9 =
-* Auto play/pause video and support to list of URLs (WP All Import).
+= 1.5.7 =
+* Resize featured image column.
 
-= 1.7.0 =
-* Video thumbnail as featured image and Update All button.
+= 1.5.6 =
+* Compatible with any theme now.
 
-= 1.7.1 =
-* Crop all external featured images to the same size.
+= 1.5.5 =
+* URL field isn't hidden anymore.
 
-= 1.7.2 =
-* Disable product lightbox and zoom.
+= 1.5.4 =
+* Bug fix: compatibility with old PHP versions.
 
-= 1.7.3 =
+= 1.5.3 =
+* Auto set featured image.
+
+= 1.5.2 =
+* Hide external featured media.
+
+= 1.5.1 =
+* Genesis Framework integration, external JS minification and WooCommerce 3 note.
+
+= 1.5.0 =
+* Social tags toggle.
+
+= 1.4.9 =
+* Add information about theme compatibility.
+
+= 1.4.8 =
 * Bug fix.
 
-= 1.7.4 =
-* Bug fix: Instagram URLs. Scripts removed: no more support to WooCommerce 2.
+= 1.4.7 =
+* Flickr integration advertisement.
 
-= 1.7.5 =
-* Check compatibility between the user theme and Premium version features.
+= 1.4.6 =
+* Bug fixes.
 
-= 1.7.6 =
-* Default external featured image.
+= 1.4.5 =
+* Add External Featured Image Slider.
 
-= 1.7.7 =
-* Removed empty() function. Not supported by PHP 5.
+= 1.4.4 =
+* Bug fixes.
 
-= 1.7.8 =
-* Premium advertisement: auto set product category images.
+= 1.4.3 =
+* Full integration with Sirv plugin.
+
+= 1.4.2 =
+* CSS style.
+
+= 1.4.0 =
+* Compatibility with Sirv CDN & Image Manager plugin.
+
+= 1.3.9 =
+* The last toggle wasn't shown in Firefox. Fixed.
+
+= 1.3.8 =
+* WooCommerce compatibility notice and showcase links.
+
+= 1.3.7 =
+* Links and contact info updated.
+
+= 1.3.6 =
+* Bug fixes and hover effect presentation.
+
+= 1.3.5 =
+* Bug fixes.
+
+= 1.3.4 =
+* Bug fixes.
+
+= 1.3.3 =
+* Bug fixes.
+
+= 1.3.2 =
+* Bug fixes.
+
+= 1.3.1 =
+* Bug fixes.
+
+= 1.3 =
+* The plugin should be compatible with any theme now.
+
+= 1.2.5 =
+* All the "PHP Notices" shown on "debug.log" file were resolved. So the log will be completely clean.
+
+= 1.2.4 =
+* It's possible to hide the plugin meta boxes now. 
+
+= 1.2.3 =
+* Bug fixed in WooCommerce Product Category.
+
+= 1.2.2 =
+* Bug fixed.
+
+= 1.2.1 =
+* Readme fixed.
+
+= 1.2 =
+* It was included a Featured Image column in Product Categories. Moreover, it was fixed a problem with a toggle (Featured Image in Content) that didn't appear in Firefox. And another toggle, for backlink,
+was removed. To finish, a Premium version is now been presented.
+
+= 1.1.5 =
+* Now it's possible to use an external image as Featured Image of your WooCommerce Product Category. Then an "External Featured Image" box will be shown when you create/edit a Product Category. Depending on your theme, you must enable "WooCommerce Full Integration" on Featured Image from URL settings.
+
+= 1.1.4 =
+* Now it's possible to use external images as Featured Images of your Custom Post Types. On the menu settings, you can define for now until 5 Custom Post Types.
+
+= 1.1.3 =
+* If your theme don't show Featured Image (internal or external) in Posts, Pages or Products, now it's possible to include that at the beginning of the content automatically.
+
+= 1.1.2 =
+* Menu toggles weren't been shown on Firefox. Fixed!
+
+= 1.1.1 =
+* Now, when you access "All Posts", "All Pages" or "Products" in admin menu, the Featured Images (internal or external) are shown in a new column.
+
+= 1.1 =
+* Now it's possible to use external images in the WooCommerce Product Gallery (since your site is hosted on a Linux server).
+
+= 1.0.2 =
+* Now it's possible to use an external image as Featured Image of your WooCommerce products.
+
+= 1.0.1 =
+* The help link in admin menu was wrong. It's fixed now.
+
+= 1.0 =
+* It's the first and only version so far.
+
+== Upgrade Notice ==
+
+= 1.8.1 =
+* Alt attribute used as image title as well.
+
+= 1.8.0 =
+* Premium advertisement: schedule cron event.
 
 = 1.7.9 =
 * Premium advertisement: support to Cloudinary videos.
 
-= 1.8.0 =
-* Premium advertisement: schedule cron event.
+= 1.7.8 =
+* Premium advertisement: auto set product category images.
+
+= 1.7.7 =
+* Removed empty() function. Not supported by PHP 5.
+
+= 1.7.6 =
+* Default external featured image.
+
+= 1.7.5 =
+* Check compatibility between the user theme and Premium version features.
+
+= 1.7.4 =
+* Bug fix: Instagram URLs. Scripts removed: no more support to WooCommerce 2.
+
+= 1.7.3 =
+* Bug fix.
+
+= 1.7.2 =
+* Disable product lightbox and zoom.
+
+= 1.7.1 =
+* Crop all external featured images to the same size.
+
+= 1.7.0 =
+* Video thumbnail as featured image and Update All button.
+
+= 1.6.9 =
+* Auto play/pause video and support to list of URLs (WP All Import).
+
+= 1.6.8 =
+* Image validation and fake internal featured image.
+
+= 1.6.7 =
+* Support to Instagram images.
+
+= 1.6.6 =
+* Support to Google Drive images.
+
+= 1.6.5 =
+* Bug fix.
+
+= 1.6.4 =
+* Bug fix.
+
+= 1.6.3 =
+* Lazy load.
+
+= 1.6.2 =
+* Bug fix.
+
+= 1.6.1 =
+* Bug fix.
+
+= 1.6.0 =
+* WP REST API.
+
+= 1.5.9 =
+* New support email.
+
+= 1.5.8 =
+* FAQ update.
+
+= 1.5.7 =
+* Resize featured image column.
+
+= 1.5.6 =
+* Compatible with any theme now.
+
+= 1.5.5 =
+* URL field isn't hidden anymore.
+
+= 1.5.4 =
+* Bug fix: compatibility with old PHP versions.
+
+= 1.5.3 =
+* Auto set featured image.
+
+= 1.5.2 =
+* Hide external featured media.
+
+= 1.5.1 =
+* Genesis Framework integration, external JS minification and WooCommerce 3 note.
+
+= 1.5.0 =
+* Social tags toggle.
+
+= 1.4.9 =
+* Add information about theme compatibility.
+
+= 1.4.8 =
+* Bug fix.
+
+= 1.4.7 =
+* Flickr integration advertisement.
+
+= 1.4.6 =
+* Bug fixes.
+
+= 1.4.5 =
+* Add External Featured Image Slider.
+
+= 1.4.4 =
+* Bug fixes.
+
+= 1.4.3 =
+* Full integration with Sirv plugin.
+
+= 1.4.2 =
+* CSS style.
+
+= 1.4.0 =
+* Compatibility with Sirv CDN & Image Manager plugin.
+
+= 1.3.9 =
+* The last toggle wasn't shown in Firefox. Fixed.
+
+= 1.3.8 =
+* WooCommerce compatibility notice and showcase links.
+
+= 1.3.7 =
+* Links and contact info updated.
+
+= 1.3.6 =
+* Bug fixes and hover effect presentation.
+
+= 1.3.5 =
+* Bug fixes.
+
+= 1.3.4 =
+* Bug fixes.
+
+= 1.3.3 =
+* Bug fixes.
+
+= 1.3.2 =
+* Bug fixes.
+
+= 1.3.1 =
+* Bug fixes.
+
+= 1.3 =
+* The plugin should be compatible with any theme now.
+
+= 1.2.5 =
+* All the "PHP Notices" shown on "debug.log" file were resolved. So the log will be completely clean.
+
+= 1.2.4 =
+* It's possible to hide the plugin meta boxes now. 
+
+= 1.2.3 =
+* Bug fixed in WooCommerce Product Category.
+
+= 1.2.2 =
+* Bug fixed.
+
+= 1.2.1 =
+* Readme fixed.
+
+= 1.2 =
+* It was included a Featured Image column in Product Categories. Moreover, it was fixed a problem with a toggle (Featured Image in Content) that didn't appear in Firefox. And another toggle, for backlink,
+was removed. To finish, a Premium version is now been presented.
+
+= 1.1.5 =
+* Now it's possible to use an external image as Featured Image of your WooCommerce Product Category. Then an "External Featured Image" box will be shown when you create/edit a Product Category. Depending on your theme, you must enable "WooCommerce Full Integration" on Featured Image from URL settings.
+
+= 1.1.4 =
+* Now it's possible to use external images as Featured Images of your Custom Post Types. On the menu settings, you can define for now until 5 Custom Post Types.
+
+= 1.1.3 =
+* If your theme don't show Featured Image (internal or external) in Posts, Pages or Products, now it's possible to include that at the beginning of the content automatically.
+
+= 1.1.2 =
+* Menu toggles weren't been shown on Firefox. Fixed!
+
+= 1.1.1 =
+* Now, when you access "All Posts", "All Pages" or "Products" in admin menu, the Featured Images (internal or external) are shown in a new column.
+
+= 1.1 =
+* Now it's possible to use external images in the WooCommerce Product Gallery (since your site is hosted on a Linux server).
+
+= 1.0.2 =
+* Now it's possible to use an external image as Featured Image of your WooCommerce products.
+
+= 1.0.1 =
+* The help link in admin menu was wrong. It's fixed now.
+
+= 1.0 =
+* It's the first and only version so far.

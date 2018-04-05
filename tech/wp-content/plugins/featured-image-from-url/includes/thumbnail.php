@@ -70,7 +70,7 @@ function fifu_get_html($url, $alt) {
     if (is_plugin_active('sirv/sirv.php') && strpos($url, "sirv.com") !== false)
         return sprintf('<!-- Featured Image From URL plugin --> <img class="Sirv" data-src="%s">', $url);
 
-    return sprintf('<!-- Featured Image From URL plugin --> <img %s alt="%s" style="%s">', fifu_lazy_url($url), $alt, fifu_should_hide() ? 'display:none' : '');
+    return sprintf('<!-- Featured Image From URL plugin --> <img %s alt="%s" title="%s" style="%s">', fifu_lazy_url($url), $alt, $alt, fifu_should_hide() ? 'display:none' : '');
 }
 
 add_filter('the_content', 'fifu_add_to_content');

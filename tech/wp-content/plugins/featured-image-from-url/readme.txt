@@ -159,6 +159,9 @@ Features:
 
 == Changelog ==
 
+= 1.8.6 =
+* Bug fix: image URL was being shown in log file.
+
 = 1.8.5 =
 * Bug fix: priority feature.
 
@@ -371,6 +374,9 @@ was removed. To finish, a Premium version is now been presented.
 * It's the first and only version so far.
 
 == Upgrade Notice ==
+
+= 1.8.6 =
+* Bug fix: image URL was being shown in log file.
 
 = 1.8.5 =
 * Bug fix: priority feature.

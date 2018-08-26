@@ -154,6 +154,7 @@
 
 	wp.customize( 'tannistha_post_layout', function( value ) {
 		value.bind( function( to ) {
+			console.log(to);
 			if ( to == 'post_layout_with_left_sidebar' ) {
 				$( '.sidebar-location' ).removeClass( 'hide' );
 				$( '.sidebar-location' ).removeClass( 'pull-right' );
@@ -166,15 +167,17 @@
 				$( '.home-posts .container .row .page-content-location' ).removeClass( 'col-sm-8' );
 			}
 			if ( to == 'post_layout_with_right_sidebar' ) {
+				$( '.sidebar-location' ).removeClass( 'pulling-left' );
 				$( '.sidebar-location' ).removeClass( 'hide' );
 				$( '.sidebar-location' ).removeClass( 'pull-left' );
 				$( '.sidebar-location' ).addClass( 'pull-right' );
 				$( '.page-content-location' ).removeClass( 'pull-right' );
+				$( '.page-content-location' ).removeClass( 'has_left_sidebar' );
 				$( '.page-content-location' ).addClass( 'pull-left' );
 				$( '.home-posts .container .row .page-content-location' ).removeClass( 'col-sm-12' );
+				$( '.home-posts .container .row .page-content-location' ).removeClass( 'col-sm-8' );
 				$( '.home-posts .container .row .page-content-location' ).addClass( 'col-sm-9' );
 				$( '.home-posts .container .row .page-content-location' ).addClass( 'col-md-9' );
-				$( '.home-posts .container .row .page-content-location' ).removeClass( 'col-sm-8' );
 			}
 			if ( to == 'post_layout_without_sidebar' ) {
 				$( '.sidebar-location' ).removeClass( 'pull-left' );
@@ -208,6 +211,7 @@
 				$( '.page-sidebar-location' ).removeClass( 'pull-left' );
 				$( '.page-sidebar-location' ).addClass( 'pull-right' );
 				$( '.inner-page-content-location' ).removeClass( 'pull-right' );
+				$( '.inner-page-content-location' ).removeClass( 'has_left_sidebar' );
 				$( '.inner-page-content-location' ).addClass( 'pull-left' );
 				$( '.home-posts .container .row .inner-page-content-location' ).removeClass( 'col-sm-12' );
 				$( '.home-posts .container .row .inner-page-content-location' ).removeClass( 'col-sm-8' );

@@ -251,6 +251,12 @@
 	    $tannistha_heading_desc_typography = esc_html( get_theme_mod( 'tannistha_heading_desc_typography' ) );
 	    $tannistha_heading_desc_fontsize_typography = esc_html( get_theme_mod( 'tannistha_heading_desc_fontsize_typography' ) );
 	    $tannistha_heading_desc_fontweight_typography = esc_html( get_theme_mod( 'tannistha_heading_desc_fontweight_typography' ) );
+	    $tannistha_content_title_typography = esc_html( get_theme_mod( 'tannistha_content_title_typography' ) );
+	    $tannistha_content_title_fontsize_typography = esc_html( get_theme_mod( 'tannistha_content_title_fontsize_typography' ) );
+	    $tannistha_content_title_widget_fontsize_typography = esc_html( get_theme_mod( 'tannistha_content_title_widget_fontsize_typography' ) );
+	    $tannistha_content_title_fontweight_typography = esc_html( get_theme_mod( 'tannistha_content_title_fontweight_typography' ) );
+	    $tannistha_content_title_widget_fontweight_typography = esc_html( get_theme_mod( 'tannistha_content_title_widget_fontweight_typography' ) );
+	    $tannistha_content_body_typography = esc_html( get_theme_mod( 'tannistha_content_body_typography' ) );
 
 		if ( empty( $tannistha_body_background_color ) ) {
 			$tannistha_body_background_color = '#dddddd';
@@ -323,7 +329,7 @@
 	}
 
 	if ( empty( $tannistha_heading_fontsize_typography ) ) {
-		$tannistha_heading_fontsize_typography = '44px';
+		$tannistha_heading_fontsize_tannistha_content_title_widget_fontsize_typographytypography = '44px';
 	} else {
 	  	$tannistha_heading_fontsize_typography = ( esc_html( get_theme_mod( 'tannistha_heading_fontsize_typography' ).'px' ) );
 	}
@@ -350,12 +356,47 @@
 	} else {
 	  	$tannistha_heading_desc_fontweight_typography = ( esc_html( get_theme_mod( 'tannistha_heading_desc_fontweight_typography' ) ) );
 	}
-           
+
+    if ( empty( $tannistha_content_title_typography ) ) {
+		$tannistha_content_title_typography = 'Raleway';
+	} else {
+	  	$tannistha_content_title_typography = ( esc_html( get_theme_mod( 'tannistha_content_title_typography' ) ) );
+	}
+
+	if ( empty( $tannistha_content_title_fontsize_typography ) ) {
+		$tannistha_content_title_fontsize_typography = '20px';
+	} else {
+	  	$tannistha_content_title_fontsize_typography = ( esc_html( get_theme_mod( 'tannistha_content_title_fontsize_typography' ).'px' ) );
+	}
+
+	if ( empty( $tannistha_content_title_widget_fontsize_typography ) ) {
+		$tannistha_content_title_widget_fontsize_typography = '20px';
+	} else {
+	  	$tannistha_content_title_widget_fontsize_typography = ( esc_html( get_theme_mod( 'tannistha_content_title_widget_fontsize_typography' ).'px' ) );
+	}
+
+	if ( empty( $tannistha_content_title_fontweight_typography ) ) {
+		$tannistha_content_title_fontweight_typography = 600;
+	} else {
+	  	$tannistha_content_title_fontweight_typography = ( esc_html( get_theme_mod( 'tannistha_content_title_fontweight_typography' ) ) );
+	}
+
+	if ( empty( $tannistha_content_title_widget_fontweight_typography ) ) {
+		$tannistha_content_title_widget_fontweight_typography = 600;
+	} else {
+	  	$tannistha_content_title_widget_fontweight_typography = ( esc_html( get_theme_mod( 'tannistha_content_title_widget_fontweight_typography' ) ) );
+	}
     
+    if ( empty( $tannistha_content_body_typography ) ) {
+		$tannistha_content_body_typography = 'Raleway';
+	} else {
+	  	$tannistha_content_body_typography = ( esc_html( get_theme_mod( 'tannistha_content_body_typography' ) ) );
+	}
 
     $tannistha_custom_css = "
     				body{
     					background-color: {$tannistha_body_background_color};
+    					font-family: {$tannistha_content_title_typography};
     				}
     				.home-banner h1.banner-text, 
     				.home-banner h4.banner-text, 
@@ -384,7 +425,40 @@
             	font-family: {$tannistha_heading_desc_typography};
             	font-size: {$tannistha_heading_desc_fontsize_typography};
             	font-weight: {$tannistha_heading_desc_fontweight_typography};
-            }        
+            }
+            .widget ul li{
+            	font-size: {$tannistha_content_title_widget_fontsize_typography};
+            	font-weight: {$tannistha_content_title_widget_fontweight_typography};
+            }
+            .widget h3, .entry .entry-header .entry-title, .site-header .logo, .site-header .dc-top-nav li, .theme_default_menu > ul li, .entry .entry-meta span {
+            	font-weight: {$tannistha_content_title_fontweight_typography};
+            }
+            .entry .entry-header .entry-title, .widget h3  {
+            	font-size: {$tannistha_content_title_fontsize_typography};
+            }     
+            .entry .entry-content p, 
+            .entry .entry-content .button, 
+            .comment-respond .comment-form input[type='submit'], 
+            .navigation .nav-links .page-numbers, 
+            .navigation .nav-links .nav-previous a, 
+            .navigation .nav-links .nav-next a, 
+            .site-footer p, 
+            p, 
+            dl, 
+            dl dt, 
+            dl dd, 
+            ul li, 
+            .upload:after,
+            input[type='reset'], 
+            input[type='submit'], 
+            table, 
+            .entry-comments .comment-list .comment-content, 
+            .entry-comments .comment-list ol li, 
+            .entry-comments .comment-list ul li, 
+            .comment-respond form .comment-notes, 
+            .comment-form p label {
+            	font-family: {$tannistha_content_body_typography};
+            }
             .top-header-band span {
               color: {$tannistha_top_header_text_color};
             }

@@ -823,6 +823,164 @@ function tannistha_register_theme_customizer( $wp_customize ) {
 	      ),         
     ));
 
+    /********************Title Fonts*******************/
+    $wp_customize->add_section( 
+    	'content_title_section', 
+    	array(
+		    'title' => __( 'Content Titles', 'tannistha' ),
+		    'description' => __( 'Applicable for all headings in the main body', 'tannistha' ),
+		    'panel' => 'tannistha_typography_settings',
+		)
+	);
+    /** Content Title Font */
+    $wp_customize->add_setting(
+      'tannistha_content_title_typography',
+      array(
+        'default'=> 'Raleway',
+        'sanitize_callback'=> 'sanitize_text_field'
+      )
+    );
+    $wp_customize-> add_control(
+      'tannistha_content_title_typography',
+      array(
+        'label' => __('Select Font for Body Headings','tannistha'),
+        'type' => 'select',
+        'section' => 'content_title_section', 
+        'sanitize_callback'=> 'sanitize_text_field',
+        'choices' => array(
+	        'Raleway' => __( 'Raleway', 'tannistha'),
+	        'Open Sans'=> __( 'Open Sans', 'tannistha'),
+	        'Oswald' => __('Oswald', 'tannistha'),
+	        'Cedarville Cursive' => __( 'Cedarville Cursive', 'tannistha'),
+	        'Comfortaa' => __( 'Comfortaa', 'tannistha'),
+	        'Montserrat' => __( 'Montserrat', 'tannistha'),
+	        'Pacifico' => __( 'Pacifico', 'tannistha'),
+	        'Indie Flower' => __( 'Indie Flower', 'tannistha'),
+        ),
+         
+    ));
+    /** Content Title Font Size */
+    $wp_customize->add_setting(
+      'tannistha_content_title_fontsize_typography',
+      array(
+        'default'=> 20,
+        'sanitize_callback'=> 'tannistha_sanitize_number_absint',
+     	)
+    );
+    $wp_customize-> add_control(
+      'tannistha_content_title_fontsize_typography',
+      array(
+        'label' => __('Font Size for Body Headings','tannistha'),
+        'type' => 'number',
+        'section' => 'content_title_section',
+        'sanitize_callback'=> 'tannistha_sanitize_number_absint', 
+    ));
+
+    $wp_customize->add_setting(
+      'tannistha_content_title_widget_fontsize_typography',
+      array(
+        'default'=> 13,
+        'sanitize_callback'=> 'tannistha_sanitize_number_absint',
+     	)
+    );
+    $wp_customize-> add_control(
+      'tannistha_content_title_widget_fontsize_typography',
+      array(
+        'label' => __('Font Size for Widget Content','tannistha'),
+        'type' => 'number',
+        'section' => 'content_title_section',
+        'sanitize_callback'=> 'tannistha_sanitize_number_absint', 
+    ));
+
+    /** Content Title Font Weight */
+    $wp_customize->add_setting(
+      'tannistha_content_title_fontweight_typography',
+      array(
+        'default'=> 600,
+        'sanitize_callback'=> 'tannistha_sanitize_select',
+      )
+    );
+    $wp_customize-> add_control(
+      'tannistha_content_title_fontweight_typography',
+      array(
+        'label' => __('Font Weight for Body Headings','tannistha'),
+        'type' => 'select',
+        'section' => 'content_title_section',
+        'sanitize_callback'=> 'tannistha_sanitize_select',
+        'choices' => array(
+	        '100' => __('100', 'tannistha'),
+	        '400'=> __( '400', 'tannistha'),
+	        '600' => __( '600', 'tannistha'),
+	        '700' => __( '700', 'tannistha'),
+	        '800'=> __( '800', 'tannistha'),
+	        'bold' => __( 'bold', 'tannistha'),
+	        'normal' => __( 'normal', 'tannistha')
+	      ),         
+    ));
+
+    $wp_customize->add_setting(
+      'tannistha_content_title_widget_fontweight_typography',
+      array(
+        'default'=> 400,
+        'sanitize_callback'=> 'tannistha_sanitize_select',
+      )
+    );
+    $wp_customize-> add_control(
+      'tannistha_content_title_widget_fontweight_typography',
+      array(
+        'label' => __('Font Weight for Widget Content','tannistha'),
+        'type' => 'select',
+        'section' => 'content_title_section',
+        'sanitize_callback'=> 'tannistha_sanitize_select',
+        'choices' => array(
+	        '100' => __('100', 'tannistha'),
+	        '400'=> __( '400', 'tannistha'),
+	        '600' => __( '600', 'tannistha'),
+	        '700' => __( '700', 'tannistha'),
+	        '800'=> __( '800', 'tannistha'),
+	        'bold' => __( 'bold', 'tannistha'),
+	        'normal' => __( 'normal', 'tannistha')
+	      ),         
+    ));
+
+    /**************************************************/
+
+    $wp_customize->add_section( 
+    	'content_body_section', 
+    	array(
+		    'title' => __( 'Content Body', 'tannistha' ),
+		    'description' => __( 'Applicable for all texts in the main body', 'tannistha' ),
+		    'panel' => 'tannistha_typography_settings',
+		)
+	);
+    /** Content Title Font */
+    $wp_customize->add_setting(
+      'tannistha_content_body_typography',
+      array(
+        'default'=> 'Open Sans',
+        'sanitize_callback'=> 'sanitize_text_field'
+      )
+    );
+    $wp_customize-> add_control(
+      'tannistha_content_body_typography',
+      array(
+        'label' => __('Select Font for Body Headings','tannistha'),
+        'type' => 'select',
+        'section' => 'content_body_section', 
+        'sanitize_callback'=> 'sanitize_text_field',
+        'choices' => array(
+	        'Raleway' => __( 'Raleway', 'tannistha'),
+	        'Open Sans'=> __( 'Open Sans', 'tannistha'),
+	        'Oswald' => __('Oswald', 'tannistha'),
+	        'Cedarville Cursive' => __( 'Cedarville Cursive', 'tannistha'),
+	        'Comfortaa' => __( 'Comfortaa', 'tannistha'),
+	        'Montserrat' => __( 'Montserrat', 'tannistha'),
+	        'Pacifico' => __( 'Pacifico', 'tannistha'),
+	        'Indie Flower' => __( 'Indie Flower', 'tannistha'),
+        ),
+         
+    ));
+
 } // end tannistha_register_theme_customizer
 add_action( 'customize_register', 'tannistha_register_theme_customizer' );
 /**

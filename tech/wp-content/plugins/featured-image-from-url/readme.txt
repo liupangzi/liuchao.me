@@ -1,10 +1,10 @@
 === Plugin Name ===
 Contributors: marceljm
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8BLDLZ3HDBGQG
-Tags: featured image, external featured image, featured image from url, url featured image, featured, image, external, url, flickr, s3, picasa, woocommerce, product image, product gallery, product, gallery, column, list, page, post, all, content, custom, type, custom post type, category, video, external video, youtube, vimeo, featured video, hover, effects, hover effects, sirv, wp all import, css, style, slider, thumbnail, social, network,  auto, publish, hide, first image, content, lightbox, size, grid, auto post thumbnail, link, uri, affiliate, wp, rest, api, wp rest api, lazy, load, google, drive, instagram, validation, jetpack, visual composer, play, pause, crop, resize, zoom, enable, disable, default, automatic, auto set, cloudinary, schedule, event, cron, priority
+Tags: featured image, external featured image, featured image from url, url featured image, featured, image, external, url, flickr, s3, picasa, woocommerce, product image, product gallery, product, gallery, column, list, page, post, all, content, custom, type, custom post type, category, video, external video, youtube, vimeo, featured video, hover, effects, hover effects, sirv, wp all import, css, style, slider, thumbnail, social, network,  auto, publish, hide, first image, content, lightbox, size, grid, auto post thumbnail, link, uri, affiliate, wp, rest, api, wp rest api, lazy, load, google, drive, instagram, validation, jetpack, visual composer, play, pause, crop, resize, zoom, enable, disable, default, automatic, auto set, cloudinary, schedule, event, cron, priority, seo, variable, tumblr, variation, product variable
 Requires at least: 4.0
-Tested up to: 4.9.5
-Stable tag: 4.9.5
+Tested up to: 4.9.8
+Stable tag: 4.9.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,11 +36,13 @@ Features:
 
 * you can disable the product lightbox and zoom;
 
+* you can apply your own CSS style or 18 hover effects to the images;
+
 * supports WP REST API (**premium feature**);
 
 * allows to schedule an cron event to set all first images as featured images. So it can run hourly, daily etc. (**premium feature**);
 
-* all features created for external images are available for external videos from YouTube, Vimeo and Cloudinary. For YouTube videos, it's possible to set player parameters. And you can define the video size for each screen type (**premium feature**);
+* all features created for external images are available for external videos from YouTube, Vimeo, Cloudinary and Tumblr. For YouTube videos, it's possible to set player parameters. And you can define the video size for each screen type (**premium feature**);
 
 * you can use a slider of images as featured image (**premium feature**);
 
@@ -48,19 +50,17 @@ Features:
 
 * auto set product category images, with each image being chosen among the external product images from that category (**premium feature**);
 
-* it's also possible to use external images in the WooCommerce Product Gallery and WooCommerce Product Category (**premium feature**);
+* it's also possible to use external images in the WooCommerce Product Gallery, Product Category and Variable Product (**premium feature**);
 
 * you can use external thumbnails from Flickr to make your site uppon to 94% faster (**premium feature**);
 
 * it's able to crop all the external featured images on home/shop to the same size (**premium feature**);
 
-* you can apply your own CSS style or 18 hover effects to the images (**premium feature**);
-
 * auto play/pause videos on mouse over/out (**premium feature**);
 
-**<a href="http://featuredimagefromurl.com/">Official Site</a>**	
-**<a href="http://blog.featuredimagefromurl.com/">Live Preview (Blog)</a>**
-**<a href="http://shop.featuredimagefromurl.com/">Live Preview (Shop)</a>**
+**<a href="https://featuredimagefromurl.com/">Official Site</a>**	
+**<a href="https://blog.featuredimagefromurl.com/">Live Preview (Blog)</a>**
+**<a href="https://shop.featuredimagefromurl.com/">Live Preview (Shop)</a>**
 
 == Installation ==
 
@@ -158,6 +158,18 @@ Features:
 20. Lightbox zoom.
 
 == Changelog ==
+
+= 1.9.1 =
+* Premium ad: WooCommerce product variable and Tumblr video support.
+
+= 1.9.0 =
+* New: if the Alt/Title field is empty then automatically set that with the post/page/product title.
+
+= 1.8.9 =
+* New: FIFU column added to Custom Post Types.
+
+= 1.8.8 =
+* Bug fix: priority feature.
 
 = 1.8.7 =
 * New free feature: CSS Style.
@@ -377,6 +389,18 @@ was removed. To finish, a Premium version is now been presented.
 * It's the first and only version so far.
 
 == Upgrade Notice ==
+
+= 1.9.1 =
+* Premium ad: WooCommerce product variable and Tumblr video support.
+
+= 1.9.0 =
+* New: if the Alt/Title field is empty then automatically set that with the post/page/product title.
+
+= 1.8.9 =
+* New: FIFU column added to Custom Post Types.
+
+= 1.8.8 =
+* Bug fix: priority feature.
 
 = 1.8.7 =
 * New free feature: CSS Style.

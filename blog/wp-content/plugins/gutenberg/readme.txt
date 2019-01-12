@@ -1,8 +1,8 @@
 === Gutenberg ===
 Contributors: matveb, joen, karmatosed
 Requires at least: 4.9.8
-Tested up to: 4.9
-Stable tag: 3.6.1
+Tested up to: 5.0
+Stable tag: 4.7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -81,94 +81,85 @@ See also <a href="https://github.com/WordPress/gutenberg/blob/master/CONTRIBUTIN
 
 = Latest =
 
-* Restore min-width to popover.
-* Fix wide toolbar regression
-* Add e2e test for publishing a page
-* Fix typo for removing excerpt block stripping
+### Performance
 
-= 3.6.1 =
+ - Improve page initialization time by optimizing the addHook function and the viewport state initialization.
+ - Improve typing performance by splitting the state tree.
+ - Optimize partial application of runSelector.
+ - Move selector calls to the event handles to avoid useless component rerenders.
+ - Render DropZone children only when dragging elements over it.
+ - Initialize variables only when needed.
 
-* Fixed an issue that caused page publishing to fail.
-* Fixed an issue with the block options menu appearing too narrow.
+### Enhancements
 
-= 3.6.0 =
+ - Add error messages to the image block on upload failures.
+ - Merge similar i18n strings.
+ - Disable clipboard button in file block during upload.
+ - Persist alignment when transforming a gallery to an image and vice-versa.
+ - Copy enhancement to the embed block help text.
+ - Improve the scrolling of the WordPress navigation menu.
 
-* Updated block inserter and library with new icons for all core blocks.
-* Allow showing the sidebar and inspector controls when editing a block in HTML mode.
-* Add new block keyboard shortcuts and consolidate their display in menus:
-* * Insert Before / After block.
-* * Duplicating block.
-* * Toggling the inspector.
-* * Remove block keyboard shortcut.
-* Updated block inserter and library with new icons for all core blocks.
-* Allow showing the sidebar and inspector controls when editing a block in HTML mode.
-* Add new block keyboard shortcuts and consolidate their display in menus:
-* Insert Before / After block.
-* Duplicating block.
-* Toggling the inspector.
-* Remove block keyboard shortcut.
-* Add new keyboard shortcuts help modal documenting available shortcuts.
-* Hide keyboard shortcuts on mobile screens.
-* Open new window if prior preview window has been closed.
-* Bring the preview tab to the front when clicking the preview button.
-* Avoid changing the label of the “publish” button if an auto-save is being performed.
-* Update the Block Inserter to allow searching for terms that contain diacritics.
-* Take into account children blocks when handling disabled blocks.
-* Offer chance to add and revise Tags and Post Format during pre-publish flow.
-* Let menus grow based on the length of its elements.
-* Add visual padding to menus.
-* Avoid scrollbars on Audio block when shown full-width.
-* Improve permalink UI and make it responsive.
-* Change color of links in gallery block caption.
-* Simplify the styling of the “Toggle publish panel” aria-region to avoid content jumps.
-* Make active pill button look pressed.
-* Make sure Latest Posts alignment class behaviour is consistent.
-* Show drop-zone background when file is dragged.
-* Reset active sidebar tab on initial load.
-* Apply new checkbox CSS to radio buttons and fix border radius.
-* Add a couple new dashicons for insert before / after block.
-* Add styles for Spinner component (was relying on core before).
-* Add styles for Notice component.
-* Refactor template select field to use SelectControl.
-* Correctly handle per_page=-1 in the queried data state.
-* Create dummy context components for type switch.
-* Add RegistryConsumer export to data module.
-* Add has_blocks function to the repertoire.
-* Add has_block function and unit tests.
-* Add has_block function and unit tests for it.
-* Introduce strip_dynamic_blocks() for excerpts.
-* Fix issue with default appender placeholder on IE11.
-* Fix issue with shortcode block UI on IE11.
-* Fix tag input interface on IE11.
-* Fix issue with custom element serializer on IE11.
-* Fix issue with meta boxes overlapping the content on IE11.
-* Fix invalidation case of custom block classes.
-* Fix unhandled error dialog styling issue.
-* Fix paragraph splits on react native implementation.
-* Fix code block style regression.
-* Fix issue with code font-size on heading contexts.
-* Fix case where crashed block would overlap with surrounding blocks.
-* Fix issue with block styles on IE11.
-* Fix the heading level buttons on IE11.
-* Fix issues with drag and drop over text.
-* Fix small bug with recent blocks hover style.
-* Use argument swapping instead of named arguments for string placeholders.
-* Pass the the search result object to props.onChange on UrlInput.
-* Add localization context to occurrences of “More” string.
-* Add a Heading block implementation for mobile app.
-* Add the react-native entrypoint to all runtime packages.
-* Move MoreMenu specific styling away from Popover CSS.
-* Ensure meta box functions are available in editor context.
-* Ensure the full content integration test is run.
-* Remove client-side document title updates.
-* Remove TinyMCE shim that was removed in WP 4.9.7.
-* Remove the workaround for intermittent multiple-tab preview test failure.
-* Remove Promise.resolve call that’s already handled by the JS runtime.
-* Remove redundant event handlers from default block appender.
-* Deprecate withContext HOC and remove its usage.
-* Some localization & spelling fixes.
-* Update docs for templateLock’s insert option.
-* Extract Core Blocks to a block-library npm package.
-* Add a license checker script.
-* Allow access to the WordPress installation if DOCKER_ENV=localwpdev.
-* Bring the handbook design up to date.
+### Bug Fixes
+
+ - Fix RTL support for the DatePicker component.
+ - Change the header level in the BlockCompare component.
+ - Show all the taxonomies in the sidebar.
+ - Fix the latest posts date className.
+ - Fix the “align center” button in Latest Posts block in the backend.
+ - Fix block height when DropCap is used.
+ - Fix converting caption shortcode with link.
+ - Fix edge case in addQueryArgs function.
+ - Don’t return the permalink if the CPT is not publicly viewable.
+ - Fix error when saving non public CPTs.
+ - Properly disable the Publish button when saving is disabled.
+
+### Various
+
+ - Show a message in the browser’s console when in Quirks Mode.
+ - Improvements to the @wordpress/scripts package: A new a check-engines command, a lint-style command and an update to lint-js.
+
+### Documentation
+
+ - Add a getting started with JavaScript tutorial.
+ - Document the blocks’ setup states in the design guidelines.
+ - Add content to Contributors index page.
+ - Improve the components documentation:
+    - The MenuItem component.
+    - The RadioControl component.
+    - The ServerSideRender component.
+ - Organise the documentation assets in a dedicated folder.
+ - Clarify immutability of the block attributes.
+ - Fix the metabox back compat code example.
+ - Fix incorrect data module example.
+ - Improve the plugin release docs.
+ - Remove useless property from the colors code example.
+ - Improve the contributing documentation.
+ - Fix npm README links.
+ - Update the design resources link.
+ - Typo fixes.
+
+### Chore
+
+ - Run e2e tests with popular plugins enabled.
+ - Add new e2e tests:
+    - The permalink panel.
+    - The categories panel.
+    - Blocks with meta attributes.
+ - Update node-sass to fix Node 11 support.
+ - Move the dev dependencies to the root package.json.
+ - Improve the Pull Request Template.
+ - More logs to the CI jobs.
+ - Code style fixes and expand the phpcs coverage.
+ - Disable fragile e2e tests.
+ - Avoid PHP notices when running the e2e tests in debug mode.
+
+### Mobile
+
+ - Make a simple version of DefaultBlockAppender.
+ - Stop using classname-to-style autotransform in react native.
+ - Fix SVG styles.
+ - Implement Enter press to add a default block.
+ - Hide keyboard when non textual block is selected.
+ - Fix undo/redo on new blocks.
+ - Pass the blockType prop to RNAztecView.
+ - Expose unregisterBlockType.

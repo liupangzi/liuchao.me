@@ -3,8 +3,8 @@ Contributors: ascom
 Donate link: https://andrewsun.com/donate/
 Tags: katex, latex, mathjax, math, equation, equations, tex
 Requires at least: 3.9
-Tested up to: 4.8
-Stable tag: 1.8.3
+Tested up to: 4.9
+Stable tag: 1.9.1
 Requires PHP: 5.3
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -39,6 +39,26 @@ Jetpack has a LaTeX plugin that uses the WordPress.com service to render the equ
 1. Various equations rendered with WP-KaTeX
 
 == Changelog ==
+= 1.9.1 =
+* Fix bug causing all equations to show in display style
+
+= 1.9.0 =
+* Code cleanup and other minor improvements
+* Updated KaTeX library to 0.9.0
+    * Bug fixes:
+        * Improve JS spacing (#1103)
+        * Fix handling of Unicode characters ð, Å, å (#1157)
+        * Padding over \sqrt and Paths for frac-line (#1143)
+    * New Features:
+        * Italic Greek capital letters (#1118)
+        * Add support for \mathring (#1125)
+        * add support for unicode angle brackets, single vertical bar, double vertical bar (#1123)
+        * Enable spacing functions in text mode (#1139)
+        * Support Reaction Arrows (#1078)
+        * Add \nobreakspace (#1145)
+        * Support Unicode colon equals (#1151)
+        * Support \underline in text mode (#1159)
+
 = 1.8.3 =
 * Updated KaTeX library to 0.8.0
     * Breaking changes:

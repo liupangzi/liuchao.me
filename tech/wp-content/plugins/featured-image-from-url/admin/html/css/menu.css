@@ -1,25 +1,42 @@
 .wrap { 
-    max-width: 900px; 
+    max-width: 1000px; 
     margin: 20px 20px 20px 15px; 
+
+    display: block;
+    -webkit-animation: fadeInFromNone 0.25s step-end;
+    -moz-animation: fadeInFromNone 0.25s step-end;
+    -o-animation: fadeInFromNone 0.25s step-end;
+    animation: fadeInFromNone 0.25s step-end;
 }
 
-.box { 
-    margin: 20px 0 0; 
+.header-box { 
+    margin: 25px 0 0; 
     background: #fff; 
     border: 1px solid #dbdbdb; 
     padding: 20px; 
+    padding-top: 0px;
+    border-radius: 100px 0px 0px;
+    height: 25px !important;
+}
+
+.box { 
+    margin: 25px 0 0; 
+    background: #fff; 
+    border: 1px solid #dbdbdb; 
+    padding: 20px; 
+    padding-top: 10px;
+    border-radius: 15px 50px 30px;
 }
 
 .greybox { 
     margin: 10px 0 0; 
-    background: #f9f9f9; 
+    background: #efefef;
     border: 1px solid #dbdbdb; 
     padding: 20px; 
+    border-radius: 5px 5px 5px;
 }
 
 .greybox p { 
-    font-style: italic; 
-    color: #000000;
 }
 
 .toggleon, .toggleoff { 
@@ -35,18 +52,6 @@
     background: url("<?php echo $image_button ?>") -72px 0 no-repeat; 
 }
 
-.fifubox {
-    border: 1px;
-    color: black;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    border-style: solid;
-}
-
 th, td {
     border-bottom: 1px solid #ddd;
     padding-right: 32px;
@@ -57,10 +62,81 @@ th {
     height: 25px;
 }
 
-#grad1 {
+.ui-widget-header {
+    background: #f9f9f9 !important;
+    border: none !important;
+    font-weight: inherit !important;
 }
 
 #grad2 {
-    border: 1px solid red;
-    border-radius: 15px;
+    border: 1px dashed red;
+    border-radius: 1px;
+}
+
+@-webkit-keyframes fadeInFromNone {
+    0% {
+        display: none;
+        opacity: 0;
+    }
+
+    1% {
+        display: block;
+        opacity: 0;
+    }
+
+    100% {
+        display: block;
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes fadeInFromNone {
+    0% {
+        display: none;
+        opacity: 0;
+    }
+
+    1% {
+        display: block;
+        opacity: 0;
+    }
+
+    100% {
+        display: block;
+        opacity: 1;
+    }
+}
+
+@-o-keyframes fadeInFromNone {
+    0% {
+        display: none;
+        opacity: 0;
+    }
+
+    1% {
+        display: block;
+        opacity: 0;
+    }
+
+    100% {
+        display: block;
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInFromNone {
+    0% {
+        display: none;
+        opacity: 0;
+    }
+
+    1% {
+        display: block;
+        opacity: 0;
+    }
+
+    100% {
+        display: block;
+        opacity: 1;
+    }
 }

@@ -21,7 +21,10 @@ jQuery(function () {
 
     jQuery("#accordion").accordion();
     jQuery("#accordionCrop").accordion();
+    jQuery("#accordionClean").accordion();
     jQuery("#tabs").tabs();
+    jQuery("#tabs-top").tabs();
+    jQuery("#fifu_input_spinner_db").spinner({min: 100, step: 100});
     jQuery("#fifu_input_spinner_image").spinner({min: 0});
     jQuery("#fifu_input_spinner_video").spinner({min: 0});
     jQuery("#fifu_input_spinner_slider").spinner({min: 0});
@@ -29,6 +32,7 @@ jQuery(function () {
     jQuery("#fifu_input_slider_pause").spinner({min: 0});
     jQuery("#tabsApi").tabs();
     jQuery("#tabsPremium").tabs();
+    jQuery("#tabsWpAllImport").tabs();
 });
 
 function save(formName, url) {
@@ -42,3 +46,15 @@ function save(formName, url) {
         }
     });
 }
+
+jQuery(function () {
+    jQuery("#dialog").dialog({
+        autoOpen: false,
+        modal: true,
+        width: "630px",
+    });
+
+    jQuery("#opener").on("click", function () {
+        jQuery("#dialog").dialog("open");
+    });
+});

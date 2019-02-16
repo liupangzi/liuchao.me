@@ -66,9 +66,12 @@ function fifu_remove_first_image($data, $postarr) {
 add_action('save_post', 'fifu_save_properties');
 
 function fifu_save_properties($post_id) {
+    if (!$_POST)
+        return;
+
     /* image url */
     if (isset($_POST['fifu_input_url'])) {
-        $url = esc_url($_POST['fifu_input_url']);
+        $url = $_POST['fifu_input_url'];
         $first = fifu_first_url_in_content($post_id);
         if ($first && fifu_is_on('fifu_get_first') && (!$url || fifu_is_on('fifu_ovw_first')))
             $url = $first;
@@ -82,6 +85,10 @@ function fifu_save_properties($post_id) {
         fifu_update_or_delete_alt($post_id, 'fifu_image_alt', $alt);
     }
 
+    fifu_save($post_id);
+}
+
+function fifu_save($post_id) {
     fifu_update_fake_attach_id($post_id);
 }
 
@@ -99,26 +106,13 @@ function fifu_update_or_delete_alt($post_id, $field, $value) {
         delete_post_meta($post_id, $field, $value);
 }
 
-add_action('before_delete_post', 'fifu_remove_product_gallery');
+add_action('pmxi_saved_post', 'fifu_wai_save');
 
-function fifu_remove_product_gallery($post_id) {
-    global $wpdb;
-    $table_postmeta = $wpdb->prefix . 'postmeta';
-    $table_posts = $wpdb->prefix . 'posts';
-    $query = "
-        SELECT GROUP_CONCAT(meta_value SEPARATOR ',') as 'ids'
-        FROM " . $table_postmeta . " pm
-        WHERE pm.post_id = " . $post_id . "
-        AND pm.meta_key IN ('_thumbnail_id', '_product_image_gallery')";
-    $result = $wpdb->get_results($query);
-    if ($result) {
-        $ids = explode(',', $result[0]->ids);
-        foreach ($ids as $id) {
-            if ($id) {
-                $where = array('id' => $id, 'post_author' => 77777, 'post_type' => 'attachment');
-                $wpdb->delete($table_posts, $where);
-            }
-        }
-    }
+function fifu_wai_save($post_id) {
+    $url = get_post_meta($post_id, 'fifu_image_url', true);
+    fifu_update_or_delete($post_id, 'fifu_image_url', $url);
+    fifu_save($post_id);
 }
+
+add_action('before_delete_post', 'fifu_db_before_delete_post');
 

@@ -1,8 +1,4 @@
-<style><?php include 'css/menu.css' ?></style>
-<script><?php include 'js/menu.js' ?></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css">
-<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-<div class="wrap">
+<div class="wrap" style="opacity:0">
 
     <div class="header-box" style="background-color:#23282d">
         <h1 style="color:white"><img src="http://localhost/wp-content/plugins/featured-image-from-url/admin/images/favicon.png" alt=""> <b>Featured Image from URL</b> 2</h1>
@@ -12,11 +8,10 @@
         <ul>
             <li><a href="#tabs-d">Help</a></li>
             <li><a href="#tabs-k">Admin Area</a></li>
-            <li><a href="#tabs-b">Auto Set</a></li>
+            <li><a href="#tabs-b">Auto Set First Image</a></li>
             <li><a href="#tabs-g">Featured Image</a></li>
             <li><a href="#tabs-j">Metadata</a></li>
             <li><a href="#tabs-i">Performance</a></li>
-            <li><a href="#tabs-f">Product Category</a></li>
             <li><a href="#tabs-q">REST API</a></li>
             <li><a href="#tabs-l">Shortcode</a></li>
             <li><a href="#tabs-m">Slider</a></li>
@@ -25,7 +20,7 @@
             <li><a href="#tabs-c">Video</a></li>
             <li><a href="#tabs-o">WooCommerce</a></li>
             <li><a href="#tabs-p">WP All Import</a></li>
-            <li><a href="#tabs-a">Get Premium Version + Lifetime Updates for US$ 49,90</a></li>
+            <li><a href="#tabs-a">Offer: Premium version + lifetime updates for <b>US$ 45</b></a></li>
             <br>
             <br>
             <div id="tabs-a">
@@ -92,9 +87,9 @@
                             </form>
                         </div>
                         <div style="display:inline-block;top:0px;position:relative">
-                            (<b>US$ 49.90</b> or more, please) and receive the download link by email within 12 hours.<br> 
+                            (<b>US$ 45</b> or more, please) and receive the download link by email within 12 hours.<br> 
                             Moreover, <b>you will have lifetime automatic updates</b>.<br>
-                            And if you need more license keys, you can get 5 by US$ 99.90.
+                            And if you need more license keys, you can get 5 by US$ 100.
                         </div>
                     </div>
                 </div>
@@ -178,6 +173,36 @@
                     </div>
                     <br>
                     <input type="submit" value="Submit" disabled>
+                </div>
+                <div class="box">
+                    <h2>Schedule Metadata Generation</h2>
+                    <div class="greybox" id="grad2">
+                        <b>Premium feature</b><br><br>
+                        If you are setting the image URLs in a nonstandard way, the images probably won't be shown at front-end because some internal metadata is required. Here you can schedule an event to run each N minutes and check if there is some image URL without metadata and create that.<br><br>
+                        <table style="text-align:left">
+                            <tr>
+                                <th>   
+                                    <label for="fifu_input_spinner_cron_metadata" 
+                                           placehold>Interval (minutes)</label>
+                                </th>
+                                <th>
+                                    <input id="fifu_input_spinner_cron_metadata" 
+                                           name="fifu_input_spinner_cron_metadata" 
+                                           size="4">
+                                </th>
+                                <th>
+                                    <input type="submit" value="Submit" disabled>
+                                </th>
+                            </tr>     		                                          
+                        </table>
+                    </div>
+                    <br>
+                    <input 
+                        type="image" 
+                        href="javascript:void(0)" 
+                        class="toggleoff" 
+                        value=""
+                        style="display:block">
                 </div>
             </div>
             <div id="tabs-b">
@@ -634,7 +659,7 @@
                     <h2>CSS Style</h2>
                     <div class="greybox">
                         Here you can define a CSS style to be applied to all external featured images. Usage example:<br><br>
-                        width: 100%; border-radius: 8px; border: 1px solid #ddd; padding: 5px;            
+                        width: 50%; border-radius: 8px; border: 1px solid #ddd; padding: 5px;            
                     </div>
                     <br>
                     <form 
@@ -777,7 +802,12 @@
                                     type="image" 
                                     href="javascript:void(0)" 
                                     id="fifu_toggle_fake2" 
-                                    onclick="invert('fake2')" 
+                                    onclick="invert('fake2');
+                                            time = '<?php echo fifu_db_number_of_posts();?>' / 2;
+                                            jQuery('.wrap').block({message: 'Please wait some seconds...', css: {backgroundColor: 'none', border: 'none', color: 'white'}});
+                                            setTimeout(function () {
+                                                jQuery('.wrap').unblock();
+                                            }, time > 10000 ? time : 5000);"; 
                                     name="fifu_toggle_fake2" 
                                     class="<?php echo $enable_fake2; ?>" 
                                     value=""
@@ -803,7 +833,7 @@
 
                 <div class="box">
 
-                    <h2>Clean meta data</h2>
+                    <h2>Clean metadata</h2>
 
                     <div class="greybox">
 
@@ -814,7 +844,7 @@
                     <br>
 
                     <div id="accordionClean">
-                        <h3>&nbsp;&nbsp;&nbsp;clean meta data</h3> 
+                        <h3>&nbsp;&nbsp;&nbsp;clean metadata</h3> 
                         <div>
                             <form 
                                 id="fifu_form_data_clean" 
@@ -824,7 +854,13 @@
                                     type="image" 
                                     href="javascript:void(0)" 
                                     id="fifu_toggle_data_clean" 
-                                    onclick="invert('data_clean')" 
+                                    onclick="invert('data_clean');
+                                            time = '<?php echo fifu_db_number_of_posts();?>' / 2;
+                                            jQuery('.wrap').block({message: 'Please wait some seconds...', css: {backgroundColor: 'none', border: 'none', color: 'white'}});
+                                            setTimeout(function () {
+                                                window.location.href = '#tabs-j';
+                                                location.reload();
+                                            }, time > 10000 ? time : 5000);";
                                     name="fifu_toggle_data_clean" 
                                     class="<?php echo $enable_data_clean; ?>" 
                                     value=""
@@ -838,7 +874,7 @@
                             </form>
                         </div>
 
-                        <h3>&nbsp;&nbsp;&nbsp;meta data generation</h3>    
+                        <h3>&nbsp;&nbsp;&nbsp;metadata generation</h3>    
                         <div>
                             <form 
                                 id="fifu_form_data_generation" 
@@ -862,69 +898,6 @@
                             </form>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div id="tabs-f">
-                <a name="category"></a>
-                <div class="box">
-                    <h2>Auto Set Product Category Images</h2>
-                    <div class="greybox" id="grad2">
-                        <b>Premium feature</b><br><br>
-                        Enable the toggle below to set one external image to each product category. The image will be the external featured image from the most recent product from that category.
-                    </div>
-                    <br>
-                    <table style="text-align:left">
-                        <tr>
-                            <th>
-                                <input 
-                                    type="image" 
-                                    href="javascript:void(0)" 
-                                    class="toggleoff" 
-                                    value=""
-                                    style="display:block">
-                            </th>
-                            <th>   
-                                set category images
-                            </th>
-                        </tr>             
-                    </table>
-                </div>
-
-                <div class="box">
-                    <h2>Category Image on Product Grid</h2>
-                    <div class="greybox">
-                        That's possible to show the external featured image of your category on category page, immediately before the product grid. To do that, enable the toggle below.
-                    </div>
-                    <br>
-                    <table style="text-align:left">
-                        <tr>
-                            <th>
-                                <form 
-                                    id="fifu_form_grid_category" 
-                                    action="javascript:void(0)" 
-                                    method="post">
-                                    <input 
-                                        type="image" 
-                                        href="javascript:void(0)" 
-                                        id="fifu_toggle_grid_category" 
-                                        onclick="invert('grid_category')" 
-                                        name="fifu_toggle_grid_category" 
-                                        class="<?php echo $enable_grid_category; ?>" 
-                                        value=""
-                                        style="display:block">
-
-                                    <input 
-                                        type="hidden"
-                                        id="fifu_input_grid_category" 
-                                        name="fifu_input_grid_category" 
-                                        value="" >
-                                </form>
-                            </th>
-                            <th>   
-                                show category image on product grid
-                            </th>
-                        </tr>             
-                    </table>
                 </div>
             </div>
             <div id="tabs-l">
@@ -1788,6 +1761,68 @@
                     </table>
                 </div>
 
+                <a name="category"></a>
+                <div class="box">
+                    <h2>Auto Set Product Category Images</h2>
+                    <div class="greybox" id="grad2">
+                        <b>Premium feature</b><br><br>
+                        Enable the toggle below to set one external image to each product category. The image will be the external featured image from the most recent product from that category.
+                    </div>
+                    <br>
+                    <table style="text-align:left">
+                        <tr>
+                            <th>
+                                <input 
+                                    type="image" 
+                                    href="javascript:void(0)" 
+                                    class="toggleoff" 
+                                    value=""
+                                    style="display:block">
+                            </th>
+                            <th>   
+                                set category images
+                            </th>
+                        </tr>             
+                    </table>
+                </div>
+
+                <div class="box">
+                    <h2>Category Image on Product Grid</h2>
+                    <div class="greybox">
+                        That's possible to show the external featured image of your category on category page, immediately before the product grid. To do that, enable the toggle below.
+                    </div>
+                    <br>
+                    <table style="text-align:left">
+                        <tr>
+                            <th>
+                                <form 
+                                    id="fifu_form_grid_category" 
+                                    action="javascript:void(0)" 
+                                    method="post">
+                                    <input 
+                                        type="image" 
+                                        href="javascript:void(0)" 
+                                        id="fifu_toggle_grid_category" 
+                                        onclick="invert('grid_category')" 
+                                        name="fifu_toggle_grid_category" 
+                                        class="<?php echo $enable_grid_category; ?>" 
+                                        value=""
+                                        style="display:block">
+
+                                    <input 
+                                        type="hidden"
+                                        id="fifu_input_grid_category" 
+                                        name="fifu_input_grid_category" 
+                                        value="" >
+                                </form>
+                            </th>
+                            <th>   
+                                show category image on product grid
+                            </th>
+                        </tr>             
+                    </table>
+                </div>
+
                 <a name="variable"></a>
 
                 <div class="box">
@@ -1907,14 +1942,6 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            Image Gallery
-                                        </th>
-                                        <th>
-                                            fifu_image_url_0, fifu_image_url_1, fifu_image_url_2 ...
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th>
                                             Image + Image Gallery (URLs delimited by "|")
                                         </th>
                                         <th>
@@ -1947,14 +1974,6 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            Slider
-                                        </th>
-                                        <th>
-                                            fifu_slider_image_url_0, fifu_slider_image_url_1, fifu_slider_image_url_2 ...
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th>
                                             Slider (URLs delimited by "|")
                                         </th>
                                         <th>
@@ -1981,15 +2000,9 @@
             </div>
             <div id="tabs-d">
                 <div class="box">
-                    <h2>Fast Support</h2>
+                    <h2>Really Fast Support</h2>
                     <div class="greybox">
-                        If you need any help, you can refer to <a href="https://wordpress.org/plugins/featured-image-from-url/faq/" target="_blank">FAQ</a> and <a href="https://wordpress.org/plugins/featured-image-from-url/screenshots/" target="_blank">screenshots</a> or send an email to <b>marcel@featuredimagefromurl.com</b>
-                    </div>
-                </div>
-                <div class="box">
-                    <h2>Report a Bug </h2>
-                    <div class="greybox">
-                        If you are reporting a bug, <b><button id="opener">click here</button></b> and send this dialog data to the email above, please.
+                        If you need any help, you can refer to <a href="https://wordpress.org/plugins/featured-image-from-url/faq/" target="_blank">FAQ</a> and <a href="https://wordpress.org/plugins/featured-image-from-url/screenshots/" target="_blank">screenshots</a> or send an email to <b>marcel@featuredimagefromurl.com</b> (send me this <b><button id="opener">data</button></b>, please).
                     </div>
                 </div>
             </div>

@@ -3,8 +3,8 @@ Contributors: marceljm
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8BLDLZ3HDBGQG
 Tags: featured image, external featured image, featured image from url, url featured image, featured, image, external, url, flickr, s3, picasa, woocommerce, product image, product gallery, product, gallery, column, list, page, post, all, content, custom, type, custom post type, category, video, external video, youtube, vimeo, featured video, hover, effects, hover effects, sirv, wp all import, css, style, slider, thumbnail, social, network,  auto, publish, hide, first image, content, lightbox, size, grid, auto post thumbnail, link, uri, affiliate, wp, rest, api, wp rest api, lazy, load, google, drive, instagram, validation, jetpack, visual composer, play, pause, crop, resize, zoom, enable, disable, default, automatic, auto set, cloudinary, schedule, event, cron, priority, seo, variable, tumblr, variation, product variation, shortcode
 Requires at least: 4.0
-Tested up to: 5.0
-Stable tag: 5.0
+Tested up to: 5.0.3
+Stable tag: 5.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -157,6 +157,21 @@ Features:
 
 == Changelog ==
 
+= 2.3.0 =
+* Bug fix: CSS Style feature.
+
+= 2.2.9 =
+* Bug fix: WP All Import.
+
+= 2.2.8 =
+* Bug fix: allows URLs with special characters now.
+
+= 2.2.7 =
+* Improvement: block UI added to the menu settings.
+
+= 2.2.6 =
+* Bug fixes: menu settings, product category and default external image.
+
 = 2.2.5 =
 * New feature: settings > featured image > original size.
 
@@ -185,7 +200,7 @@ Features:
 * Improvement: WP All Import usage example.
 
 = 2.1.6 =
-* Bug fixes: product category; clean meta data; style issues.
+* Bug fixes: product category; clean metadata; style issues.
 
 = 2.1.5 =
 * Bug fix: parse error on menu.html; Style issue: Gutemberg + Meta Box; Improvement (Premium): integration with Product Variation + WooCommerce Rest API + Product Image Gallery.
@@ -236,7 +251,7 @@ Features:
 * Beta Version (NOT STABLE): a lot of changes were done to overcome some old known issues in FIFU 1, such as problems in image sizes or images that were not shown in some areas, including WooCommerce lightbox and categories. Fake Internal Featured Image and Default External Featured Image features have changed. And Default Width was created.
 
 = 1.9.13 =
-* Improvement: clean meta data feature.
+* Improvement: clean metadata feature.
 
 = 1.9.12 =
 * Improvement: 10 fields for Custom Post Types.
@@ -502,6 +517,21 @@ was removed. To finish, a Premium version is now been presented.
 
 == Upgrade Notice ==
 
+= 2.3.0 =
+* Bug fix: CSS Style feature.
+
+= 2.2.9 =
+* Bug fix: WP All Import.
+
+= 2.2.8 =
+* Bug fix: allows URLs with special characters now.
+
+= 2.2.7 =
+* Improvement: block UI added to the menu settings.
+
+= 2.2.6 =
+* Bug fixes: menu settings, product category and default external image.
+
 = 2.2.5 =
 * New feature: settings > featured image > original size.
 
@@ -530,7 +560,7 @@ was removed. To finish, a Premium version is now been presented.
 * Improvement: WP All Import usage example.
 
 = 2.1.6 =
-* Bug fixes: product category; clean meta data; style issues.
+* Bug fixes: product category; clean metadata; style issues.
 
 = 2.1.5 =
 * Bug fix: parse error on menu.html; Style issue: Gutemberg + Meta Box; Improvement (Premium): integration with Product Variation + WooCommerce Rest API + Product Image Gallery.
@@ -581,7 +611,7 @@ was removed. To finish, a Premium version is now been presented.
 * Beta Version (NOT STABLE): a lot of changes were done to overcome some old known issues in FIFU 1, such as problems in image sizes or images that were not shown in some areas, including WooCommerce lightbox and categories. Fake Internal Featured Image and Default External Featured Image features have changed. And Default Width was created.
 
 = 1.9.13 =
-* Improvement: clean meta data feature.
+* Improvement: clean metadata feature.
 
 = 1.9.12 =
 * Improvement: 10 fields for Custom Post Types.

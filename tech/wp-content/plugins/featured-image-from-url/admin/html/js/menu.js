@@ -1,3 +1,7 @@
+jQuery(document).ready(function () {
+    jQuery('.wrap').css('opacity', 1);
+});
+
 function invert(id) {
     if (jQuery("#fifu_toggle_" + id).attr("class") == "toggleon") {
         jQuery("#fifu_toggle_" + id).attr("class", "toggleoff");
@@ -24,6 +28,7 @@ jQuery(function () {
     jQuery("#accordionClean").accordion();
     jQuery("#tabs").tabs();
     jQuery("#tabs-top").tabs();
+    jQuery("#fifu_input_spinner_cron_metadata").spinner({min: 1, step: 1});
     jQuery("#fifu_input_spinner_db").spinner({min: 100, step: 100});
     jQuery("#fifu_input_spinner_image").spinner({min: 0});
     jQuery("#fifu_input_spinner_video").spinner({min: 0});

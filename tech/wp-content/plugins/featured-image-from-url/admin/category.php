@@ -44,16 +44,17 @@ function fifu_ctgr_add_box() {
     include 'html/category.html';
 }
 
-add_action('edited_product_cat', 'fifu_ctgr_save_properties', 10, 2);
-add_action('create_product_cat', 'fifu_ctgr_save_properties', 10, 2);
+add_action('edited_product_cat', 'fifu_ctgr_save_properties', 10, 1);
+add_action('created_product_cat', 'fifu_ctgr_save_properties', 10, 1);
 
 function fifu_ctgr_save_properties($term_id) {
-    if (isset($_POST['fifu_input_url']))
-        update_term_meta($term_id, 'fifu_image_url', fifu_convert(esc_url($_POST['fifu_input_url'])));
-
     if (isset($_POST['fifu_input_alt']))
         update_term_meta($term_id, 'fifu_image_alt', wp_strip_all_tags($_POST['fifu_input_alt']));
 
-    fifu_ctgr_update_fake_attach_id($term_id);
+    if (isset($_POST['fifu_input_url'])) {
+        $url = $_POST['fifu_input_url'];
+        update_term_meta($term_id, 'fifu_image_url', fifu_convert($url));
+        fifu_db_ctgr_update_fake_attach_id($term_id);
+    }
 }
 

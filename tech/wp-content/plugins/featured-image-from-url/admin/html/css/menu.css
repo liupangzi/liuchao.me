@@ -1,12 +1,6 @@
 .wrap { 
     max-width: 1000px; 
     margin: 20px 20px 20px 15px; 
-
-    display: block;
-    -webkit-animation: fadeInFromNone 0.25s step-end;
-    -moz-animation: fadeInFromNone 0.25s step-end;
-    -o-animation: fadeInFromNone 0.25s step-end;
-    animation: fadeInFromNone 0.25s step-end;
 }
 
 .header-box { 
@@ -44,12 +38,12 @@
     overflow: hidden; 
     width: 72px; 
     height: 24px; 
-    background: url("<?php echo $image_button ?>") 0 0 no-repeat; 
+    background: url("../../images/onoff.jpg") 0 0 no-repeat; 
     text-align: center !important;
 }
 
 .toggleoff { 
-    background: url("<?php echo $image_button ?>") -72px 0 no-repeat; 
+    background: url("../../images/onoff.jpg") -72px 0 no-repeat; 
 }
 
 th, td {
@@ -71,72 +65,4 @@ th {
 #grad2 {
     border: 1px dashed red;
     border-radius: 1px;
-}
-
-@-webkit-keyframes fadeInFromNone {
-    0% {
-        display: none;
-        opacity: 0;
-    }
-
-    1% {
-        display: block;
-        opacity: 0;
-    }
-
-    100% {
-        display: block;
-        opacity: 1;
-    }
-}
-
-@-moz-keyframes fadeInFromNone {
-    0% {
-        display: none;
-        opacity: 0;
-    }
-
-    1% {
-        display: block;
-        opacity: 0;
-    }
-
-    100% {
-        display: block;
-        opacity: 1;
-    }
-}
-
-@-o-keyframes fadeInFromNone {
-    0% {
-        display: none;
-        opacity: 0;
-    }
-
-    1% {
-        display: block;
-        opacity: 0;
-    }
-
-    100% {
-        display: block;
-        opacity: 1;
-    }
-}
-
-@keyframes fadeInFromNone {
-    0% {
-        display: none;
-        opacity: 0;
-    }
-
-    1% {
-        display: block;
-        opacity: 0;
-    }
-
-    100% {
-        display: block;
-        opacity: 1;
-    }
 }

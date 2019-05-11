@@ -2,13 +2,13 @@
 
 add_filter('wp_head', 'fifu_add_js');
 add_filter('wp_head', 'fifu_add_social_tags');
-add_filter('wp_head', 'fifu_add_sirv_js');
 add_filter('wp_head', 'fifu_apply_css');
 
 function fifu_add_js() {
     if (fifu_is_on('fifu_lazy')) {
-        wp_register_script('lazyload', plugins_url('/html/js/jquery.lazyloadxt.extra.js', __FILE__), array('jquery'));
-        wp_enqueue_script('lazyload');
+        wp_enqueue_script('lazyload', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyloadxt/1.1.0/jquery.lazyloadxt.min.js');
+        wp_enqueue_script('lazyload-srcset', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyloadxt/1.1.0/jquery.lazyloadxt.srcset.min.js');
+        wp_enqueue_style('lazyload-spinner', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyloadxt/1.1.0/jquery.lazyloadxt.spinner.min.css');
     }
     include 'html/script.html';
 }
@@ -21,13 +21,6 @@ function fifu_add_social_tags() {
 
     if ($url && fifu_is_on('fifu_social'))
         include 'html/social.html';
-}
-
-function fifu_add_sirv_js() {
-    include_once (ABSPATH . 'wp-admin/includes/plugin.php');
-    if (is_plugin_active('sirv/sirv.php')) {
-        include 'html/sirv.html';
-    }
 }
 
 function fifu_apply_css() {
@@ -95,10 +88,6 @@ function is_ajax_call() {
 }
 
 function fifu_get_html($url, $alt, $width, $height) {
-    include_once (ABSPATH . 'wp-admin/includes/plugin.php');
-    if (is_plugin_active('sirv/sirv.php') && strpos($url, "sirv.com") !== false)
-        return sprintf('<!-- Featured Image from URL plugin --> <img class="Sirv" data-src="%s">', $url);
-
     $css = get_option('fifu_css');
 
     if (fifu_should_hide()) {

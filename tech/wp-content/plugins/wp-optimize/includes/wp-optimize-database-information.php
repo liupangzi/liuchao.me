@@ -94,16 +94,11 @@ class WP_Optimize_Database_Information {
 	 * @return bool|mixed
 	 */
 	public function get_table_status($table_name, $update = false) {
-		global $wpdb;
 
-		if (false == $update) {
-			$tables_info = $this->get_show_table_status();
+		$tables_info = $this->get_show_table_status($update);
 
-			foreach ($tables_info as $table_info) {
-				if ($table_name == $table_info->Name) return $table_info;
-			}
-		} else {
-			return $wpdb->get_row($wpdb->prepare('SHOW TABLE STATUS LIKE %s;', $table_name));
+		foreach ($tables_info as $table_info) {
+			if ($table_name == $table_info->Name) return $table_info;
 		}
 
 		return false;
@@ -112,13 +107,14 @@ class WP_Optimize_Database_Information {
 	/**
 	 * Returns result for query SHOW TABLE STATUS.
 	 *
+	 * @param bool $update refresh or no cached data
 	 * @return array
 	 */
-	public function get_show_table_status() {
+	public function get_show_table_status($update = false) {
 		global $wpdb;
 		static $tables_info = array();
 
-		if (empty($tables_info) || !is_array($tables_info)) {
+		if ($update || empty($tables_info) || !is_array($tables_info)) {
 			$tables_info = $wpdb->get_results('SHOW TABLE STATUS');
 		}
 
@@ -400,23 +396,25 @@ class WP_Optimize_Database_Information {
 	 * @return bool
 	 */
 	public function is_table_using_by_plugin($table) {
-		$plugin_name = $this->get_table_plugin($table);
+		$plugin_names = $this->get_table_plugin($table);
 
 		// if we can't determine which plugin use $table then return true.
-		if (false == $plugin_name) {
+		if (false == $plugin_names) {
 			return true;
 		}
 
 		// is WordPress core table or using by any of installed plugins then return true.
-		if (__('WordPress core', 'wp-optimize') == $plugin_name || in_array($plugin_name, $this->get_all_installed_plugins())) {
-			return true;
+		foreach ($plugin_names as $plugin_name) {
+			if (__('WordPress core', 'wp-optimize') == $plugin_name || in_array($plugin_name, $this->get_all_installed_plugins())) {
+				return true;
+			}
 		}
 
 		return false;
 	}
 
 	/**
-	 * Get information about relations between tables and plugins. [ 'table' => 'plugin', ... ].
+	 * Get information about relations between tables and plugins. [ 'table' => ['plugin1', 'plugin2', ...], ... ].
 	 *
 	 * @return array
 	 */
@@ -425,13 +423,15 @@ class WP_Optimize_Database_Information {
 
 		$wp_core_tables = array(
 			'blogs',
-			'blogversions',
+			'blog_versions',
 			'commentmeta',
 			'comments',
 			'links',
 			'options',
 			'postmeta',
 			'posts',
+			'registration_log',
+			'signups',
 			'term_relationships',
 			'term_taxonomy',
 			'termmeta',
@@ -453,12 +453,12 @@ class WP_Optimize_Database_Information {
 		}
 
 		foreach ($wp_core_tables as $table) {
-			$plugin_tables[$table] = __('WordPress core', 'wp-optimize');
+			$plugin_tables[$table][] = __('WordPress core', 'wp-optimize');
 		}
 
 		// add WP-Optimize tables.
-		$plugin_tables['tm_taskmeta'] = 'wp-optimize';
-		$plugin_tables['tm_tasks'] = 'wp-optimize';
+		$plugin_tables['tm_taskmeta'][] = 'wp-optimize';
+		$plugin_tables['tm_tasks'][] = 'wp-optimize';
 
 		return $plugin_tables;
 	}
@@ -467,7 +467,7 @@ class WP_Optimize_Database_Information {
 	 * Try to get plugin name by table name and return it or return false if plugin is not defined.
 	 *
 	 * @param string $table
-	 * @return string|bool
+	 * @return array|bool - array with plugin slugs or false.
 	 */
 	public function get_table_plugin($table) {
 		global $wpdb;

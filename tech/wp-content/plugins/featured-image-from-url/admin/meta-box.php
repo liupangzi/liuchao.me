@@ -16,8 +16,8 @@ function fifu_insert_meta_box() {
 add_action('add_meta_boxes', 'fifu_add_css');
 
 function fifu_add_css() {
-    wp_register_style('fifu-premium', plugins_url('/html/css/editor.css', __FILE__));
-    wp_enqueue_style('fifu-premium');
+    wp_register_style('featured-image-from-url', plugins_url('/html/css/editor.css', __FILE__));
+    wp_enqueue_style('featured-image-from-url');
 }
 
 function fifu_show_elements($post) {
@@ -26,18 +26,16 @@ function fifu_show_elements($post) {
     $height = 'height:200px;';
     $align = 'text-align:left;';
     $show_news = 'display:inline';
-    $is_sirv_active = is_plugin_active('sirv/sirv.php');
 
     $url = get_post_meta($post->ID, 'fifu_image_url', true);
     $alt = get_post_meta($post->ID, 'fifu_image_alt', true);
 
     if ($url) {
-        $show_button = $show_sirv = 'display:none;';
+        $show_button = 'display:none;';
         $show_alt = $show_image = $show_link = '';
     } else {
         $show_alt = $show_image = $show_link = 'display:none;';
         $show_button = '';
-        $show_sirv = ($is_sirv_active ? '' : 'display:none;');
     }
 
     include 'html/meta-box.html';
@@ -66,12 +64,12 @@ function fifu_remove_first_image($data, $postarr) {
 add_action('save_post', 'fifu_save_properties');
 
 function fifu_save_properties($post_id) {
-    if (!$_POST)
+    if (!$_POST || get_post_type($post_id) == 'nav_menu_item')
         return;
 
     /* image url */
     if (isset($_POST['fifu_input_url'])) {
-        $url = $_POST['fifu_input_url'];
+        $url = esc_url_raw($_POST['fifu_input_url']);
         $first = fifu_first_url_in_content($post_id);
         if ($first && fifu_is_on('fifu_get_first') && (!$url || fifu_is_on('fifu_ovw_first')))
             $url = $first;
@@ -115,4 +113,14 @@ function fifu_wai_save($post_id) {
 }
 
 add_action('before_delete_post', 'fifu_db_before_delete_post');
+
+/* regular woocommerce import */
+
+add_action('woocommerce_product_import_inserted_product_object', 'fifu_woocommerce_import');
+
+function fifu_woocommerce_import($object) {
+    $post_id = $object->get_id();
+    fifu_wai_save($post_id);
+    fifu_update_fake_attach_id($post_id);
+}
 

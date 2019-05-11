@@ -1,6 +1,6 @@
 .wrap { 
     max-width: 1000px; 
-    margin: 20px 20px 20px 15px; 
+    margin: 20px 20px 20px 15px;
 }
 
 .header-box { 
@@ -9,17 +9,18 @@
     border: 1px solid #dbdbdb; 
     padding: 20px; 
     padding-top: 0px;
-    border-radius: 100px 0px 0px;
+    border-radius: 100px 45px 0px 0px;
     height: 25px !important;
+    background: repeating-linear-gradient(-55deg,#23282d,#23282d 2px,#32373c 2px,#32373c 5px);
 }
 
 .box { 
     margin: 25px 0 0; 
-    background: #fff; 
+    background: #ffffff85; 
     border: 1px solid #dbdbdb; 
     padding: 20px; 
     padding-top: 10px;
-    border-radius: 15px 50px 30px;
+    border-radius: 60px 15px 15px 15px;
 }
 
 .greybox { 
@@ -27,7 +28,12 @@
     background: #efefef;
     border: 1px solid #dbdbdb; 
     padding: 20px; 
-    border-radius: 5px 5px 5px;
+    border-radius: 15px 15px 15px 15px;
+    background: repeating-linear-gradient(-55deg,#efefef,#efefef 2px,#efefefb3 2px,#efefefb3 5px);
+}
+
+#tabs-top{
+    border-radius: 0px 0px 15px 15px;
 }
 
 .greybox p { 
@@ -48,7 +54,8 @@
 
 th, td {
     border-bottom: 1px solid #ddd;
-    padding-right: 32px;
+    padding-right: 8px;
+    padding-left: 8px;
     font-weight: normal;
 }
 
@@ -65,4 +72,26 @@ th {
 #grad2 {
     border: 1px dashed red;
     border-radius: 1px;
+    border-radius: 15px 15px 15px 15px;
+}
+
+/* table */
+
+#thumbnail-size {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#thumbnail-size td, #thumbnail-size th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#thumbnail-size tr:nth-child(even){background-color: #f2f2f2;}
+
+#thumbnail-size th {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    background-color: #23282d;
+    color: white;
 }

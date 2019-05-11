@@ -3,8 +3,8 @@ Contributors: ascom
 Donate link: https://andrewsun.com/donate/
 Tags: katex, latex, mathjax, math, equation, equations, tex
 Requires at least: 3.9
-Tested up to: 4.9
-Stable tag: 1.9.1
+Tested up to: 5.1
+Stable tag: 1.10.1+1
 Requires PHP: 5.3
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -39,25 +39,190 @@ Jetpack has a LaTeX plugin that uses the WordPress.com service to render the equ
 1. Various equations rendered with WP-KaTeX
 
 == Changelog ==
+= 1.10.1 =
+* Updated KaTeX library to 0.10.1
+	* Added
+		- ECMAScript module for contrib (#1624)
+		- mhchem extension (#1436)
+		- auto-render: optional pre-process callback (#1784)
+		- \argmax and \argmin (#1820)
+		- \textbackslash and \textasciicircum (#1839)
+		- leqno and fleqn support (#1814)
+
+	* Fixed
+		- Support blackboard bold in text mode (#1757)
+		- Fix spacings in semisimple groups (#1706)
+		- Fix parsing comments (#1789)
+		- Fix \\ and \newline after operator (#1796)
+		- Fix \hphantom width (#1809)
+		- Remove double encoding in MathML (#1813)
+		- Fix Unicode bigcup (#1836)
+		- Fix \genfrac w/ empty delimiter arguments (#1816)
+		- \fbox inherits default color (#1847)
+		- Fix \not and \neq on Chrome 72 (#1852)
+
+= 1.10.0 =
+* Updated KaTeX library to 0.10.0
+    * Added
+        - Unicode: °, delimiters, 1D400-1D7FF, \ll, \lll, ≘≙≚≛≝≞≟, Unicode Mathematical Alphanumeric Symbols, ⟂ ¬ ⊨ ‼ ∌ ≲ ⩽ ⪅ ≶ ⋚ ⪋, corner, ⟦⟧ (#1203, #1207, #1260, #1273, #1274, #1232, #1377, #1389, #1459, #1750)
+        - \yen support on text mode (#1208)
+        - `\(` (#1213)
+        - Add defineSymbol to the main katex object (#1263)
+        - Capital Greek letters (#1283, #1285)
+        - Add version to katex object (#1279, #1475)
+        - \copyright, \textregistered, \textcircled (#1073)
+        - Tilde \textasciitilde (#1286)
+        - Line breaks for inline formulas (#1287)
+        - \hline (#1306)
+        - Top-level \newline and `\\` in inline math (#1298)
+        - Strict mode, unicode text in math mode (#1117, #1278)
+        - Strict setting for \newline display-mode behavior (#1314)
+        - Allow all Unicode symbols in nonstrict mode (#1217)
+        - \tag, \tag*, and \gdef (#1309)
+        - \def, \gdef, and \global\def (#1348, #1425)
+        - Change default maxExpand limit to 1000 (#1383)
+        - \cfrac (#1392)
+        - \arraystretch as a macro definition (#1381)
+        - Add ability to create a dashed vertical line in arrays, using ':' (#1395)
+        - \widecheck (#1406)
+        - \hdashline (#1407)
+        - \newcommand, \renewcommand, \providecommand (#1382)
+        - Add a utility function (setFontMetrics) to extend builtin fontMetrics (#1269)
+        - \oiint and \oiiint (#1430)
+        - Remove `match-at` dependency, use RegExp for lexer (#1447)
+        - \brace and \brack (#1453)
+        - Allow only allowed protocols in \href (#1440)
+          - **BREAKING CHANGE:** Only "http", "https", "mailto", and relative URLs are allowed in \href and \url by default.
+        - \genfrac and \above (#1455, #1458)
+        - \char character escaping and nicer MathML via \html@mathml (#1454)
+        - \@binrel (#1487)
+        - \pmb (#1418)
+        - 6-digit color without # (#1690)
+        - \mathnormal (#1700)
+        - \lparen and \rparen (#1741)
+        - `\>` (#1752)
+    * Fixed:
+        - Fix nested math mode in non-default text mode (#1111)
+        - Fix contenteditable mode (#1179)
+        - Work around negative space bug in Chrome (#1194)
+        - Fix \nobreakspace (#1200)
+        - Fix instant mode switching for $, \(, \text (#1213)
+        - Add metrics for \S and \P (#1224)
+        - Fix anchor.toMarkup (#1246)
+        - Specify height for SVG elements (#1252)
+        - Include Bold-Italic fonts for \boldsymbol (#1257)
+        - Fix space width in \texttt (#1261)
+        - Fix \underset (#1277)
+        - Remove special \verb space handling now that space is in Typewriter-Regular (#1258)
+        - Switch makeGlue from .mord .rule to .mspace (#1295)
+        - Fix ~ in \verb (#1286)
+        - Stop throwing ParseError when throwOnError is false (#1169, #1302, #1308)
+        - Fix extensible arrow sup vertical alignment (#1256)
+        - Adjust \underset alignment and spacing (#1290)
+        - Revert frac-lines and \rule to borders (min-height) (#1249, #1417, #1594)
+        - Fix vertical alignment of \underbrace (#1304)
+        - Use one strut instead of two (#1307)
+        - Fix MacroExpander space handling (#1314)
+        - Cleanup MathML `<mrow>`, `<mtext>`, `<mn>` (#1338)
+        - Fix lap vertical alignment. (#1162)
+        - Fix nested \tfrac (#1370)
+        - Fix \coloneq etc (#1372)
+        - Fix wide character spacing (#1371)
+        - Fix auto-render \\[…] bug (#1375)
+        - Rewrite spacing commands as macros (#1156)
+        - Enable output modules to be used in browser or Node (#1401)
+        - Add vertical kern to \vdots (#1402)
+        - Implement \neq and \notin via macros like LaTeX's (#1400, #1499)
+        - Improve \cancel (#1398)
+        - Fix ligatures vs. \tt (#1379)
+        - Implement \colon as amsmath does (#1410)
+        - Automatic mrel/mbin spacing for \boldsymbol (#1388)
+        - Phantom text (#1449)
+        - Fix arrowheads for mhchem <--> (#1451)
+        - Set `documentFragment.style` to empty object (#1471)
+        - Remove tree cloning before building HTML (#1470)
+        - Fix \operatorname to support general math functions (#1461)
+        - Use \not character without left side-bearing correction (#1267)
+        - Remove codes that require expensive polyfill (#1469, #1563, #1591, #1597)
+        - Fix \not vertical alignment (#1497)
+        - Comments without terminating newlines, \href fixes, \url support (#1529)
+        - Fix \textdaggerdbl (#1539)
+        - Fix \neq (#1548, #1574)
+        - Fix wide characters (#1549)
+        - Fix \fbox (#1550)
+        - Fix \Large roots (#1485)
+        - Remove duplicate defineFunction invocation for \mathop (#1701)
+        - Fix tag positioning to live within katex-html parent (#1721)
+        - Fix \mathit font and italic correction (#1700)
+
 = 1.9.1 =
 * Fix bug causing all equations to show in display style
 
 = 1.9.0 =
 * Code cleanup and other minor improvements
 * Updated KaTeX library to 0.9.0
-    * Bug fixes:
-        * Improve JS spacing (#1103)
-        * Fix handling of Unicode characters ð, Å, å (#1157)
-        * Padding over \sqrt and Paths for frac-line (#1143)
-    * New Features:
-        * Italic Greek capital letters (#1118)
-        * Add support for \mathring (#1125)
-        * add support for unicode angle brackets, single vertical bar, double vertical bar (#1123)
-        * Enable spacing functions in text mode (#1139)
-        * Support Reaction Arrows (#1078)
-        * Add \nobreakspace (#1145)
-        * Support Unicode colon equals (#1151)
-        * Support \underline in text mode (#1159)
+    * Fixed:
+        - Fixed exponential behavior in accent production. [#834](https://github.com/Khan/KaTeX/pull/834)
+        - Use mpadded for `\raisebox` MathML. [#876](https://github.com/Khan/KaTeX/pull/876)
+        - Array/Matrix environments do not trim newlines. Fixed [#337](https://github.com/Khan/KaTeX/issues/337). PR is [#479](https://github.com/Khan/KaTeX/pull/479).
+        - Fixed space handling. [#912](https://github.com/Khan/KaTeX/pull/912)
+        - Prevents disappearing fraction lines. [#931](https://github.com/Khan/KaTeX/pull/931)
+        - Fixed the spacing between columns in the {aligned} environment. [#942](https://github.com/Khan/KaTeX/pull/942)
+        - Fixed issue where the {aligned} environment skips the last line if the first column is empty. [#949](https://github.com/Khan/KaTeX/pull/949)
+        - Appended `ApplyFunction` to math functions in MathML. [#960](https://github.com/Khan/KaTeX/pull/960)
+        - Changed `\undertilde` to `\utilde`. [#948](https://github.com/Khan/KaTeX/pull/948)
+        - Changed `frac-line` from border to full span. [#976](https://github.com/Khan/KaTeX/pull/976)
+        - Avoid negative space in `\bmod`. [#984](https://github.com/Khan/KaTeX/pull/984)
+        - Stacking text commands. [#1009](https://github.com/Khan/KaTeX/pull/1009)
+        - Fixed `\vec` by replacing the combining font glyph with an SVG. [#1018](https://github.com/Khan/KaTeX/pull/1018)
+        - Made accents zero width. [#1033](https://github.com/Khan/KaTeX/pull/1033)
+        - Fixed frac-line. [#1025](https://github.com/Khan/KaTeX/pull/1025)
+        - Implemented correct macros for `liminf` and `limsup`. Fixed [#111](https://github.com/Khan/KaTeX/issues/111)
+        - `\kern` generates right-margin instead of left-margin. Fixed [#995](https://github.com/Khan/KaTeX/issues/995)
+        - Do not inherit SVG style properties from the environment. [#1089](https://github.com/Khan/KaTeX/pull/1089)
+        - Update fonts and metrics so that accents are positioned correctly [#1094](https://github.com/Khan/KaTeX/pull/1094)
+        - Use correct spacing with tight styles. See [#1106](https://github.com/Khan/KaTeX/pull/1106) for more details.
+        - Improved JS spacing [#1103](https://github.com/Khan/KaTeX/pull/1103)
+        - Fixed handling of Unicode characters ð, Å, å [#1157](https://github.com/Khan/KaTeX/pull/1157)
+        - Padding over `\sqrt` and Paths for frac-line [#1143](https://github.com/Khan/KaTeX/pull/1143)
+    * Added:
+        - Added `\smash`, laps, spaces, and phantoms. [#833](https://github.com/Khan/KaTeX/pull/833)
+        - Support for `\raisebox`, `\operatorname`, `\And`, `\colorbox`, `\fcolorbox` and `\verb`.
+        - Added support for comments.
+        - Added Unicode Relations and Unicode Symbol support. Supports Unicode ∴, ∵, `\mid`, Arrows, Big Operators, Binary Operators, Negated Relations.
+        - Implemented the `alignedat` environment for flexible math spacing. [#930](https://github.com/Khan/KaTeX/pull/930)
+        - Implemented `\mathchoice` command. [#969](https://github.com/Khan/KaTeX/pull/969)
+        - Implemented `\href` command. [#923](https://github.com/Khan/KaTeX/pull/923)
+        - `\hspace*`, `\@ifstar`, `\@ifnextchar`, `\@firstoftwo` (#975)
+        - Added `\notni` character `∌`. [#710](https://github.com/Khan/KaTeX/pull/710)
+        - `\kern` fixed and support `\hskip`, `\TeX`, `\LaTeX`, `\KaTeX`. See [#974](https://github.com/Khan/KaTeX/pull/974)
+        - Supported Unicode middle dot and Unicode accents.
+        - Added basic support for Indic scripts in addition to CJK. [#1060](https://github.com/Khan/KaTeX/pull/1060)
+        - Added support for bold italic symbols. [#1011](https://github.com/Khan/KaTeX/pull/1011)
+        - add `\ae`, `\AE`, `\oe`, `\OE`, `\o`, `\O`, `\ss` with unicode support for those characters in text mode. [#1030](https://github.com/Khan/KaTeX/pull/1030)
+        - Added `\i` and `\j` for text mode. [#1029](https://github.com/Khan/KaTeX/pull/1029)
+        - Implemented `\TextOrMath`, @secondoftwo. [#1024](https://github.com/Khan/KaTeX/pull/1024)
+        - Added support for `\aa`, `\AA`, `\lq`, `\rq`, `\lbrack`, `\rbrack` [#1069](https://github.com/Khan/KaTeX/pull/1069)
+        - Added support for more scripts in `\text{}` environments such as Czech, Georgian, Hungarian, Turkish. [#1076](https://github.com/Khan/KaTeX/pull/1076)
+        - add Main-BoldItalic font to allow nesting of `\textit` and `\textbf`
+        - Added `\S` and `\P` [#1110](https://github.com/Khan/KaTeX/pull/1110)
+        - Italic Greek capital letters [#1118](https://github.com/Khan/KaTeX/pull/1103)
+        - Added support for `\mathring` [#1125](https://github.com/Khan/KaTeX/pull/1125)
+        - Added support for unicode angle brackets, single vertical bar, double vertical bar [#1123](https://github.com/Khan/KaTeX/pull/1123)
+        - Added support for Reaction Arrows [#1078](https://github.com/Khan/KaTeX/pull/1078)
+        - Added `\nobreakspace` [#1145](https://github.com/Khan/KaTeX/pull/1145)
+        - Added support for Unicode colon equals ≔ [#1151](https://github.com/Khan/KaTeX/pull/1151)
+        - Added support for `\underline` in text mode [#1159](https://github.com/Khan/KaTeX/pull/1159)
+    * Changed:
+        - Advanced macro support and magic `\dots`. [#794](https://github.com/Khan/KaTeX/pull/794)
+        - Allow sizing commands inside optional groups. [#885](https://github.com/Khan/KaTeX/pull/885)
+        - Upgraded `\sqrt` zoom and width. [#890](https://github.com/Khan/KaTeX/pull/890)
+        - Single-character macros like active characters. [#973](https://github.com/Khan/KaTeX/pull/973)
+        - Changed `\xLongequal` to `\xlongequal`. [#997](https://github.com/Khan/KaTeX/pull/997)
+        - Enable spacing functions in text mode [#1139](https://github.com/Khan/KaTeX/pull/1139)
+    * Breaking changes:
+        - `\llap` and `\rlap` now render contents in math mode. Use `\mathllap` (new) and `\mathrlap` (new) if you need the previous behavior.
+
 
 = 1.8.3 =
 * Updated KaTeX library to 0.8.0

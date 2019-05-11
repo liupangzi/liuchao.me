@@ -3,8 +3,8 @@ Contributors: marceljm
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8BLDLZ3HDBGQG
 Tags: featured image, external featured image, featured image from url, url featured image, featured, image, external, url, flickr, s3, picasa, woocommerce, product image, product gallery, product, gallery, column, list, page, post, all, content, custom, type, custom post type, category, video, external video, youtube, vimeo, featured video, hover, effects, hover effects, sirv, wp all import, css, style, slider, thumbnail, social, network,  auto, publish, hide, first image, content, lightbox, size, grid, auto post thumbnail, link, uri, affiliate, wp, rest, api, wp rest api, lazy, load, google, drive, instagram, validation, jetpack, visual composer, play, pause, crop, resize, zoom, enable, disable, default, automatic, auto set, cloudinary, schedule, event, cron, priority, seo, variable, tumblr, variation, product variation, shortcode
 Requires at least: 4.0
-Tested up to: 5.0.3
-Stable tag: 5.0.3
+Tested up to: 5.2
+Stable tag: 5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -156,6 +156,54 @@ Features:
 20. Lightbox zoom.
 
 == Changelog ==
+
+= 2.4.6 =
+* Bug fix: lazy load.
+
+= 2.4.5 =
+* Bug fix: undefined function error for PHP5 users.
+
+= 2.4.4 =
+* Bug fix: Yoast warnings/notices.
+
+= 2.4.3 =
+* Bug fixes: lightbox image size; metadata cache and lockscreen.
+
+= 2.4.2 =
+* Bug fixes: examples of import files; broken favicon; metadata lockscreen; URLs from WordPress sites.
+
+= 2.4.1 =
+* Improvement: integration with REST API + Custom Post Types.
+
+= 2.4.0 =
+* Improvement: FIFU column shows the images in the same size now.
+
+= 2.3.9 =
+* Offer: premium version + lifetime updates for US$ 35.
+
+= 2.3.8 =
+* Bug fix: Lazy Load feature.
+
+= 2.3.7 =
+* Improvement: Lazy Load feature will show an animated spinner while image is loading.
+
+= 2.3.6 =
+* Improvement: you can buy the Premium version with Bitcoins now.
+
+= 2.3.5 =
+* Improvement: settings link added to plugins page; some measures to avoid style conflicts.
+
+= 2.3.4 =
+* Offer: premium version + lifetime updates for US$ 40.
+
+= 2.3.3 =
+* Improvement: added usage examples of WP All Import and REST API.
+
+= 2.3.2 =
+* Improvement: sanitize the URL before saving.
+
+= 2.3.1 =
+* Improvement: compatible with WooCommerce Import feature now.
 
 = 2.3.0 =
 * Bug fix: CSS Style feature.
@@ -516,6 +564,54 @@ was removed. To finish, a Premium version is now been presented.
 * It's the first and only version so far.
 
 == Upgrade Notice ==
+
+= 2.4.6 =
+* Bug fix: lazy load.
+
+= 2.4.5 =
+* Bug fix: undefined function error for PHP5 users.
+
+= 2.4.4 =
+* Bug fix: Yoast warnings/notices.
+
+= 2.4.3 =
+* Bug fixes: lightbox image size; metadata cache and lockscreen.
+
+= 2.4.2 =
+* Bug fixes: examples of import files; broken favicon; metadata lockscreen; URLs from WordPress sites.
+
+= 2.4.1 =
+* Improvement: integration with REST API + Custom Post Types.
+
+= 2.4.0 =
+* Improvement: FIFU column shows the images in the same size now.
+
+= 2.3.9 =
+* Offer: premium version + lifetime updates for US$ 35.
+
+= 2.3.8 =
+* Bug fix: Lazy Load feature.
+
+= 2.3.7 =
+* Improvement: Lazy Load feature will show an animated spinner while image is loading.
+
+= 2.3.6 =
+* Improvement: you can buy the Premium version with Bitcoins now.
+
+= 2.3.5 =
+* Improvement: settings link added to plugins page; some measures to avoid style conflicts.
+
+= 2.3.4 =
+* Offer: premium version + lifetime updates for US$ 40.
+
+= 2.3.3 =
+* Improvement: added usage examples of WP All Import and REST API.
+
+= 2.3.2 =
+* Improvement: sanitize the URL before saving.
+
+= 2.3.1 =
+* Improvement: compatible with WooCommerce Import feature now.
 
 = 2.3.0 =
 * Bug fix: CSS Style feature.

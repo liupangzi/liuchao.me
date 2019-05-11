@@ -5,10 +5,13 @@ define('FIFU_SETTINGS', serialize(array('fifu_social', 'fifu_original', 'fifu_la
 add_action('admin_menu', 'fifu_insert_menu');
 
 function fifu_insert_menu() {
-    wp_enqueue_style('jquery-ui-style', '//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css');
-    wp_enqueue_script('jquery-ui', 'https://code.jquery.com/ui/1.11.4/jquery-ui.min.js');
-    wp_enqueue_script('jquery', 'https://code.jquery.com/jquery-1.11.3.min.js');
-    wp_enqueue_script('jquery-block-ui', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js');
+    if (strpos($_SERVER['REQUEST_URI'], 'featured-image-from-url') !== false) {
+        wp_enqueue_style('font-awesome', 'https://use.fontawesome.com/releases/v5.7.0/css/all.css');
+        wp_enqueue_style('jquery-ui-style', '//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css');
+        wp_enqueue_script('jquery-ui', 'https://code.jquery.com/ui/1.11.4/jquery-ui.min.js');
+        wp_enqueue_script('jquery', 'https://code.jquery.com/jquery-1.11.3.min.js');
+        wp_enqueue_script('jquery-block-ui', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js');
+    }
 
     add_menu_page('Featured Image from URL', 'Featured Image from URL', 'administrator', 'featured-image-from-url', 'fifu_get_menu_html', plugins_url() . '/featured-image-from-url/admin/images/favicon.png', 57);
 
@@ -58,15 +61,6 @@ function fifu_get_menu_html() {
     } else
         fifu_disable_fake();
 
-    // fake 2
-    if (fifu_is_on('fifu_fake2')) {
-        update_option('fifu_data_generation', 'toggleoff');
-        fifu_enable_fake2();
-    } else if (fifu_is_off('fifu_fake2')) {
-        fifu_disable_fake2();
-    } else
-        update_option('fifu_fake_created', null, 'no');
-
     // default
     if (!empty($default_url) && fifu_is_on('fifu_enable_default_url') && fifu_is_on('fifu_fake2')) {
         if (!wp_get_attachment_url(get_option('fifu_default_attach_id'))) {
@@ -77,12 +71,6 @@ function fifu_get_menu_html() {
             fifu_db_update_default_url($default_url);
     } else
         fifu_db_delete_default_url();
-
-    // clean
-    if (fifu_is_on('fifu_data_clean')) {
-        fifu_db_enable_clean();
-        update_option('fifu_data_clean', 'toggleoff', 'no');
-    }
 }
 
 function fifu_get_menu_settings() {

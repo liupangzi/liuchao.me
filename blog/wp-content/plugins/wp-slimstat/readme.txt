@@ -5,8 +5,8 @@ Tags: analytics, statistics, counter, tracking, reports, wassup, geolocation, on
 Text Domain: wp-slimstat
 Requires at least: 3.8
 Requires PHP: 5.2
-Tested up to: 5.1
-Stable tag: 4.8
+Tested up to: 5.2
+Stable tag: 4.8.3
 
 == Description ==
 The leading web analytics plugin for WordPress. Track returning customers and registered users, monitor Javascript events, detect intrusions, analyze email campaigns. Thousands of WordPress sites are already using it.
@@ -75,6 +75,33 @@ Our knowledge base is available on our [support center](https://docs.wp-slimstat
 5. **Responsive layout** - Keep an eye on your reports on the go
 
 == Changelog ==
+
+== 4.8.3 ==
+* [Note] Thank you for all the great feedback you provided to our unofficial survey about retiring the 'browser plugins' feature. The vast majority of those who replied confirmed what we already thought. Please consider backing up your database if you would like to preserve this information for future analysis. With this update, we removed the portion of code that tracks that information, but kept the existing data untouched. In a couple of releases, code will be added to actually drop this column from the database.
+* [New] If English is not your primary languge, Slimstat will now display a notice asking for your help to [translate our plugin](https://translate.wordpress.org/projects/wp-plugins/wp-slimstat/) in your language. Please consider volunteering for this great opportunity to help our community!
+* [Update] We are working with the GlotPress community to improve the way Slimstat speaks your language. We had to change the way certain strings are defined in our source code. Please let us know if you notice any unexpected behavior when analyzing languages, countries and operating systems.
+* [Update] Removed Facebook rankings metrics, as the API has been deprecated and the new one is not accessible without a private token.
+* [Update] MozRank has been deprecated, we have replaced it with the Domain Authority metric.
+* [Update] Spring cleaning in the 'admin notices' department: removed some obsolete CSS code, replaced by built-in WP classes and definitions.
+* [Fix] Changed the default minimum capability to access the reports from 'activate_plugins' to 'manage_options', so that regular administrators (a.k.a. non-super admins) in a multisite environment can still see their own reports (thank you, [homepageware](https://wordpress.org/support/topic/slimstat-and-multisite/)). This update does not affect existing installations: if you want regular admins to see their own stats, please go to Slimstat > Settings > Access Control and change the values in the corresponding fields.
+* [Fix] The autorefresh feature for the Activity Log was not working as expected. Thank you to all the users who patiently worked with us to identify the issue.
+* [Fix] A conflict between the Async loader and AmCharts 4 was causing the Screen Options tab to not work as expected (thank you, [softfully](https://wordpress.org/support/topic/screen-options-doesnt-open/)).
+* [Fix] Removed unused setting 'Expand Reports'
+
+= 4.8.2 = 
+* [Note] Our team has been contemplating the idea of deprecating the information collected about your visitors' *browser plugins* (Java, PDF reader, RealView player, Silverlight, etc). In this day and age, where browsers use either built-in functionality to provide those features, or extensions that cannot be tracked for privacy purposes, it feels anachronistic to continue collecting this outdated information. By getting rid of this specific feature, we can streamline our code, improve performance, and reduce the database size. However, we wanted to hear from our users before anything is actually implemented. Please do not hesitate [to let us know](https://support.wp-slimstat.com) if you are using the 'browser plugins' field for your reporting needs.
+* [New] Many CRM integration plugins rely mostly on the user emails, not usernames. For this reason, a new email field has been added to the database (thank you, [sandrodz](https://github.com/sandrodz)).
+* [Update] Changed the preset intervals in the date filter dropdown so that you can get a day over day comparison (Monday over Monday, etc) for improved accuracy.
+* [Update] [AmCharts](https://www.amcharts.com/javascript-charts/), the library used to render all of our charts, has been updated to version 4.4.9.
+* [Fix] The countdown timer on the Activity Log was not working as expected (thank you, [anniest](https://wordpress.org/support/topic/no-refresh-2/)).
+* [Fix] The countdown timer was causing an warning message to appear on other screens.
+* [Fix] Minor aesthetic improvements.
+
+= 4.8.1 =
+* [Update] Async mode will now serialize concurrent requests to the backend to optimize performance and reduce server load.
+* [Fix] Addressed a remote XSS vulnerability disclosed by Sucuri/GoDaddy.
+* [Fix] Charts were displaying the wrong label for certain values (thank you, Alex).
+
 = 4.8 =
 * [Note] Now that we have a cleaner foundation to build on, it's time to start introducing new reports and new ways to segment your audience and the traffic they generate. While our users test the latest changes and updates (to confirm that the foundation is indeed solid and bug-free), we are hard at work implementing the first batch of new reports. Some of them will be made available in the free version, while others will be added to our premium add-on, [User Overview](http://www.wp-slimstat.com/downloads/user-overview/). And we need your help! If you think that a specific report should be added to Slimstat, please do not hesitate to let us know!
 * [Note] Worried about the recent [news regarding jQuery vulnerabilities](https://www.zdnet.com/article/popular-jquery-javascript-library-impacted-by-prototype-pollution-flaw/)? Slimstat doesn't use jQuery as a dependency, so you can sleep tight knowing that your website will not be affected.
@@ -127,81 +154,3 @@ Our knowledge base is available on our [support center](https://docs.wp-slimstat
 * [New] The comparison chart is now always displayed, using new criteria to determine the range to use. You may want to update your settings (Settings > Reports > Default Time Span > Days, and Reports > Comparison Chart) to mimic the old behavior or hide the comparison chart altogether, if you like.
 * [Update] We've reintroduced the various levels of granularity for our charts: hourly (when a single day is selected), daily (for ranges up to 120 days) and monthly. Also, the comparison chart is now always available, regardless of the selected time range. Thank you, [WebsiteOpzetten](https://wordpress.org/support/topic/char-is-not-displayed-when-the-selected-time-range-is-comprised-of-a-single-day/).
 * [Update] Tooltips across the interface have a more uniform behavior.
-
-= 4.7.6.1 =
-* [Fix] The new Javascript library was interfering with the dropdown menus on the WordPress Dashboard. Thanks to all of those who helped us troubleshoot the issue.
-
-= 4.7.6 =
-* [Note] As we mentioned earlier, we've been working on streamlining and cleaning up our source code. It's incredible how layers of code can deposit on top of each other, until they form a thick layer that prevents developers from seeing clearly what's happening. It was time to apply some virtual citric acid to descale our code. If you're using any kind of server caching functionality, please make sure to clear your cache before opening a support request. Also, do not hesitate to reach out to us if you notice any strange or unusual behaviors.
-* [New] You can now download the geolocation map as a PDF file or PNG image. Thank you, Steve, for suggesting this feature!
-* [New] You can now exclude pageviews by content type, like 404, taxonomy, search, etc. Thank you, [victor50g](https://wordpress.org/support/topic/suggestion-enable-filtering-on-content-404/).
-* [Update] Deprecated the 'direction' filter, which was a leftover from over 5 years ago, when we used our old interface.
-* [Fix] The cron job to archive old records was not firing as expected under certain circumstances.
-* [Fix] Charts did not render correctly, if no data was available for that specific view.
-
-= 4.7.5.3 =
-* [New] For those who can't manage to automatically update their local copy of our premium add-ons, we've added a link to manually download the zip file. You'll find it under the Plugins screen, once you've entered and saved the corresponding license key under Slimstat > Add-ons.
-* [Update] The [Update Checker](https://github.com/YahnisElsts/plugin-update-checker) library has been updated to version 4.4.
-* [Fix] The world map was not being displayed correctly if no data points were available for the selected time range (thank you, Michel).
-
-= 4.7.5.2 =
-* [Update] You can now customize the amount of dots displayed on the World Map, under Slimstat > Settings > Reports > Access Log and World Map. Thank you, [service4](https://wordpress.org/support/topic/new-geolocation-map-with-cities/).
-* [Fix] A dependency error was being highlighted for one of our premium add-ons under certain circumstances. Thank you, Peter.
-* [Fix] The option to not set the session cookie was not working as expected. Thank you, [Bjarne](https://wordpress.org/support/topic/disable-cookies-2/#post-9887099).
-
-= 4.7.5.1 =
-* [Update] Implemented a workaround to try and fix the "Forbidden" error that a few users are experiencing when trying to download the MaxMind Geolite2 data file.
-* [Fix] Updated the link to manually download the MaxMind data file from their servers, and added a new page to our knowledge base to explain how to manually install it.
-
-= 4.7.5 =
-* [New] Now that Slimstat is capable of geolocating visitors at the city level, wouldn't it make sense to display those visitors on the map? Well, of course! Go check out this new feature by accessing the Geolocation tab in Slimstat.
-* [New] Updated the tracking script to handle events triggered by external libraries, like the [Vimeo API](https://github.com/vimeo/player.js/#events). Thank you, Max.
-* [New] Added new operator "included_in_set", which allows you to list multiple values to match against, when composing a shortcode.
-* [New] Added new option to avoid that Slimstat assigns a COOKIE to your visitors. Thank you, [dragon013](https://wordpress.org/support/topic/disable-cookies-2/).
-* [Fix] A bug was preventing the feature to "restrict users" to only see their reports from working as expected.
-
-= 4.7.4.1 =
-* [Update] The Browscap data file is now loaded only when needed, thus removing its inherent overhead when unnecessary.
-* [Update] The Browscap data file has been updated to the latest version available on their repository (ver 6026).
-* [Fix] Addressed a remote XSS Vulnerability responsibly disclosed by one of our customers. Thank you, [riscybusiness](https://wordpress.org/support/topic/security-vulnerability-affecting-slimstat/).
-* [Fix] Reintroduced the WHOIS pin, which has been removed by mistake because of a regression bug. Thank you, [brachialis](https://wordpress.org/support/topic/whois-location-icon-disappear/).
-
-= 4.7.4 =
-* [Update] New fields added to the Email Report and Export to Excel add-ons, by extending how certain reports are defined in core.
-* [Fix] The [false positive](https://www.virustotal.com/#/file/43f69d9c4028f857b5b5544ea4559c03b4d58e02d75617482db517c626164363/detection) alert related to a virus in our code was fixed by updating [AmChart](https://www.amcharts.com/) to the latest version available (thank you, Sasa).
-* [Fix] Removed a PHP warning of undefined index (thank you, [slewis1000 and Sasa](https://wordpress.org/support/topic/php-notice-undefined-index-country/))
-* [Fix] The MozScape report was causing connectivity issues for some users, and it is now set as "hidden" by default.
-* [Fix] Regression bug related to our Export to Excel add-on.
-
-= 4.7.3.1 =
-* [Fix] Apparently more people than we initially thought have issues with the MaxMind data file not being saved as expected. We are introducing a temporary fix while we try to investigate this issue further.
-
-= 4.7.3 =
-* [Fix] A [few users](https://wordpress.org/support/topic/cannot-install-maxmind-geolite-db/) pointed out a weird behavior when installing the MaxMind Geolocation data file, where an empty folder would be created instead of the actual file. If you still experience issues related to this problem, please make sure to delete the empty folder "maxmind.mmdb" under `wp-content/uploads/wp-slimstat/`.
-* [Fix] Apparently Microsoft Security Essentials [was not pleased with our code](https://wordpress.org/support/topic/trojandownloader097m-donoff-detected-in-archive/), and was returning a false positive alert that a virus was included with the source code (thank you, Sasa).
-* [Fix] The "content_id" filter could not be used in a shortcode to reference other pages (i.e. `[slimstat f='count-all' w='id']content_id equals 2012[/slimstat]`). Thank you, Felipe.
-* [Fix] Country flags were not being displayed properly under certain circumstances (thank you, [Catmaniax](https://wordpress.org/support/topic/minor-issue-missing-png-file/)).
-* [Fix] Bug preventing the new Heatmap Add-on from working as expected.
-
-= 4.7.2.2 =
-* [New] Added support for SCRIPT_DEBUG: by defining this constant in your `wp-config.php` will make Slimstat load the unminified version of the javascript tracker (thank you, Sasa)
-* [Update] Added new parameter to make the `admin-ajax.php` URL relative, to solve issues like [this one](https://wordpress.org/support/topic/xmlhttprequest-cannot-load-wp-adminadmin-ajax-php-3/).
-* [Fix] The Network Settings premium add-on was not working because of a bug in the main plugin. Thank you, Steve, for pointing us into the right direction.
-* [Fix] Updated the schema (columns) for the archive table.
-
-
-= 4.7.2.1 =
-* [Fix] The new table columns "location" and "city" were not being created on a fresh install (thank you, [nielsgoossens](https://wordpress.org/support/topic/no-data-anymore-2/#post-9491034))
-* [Fix] Async mode was not working as expected (thank you, [keithgbcc](https://wordpress.org/support/topic/doesnt-work-1694/#post-9487448))
-
-= 4.7.2 =
-* [New] As those who have been using Slimstat for a while know, we never stop doing our good share of research and development to improve our plugin. One feature on our wishlist was to make the geolocation functionality more accurate. Specifically, users have been asking us to track not just the Country of origin, but possibly the state and city. In order to geolocate visitors, our code has been leveraging a third-party data file provided by [MaxMind.com](https://www.maxmind.com/en/home). A while ago, they launched a new data format, which improves performance and offers a way to quickly determine the city of origin. However, the new library required a higher version of PHP, and up until now we had been hesitant to adopt it, to allow more people to use our plugin, over the chance of offering this feature. Now, after spending some time combing through their code, we found a way to get the best of both worlds: by customizing their PHP library, we were able to make it work with PHP 5.3! Which means that now Slimstat is able to tell you your visitors' city of origin (and State, when applicable) right out of the box. This information is available in the Access Log report and in a new 'Top Cities' report under the Audience tab. Please note: the MaxMind data file to enable this feature is approximately 60 Mb, and for this reason <strong>this new functionality is not enabled by default</strong>. You must go to Slimstat > Settings > Tracker and turn on the corresponding option. Then go to Slimstat > Settings > Maintenance and uninstall/install the GeoLite file to download the one that contains the city data. Please feel free to contact us if you have any questions.
-* [Update] Removed backward compatibility code for those updating from a version prior to 4.2. Hopefully most of our users are using a newer version that that. If you're not, please contact our support service for instructions on how to upgrade.
-* [Update] The format used to save your settings in the database has been changed. You MUST update your premium add-ons as soon as possible, and get the version compatible with this new format, or you might notice unexpected behaviors. Please contact us if you experience difficulties updating your add-ons.
-* [Update] Cleaned up some old CSS code affecting the reports.
-
-= 4.7.1 =
-* [Fix] The new feature introduced in version 4.6.9.1 to allow our users to customize the default time range for the reports, had introduced a regression bug. Thank you to all our users who volunteered to test the bugfix.
-* [Fix] A vulnerability has been disclosed by [Pluginvulnerabilities.com](pluginvulnerabilities.com): an attacker with admin credentials could leverage the import/export mechanism for the plugin's settings to inject some malicious code. We recommend that you upgrade to the latest version of Slimstat as soon as possible.
-* [Fix] The new version of the [Add-on Update Checker library](https://github.com/YahnisElsts/plugin-update-checker), bundled with the previous release, was returning a fatal error under certain circumstances (thank you, Pepe).
-

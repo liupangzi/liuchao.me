@@ -10,20 +10,6 @@
 	float: right;
 }
 
-/* Admin Notice */
-.slimstat-notice{
-	overflow: hidden;
-}
-.slimstat-notice span{
-	width: 97%;
-}
-.slimstat-notice .fixed-height {
-	height: 120px;
-	margin-bottom: 20px;
-	overflow: auto;
-	padding: 0 20px 0 0;
-}
-
 /* Filters */
 #slimstat-filters-post{
 	display: none;
@@ -207,6 +193,7 @@
 [id^=slim_] p.pagination a{
 	color: #444;
 	float: right;
+	margin-left: 5px;
 }
 [id^=slim_] p.pagination a:hover{
 	text-shadow: 0 0 2px #000;
@@ -418,29 +405,6 @@
 	height: 0 !important;
 }
 
-/* Settings */
-#slimstat-message{
-	background-color: #555;
-	clear: both;
-	color: #fff;
-	overflow: hidden;
-	padding: 0 10px;
-}
-#slimstat-message p:before{
-	content: "\f339";
-	font-family: 'dashicons';
-	margin-right: 10px;
-	vertical-align: bottom;
-}
-#slimstat-message.wp-ui-notification p:before{
-	content: "\f160";
-}
-#slimstat-message p{
-	line-height: 1em;
-}
-#slimstat-message a{
-	color: #fc0;
-}
 .nav-tabs{
 	margin: 20px 1px 0;
 }
@@ -612,7 +576,7 @@
 	}
 	.wrap.slimstat .postbox h3 {
 		font-size: 1em;
-		line-height: 1.5em;
+		line-height: 1.2em;
 	}
 	.wrap.slimstat .postbox p {
 		font-size: 1em;
@@ -629,9 +593,6 @@
 	}
 }
 @media screen and (max-width: 800px){
-	.slimstat-notice span {
-		width: 90%;
-	}
 	#slimstat-filters input.text, #slimstat-filters select {
 		margin: 0 .5% 0 0;
 		width: 26%;

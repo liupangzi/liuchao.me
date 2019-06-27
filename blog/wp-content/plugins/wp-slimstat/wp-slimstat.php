@@ -3,7 +3,7 @@
 Plugin Name: Slimstat Analytics
 Plugin URI: https://wordpress.org/plugins/wp-slimstat/
 Description: The leading web analytics plugin for WordPress
-Version: 4.8
+Version: 4.8.3
 Author: Jason Crouse
 Author URI: https://www.wp-slimstat.com/
 Text Domain: wp-slimstat
@@ -15,7 +15,7 @@ if ( !empty( wp_slimstat::$settings ) ) {
 }
 
 class wp_slimstat {
-	public static $version = '4.8';
+	public static $version = '4.8.3';
 	public static $settings = array();
 
 	public static $wpdb = '';
@@ -147,7 +147,7 @@ class wp_slimstat {
 		// Is this a request to record a new pageview?
 		if ( self::$data_js[ 'op' ] == 'add' || self::$data_js[ 'op' ] == 'update' ) {
 
-			// Track client-side information (screen resolution, plugins, etc)
+			// Track client-side information (screen resolution, server latency, etc)
 			if ( !empty( self::$data_js[ 'bw' ] ) ) {
 				self::$stat[ 'resolution' ] = strip_tags( trim( self::$data_js[ 'bw' ] . 'x' . self::$data_js[ 'bh' ] ) );
 			}
@@ -156,9 +156,6 @@ class wp_slimstat {
 			}
 			if ( !empty( self::$data_js[ 'sh' ] ) ) {
 				self::$stat[ 'screen_height' ] = intval( self::$data_js[ 'sh' ] );
-			}
-			if ( !empty( self::$data_js[ 'pl' ] ) ) {
-				self::$stat[ 'plugins' ] = strip_tags( trim( self::$data_js[ 'pl' ] ) );
 			}
 			if ( !empty( self::$data_js[ 'sl' ] ) && self::$data_js[ 'sl' ] > 0 && self::$data_js[ 'sl' ] < 60000 ) {
 				self::$stat[ 'server_latency' ] = intval( self::$data_js[ 'sl' ] );
@@ -172,7 +169,7 @@ class wp_slimstat {
 			self::slimtrack();
 		}
 		else if ( self::$data_js[ 'op' ] == 'update' ) {
-			// Update an existing pageview with client-based information (resolution, plugins installed, etc)
+			// Update an existing pageview with client-based information (resolution, server latency, etc)
 			self::_set_visit_id( true );
 
 			// ID of the pageview to update
@@ -521,13 +518,14 @@ class wp_slimstat {
 			}
 
 			self::$stat[ 'username' ] = $GLOBALS[ 'current_user' ]->data->user_login;
+			self::$stat[ 'email' ] = $GLOBALS[ 'current_user' ]->data->user_email;
 			self::$stat[ 'notes' ][] = 'user:' . $GLOBALS[ 'current_user' ]->data->ID;
 			$not_spam = true;
 		}
 		elseif ( isset( $_COOKIE[ 'comment_author_' . COOKIEHASH ] ) ) {
 			// Is this a spammer?
 			$spam_comment = self::$wpdb->get_row( self::$wpdb->prepare( "
-				SELECT comment_author, COUNT(*) comment_count
+				SELECT comment_author, comment_author_email, COUNT(*) comment_count
 				FROM `" . DB_NAME . "`.{$GLOBALS['wpdb']->comments}
 				WHERE comment_author_IP = %s AND comment_approved = 'spam'
 				GROUP BY comment_author
@@ -539,13 +537,20 @@ class wp_slimstat {
 					self::_set_error_array( sprintf( __( 'Spammer %s not tracked', 'wp-slimstat' ), $spam_comment[ 'comment_author' ] ), true );
 					return $_argument;
 				}
-				else{
+				else {
 					self::$stat[ 'notes' ][] = 'spam:yes';
 					self::$stat[ 'username' ] = $spam_comment[ 'comment_author' ];
+					self::$stat[ 'email' ] = $spam_comment[ 'comment_author_email' ];
 				}
 			}
-			else
-				self::$stat[ 'username' ] = $_COOKIE[ 'comment_author_' . COOKIEHASH ];
+			else {
+				if ( !empty( $_COOKIE[ 'comment_author_' . COOKIEHASH ] ) ) {
+					self::$stat[ 'username' ] = sanitize_user( $_COOKIE[ 'comment_author_' . COOKIEHASH ] );
+				}
+				if ( !empty( $_COOKIE[ 'comment_author_email_' . COOKIEHASH ] ) ) {
+					self::$stat[ 'email' ] = sanitize_email( $_COOKIE[ 'comment_author_email_' . COOKIEHASH ] );
+				}
+			}
 		}
 
 		// Should we ignore this IP address?
@@ -1325,13 +1330,13 @@ class wp_slimstat {
 		$response = wp_safe_remote_get( $url, array( 'timeout' => 300, 'stream' => true, 'filename' => $tmpfname, 'user-agent'  => 'Slimstat Analytics/' . self::$version . '; ' . home_url() ) );
 
 		if ( is_wp_error( $response ) ) {
-		        unlink( $tmpfname );
-		        return $response;
+			unlink( $tmpfname );
+			return $response;
 		}
 
 		if ( 200 != wp_remote_retrieve_response_code( $response ) ){
-		        unlink( $tmpfname );
-		        return new WP_Error( 'http_404', trim( wp_remote_retrieve_response_message( $response ) ) );
+			unlink( $tmpfname );
+			return new WP_Error( 'http_404', trim( wp_remote_retrieve_response_message( $response ) ) );
 		}
 
 		return $tmpfname;
@@ -1363,7 +1368,6 @@ class wp_slimstat {
 		// Init the database library with the appropriate filters
 		if ( strpos ( $_content, 'WHERE:' ) !== false ) {
 			$where = html_entity_decode( str_replace( 'WHERE:', '', $_content ), ENT_QUOTES, 'UTF-8' );
-			// wp_slimstat_db::init();
 		}
 		else{
 			wp_slimstat_db::init( html_entity_decode( $_content, ENT_QUOTES, 'UTF-8' ) );
@@ -1382,6 +1386,8 @@ class wp_slimstat {
 
 				wp_register_style( 'wp-slimstat-frontend', plugins_url( '/admin/css/slimstat.frontend.css', __FILE__ ) );
 				wp_enqueue_style( 'wp-slimstat-frontend' );
+
+				wp_slimstat_reports::$reports_info[ $w ][ 'callback_args' ][ 'is_widget' ] = true;
 
 				ob_start();
 				echo wp_slimstat_reports::report_header( $w );
@@ -1435,6 +1441,10 @@ class wp_slimstat {
 
 				// Format results
 				$output = array();
+
+				// Load localization strings
+				include_once( plugin_dir_path( __FILE__ ) . 'languages/dynamic_strings.php' );
+
 				foreach( $results as $result_idx => $a_result ) {
 					foreach( $w as $a_column ) {
 						$output[ $result_idx ][ $a_column ] = "<span class='col-$a_column'>";
@@ -1445,7 +1455,7 @@ class wp_slimstat {
 								break;
 
 							case 'country':
-								$output[ $result_idx ][ $a_column ] .= __( 'c-' . $a_result[ $a_column ], 'wp-slimstat' );
+								$output[ $result_idx ][ $a_column ] .= slim_i18n::get_string( 'c-' . $a_result[ $a_column ] );
 								break;
 
 							case 'display_name':
@@ -1468,11 +1478,11 @@ class wp_slimstat {
 								break;
 
 							case 'language':
-								$output[ $result_idx ][ $a_column ] .= __( 'l-' . $a_result[ $a_column ], 'wp-slimstat' );
+								$output[ $result_idx ][ $a_column ] .= slim_i18n::get_string( 'l-' . $a_result[ $a_column ] );
 								break;
 
 							case 'platform':
-								$output[ $result_idx ][ $a_column ] .= __( $a_result[ $a_column ], 'wp-slimstat' );
+								$output[ $result_idx ][ $a_column ] .= slim_i18n::get_string( $a_result[ $a_column ] );
 								break;
 
 							case 'post_link':
@@ -1585,7 +1595,7 @@ class wp_slimstat {
 				'dimension' => array(
 					'description' => __( 'This parameter indicates what dimension to return: * (all data), ip, resource, browser, operating system, etc. You can only specify one dimension at a time.', 'wp-slimstat' ),
 					'type' => 'string',
-					'enum' => array( '*', 'id', 'ip', 'username', 'country', 'referer', 'resource', 'searchterms', 'browser', 'platform', 'language', 'resolution', 'content_type', 'content_id', 'outbound_resource' )
+					'enum' => array( '*', 'id', 'ip', 'username', 'email', 'country', 'referer', 'resource', 'searchterms', 'browser', 'platform', 'language', 'resolution', 'content_type', 'content_id', 'outbound_resource' )
 				),
 				'filters' => array(
 					'description' => __( 'This parameter is used to filter a given dimension (resources, browsers, operating systems, etc) so that it satisfies certain conditions (i.e.: browser contains Chrome). Please make sure to urlencode this value, and to use the usual filter format: browser contains Chrome&&&referer contains slim (encoded: browser%20contains%20Chrome%26%26%26referer%20contains%20slim)', 'wp-slimstat' ),
@@ -1633,7 +1643,6 @@ class wp_slimstat {
 		return array(
 			'version' => self::$version,
 			'secret' => wp_hash( uniqid( time(), true ) ),
-			'show_admin_notice' => 0,
 			'browscap_last_modified' => 0,
 
 			// General
@@ -1644,7 +1653,7 @@ class wp_slimstat {
 
 			'add_dashboard_widgets' => 'on',
 			'use_separate_menu' => 'on',
-			'posts_column_day_interval' => 30,
+			'posts_column_day_interval' => 28,
 			'add_posts_column' => 'no',
 			'posts_column_pageviews' => 'on',
 			'hide_addons' => 'no',
@@ -1719,13 +1728,13 @@ class wp_slimstat {
 
 			// Access Control
 			'restrict_authors_view' => 'on',
-			'capability_can_view' => 'activate_plugins',
+			'capability_can_view' => 'manage_options',
 			'can_view' => '',
 
-			'capability_can_customize' => 'activate_plugins',
+			'capability_can_customize' => 'manage_options',
 			'can_customize' => '',
 
-			'capability_can_admin' => 'activate_plugins',
+			'capability_can_admin' => 'manage_options',
 			'can_admin' => '',
 
 			'rest_api_tokens' => wp_hash( uniqid( time() - 3600, true ) ),
@@ -1735,6 +1744,13 @@ class wp_slimstat {
 			'show_sql_debug' => 'no',
 			'no_maxmind_warning' => 'no',
 			'no_browscap_warning' => 'no',
+
+			// Notices
+			'notice_latest_news' => 'on',
+			'notice_browscap' => 'on',
+			'notice_geolite' => 'on',
+			'notice_caching' => 'on',
+			'notice_translate' => 'on',
 
 			// Network-wide Settings
 			'locked_options' => ''
@@ -1865,8 +1881,8 @@ class wp_slimstat {
 		// Copy entries to the archive table, if needed
 		if ( self::$settings[ 'auto_purge_delete' ] != 'no' ) {
 			$is_copy_done = self::$wpdb->query("
-				INSERT INTO {$GLOBALS['wpdb']->prefix}slim_stats_archive (id, ip, other_ip, username, country, location, city, referer, resource, searchterms, plugins, notes, visit_id, server_latency, page_performance, browser, browser_version, browser_type, platform, language, user_agent, resolution, screen_width, screen_height, content_type, category, author, content_id, outbound_resource, dt_out, dt)
-				SELECT id, ip, other_ip, username, country, location, city, referer, resource, searchterms, plugins, notes, visit_id, server_latency, page_performance, browser, browser_version, browser_type, platform, language, user_agent, resolution, screen_width, screen_height, content_type, category, author, content_id, outbound_resource, dt_out, dt
+				INSERT INTO {$GLOBALS['wpdb']->prefix}slim_stats_archive (id, ip, other_ip, username, email, country, location, city, referer, resource, searchterms, plugins, notes, visit_id, server_latency, page_performance, browser, browser_version, browser_type, platform, language, user_agent, resolution, screen_width, screen_height, content_type, category, author, content_id, outbound_resource, dt_out, dt)
+				SELECT id, ip, other_ip, username, email, country, location, city, referer, resource, searchterms, plugins, notes, visit_id, server_latency, page_performance, browser, browser_version, browser_type, platform, language, user_agent, resolution, screen_width, screen_height, content_type, category, author, content_id, outbound_resource, dt_out, dt
 				FROM {$GLOBALS[ 'wpdb' ]->prefix}slim_stats
 				WHERE dt < $days_ago");
 
@@ -1996,7 +2012,7 @@ class slimstat_widget extends WP_Widget {
 	 */
 	public function form( $instance ) {
 		// Let's build the dropdown
-		include_once( dirname(__FILE__) . '/admin/view/wp-slimstat-reports.php' );
+		include_once( plugin_dir_path( __FILE__ ) . 'admin/view/wp-slimstat-reports.php' );
 		wp_slimstat_reports::init();
 		$select_options = '';
 		$slimstat_widget_id = !empty( $instance[ 'slimstat_widget_id' ] ) ? $instance[ 'slimstat_widget_id' ] : '';

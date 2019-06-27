@@ -43,11 +43,11 @@ class wp_slimstat_db {
 			'resource' => array( __( 'Permalink', 'wp-slimstat' ), 'varchar' ),
 			'referer' => array( __( 'Referer', 'wp-slimstat' ), 'varchar' ),
 			'username' => array( __( 'Visitor\'s Username', 'wp-slimstat' ), 'varchar' ),
+			'email' => array( __( 'Visitor\'s Email', 'wp-slimstat' ), 'varchar' ),
 			'outbound_resource' => array( __( 'Outbound Link', 'wp-slimstat' ), 'varchar' ),
 			'page_performance' => array( __( 'Page Speed', 'wp-slimstat' ), 'int' ),
 			'no_filter_selected_2' => array( '', 'none' ),
 			'no_filter_selected_3' => array( __( '-- Advanced filters --', 'wp-slimstat' ), 'none' ),
-			'plugins' => array( __( 'Browser Capabilities', 'wp-slimstat' ), 'varchar' ),
 			'browser_version' => array( __( 'Browser Version', 'wp-slimstat' ), 'varchar' ),
 			'browser_type' => array( __( 'Browser Type', 'wp-slimstat' ), 'int' ),
 			'user_agent' => array( __( 'User Agent', 'wp-slimstat' ), 'varchar' ),
@@ -895,21 +895,6 @@ class wp_slimstat_db {
 		return $results;
 	}
 
-	public static function get_plugins() {
-		$wp_slim_plugins = array( 'flash', 'silverlight', 'acrobat', 'java', 'mediaplayer', 'director', 'real', 'quicktime' );
-		$total_human_hits = wp_slimstat_db::count_records( 'id', 'visit_id > 0 AND browser_type <> 1' );
-		$results = array();
-
-		foreach ( $wp_slim_plugins as $i => $a_plugin ) {
-			$count_results = wp_slimstat_db::count_records( 'id', "plugins LIKE '%{$a_plugin}%'" );
-			$results[ $i ][ 'metric' ] = ucfirst( $a_plugin );
-			$results[ $i ][ 'value' ] = ( $total_human_hits > 0 ) ? number_format( ( 100 * $count_results / $total_human_hits ), 2, wp_slimstat_db::$formats[ 'decimal' ], wp_slimstat_db::$formats[ 'thousand' ] ) : 0;
-			$results[ $i ][ 'details' ] = __( 'Hits', 'wp-slimstat' ) . ": $count_results";
-		}
-
-		return $results;
-	}
-
 	public static function get_recent( $_dimension = 'id', $_where = '', $_having = '', $_use_date_filters = true, $_as_column = '', $_more_dimensions = '', $_order_by = 'dt DESC' ) {
 		// This function can be passed individual arguments, or an array of arguments
 		if ( is_array( $_dimension ) ) {
@@ -931,7 +916,7 @@ class wp_slimstat_db {
 			$dimensions .= ', ip, dt';
 		}
 		else {
-			$dimensions = 'id, ip, other_ip, username, country, city, location, referer, resource, searchterms, plugins, notes, visit_id, server_latency, page_performance, browser, browser_version, browser_type, platform, language, user_agent, resolution, screen_width, screen_height, content_type, category, author, content_id, outbound_resource, dt_out, dt';
+			$dimensions = 'id, ip, other_ip, username, email, country, city, location, referer, resource, searchterms, plugins, notes, visit_id, server_latency, page_performance, browser, browser_version, browser_type, platform, language, user_agent, resolution, screen_width, screen_height, content_type, category, author, content_id, outbound_resource, dt_out, dt';
 		}
 
 		if ( !empty( $_more_dimensions ) ) {

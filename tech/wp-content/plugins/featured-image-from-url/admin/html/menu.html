@@ -8,7 +8,7 @@
         <ul>
             <li><a href="#tabs-d">Help</a></li>
             <li><a href="#tabs-k">Admin Area</a></li>
-            <li><a href="#tabs-b">Auto Set First Image</a></li>
+            <li><a href="#tabs-b">Auto Set First Image/Video</a></li>
             <li><a href="#tabs-g">Featured Image</a></li>
             <li><a href="#tabs-j">Metadata</a></li>
             <li><a href="#tabs-i">Performance</a></li>
@@ -20,7 +20,7 @@
             <li><a href="#tabs-c">Video</a></li>
             <li><a href="#tabs-o">WooCommerce</a></li>
             <li><a href="#tabs-p">WP All Import</a></li>
-            <li><a href="#tabs-a">Premium version <b style="border-radius:2px;padding:3px;background-color:#32373c;color:white">40%OFF</b></a></li>
+            <li><a href="#tabs-a">Premium version <b style="border-radius:2px;padding:3px;background-color:#32373c;color:white">20%OFF</b></a></li>
             <br>
             <br>
             <div id="tabs-a">
@@ -38,9 +38,9 @@
                                 <tr>
                                     <td style="width:60%"
                                         <div>
-                                            Donate <b>US$ 29,90</b> and receive the download link by email within 12 hours.<br>
+                                            Donate <strike>US$ 50,00</strike> <b>US$ 39,90</b> and receive your license key and the download link by email within 12 hours.
                                             Moreover, <b>you will have lifetime automatic updates</b>.<br><br>
-                                            <i>* price valid for May 2019</i>
+                                            <i>* price valid for June 2019</i>
                                         </div>
                                     </td>
                                     <td style="width:20%">
@@ -230,7 +230,7 @@
 
                     <h2>Configuration</h2>
                     <div class="greybox">
-                        Perfect for external posts, this option allows to use the first image from a post/page/product content as featured image. It will happen when you click on Publish/Update button.
+                        Perfect for external posts, this option allows to use the first image/video from a post/page/product content as featured image. It will happen when you click on Publish/Update button. For videos, however, you will need the premium version.
                     </div>
 
                     <br>
@@ -259,7 +259,7 @@
                                 </form>
                             </th>
                             <th>   
-                                use the first image as featured image
+                                use the first image/video as featured image
                             </th>
                         </tr> 
                         <tr>
@@ -285,7 +285,7 @@
                                 </form>
                             </th>
                             <th>   
-                                hide the first image from content
+                                hide the first image/video from content
                             </th>
                         </tr>        
                         <tr>
@@ -311,20 +311,19 @@
                                 </form>
                             </th>
                             <th>   
-                                overwrite the existing external featured image
+                                overwrite the existing external featured image/video
                             </th>
                         </tr>      
-                    </table>
-
+                    </table>                    
                 </div>
                 <div class="box">
                     <h2>Apply to all</h2>
                     <div class="greybox" id="grad2">
                         <b>Premium feature</b><br><br>
-                        Enable that to update all your posts/pages/products applying the configuration above. 
-                        Very useful if you have hundreds of them and want to set the first image as featured image for all. 
-                        It can take some minutes and can't be undone, so make a backup.                        
-                        To repeat the process enable the toggle again. 
+                        Enable that to update all your posts/pages/products applying the configuration above.
+                        Very useful if you have hundreds of them and want to set the first image as featured image for all.
+                        It can take some minutes and can't be undone, so make a backup.
+                        To repeat the process enable the toggle again.
                         <br><br>
                         To schedule this process (hourly, daily etc), you can use the Hook <b>fifu_event</b> with your favorite cron event plugin. I like <a href="https://wordpress.org/plugins/wp-crontrol/">WP Control</a>. 
                     </div>
@@ -340,7 +339,7 @@
                                     style="display:block">
                             </th>
                             <th>   
-                                ignore posts that already have an external featured image
+                                ignore posts that already have an external featured image/video
                             </th>
                         </tr>
                         <tr>
@@ -449,6 +448,22 @@
                                 </div>
                             </div>
                         </ul>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <h2>Replace broken image</h2>
+                    <div class="greybox" id="grad2">
+                        <b>Premium feature</b><br><br>
+                        Here you can define the URL of an image to be shown in case of error (image not found).
+                        <br><br>
+                        <input id="fifu_input_error_url" 
+                               type="text" 
+                               name="fifu_input_error_url" 
+                               style="width:675px" 
+                               value="">
+                        <input type="submit" 
+                               value="Submit" disabled>
                     </div>
                 </div>
 
@@ -730,37 +745,270 @@
                         <input type="submit" 
                                value="Submit" >
                     </form>
-                </div>   
+                </div>
+
+                <div class="box">
+                    <h2>Maximum Sizes</h2>
+                    <div class="greybox">
+                        When you are working with external images, there is no way to know the image dimensions before loading the page. 
+                        As consequence, some themes may show the images in their real (sometimes huge) sizes. Here you can define the max size (px) of the featured images at different layouts.<br><br>
+                        <form 
+                            id="fifu_form_image_size" 
+                            action="javascript:void(0)" 
+                            method="post">
+
+                            <table style="text-align:left">                            
+                                <tr>
+                                    <th>   
+                                        Archive:
+                                    </th>
+                                    <th>
+                                        <input id="fifu_input_image_width_arch" 
+                                               name="fifu_input_image_width_arch" 
+                                               placeholder="max-width" 
+                                               value="<?php echo $max_image_width_arch; ?>" 
+                                               size="7">
+                                    </th>
+                                    <th>
+                                        <input id="fifu_input_image_height_arch" 
+                                               name="fifu_input_image_height_arch" 
+                                               placeholder="max-height" 
+                                               value="<?php echo $max_image_height_arch; ?>" 
+                                               size="7">
+                                    </th>
+                                    <th>
+                                        <div style="font-style: italic;font-weight:normal;">e.g.: 128, 256, 1024...</div>
+                                    </th>
+                                </tr> 
+                                <tr>
+                                    <th>   
+                                        Cart:
+                                    </th>
+                                    <th>
+                                        <input id="fifu_input_image_width_cart" 
+                                               name="fifu_input_image_width_cart" 
+                                               placeholder="max-width" 
+                                               size="7">
+                                    </th>
+                                    <th>
+                                        <input id="fifu_input_image_height_cart" 
+                                               name="fifu_input_image_height_arch" 
+                                               placeholder="max-height" 
+                                               size="7">
+                                    </th>
+                                    <th>
+                                        <div style="font-style: italic;font-weight:normal;">e.g.: 128, 256, 1024...</div>
+                                    </th>
+                                </tr> 
+                                <tr>
+                                    <th>   
+                                        Category:
+                                    </th>
+                                    <th>
+                                        <input id="fifu_input_image_width_ctgr" 
+                                               name="fifu_input_image_width_ctgr" 
+                                               placeholder="max-width" 
+                                               value="<?php echo $max_image_width_ctgr; ?>" 
+                                               size="7">
+                                    </th>
+                                    <th>
+                                        <input id="fifu_input_image_height_ctgr" 
+                                               name="fifu_input_image_height_ctgr" 
+                                               placeholder="max-height" 
+                                               value="<?php echo $max_image_height_ctgr; ?>" 
+                                               size="7">
+                                    </th>
+                                    <th>
+                                        <div style="font-style: italic;font-weight:normal;">e.g.: 128, 256, 1024...</div>
+                                    </th>
+                                </tr> 
+                                <tr>
+                                    <th>   
+                                        Home:
+                                    </th>
+                                    <th>
+                                        <input id="fifu_input_image_width_home" 
+                                               name="fifu_input_image_width_home" 
+                                               placeholder="max-width" 
+                                               value="<?php echo $max_image_width_home; ?>" 
+                                               size="7">
+                                    </th>
+                                    <th>
+                                        <input id="fifu_input_image_height_home" 
+                                               name="fifu_input_image_height_home" 
+                                               placeholder="max-height" 
+                                               value="<?php echo $max_image_height_home; ?>" 
+                                               size="7">
+                                    </th>
+                                    <th>
+                                        <div style="font-style: italic;font-weight:normal;">e.g.: 128, 256, 1024...</div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>   
+                                        Page:
+                                    </th>
+                                    <th>
+                                        <input id="fifu_input_image_width_page" 
+                                               name="fifu_input_image_width_page" 
+                                               placeholder="max-width" 
+                                               value="<?php echo $max_image_width_page; ?>" 
+                                               size="7">
+                                    </th>
+                                    <th>
+                                        <input id="fifu_input_image_height_page" 
+                                               name="fifu_input_image_height_page" 
+                                               placeholder="max-height" 
+                                               value="<?php echo $max_image_height_page; ?>" 
+                                               size="7">
+                                    </th>
+                                    <th>
+                                        <div style="font-style: italic;font-weight:normal;">e.g.: 128, 256, 1024...</div>
+                                    </th>
+                                </tr> 
+                                <tr>
+                                    <th>   
+                                        Post:
+                                    </th>
+                                    <th>
+                                        <input id="fifu_input_image_width_post" 
+                                               name="fifu_input_image_width_post" 
+                                               placeholder="max-width" 
+                                               value="<?php echo $max_image_width_post; ?>" 
+                                               size="7">
+                                    </th>
+                                    <th>
+                                        <input id="fifu_input_image_height_post" 
+                                               name="fifu_input_image_height_post" 
+                                               placeholder="max-height" 
+                                               value="<?php echo $max_image_height_post; ?>" 
+                                               size="7">
+                                    </th>
+                                    <th>
+                                        <div style="font-style: italic;font-weight:normal;">e.g.: 128, 256, 1024...</div>
+                                    </th>
+                                </tr> 
+                                <tr>
+                                    <th>   
+                                        Product:
+                                    </th>
+                                    <th>
+                                        <input id="fifu_input_image_width_prod" 
+                                               name="fifu_input_image_width_prod" 
+                                               placeholder="max-width" 
+                                               value="<?php echo $max_image_width_prod; ?>" 
+                                               size="7">
+                                    </th>
+                                    <th>
+                                        <input id="fifu_input_image_height_prod" 
+                                               name="fifu_input_image_height_prod" 
+                                               placeholder="max-height" 
+                                               value="<?php echo $max_image_height_prod; ?>" 
+                                               size="7">
+                                    </th>
+                                    <th>
+                                        <div style="font-style: italic;font-weight:normal;">e.g.: 128, 256, 1024...</div>
+                                    </th>
+                                </tr> 
+                                <tr>
+                                    <th>   
+                                        Shop:
+                                    </th>
+                                    <th>
+                                        <input id="fifu_input_image_width_shop" 
+                                               name="fifu_input_image_width_shop" 
+                                               placeholder="max-width" 
+                                               value="<?php echo $max_image_width_shop; ?>" 
+                                               size="7">
+                                    </th>
+                                    <th>
+                                        <input id="fifu_input_image_height_shop" 
+                                               name="fifu_input_image_height_shop" 
+                                               placeholder="max-height" 
+                                               value="<?php echo $max_image_height_shop; ?>" 
+                                               size="7">
+                                    </th>
+                                    <th>
+                                        <div style="font-style: italic;font-weight:normal;">e.g.: 128, 256, 1024...</div>
+                                    </th>
+                                </tr> 
+                            </table>
+
+                            <br>
+
+                            <input type="submit" value="Submit" >
+                        </form>
+                    </div>
+                </div> 
 
                 <div class="box">
 
-                    <h2>Default Width</h2>
+                    <h2>Save Image Dimensions</h2>
 
                     <div class="greybox">
-
-                        If your theme doesn't define an image width in some area of the site, FIFU can use a default value (px).
-
+                        Enable that to save the image dimensions. A few themes may need the image width and height to avoid style issues.
                     </div>
 
                     <br>
 
-                    <form 
-                        id="fifu_form_default_width" 
-                        action="javascript:void(0)" 
-                        method="post">
+                    <table style="text-align:left">
+                        <tr>
+                            <th>
+                                <form 
+                                    id="fifu_form_save_dimensions" 
+                                    action="javascript:void(0)" 
+                                    method="post">
+                                    <input 
+                                        type="image" 
+                                        href="javascript:void(0)" 
+                                        id="fifu_toggle_save_dimensions" 
+                                        onclick="invert('save_dimensions')" 
+                                        name="fifu_toggle_save_dimensions" 
+                                        class="<?php echo $enable_save_dimensions; ?>" 
+                                        value=""
+                                        style="display:block">
 
-                        <input id="fifu_input_default_width" 
-                               size=4
-                               type="text" 
-                               name="fifu_input_default_width" 
-                               value="<?php echo $default_width; ?>">
+                                    <input 
+                                        type="hidden"
+                                        id="fifu_input_save_dimensions" 
+                                        name="fifu_input_save_dimensions" 
+                                        value="" >
+                                </form>
+                            </th>
+                            <th>   
+                                save image dimensions (makes posts updates slower)
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>
+                                <form 
+                                    id="fifu_form_save_dimensions_all" 
+                                    action="javascript:void(0)" 
+                                    method="post">
+                                    <input 
+                                        type="image" 
+                                        href="javascript:void(0)" 
+                                        id="fifu_toggle_save_dimensions_all" 
+                                        onclick="invert('save_dimensions_all');fifu_save_dimensions_all_js();" 
+                                        name="fifu_toggle_save_dimensions_all" 
+                                        class="<?php echo $enable_save_dimensions_all; ?>" 
+                                        value=""
+                                        style="display:block">
 
-                        <input type="submit" value="Submit" >      
-                    </form>
+                                    <input 
+                                        type="hidden"
+                                        id="fifu_input_save_dimensions_all" 
+                                        name="fifu_input_save_dimensions_all" 
+                                        value="" >
+                                </form>
+                            </th>
+                            <th>   
+                                save the image dimensions of all external featured images now (it shoud take 1-5 seconds by image and requires php-curl installed)
+                            </th>
+                        </tr>             
+                    </table>
 
-                </div>
-
-                <a name="priority"></a>
+                </div>             
 
                 <div class="box">
                     <h2>Priority</h2>
@@ -1087,7 +1335,7 @@
                     <div class="greybox" id="grad2">
                         <b>Premium feature</b><br><br>
 
-                        Enable video meta box. If you are not using videos as featured images, you can disable this feature and make your site a little faster.
+                        FIFU supports videos from YouTube, Vimeo, Facebook, Instagram, Imgur, 9GAG, Cloudinary and Tumblr. You can enable the video meta box here.
 
                     </div>
 
@@ -1137,7 +1385,7 @@
                     <h2>Video Sizes</h2>
                     <div class="greybox" id="grad2">
                         <b>Premium feature</b><br><br>
-                        The default value applied to the videos is "100%" and it usually works fine. However, here you can define the max size (px, cm etc) of the featured videos at different screens and the ratio for these videos as well.<br><br>
+                        The default value applied to the videos is "100%" and it usually works fine. However, here you can define the max size of the featured videos at different layouts and the ratio for those videos as well.<br><br>
                         <table style="text-align:left">
                             <tr>
                                 <th>   
@@ -1146,12 +1394,12 @@
                                 <th>
                                     <input id="fifu_input_video_width_rtio" 
                                            name="fifu_input_video_width_rtio" 
-                                           size="4">
+                                           size="7">
                                 </th>
                                 <th>
                                     <input id="fifu_input_video_height_rtio" 
                                            name="fifu_input_video_height_rtio" 
-                                           size="4">
+                                           size="7">
                                 </th>
                                 <th>
                                     <div style="font-style: italic;font-weight:normal;">e.g.: 1, 2, 3...</div>
@@ -1164,7 +1412,7 @@
                                 <th>
                                     <input id="fifu_input_video_margin_bottom" 
                                            name="fifu_input_video_margin_bottom" 
-                                           size="4">
+                                           size="7">
                                 </th>
                                 <th>
                                     <div style="font-style: italic;font-weight:normal;">e.g.: 10px, 1cm...</div>
@@ -1177,7 +1425,7 @@
                                 <th>
                                     <input id="fifu_input_video_vertical_margin" 
                                            name="fifu_input_video_vertical_margin"
-                                           size="4">
+                                           size="7">
                                 </th>
                                 <th>
                                     <div style="font-style: italic;font-weight:normal;">e.g.: 10px, 1cm...</div>
@@ -1191,13 +1439,13 @@
                                     <input id="fifu_input_video_width_arch" 
                                            name="fifu_input_video_width_arch" 
                                            placeholder="max-width" 
-                                           size="4">
+                                           size="7">
                                 </th>
                                 <th>
                                     <input id="fifu_input_video_height_arch" 
                                            name="fifu_input_video_height_arch" 
                                            placeholder="max-height" 
-                                           size="4">
+                                           size="7">
                                 </th>
                                 <th>
                                     <div style="font-style: italic;font-weight:normal;">e.g.: 300px, 8cm...</div>
@@ -1211,13 +1459,13 @@
                                     <input id="fifu_input_video_width_ctgr" 
                                            name="fifu_input_video_width_ctgr" 
                                            placeholder="max-width" 
-                                           size="4">
+                                           size="7">
                                 </th>
                                 <th>
                                     <input id="fifu_input_video_height_ctgr" 
                                            name="fifu_input_video_height_ctgr" 
                                            placeholder="max-height" 
-                                           size="4">
+                                           size="7">
                                 </th>
                                 <th>
                                     <div style="font-style: italic;font-weight:normal;">e.g.: 300px, 8cm...</div>
@@ -1231,13 +1479,13 @@
                                     <input id="fifu_input_video_width_home" 
                                            name="fifu_input_video_width_home" 
                                            placeholder="max-width" 
-                                           size="4">
+                                           size="7">
                                 </th>
                                 <th>
                                     <input id="fifu_input_video_height_home" 
                                            name="fifu_input_video_height_home" 
                                            placeholder="max-height" 
-                                           size="4">
+                                           size="7">
                                 </th>
                                 <th>
                                     <div style="font-style: italic;font-weight:normal;">e.g.: 300px, 8cm...</div>
@@ -1251,13 +1499,13 @@
                                     <input id="fifu_input_video_width_page" 
                                            name="fifu_input_video_width_page" 
                                            placeholder="max-width" 
-                                           size="4">
+                                           size="7">
                                 </th>
                                 <th>
                                     <input id="fifu_input_video_height_page" 
                                            name="fifu_input_video_height_page" 
                                            placeholder="max-height" 
-                                           size="4">
+                                           size="7">
                                 </th>
                                 <th>
                                     <div style="font-style: italic;font-weight:normal;">e.g.: 300px, 8cm...</div>
@@ -1271,13 +1519,13 @@
                                     <input id="fifu_input_video_width_post" 
                                            name="fifu_input_video_width_post" 
                                            placeholder="max-width" 
-                                           size="4">
+                                           size="7">
                                 </th>
                                 <th>
                                     <input id="fifu_input_video_height_post" 
                                            name="fifu_input_video_height_post" 
                                            placeholder="max-height" 
-                                           size="4">
+                                           size="7">
                                 </th>
                                 <th>
                                     <div style="font-style: italic;font-weight:normal;">e.g.: 300px, 8cm...</div>
@@ -1291,13 +1539,13 @@
                                     <input id="fifu_input_video_width_prod" 
                                            name="fifu_input_video_width_prod" 
                                            placeholder="max-width" 
-                                           size="4">
+                                           size="7">
                                 </th>
                                 <th>
                                     <input id="fifu_input_video_height_prod" 
                                            name="fifu_input_video_height_prod" 
                                            placeholder="max-height" 
-                                           size="4">
+                                           size="7">
                                 </th>
                                 <th>
                                     <div style="font-style: italic;font-weight:normal;">e.g.: 300px, 8cm...</div>
@@ -1311,13 +1559,13 @@
                                     <input id="fifu_input_video_width_shop" 
                                            name="fifu_input_video_width_shop" 
                                            placeholder="max-width" 
-                                           size="4">
+                                           size="7">
                                 </th>
                                 <th>
                                     <input id="fifu_input_video_height_shop" 
                                            name="fifu_input_video_height_shop" 
                                            placeholder="max-height" 
-                                           size="4">
+                                           size="7">
                                 </th>
                                 <th>
                                     <div style="font-style: italic;font-weight:normal;">e.g.: 300px, 8cm...</div>
@@ -1327,6 +1575,17 @@
                         <br>
                     </div>
                     <br>
+                    <input type="submit" value="Submit" disabled>
+                </div>
+
+                <div class="box">
+                    <h2>Minimum Width</h2>
+                    <div class="greybox" id="grad2">
+                        <b>Premium feature</b><br><br>
+                        Minimum width that an available area should have to show a video. Otherwise the thumbnail will be shown.
+                    </div>
+                    <br>
+                    <input id="fifu_input_video_min_width" type="text" name="fifu_input_video_min_width"  value="" size="4">
                     <input type="submit" value="Submit" disabled>
                 </div>
 
@@ -1366,8 +1625,6 @@
                         </tr>              
                     </table>
                 </div>
-
-
             </div>
             <div id="tabs-m">
                 <div class="box">
@@ -1446,6 +1703,21 @@
                                     start to play automatically
                                 </th>
                             </tr> 
+                            <tr>
+                                <th>
+                                    <input 
+                                        type="image" 
+                                        href="javascript:void(0)" 
+                                        id="fifu_toggle_slider_gallery" 
+                                        name="fifu_toggle_slider_gallery" 
+                                        class="toggleoff" 
+                                        value=""
+                                        style="display:block">
+                                </th>
+                                <th>   
+                                    show gallery on click
+                                </th>
+                            </tr>
                             <tr>
                                 <th>
                                     <input id="fifu_input_slider_pause" 
@@ -2342,7 +2614,6 @@ fifu_css:<?php echo $css_style ?>;
 fifu_data_clean:<?php echo $enable_data_clean ?>;
 fifu_data_generation:<?php echo $enable_data_generation ?>;
 fifu_default_url:<?php echo $default_url ?>;
-fifu_default_width:<?php echo $default_width ?>;
 fifu_enable_default_url:<?php echo $enable_default_url ?>;
 fifu_fake:<?php echo $enable_fake ?>;
 fifu_fake2:<?php echo $enable_fake2 ?>;
@@ -2350,14 +2621,33 @@ fifu_get_first:<?php echo $enable_get_first ?>;
 fifu_grid_category:<?php echo $enable_grid_category ?>;
 fifu_hide_page:<?php echo $enable_hide_page ?>;
 fifu_hide_post:<?php echo $enable_hide_post ?>;
+fifu_image_height_arch:<?php echo $max_image_height_arch ?>;
+fifu_image_height_cart:<?php echo $max_image_height_cart ?>;
+fifu_image_height_ctgr:<?php echo $max_image_height_ctgr ?>;
+fifu_image_height_home:<?php echo $max_image_height_home ?>;
+fifu_image_height_page:<?php echo $max_image_height_page ?>;
+fifu_image_height_post:<?php echo $max_image_height_post ?>;
+fifu_image_height_prod:<?php echo $max_image_height_prod ?>;
+fifu_image_height_shop:<?php echo $max_image_height_shop ?>;
+fifu_image_width_arch:<?php echo $max_image_width_arch ?>;
+fifu_image_width_cart:<?php echo $max_image_width_cart ?>;
+fifu_image_width_ctgr:<?php echo $max_image_width_ctgr ?>;
+fifu_image_width_home:<?php echo $max_image_width_home ?>;
+fifu_image_width_page:<?php echo $max_image_width_page ?>;
+fifu_image_width_post:<?php echo $max_image_width_post ?>;
+fifu_image_width_prod:<?php echo $max_image_width_prod ?>;
+fifu_image_width_shop:<?php echo $max_image_width_shop ?>;
 fifu_lazy:<?php echo $enable_lazy ?>;
 fifu_original:<?php echo $enable_original ?>;
 fifu_ovw_first:<?php echo $enable_ovw_first ?>;
 fifu_pop_first:<?php echo $enable_pop_first ?>;
 fifu_priority:<?php echo $enable_priority ?>;
+fifu_save_dimensions:<?php echo $enable_save_dimensions ?>;
+fifu_save_dimensions_all:<?php echo $enable_save_dimensions_all ?>;
 fifu_social:<?php echo $enable_social ?>;
 fifu_wc_lbox:<?php echo $enable_wc_lbox ?>;
 fifu_wc_zoom:<?php echo $enable_wc_zoom ?>;
         </textarea>
     </div>
 </div>
+

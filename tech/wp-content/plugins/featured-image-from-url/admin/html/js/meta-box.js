@@ -24,3 +24,13 @@ function previewImage() {
         jQuery("#fifu_link").show();
     }
 }
+
+function getMeta(url) {
+    jQuery("<img/>", {
+        load: function () {
+            jQuery("#fifu_input_image_width").val(this.width);
+            jQuery("#fifu_input_image_height").val(this.height);
+        },
+        src: url
+    });
+}

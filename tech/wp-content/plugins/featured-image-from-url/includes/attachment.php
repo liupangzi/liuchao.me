@@ -50,8 +50,10 @@ function fifu_replace_attachment_url($att_url, $att_id) {
 add_filter('posts_where', 'fifu_query_attachments');
 
 function fifu_query_attachments($where) {
-    if (isset($_POST['action']) && ($_POST['action'] == 'query-attachments'))
-        $where .= ' AND post_author <> 77777 ';
+    if (isset($_POST['action']) && ($_POST['action'] == 'query-attachments')) {
+        global $wpdb;
+        $where .= ' AND ' . $wpdb->prefix . 'posts.post_author <> 77777 ';
+    }
     return $where;
 }
 
@@ -75,10 +77,22 @@ function fifu_replace_attachment_image_src($image, $att_id, $size) {
                 null,
             );
         }
+
+        $dimension = get_post_meta($post->post_parent, 'fifu_image_dimension');
+        if ($dimension) {
+            $dimension = $dimension[0];
+            $width = explode(';', $dimension)[0];
+            $height = explode(';', $dimension)[1];
+        } else {
+            $dimension = null;
+            $width = fifu_maximum('width');
+            $height = fifu_maximum('height');
+        }
+
         return array(
             strpos($image[0], fifu_get_internal_image_path()) !== false ? get_post($att_id)->guid : $image[0],
-            isset($image_size['width']) ? $image_size['width'] : (get_option('fifu_default_width') ? get_option('fifu_default_width') : 800),
-            isset($image_size['height']) ? $image_size['height'] : 600,
+            !$dimension && isset($image_size['width']) && $image_size['width'] < $width ? $image_size['width'] : $width,
+            !$dimension && isset($image_size['height']) && $image_size['height'] < $height ? $image_size['height'] : $height,
             isset($image_size['crop']) ? $image_size['crop'] : '',
         );
     }
@@ -123,5 +137,17 @@ function fifu_filter_wp_get_attachment_metadata($data, $post_id) {
         return $arr_size;
     }
     return $data;
+}
+
+// accelerated-mobile-pages plugin
+
+function fifu_amp_url($url, $width, $height) {
+    $size = get_post_meta(get_the_ID(), 'fifu_image_dimension');
+    if (!empty($size)) {
+        $size = explode(';', $size[0]);
+        $width = $size[0];
+        $height = $size[1];
+    }
+    return array(0 => $url, 1 => $width, 2 => $height);
 }
 

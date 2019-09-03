@@ -39,14 +39,14 @@
 		<fieldset id="slimstat-date-filters" class="wp-ui-highlight">
 			<a href="#" class="noslimstat"><?php
 				if ( !empty( wp_slimstat_db::$filters_normalized[ 'date' ][ 'hour' ] ) || !empty( wp_slimstat_db::$filters_normalized[ 'date' ][ 'interval_hours' ] ) ) {
-					echo gmdate( wp_slimstat::$settings[ 'date_format' ] . ' ' . wp_slimstat::$settings[ 'time_format' ], wp_slimstat_db::$filters_normalized['utime']['start']).' - ';
+					echo gmdate( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), wp_slimstat_db::$filters_normalized[ 'utime' ][ 'start' ] ) . ' - ';
 
-					$end_format = ( date( 'Ymd', wp_slimstat_db::$filters_normalized[ 'utime' ][ 'start' ] ) != date( 'Ymd', wp_slimstat_db::$filters_normalized[ 'utime' ][ 'end' ] ) ) ? wp_slimstat::$settings[ 'date_format' ] . ' ' . wp_slimstat::$settings[ 'time_format' ] : wp_slimstat::$settings[ 'time_format' ];
+					$end_format = ( date( 'Ymd', wp_slimstat_db::$filters_normalized[ 'utime' ][ 'start' ] ) != date( 'Ymd', wp_slimstat_db::$filters_normalized[ 'utime' ][ 'end' ] ) ) ? get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) : get_option( 'time_format' );
 					echo gmdate( $end_format, wp_slimstat_db::$filters_normalized[ 'utime' ][ 'end' ] );
 				}
 				else {
-					$start_date =  gmdate( wp_slimstat::$settings[ 'date_format' ], wp_slimstat_db::$filters_normalized[ 'utime' ][ 'start' ] );
-					$end_date = gmdate( wp_slimstat::$settings[ 'date_format' ], wp_slimstat_db::$filters_normalized[ 'utime' ][ 'end' ] );
+					$start_date =  gmdate( get_option( 'date_format' ), wp_slimstat_db::$filters_normalized[ 'utime' ][ 'start' ] );
+					$end_date = gmdate( get_option( 'date_format' ), wp_slimstat_db::$filters_normalized[ 'utime' ][ 'end' ] );
 
 					if ( $start_date == $end_date ) {
 						echo ucwords( $start_date );	
@@ -63,7 +63,7 @@
 					<a class="slimstat-filter-link noslimstat" href="<?php echo wp_slimstat_reports::fs_url( 'strtotime equals today&&&interval equals -7' ) ?>"><?php _e( 'Last 7 Days', 'wp-slimstat' ) ?></a>
 					<a class="slimstat-filter-link noslimstat" href="<?php echo wp_slimstat_reports::fs_url( 'strtotime equals today&&&interval equals -28' ) ?>"><?php _e( 'Last 4 weeks', 'wp-slimstat' ) ?></a>
 					<a class="slimstat-filter-link noslimstat" href="<?php echo wp_slimstat_reports::fs_url( 'strtotime equals today&&&interval equals -84' ) ?>"><?php _e( 'Last 12 weeks', 'wp-slimstat' ) ?></a>
-					<a class="slimstat-filter-link noslimstat" href="<?php echo wp_slimstat_reports::fs_url( 'strtotime equals today&&&interval equals -364' ) ?>"><?php _e( 'Last Year', 'wp-slimstat' ) ?></a>
+					<a class="slimstat-filter-link noslimstat" href="<?php echo wp_slimstat_reports::fs_url( 'strtotime equals today&&&interval equals -364' ) ?>"><?php _e( 'Last 12 months', 'wp-slimstat' ) ?></a>
 				</div>
 
 				<strong><?php _e( 'Date Range', 'wp-slimstat' ) ?></strong>
@@ -111,7 +111,7 @@
 		</fieldset><!-- .slimstat-date-filters -->
 
 		<?php foreach( wp_slimstat_db::$filters_normalized[ 'columns' ] as $a_key => $a_details ): ?>
-			<input type="hidden" name="fs[<?php echo $a_key ?>]" class="slimstat-post-filter" value="<?php echo htmlspecialchars($a_details[0].' '.$a_details[1]) ?>"/>
+			<input type="hidden" name="fs[<?php echo $a_key ?>]" class="slimstat-post-filter" value="<?php echo htmlspecialchars( $a_details[ 0 ] . ' ' . $a_details[ 1 ] ) ?>"/>
 		<?php endforeach ?>
 
 		<?php foreach ( wp_slimstat_db::$filters_normalized[ 'date' ] as $a_key => $a_value ) : if ( !empty( $a_value ) ): ?>
@@ -125,11 +125,11 @@
 
 	<?php
 		if ( !file_exists( wp_slimstat::$maxmind_path ) && wp_slimstat::$settings[ 'notice_geolite' ] == 'on' ) {
-			wp_slimstat_admin::show_message( sprintf( __( "<a href='%s' class='noslimstat'>Install MaxMind's GeoLite DB</a> to determine your visitors' country of origin.", 'wp-slimstat' ), self::$config_url . '6#wp-slimstat-external-data-files' ), 'warning', 'geolite' );
+			wp_slimstat_admin::show_message( sprintf( __( "<a href='%s' class='noslimstat'>Install MaxMind's GeoLite DB</a> to identify your visitors' country of origin.", 'wp-slimstat' ), self::$config_url . '6#wp-slimstat-third-party-libraries' ), 'warning', 'geolite' );
 		}
 
 		if ( version_compare( PHP_VERSION, '7.1', '>=' ) && !file_exists( slim_browser::$browscap_autoload_path ) && wp_slimstat::$settings[ 'notice_browscap' ] == 'on' ) {
-			wp_slimstat_admin::show_message( sprintf( __( "Install the Browscap <a href='%s' class='noslimstat'>User Agent Database</a> to accurately determine your visitors' browser and operating system.", 'wp-slimstat' ), self::$config_url . '6#wp-slimstat-external-data-files' ), 'warning', 'browscap' );
+			wp_slimstat_admin::show_message( sprintf( __( "Install our <a href='%s' class='noslimstat'>Browscap Library</a> to identify your visitors' browser and operating system.", 'wp-slimstat' ), self::$config_url . '6#wp-slimstat-third-party-libraries' ), 'warning', 'browscap' );
 		}
 
 		// Path to wp-content folder, used to detect caching plugins via advanced-cache.php
@@ -146,18 +146,9 @@
 	<div class="meta-box-sortables">
 		<form method="get" action=""><input type="hidden" id="meta-box-order-nonce" name="meta-box-order-nonce" value="<?php echo wp_create_nonce('meta-box-order') ?>" /></form><?php
 
-		foreach( wp_slimstat_reports::$reports_info as $a_report_id => $a_report_info ) {
-			if ( !is_array( $a_report_info[ 'classes' ] ) ) {
-				continue;
-			}
-
+		foreach( wp_slimstat_reports::$user_reports[ wp_slimstat_admin::$current_screen ] as $a_report_id ) {
 			wp_slimstat_reports::report_header( $a_report_id );
-
-			// Third party reports can add their own methods via the callback parameter
-			if ( !in_array( 'hidden', $a_report_info[ 'classes' ] ) ) {
-				wp_slimstat_reports::callback_wrapper( array( 'id' => $a_report_id ) );
-			}
-
+			wp_slimstat_reports::callback_wrapper( array( 'id' => $a_report_id ) );
 			wp_slimstat_reports::report_footer();
 		}
 	?></div>

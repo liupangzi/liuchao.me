@@ -53,13 +53,18 @@ function fifu_maximum($dimension) {
         $size = get_option($dimension . 'arch');
     }
 
-    return $size ? $size : '1024';
+    return $size ? $size : null;
 }
 
 /* dimensions */
 
 function fifu_curl($url) {
     $curl = curl_init($url);
+    if (fifu_is_off('fifu_save_dimensions_redirect')) {
+        $headers = array("Range: bytes=0-32768");
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+    }
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
     $data = curl_exec($curl);
     curl_close($curl);
@@ -71,6 +76,6 @@ function fifu_get_dimension_backend($url) {
     $img = imagecreatefromstring($raw);
     $width = imagesx($img);
     $height = imagesy($img);
-    return $width . ";" . $height;
+    return ($width && $height) ? $width . ";" . $height : null;
 }
 

@@ -132,16 +132,6 @@ function fifu_wai_save($post_id) {
     fifu_save($post_id);
 }
 
-function fifu_save_dimensions($post_id, $url) {
-    $size = getimagesize($url);
-    if ($size) {
-        $width = $size[0];
-        $height = $size[1];
-        if ($width && $height)
-            fifu_update_or_delete_value($post_id, 'fifu_image_dimension', $width . ';' . $height);
-    }
-}
-
 add_action('before_delete_post', 'fifu_db_before_delete_post');
 
 /* regular woocommerce import */

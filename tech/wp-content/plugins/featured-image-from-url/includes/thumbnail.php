@@ -45,8 +45,7 @@ function fifu_choose($post) {
     if ($image_url || (get_option('fifu_default_url') && fifu_is_on('fifu_enable_default_url'))) {
         if (!$featured_image)
             update_post_meta($post_id, '_thumbnail_id', -1);
-    }
-    else {
+    } else {
         if ($featured_image == -1)
             delete_post_meta($post_id, '_thumbnail_id');
     }
@@ -72,8 +71,16 @@ function fifu_replace($html, $post_id, $post_thumbnail_id, $size) {
         $alt = get_post_meta($post_id, 'fifu_image_alt', true);
         $css = get_option('fifu_css');
 
-        if ($url)
+        if ($url) {
+            if (fifu_is_on('fifu_class')) {
+                if (strpos($html, 'class='))
+                    $html = preg_replace('/class=[\'\"][^[\'\"]*[\'\"]/', 'class="fifu-class"', $html);
+                else
+                    $html = str_replace('<img', '<img class="fifu-class"', $html);
+            }
+
             return $css ? str_replace('/>', ' style="' . $css . '"/>', $html) : $html;
+        }
 
         return !$url ? $html : fifu_get_html($url, $alt, $width, $height);
     }

@@ -38,37 +38,36 @@
                                 <tr>
                                     <td style="width:60%"
                                         <div>
-                                            Donate <strike>US$ 50,00</strike> <b>US$ 39,90</b> and receive your license key and the download link by email within 12 hours.
+                                            Pay <strike>US$ 50,00</strike> <b>US$ 39,90</b> and receive your license key and the download link by email within 12 hours.
                                             Moreover, <b>you will have lifetime automatic updates</b>.<br><br>
-                                            <i>* price valid for June 2019</i>
                                         </div>
                                     </td>
                                     <td style="width:20%">
                                 <center>
-                                    <div style="display: inline-block;"><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top"><input name="cmd" type="hidden" value="_s-xclick"><input name="hosted_button_id" type="hidden" value="8BLDLZ3HDBGQG"><br><input alt="PayPal – The safer, easier way to pay online!" name="submit" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG_global.gif" type="image"><br><img src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" alt="" width="1" height="1" border="0"></form></div>
+                                    <div style="display: inline-block;"><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                                            <input type="hidden" name="cmd" value="_s-xclick">
+                                            <input type="hidden" name="hosted_button_id" value="46Y3TGDMXCJZW">
+                                            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"><img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1"></form></div>
                                 </center>
                                 </td>
                                 <td style="width:20%">
                                 <center>
                                     <div>
-                                        <form action="https://bitpay.com/checkout" method="post" >
-                                            <input type="hidden" name="action" value="checkout" />
-                                            <input type="hidden" name="posData" value="" />
-                                            <input type="hidden" name="data" value="Pckctxne2UGVgpP6lkzkpuMUwLjgOobhW3Sv8ita38+NMu0p/Ze7qZ9rLeOZ6dz5kJ+7LE77/T6Su8/Ka5alM6NHO1gFtptBCVhAkkoqQ5p8QX5YzXqP4//nu9S5YYO4INuEJbDgoo74xznf9mTJ0JIK/0YL5l38bnB66Gw7razFAlrZ8BGDS1+gvUENIgK+aIY1bJ8Epf/3UhV4G9RLo/R4LXdF9SIjAvMfsJHFu9c=" />
-                                            <input type="image" src="https://bitpay.com/cdn/en_US/bp-btn-pay-currencies.svg" name="submit" style="width:168px;" alt="BitPay, the easy way to pay with bitcoins." >
-                                        </form>
+                                        3C9SWyg2zEByn1RSQ6s5AVw1jKyFzdesUQ
                                     </div>
                                 </center>
                                 </td>
                                 </tr>
                             </table>
-                            <h3>2) "How to get support?"</h3>
+                            <h3>2) "How to get support?"</h3>                            
                             You can inform any problem related to the Premium version by email (support@featuredimagefromurl.com). It will be solved as soon as possible and without any cost.<br><br>
-                            <h3>3) "Which plugins are compatible with Premium version?"</h3>
+                            <h3>3) "On how many sites can I install that?"</h3>
+                            Only one. Or maybe two, since one of them is a stage site. But both should be available on the Internet to receive automatic updates. Those restrictions are necessary to keep the support quality.<br><br>
+                            <h3>4) "Which plugins are compatible with Premium version?"</h3>
                             WooCommerce, WP All Import, Monarch, Frontend Publishing and others. If you intend to use the Premium version with a specific plugin, try to test with this free version first. Or you can ask me if they are compatible.<br><br>
-                            <h3>4) "Are there known incompatibility issues?"</h3>
+                            <h3>5) "Are there known incompatibility issues?"</h3>
                             Some WooCommerce themes aren’t flexible enough to work with Videos, Sliders and Shortcodes. To know if your theme is compatible with those features, please take a look below.<br><br>
-                            <h3>5) "Can I get my money back later?"</h3>
+                            <h3>6) "Can I get my money back later?"</h3>
                             With the exception of rare situations, no. But don't worry about that. You will still have the best support and if, after your complete cooperation, I'm not able to solve your issue, I can refund you.<br><br>
                         </div>
                     </div>
@@ -223,6 +222,39 @@
                         class="toggleoff" 
                         value=""
                         style="display:block">
+                </div>
+                <div class="box">
+                    <h2>Media Library</h2>
+                    <div class="greybox">
+                        Enable that to show the external images in your media library.
+                    </div>
+                    <br>
+                    <form 
+                        id="fifu_form_media_library" 
+                        action="javascript:void(0)" 
+                        method="post">
+                        <table>
+                            <tr>
+                                <td>
+                                    <input 
+                                        type="image" 
+                                        href="javascript:void(0)" 
+                                        id="fifu_toggle_media_library" 
+                                        onclick="invert('media_library')" 
+                                        name="fifu_toggle_media_library" 
+                                        class="<?php echo $enable_media_library; ?>" 
+                                        value=""
+                                        style="display:block">
+
+                                    <input 
+                                        type="hidden" 
+                                        id="fifu_input_media_library" 
+                                        name="fifu_input_media_library" 
+                                        value="" ></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </form>
                 </div>
             </div>
             <div id="tabs-b">
@@ -722,8 +754,6 @@
                         value="" style="display:block">
                 </div>
 
-                <a name="css"></a>
-
                 <div class="box">
                     <h2>CSS Style</h2>
                     <div class="greybox">
@@ -744,6 +774,33 @@
 
                         <input type="submit" 
                                value="Submit" >
+                    </form>
+                </div>
+
+                <div class="box">
+                    <h2>Add Class</h2>
+                    <div class="greybox">
+                        Enable this toggle to add the class "fifu-class" to the external featured image tags.<br>
+                    </div>
+                    <br>
+                    <form 
+                        id="fifu_form_class" 
+                        action="javascript:void(0)" 
+                        method="post">
+                        <input 
+                            type="image" 
+                            href="javascript:void(0)" 
+                            id="fifu_toggle_class" 
+                            onclick="invert('class')" 
+                            name="fifu_toggle_class" 
+                            class="<?php echo $enable_class; ?>" 
+                            value="" style="display:block">
+
+                        <input 
+                            type="hidden"
+                            id="fifu_input_class" 
+                            name="fifu_input_class" 
+                            value="" >
                     </form>
                 </div>
 
@@ -976,7 +1033,7 @@
                                 </form>
                             </th>
                             <th>   
-                                save image dimensions (makes posts updates slower)
+                                save and use image dimensions
                             </th>
                         </tr>
                         <tr>
@@ -1003,9 +1060,66 @@
                                 </form>
                             </th>
                             <th>   
-                                save the image dimensions of all external featured images now (it shoud take 1-5 seconds by image and requires php-curl installed)
+                                save the image dimensions of all external featured images now (it requires php-curl)
                             </th>
-                        </tr>             
+                            <th>
+                                <div id="countdown"><?php echo fifu_db_missing_dimensions() ?></div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>
+                                <form 
+                                    id="fifu_form_clean_dimensions_all" 
+                                    action="javascript:void(0)" 
+                                    method="post">
+                                    <input 
+                                        type="image" 
+                                        href="javascript:void(0)" 
+                                        id="fifu_toggle_clean_dimensions_all" 
+                                        onclick="invert('clean_dimensions_all');fifu_clean_dimensions_all_js();" 
+                                        name="fifu_toggle_clean_dimensions_all" 
+                                        class="<?php echo $enable_clean_dimensions_all; ?>" 
+                                        value=""
+                                        style="display:block">
+
+                                    <input 
+                                        type="hidden"
+                                        id="fifu_input_clean_dimensions_all" 
+                                        name="fifu_input_clean_dimensions_all" 
+                                        value="" >
+                                </form>
+                            </th>
+                            <th>   
+                                clean the image dimensions of all external featured images now
+                            </th>
+                        </tr> 
+                        <tr>
+                            <th>
+                                <form 
+                                    id="fifu_form_save_dimensions_redirect" 
+                                    action="javascript:void(0)" 
+                                    method="post">
+                                    <input 
+                                        type="image" 
+                                        href="javascript:void(0)" 
+                                        id="fifu_toggle_save_dimensions_redirect" 
+                                        onclick="invert('save_dimensions_redirect')" 
+                                        name="fifu_toggle_save_dimensions_redirect" 
+                                        class="<?php echo $enable_save_dimensions_redirect; ?>" 
+                                        value=""
+                                        style="display:block">
+
+                                    <input 
+                                        type="hidden"
+                                        id="fifu_input_save_dimensions_redirect" 
+                                        name="fifu_input_save_dimensions_redirect" 
+                                        value="" >
+                                </form>
+                            </th>
+                            <th>   
+                                follow redirects (it will make the process much slower)
+                            </th>
+                        </tr>         
                     </table>
 
                 </div>             
@@ -1590,7 +1704,7 @@
                 </div>
 
                 <div class="box">
-                    <h2>Video Auto Play</h2>
+                    <h2>Video Auto Play (mouseover)</h2>
                     <div class="greybox" id="grad2">
                         <b>Premium feature</b><br><br>
                         This option allows to play a video on "mouseover" and pause it on "mouseout".
@@ -1623,6 +1737,46 @@
                                 for Vimeo videos
                             </th>
                         </tr>              
+                    </table>
+                </div>
+
+                <div class="box">
+                    <h2>Video Autoplay</h2>
+                    <div class="greybox" id="grad2">
+                        This option enables autoplay (available for YouTube and Vimeo videos).
+                    </div>
+                    <br>
+                    <table style="text-align:left">
+                        <tr>
+                            <th>
+                                <input 
+                                    type="image" 
+                                    href="javascript:void(0)" 
+                                    class="toggleoff" 
+                                    value=""
+                                    style="display:block">
+                            </th>
+                        </tr>             
+                    </table>
+                </div>
+
+                <div class="box">
+                    <h2>Video Loop</h2>
+                    <div class="greybox" id="grad2">
+                        This option enables loop (available for YouTube and Vimeo videos).
+                    </div>
+                    <br>
+                    <table style="text-align:left">
+                        <tr>
+                            <th>
+                                <input 
+                                    type="image" 
+                                    href="javascript:void(0)" 
+                                    class="toggleoff" 
+                                    value=""
+                                    style="display:block">
+                            </th>
+                        </tr>             
                     </table>
                 </div>
             </div>
@@ -1967,7 +2121,9 @@
                                 <li><a href="#tabs-6">product category</a></li>
                                 <li><a href="#tabs-7">product variable</a></li>
                                 <li><a href="#tabs-4">product variation</a></li>
+                                <li><a href="#tabs-8">batch</a></li>
                                 <li><a href="#tabs-5">post</a></li>
+                                <li><a href="#tabs-9">Documentation</a></li>
                             </ul>
                             <div id="tabs-1">
                                 <table style="text-align:left">
@@ -1981,31 +2137,37 @@
                                     <tr>
                                         <th>Product</th>
                                         <th>
-                                            http://yourdomain/wp-json/wc/v3/products
+                                            /wp-json/wc/v3/products
                                         </th>
                                     </tr>
                                     <tr>
                                         <th>Product Category</th>
                                         <th>
-                                            http://yourdomain/wp-json/wc/v3/products/categories
+                                            /wp-json/wc/v3/products/categories
                                         </th>
                                     </tr>
                                     <tr>
                                         <th>Product Variation</th>
                                         <th>
-                                            http://yourdomain/wp-json/wc/v3/products/{id}/variations/
+                                            /wp-json/wc/v3/products/{id}/variations/
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Batch</th>
+                                        <th>
+                                            /wp-json/wc/v3/products/batch
                                         </th>
                                     </tr>
                                     <tr>
                                         <th>Post</th>
                                         <th>
-                                            http://yourdomain/wp-json/wp/v2/posts
+                                            /wp-json/wp/v2/posts
                                         </th>
                                     </tr>
                                     <tr>
                                         <th>Custom Post Type</th>
                                         <th>
-                                            http://yourdomain/wp-json/wp/v2/{post_type}
+                                            /wp-json/wp/v2/{post_type}
                                         </th>
                                     </tr>
                                 </table>
@@ -2022,31 +2184,31 @@
                                     <tr>
                                         <th>Product</th>
                                         <th>
-                                            http://yourdomain/wp-json/wc/v3/products/{id}
+                                            /wp-json/wc/v3/products/{id}
                                         </th>
                                     </tr>
                                     <tr>
                                         <th>Product Category</th>
                                         <th>
-                                            http://yourdomain/wp-json/wc/v3/products/categories/{id}
+                                            /wp-json/wc/v3/products/categories/{id}
                                         </th>
                                     </tr>
                                     <tr>
                                         <th>Product Variation</th>
                                         <th>
-                                            http://yourdomain/wp-json/wc/v3/products/{id}/variations/{variation_id}
+                                            /wp-json/wc/v3/products/{id}/variations/{variation_id}
                                         </th>
                                     </tr>
                                     <tr>
                                         <th>Post</th>
                                         <th>
-                                            http://yourdomain/wp-json/wp/v2/posts/{id}
+                                            /wp-json/wp/v2/posts/{id}
                                         </th>
                                     </tr>
                                     <tr>
                                         <th>Custom Post Type</th>
                                         <th>
-                                            http://yourdomain/wp-json/wp/v2/{post_type}/{id}
+                                            /wp-json/wp/v2/{post_type}/{id}
                                         </th>
                                     </tr>
                                 </table>
@@ -2152,6 +2314,37 @@
                                 <iframe src="<?php echo plugins_url()?>/featured-image-from-url/admin/html/txt/product-variable.txt"
                                         width="800px" height="550px" ></iframe>
 
+                            </div>
+
+                            <div id="tabs-8">
+
+                                <iframe src="<?php echo plugins_url()?>/featured-image-from-url/admin/html/txt/batch.txt"
+                                        width="800px" height="425px" ></iframe>
+
+                            </div>
+
+                            <div id="tabs-9">
+
+                                <table style="text-align:left"> 
+                                    <tr>
+                                        <th>
+                                            1)
+                                        </th>
+                                        <th>
+                                            <a href="https://developer.wordpress.org/rest-api/reference/">WordPress REST API</a>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            2)
+                                        </th>
+                                        <th>
+                                            <a href="https://woocommerce.github.io/woocommerce-rest-api-docs/?php#introduction">WooCommerce REST API</a>
+                                        </th>
+                                    </tr>                  
+                                </table>
+
+                                <br/>
                             </div>
 
                         </div>
@@ -2469,6 +2662,7 @@
                                 <li><a href="#tabs-3">Importing products...</a></li>
                                 <li><a href="#tabs-1">Custom Fields</a></li>
                                 <li><a href="#tabs-2">Custom Fields (Premium)</a></li>
+                                <li><a href="#tabs-4">FAQ</a></li>
                             </ul>
                             <div id="tabs-1">
 
@@ -2569,6 +2763,30 @@
                                 </table>
                             </div>
 
+                            <div id="tabs-4">
+
+                                <table style="text-align:left"> 
+                                    <tr>
+                                        <th>
+                                            1)
+                                        </th>
+                                        <th>
+                                            <a href="http://www.wpallimport.com/documentation/custom-fields/theme-plugin-fields/">How To Import To Your Theme (Or Plugin) - Custom Fields</a>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            2)
+                                        </th>
+                                        <th>
+                                            <a href="http://www.wpallimport.com/documentation/woocommerce/variable-products/">Importing Variable Products to WooCommerce</a>
+                                        </th>
+                                    </tr>                  
+                                </table>
+
+                                <br/>
+                            </div>
+
                             <div id="tabs-3">
                                 <a href="<?php echo plugins_url()?>/featured-image-from-url/admin/html/txt/csv.txt">CSV example</a>
                                 <br>
@@ -2599,14 +2817,22 @@
         <textarea id="bar" style="width:600px;height:500px;resize:none;" readonly>
 Version:<?php echo fifu_version() ?>;
 Site:<?php echo get_home_url() ?>;
-Theme:<?php echo wp_get_theme() ?>;
+Theme:<?php echo wp_get_theme() ?><?php echo fifu_woo_theme() ? ' (WooCommerce)' : '' ?>;
 PHP:<?php echo phpversion() ?>;
 WooCommerce:<?php echo class_exists('WooCommerce') ? WC()->version : '' ?>;
 WordPress:<?php echo get_bloginfo('version') ?>;
 Pages:<?php echo wp_count_posts('page')->publish ?>;
 Posts:<?php echo wp_count_posts('post')->publish ?>;
 Products:<?php echo class_exists('WooCommerce') ? wp_count_posts('product')->publish : null ?>;
+Images without Dimensions:<?php echo fifu_db_missing_dimensions() ?>;
+URLs with Metadata:<?php echo fifu_db_count_urls_with_metadata() ?>;
+URLs:<?php echo fifu_db_count_urls() ?>;
+php-curl:<?php echo fifu_has_curl() ? 'yes' : 'no' ?>;
+Plugins:<?php echo fifu_get_plugins_list() ?>;
+Active Plugins:<?php echo fifu_get_active_plugins_list() ?>;
 fifu_auto_alt:<?php echo $enable_auto_alt ?>;
+fifu_class:<?php echo $enable_class ?>;
+fifu_clean_dimensions_all:<?php echo $enable_clean_dimensions_all ?>;
 fifu_column_height:<?php echo $column_height ?>;
 fifu_content:<?php echo $enable_content ?>;
 fifu_content_page:<?php echo $enable_content_page ?>;
@@ -2638,12 +2864,14 @@ fifu_image_width_post:<?php echo $max_image_width_post ?>;
 fifu_image_width_prod:<?php echo $max_image_width_prod ?>;
 fifu_image_width_shop:<?php echo $max_image_width_shop ?>;
 fifu_lazy:<?php echo $enable_lazy ?>;
+fifu_media_library:<?php echo $enable_media_library ?>;
 fifu_original:<?php echo $enable_original ?>;
 fifu_ovw_first:<?php echo $enable_ovw_first ?>;
 fifu_pop_first:<?php echo $enable_pop_first ?>;
 fifu_priority:<?php echo $enable_priority ?>;
 fifu_save_dimensions:<?php echo $enable_save_dimensions ?>;
 fifu_save_dimensions_all:<?php echo $enable_save_dimensions_all ?>;
+fifu_save_dimensions_redirect:<?php echo $enable_save_dimensions_redirect ?>;
 fifu_social:<?php echo $enable_social ?>;
 fifu_wc_lbox:<?php echo $enable_wc_lbox ?>;
 fifu_wc_zoom:<?php echo $enable_wc_zoom ?>;

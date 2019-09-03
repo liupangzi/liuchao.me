@@ -15,6 +15,7 @@ class FifuDb {
         global $wpdb;
         $this->wpdb = $wpdb;
         $this->posts = $wpdb->prefix . 'posts';
+        $this->options = $wpdb->prefix . 'options';
         $this->postmeta = $wpdb->prefix . 'postmeta';
         $this->termmeta = $wpdb->prefix . 'termmeta';
         $this->term_taxonomy = $wpdb->prefix . 'term_taxonomy';
@@ -192,23 +193,62 @@ class FifuDb {
     // get posts without dimensions
     function get_posts_without_dimensions() {
         return $this->wpdb->get_results("
-            SELECT *
+            SELECT p.*
             FROM " . $this->posts . " p
-            WHERE p.post_type IN ('$this->types')
-            AND post_status NOT IN ('auto-draft', 'trash')
-            AND EXISTS (
+            INNER JOIN " . $this->posts . " parent ON p.post_parent = parent.id AND parent.post_status NOT IN ('auto-draft', 'trash')
+            WHERE p.post_type = 'attachment' 
+            AND p.post_author = " . $this->author . "
+            AND p.post_status NOT IN ('auto-draft', 'trash')
+            AND NOT EXISTS (
                 SELECT 1 
                 FROM " . $this->postmeta . " pm 
                 WHERE p.id = pm.post_id 
-                AND pm.meta_key IN ('fifu_image_url')
+                AND pm.meta_key IN ('fifu_image_dimension')
             )
+            ORDER BY p.id DESC"
+        );
+    }
+
+    // count images without dimensions
+    function get_count_posts_without_dimensions() {
+        return $this->wpdb->get_results("
+            SELECT COUNT(1) AS amount
+            FROM " . $this->posts . " p
+            INNER JOIN " . $this->posts . " parent ON p.post_parent = parent.id AND parent.post_status NOT IN ('auto-draft', 'trash')
+            WHERE p.post_type = 'attachment' 
+            AND p.post_author = " . $this->author . "
+            AND p.post_status NOT IN ('auto-draft', 'trash')
             AND NOT EXISTS (
                 SELECT 1 
-                FROM " . $this->postmeta . " pm2 
-                WHERE p.id = pm2.post_id 
-                AND pm2.meta_key IN ('fifu_image_dimension')
+                FROM " . $this->postmeta . " pm 
+                WHERE p.id = pm.post_id 
+                AND pm.meta_key IN ('fifu_image_dimension')
             )
-            ORDER BY p.ID"
+            ORDER BY p.id DESC"
+        );
+    }
+
+    // count posts urls with metadata
+    function get_count_urls_with_metadata() {
+        return $this->wpdb->get_results("
+            SELECT COUNT(1) AS amount
+            FROM " . $this->postmeta . " pm
+            INNER JOIN " . $this->postmeta . " pm2 ON pm.post_id = pm2.post_id AND pm.meta_id <> pm2.meta_id AND pm2.meta_key = '_thumbnail_id'
+            INNER JOIN " . $this->posts . " p ON p.id = pm2.meta_value AND p.post_author = " . $this->author . "
+            WHERE pm.meta_key = 'fifu_image_url'
+            AND (
+                NOT EXISTS (SELECT 1 FROM " . $this->options . " WHERE option_name = 'fifu_fake_attach_id')
+                OR pm2.meta_value <> (SELECT option_value FROM " . $this->options . " WHERE option_name = 'fifu_fake_attach_id')
+            )"
+        );
+    }
+
+    // count posts urls
+    function get_count_urls() {
+        return $this->wpdb->get_results("
+            SELECT COUNT(DISTINCT pm.post_id) AS amount
+            FROM " . $this->postmeta . " pm
+            WHERE pm.meta_key = 'fifu_image_url'"
         );
     }
 
@@ -597,40 +637,38 @@ class FifuDb {
 
     function save_dimensions_all() {
         $value = null;
-        $i = 1;
-        $count = 1;
         // get all posts or all posts without dimensions
         $result = $this->get_posts_without_dimensions();
         foreach ($result as $res) {
             $post_id = $res->ID;
 
             // set featured image
-            $url = fifu_main_image_url($post_id);
+            $url = $res->guid;
 
-            if (!$url) {
-                $count++;
+            if (!$url)
                 continue;
-            }
 
             // get dimensions
             $dimension = fifu_get_dimension_backend($url);
 
-            if (!$dimension) {
-                $count++;
+            if (!$dimension)
                 continue;
-            }
 
-            $aux = $this->get_formatted_dimension_value($post_id, $dimension);
-            $value = ($i == 1) ? $aux : ($value . "," . $aux);
-            if ($value && (($i % $this->MAX_INSERT == 0) || ($i % $this->MAX_INSERT != 0 && count($result) == $count))) {
-                wp_cache_flush();
+            $value = $this->get_formatted_dimension_value($post_id, $dimension);
+            if ($value) {
                 $this->insert_dimension_by($value);
                 $value = null;
-                $i = 1;
-            } else
-                $i++;
-            $count++;
+            }
         }
+    }
+
+    /* dimensions: clean all */
+
+    function clean_dimensions_all() {
+        $this->wpdb->get_results("
+            DELETE FROM " . $this->postmeta . " 
+            WHERE meta_key = 'fifu_image_dimension'"
+        );
     }
 
     /* save 1 post */
@@ -650,11 +688,7 @@ class FifuDb {
                 if (fifu_get_default_url())
                     set_post_thumbnail($post_id, get_option('fifu_default_attach_id'));
             }
-        }
-        else {
-            if (fifu_is_on('fifu_save_dimensions'))
-                fifu_save_dimensions($post_id, $url);
-
+        } else {
             // update
             $alt = get_post_meta($post_id, 'fifu_image_alt', true);
             if ($has_fifu_attachment) {
@@ -676,6 +710,8 @@ class FifuDb {
                     $this->delete_attachment_meta_url_and_alt($attachments);
                 }
             }
+            if (fifu_is_on('fifu_save_dimensions'))
+                fifu_update_or_delete_value($att_id, 'fifu_image_dimension', fifu_get_dimension_backend($url));
         }
     }
 
@@ -854,6 +890,37 @@ function fifu_db_change_url_length() {
 function fifu_db_save_dimensions_all() {
     $db = new FifuDb();
     return $db->save_dimensions_all();
+}
+
+/* dimensions: clean all */
+
+function fifu_db_clean_dimensions_all() {
+    $db = new FifuDb();
+    return $db->clean_dimensions_all();
+}
+
+/* dimensions: amount */
+
+function fifu_db_missing_dimensions() {
+    $db = new FifuDb();
+    $aux = $db->get_count_posts_without_dimensions()[0];
+    return $aux ? $aux->amount : -1;
+}
+
+/* count: metadata */
+
+function fifu_db_count_urls_with_metadata() {
+    $db = new FifuDb();
+    $aux = $db->get_count_urls_with_metadata()[0];
+    return $aux ? $aux->amount : 0;
+}
+
+/* count: urls */
+
+function fifu_db_count_urls() {
+    $db = new FifuDb();
+    $aux = $db->get_count_urls()[0];
+    return $aux ? $aux->amount : 0;
 }
 
 /* clean metadata */

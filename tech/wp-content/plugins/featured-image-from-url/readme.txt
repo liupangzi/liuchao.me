@@ -159,6 +159,30 @@ Features:
 
 == Changelog ==
 
+= 2.6.1 =
+* Bug fix: menu settings style issue on Firefox.
+
+= 2.6.0 =
+* Bug fix: Auto Set First Image will ignore base64 images now.
+
+= 2.5.9 =
+* New features: Add Class and Save Image Dimensions > Follow Redirects.
+
+= 2.5.8 =
+* Improvement: Save Image Dimensions is faster now.
+
+= 2.5.7 =
+* Improvement: documentation added to REST API; bug fix: Save Image Dimensions.
+
+= 2.5.6 =
+* Improvements: countdown added to Save Image Dimensions; FAQ added to WP All Import.
+
+= 2.5.5 =
+* Improvements: option to show/hide external images in media library; option to clean image dimensions.
+
+= 2.5.4 =
+* Improvement: integration with Accelerated Mobile Pages plugin.
+
 = 2.5.3 =
 * Improvement: integration with WooCommerce Frontend Manager plugin and Wordpress Automatic plugin.
 
@@ -587,6 +611,30 @@ was removed. To finish, a Premium version is now been presented.
 * It's the first and only version so far.
 
 == Upgrade Notice ==
+
+= 2.6.1 =
+* Bug fix: menu settings style issue on Firefox.
+
+= 2.6.0 =
+* Bug fix: Auto Set First Image will ignore base64 images now.
+
+= 2.5.9 =
+* New features: Add Class and Save Image Dimensions > Follow Redirects.
+
+= 2.5.8 =
+* Improvement: Save Image Dimensions is faster now.
+
+= 2.5.7 =
+* Improvement: documentation added to REST API; bug fix: Save Image Dimensions.
+
+= 2.5.6 =
+* Improvements: countdown added to Save Image Dimensions; FAQ added to WP All Import.
+
+= 2.5.5 =
+* Improvements: option to show/hide external images in media library; option to clean image dimensions.
+
+= 2.5.4 =
+* Improvement: integration with Accelerated Mobile Pages plugin.
 
 = 2.5.3 =
 * Improvement: integration with WooCommerce Frontend Manager plugin and Wordpress Automatic plugin.

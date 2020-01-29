@@ -8,6 +8,9 @@ if ( !function_exists( 'add_action' ) ) {
 // Determine what tab is currently being displayed
 $current_tab = empty( $_GET[ 'tab' ] ) ? 1 : intval( $_GET[ 'tab' ] );
 
+// Retrieve any tracker errors for display
+$last_tracker_error = get_option( 'slimstat_tracker_error', array() );
+
 // Define all the options
 $settings = array(
 	1 => array(
@@ -99,7 +102,7 @@ $settings = array(
 			'anonymize_ip' => array(
 				'title' => __( 'Privacy Mode', 'wp-slimstat' ),
 				'type'=> 'toggle',
-				'description'=> __( "Mask your visitors' IP addresses to comply with European privacy laws. This feature will convert the last octet into a ZERO.", 'wp-slimstat' )
+				'description'=> __( "Mask your visitors' IP addresses (by converting the last number into a zero) and do not track their browser fingerprint, to comply with European privacy laws.", 'wp-slimstat' )
 			),
 			'set_tracker_cookie' => array(
 				'title' => __( 'Set Cookie', 'wp-slimstat' ),
@@ -139,11 +142,6 @@ $settings = array(
 				'title' => __( 'Same-Domain Referrers', 'wp-slimstat' ),
 				'type'=> 'toggle',
 				'description'=> __( "By default, when a referrer's domain's pageview is the same as the current site, that information is not saved in the database. However, if you are running a multisite network with subfolders, you might need to enable this option to track same-domain referrers from one site to another, as they are technically 'independent' websites.", 'wp-slimstat' )
-			),
-			'do_not_track_outbound_classes_rel_href' => array(
-				'title' => __( 'Class Names', 'wp-slimstat' ),
-				'type'=> 'textarea',
-				'description'=> __( "Do not track links whose class names, <em>rel</em> attributes or <em>href</em> attribute contain one of the following strings. Please keep in mind that the class <code>noslimstat</code> is used to avoid tracking interactive links throughout the reports. If you remove it from this list, some features might not work as expected.", 'wp-slimstat' )
 			),
 			'extensions_to_track' => array(
 				'title' => __( 'Downloads', 'wp-slimstat' ),
@@ -190,25 +188,20 @@ $settings = array(
 				'title' => __( 'External Pages', 'wp-slimstat' ),
 				'type'=> 'section_header'
 			),
-			'external_pages_script' => array(
-				'type'=> 'readonly',
-				'title' => __( 'Add the following code to all the non-WordPress pages you would like to track, right before the closing BODY tag. Please make sure to change the protocol of all the URLs to HTTPS, if you external site is using a secure channel.', 'wp-slimstat' ),
-				'use_tag_list' => false,
-				'description'=> '&lt;script type="text/javascript"&gt;
-/* &lt;![CDATA[ */
-var SlimStatParams = {
-	ajaxurl: "'.admin_url('admin-ajax.php').'",
-	ci: "YTo0OntzOjEyOiJjb250ZW50X3R5cGUiO3M6ODoiZXh0ZXJuYWwiO3M6ODoiY2F0ZWdvcnkiO3M6MDoiIjtzOjEwOiJjb250ZW50X2lkIjtpOjA7czo2OiJhdXRob3IiO3M6MTM6ImV4dGVybmFsLXBhZ2UiO30=.' . md5('YTo0OntzOjEyOiJjb250ZW50X3R5cGUiO3M6ODoiZXh0ZXJuYWwiO3M6ODoiY2F0ZWdvcnkiO3M6MDoiIjtzOjEwOiJjb250ZW50X2lkIjtpOjA7czo2OiJhdXRob3IiO3M6MTM6ImV4dGVybmFsLXBhZ2UiO30=' . wp_slimstat::$settings[ 'secret' ] ).'",
-	extensions_to_track: "'.wp_slimstat::$settings[ 'extensions_to_track' ].'"
-};
-/* ]]&gt; */
-&lt;/script&gt;
-&lt;script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-slimstat/trunk/wp-slimstat.min.js"&gt;&lt;/script&gt;'
-			),
 			'external_domains' => array(
 				'title' => __( 'Allowed Domains', 'wp-slimstat' ),
 				'type'=> 'textarea',
 				'description'=> __( "If you are getting an error saying that no 'Access-Control-Allow-Origin' header is present on the requested resource, when using the external tracking code here above, list the domains (complete with scheme) you would like to allow. For example: <code>https://my.domain.ext</code> (no trailing slash). Please see <a href='https://www.w3.org/TR/cors/#security' target='_blank'>this W3 resource</a> for more information on the security implications of allowing CORS requests.", 'wp-slimstat' )
+			),
+			'external_pages_script' => array(
+				'type'=> 'custom',
+				'title' => __( 'Add the following code to all the non-WordPress pages you would like to track, right before the closing BODY tag. Please make sure to change the protocol of all the URLs to HTTPS, if you external site is using a secure channel.', 'wp-slimstat' ),
+				'markup' => '<pre style="max-width:100%">&lt;script type="text/javascript"&gt;
+/* &lt;![CDATA[ */
+var SlimStatParams = { ajaxurl: "' . admin_url( 'admin-ajax.php' ) . '" };
+/* ]]&gt; */
+&lt;/script&gt;
+&lt;script type="text/javascript" src="https://cdn.jsdelivr.net/wp/wp-slimstat/trunk/wp-slimstat.min.js"&gt;&lt;/script&gt;</pre>'
 			)
 		)
 	),
@@ -414,6 +407,11 @@ var SlimStatParams = {
 				'type'=> 'textarea',
 				'description'=> __( 'Enter a list of permalinks that should not be tracked. Do not include your website domain name: <code>/about, ?p=1</code>, etc. See note at the bottom of this page for more information on how to use wildcards. Strings are case-insensitive.', 'wp-slimstat' )
 			),
+			'do_not_track_outbound_classes_rel_href' => array(
+				'title' => __( 'Link Attributes: class names, REL and HREF', 'wp-slimstat' ),
+				'type'=> 'textarea',
+				'description'=> __( "Do not track events on page elements whose class names, <em>rel</em> attributes or <em>href</em> attribute contain one of the following strings. Please keep in mind that the class <code>noslimstat</code> is used to avoid tracking interactive links throughout the reports. If you remove it from this list, some features might not work as expected.", 'wp-slimstat' )
+			),
 			'ignore_referers' => array(
 				'title' => __( 'Referring Sites', 'wp-slimstat' ),
 				'type'=> 'textarea',
@@ -512,10 +510,10 @@ var SlimStatParams = {
 				'title' => __( 'Troubleshooting', 'wp-slimstat' ),
 				'type'=> 'section_header'
 			),
-			'filters_users_header' => array(
+			'last_tracker_error' => array(
 				'title' => __( 'Tracker Error', 'wp-slimstat' ),
 				'type'=> 'plain-text',
-				'after_input_field' => !empty( $last_tracker_error ) ? '<strong>[' . date_i18n( get_option( 'date_format' ), $last_tracker_error[ 1 ], true ) . ' ' . date_i18n( get_option( 'time_format' ), $last_tracker_error[ 1 ], true ) . '] ' . $last_tracker_error[ 0 ] . ' ' . slim_i18n::get_string( 'e-' . $last_tracker_error[ 0 ] ) . '</strong><a class="slimstat-font-cancel" title="' . htmlentities( __( 'Reset this error', 'wp-slimstat' ), ENT_QUOTES, 'UTF-8' ) . '" href="' . wp_slimstat_admin::$config_url . $current_tab . '&amp;action=reset-tracker-error-status"></a>' : __( 'So far so good.', 'wp-slimstat' ),
+				'after_input_field' => !empty( $last_tracker_error ) ? '<strong>[' . date_i18n( get_option( 'date_format' ), $last_tracker_error[ 1 ], true ) . ' ' . date_i18n( get_option( 'time_format' ), $last_tracker_error[ 1 ], true ) . '] ' . $last_tracker_error[ 0 ] . ' ' . wp_slimstat_i18n::get_string( 'e-' . $last_tracker_error[ 0 ] ) . '</strong><a class="slimstat-font-cancel" title="' . htmlentities( __( 'Reset this error', 'wp-slimstat' ), ENT_QUOTES, 'UTF-8' ) . '" href="' . wp_slimstat_admin::$config_url . $current_tab . '&amp;action=reset-tracker-error&amp;slimstat_update_settings=' . wp_create_nonce( 'slimstat_update_settings' ) . '"></a>' : __( 'So far so good.', 'wp-slimstat' ),
 				'description'=> __( 'The information here above is useful to troubleshoot issues with the tracker. <strong>Errors</strong> are returned when the tracker could not record a page view for some reason, and are indicative of some kind of malfunction. Please include the message here above when sending a <a href="https://support.wp-slimstat.com" target="_blank">support request</a>.', 'wp-slimstat' )
 			),
 			'show_sql_debug' => array(
@@ -546,10 +544,16 @@ var SlimStatParams = {
 				'type'=> 'section_header'
 			),
 			'delete_all_records' => array(
-				'title' => __( 'Data Reset', 'wp-slimstat' ),
+				'title' => __( 'Data', 'wp-slimstat' ),
 				'type'=> 'plain-text',
-				'after_input_field' => '<a class="button-primary" href="' . wp_slimstat_admin::$config_url . $current_tab . '&amp;action=truncate-table" onclick="return( confirm( \'' . __( 'Please confirm that you want to PERMANENTLY DELETE ALL the records from your database.' ,'wp-slimstat' ) . '\' ) )">' . __( 'Delete All Records', 'wp-slimstat' ) . '</a>',
+				'after_input_field' => '<a class="button-primary" href="' . wp_slimstat_admin::$config_url . $current_tab . '&amp;action=truncate-table&amp;slimstat_update_settings=' . wp_create_nonce( 'slimstat_update_settings' ) . '" onclick="return( confirm( \'' . __( 'Please confirm that you want to PERMANENTLY DELETE ALL the records from your database.' ,'wp-slimstat' ) . '\' ) )">' . __( 'Delete Records', 'wp-slimstat' ) . '</a>',
 				'description'=> __( 'Delete all the information collected by Slimstat so far, but not the archived records (stored in <code>wp_slim_stats_archive</code>). This operation <strong>does not</strong> reset your settings and it can be undone by manually copying your records from the archive table, if you have the corresponding option enabled.' ,'wp-slimstat' )
+			),
+			'reset_all_settings' => array(
+				'title' => __( 'Settings', 'wp-slimstat' ),
+				'type'=> 'plain-text',
+				'after_input_field' => '<a class="button-primary" href="' . wp_slimstat_admin::$config_url . $current_tab . '&amp;action=reset-settings&amp;slimstat_update_settings=' . wp_create_nonce( 'slimstat_update_settings' ) . '" onclick="return( confirm( \'' . __( 'Please confirm that you want to RESET your settings.' ,'wp-slimstat' ) . '\' ) )">' . __( 'Factory Reset', 'wp-slimstat' ) . '</a>',
+				'description'=> __( 'Restore all the settings to their default value. This action DOES NOT delete any records collected by the plugin.' ,'wp-slimstat' )
 			)
 		)
 	),
@@ -573,10 +577,37 @@ if ( version_compare( PHP_VERSION, '7.1', '>=' ) ) {
 // Allow third-party tools to add their own settings
 $settings = apply_filters( 'slimstat_options_on_page', $settings );
 
+// Maxmind Data File
+$maxmind_path = wp_slimstat::$upload_dir . '/maxmind.mmdb';
+
 // Save options
 $save_messages = array();
-if ( !empty( $settings ) && !empty( $_POST[ 'slimstat_update_settings' ] ) && wp_verify_nonce( $_POST[ 'slimstat_update_settings' ], 'slimstat_update_settings' ) ) {
-	
+if ( !empty( $settings ) && !empty( $_REQUEST[ 'slimstat_update_settings' ] ) && wp_verify_nonce( $_REQUEST[ 'slimstat_update_settings' ], 'slimstat_update_settings' ) ) {
+	if ( !empty( $_GET[ 'action' ] ) ) {
+		switch ( $_GET[ 'action' ] ) {
+			case 'reset-tracker-error':
+				$settings[ 6 ][ 'rows' ][ 'last_tracker_error' ][ 'after_input_field' ] = __( 'So far so good.', 'wp-slimstat' );
+				wp_slimstat::update_option( 'slimstat_tracker_error', array() );
+				break;
+
+			case 'reset-settings':
+				wp_slimstat::update_option( 'slimstat_options', wp_slimstat::$settings );
+				wp_slimstat_admin::show_message( __( 'All settings were successfully reset to their default values.', 'wp-slimstat' ) );
+				break;
+
+			case 'truncate-table':
+				wp_slimstat::$wpdb->query( "DELETE te FROM {$GLOBALS[ 'wpdb' ]->prefix}slim_events te" );
+				wp_slimstat::$wpdb->query( "OPTIMIZE TABLE {$GLOBALS[ 'wpdb' ]->prefix}slim_events" );
+				wp_slimstat::$wpdb->query( "DELETE t1 FROM {$GLOBALS[ 'wpdb' ]->prefix}slim_stats t1" );
+				wp_slimstat::$wpdb->query( "OPTIMIZE TABLE {$GLOBALS[ 'wpdb' ]->prefix}slim_stats" );
+				wp_slimstat_admin::show_message( __( 'All your records were successfully deleted.', 'wp-slimstat' ) );
+				break;
+
+			default:
+				break;
+		}
+	}
+
 	// Some of them require extra processing
 	if ( !empty( $_POST[ 'options' ] ) ) {
 		// DB Indexes
@@ -585,6 +616,7 @@ if ( !empty( $settings ) && !empty( $_POST[ 'slimstat_update_settings' ] ) && wp
 				wp_slimstat::$wpdb->query( "ALTER TABLE {$GLOBALS[ 'wpdb' ]->prefix}slim_stats ADD INDEX {$GLOBALS[ 'wpdb' ]->prefix}stats_resource_idx( resource( 20 ) )" );
 				wp_slimstat::$wpdb->query( "ALTER TABLE {$GLOBALS[ 'wpdb' ]->prefix}slim_stats ADD INDEX {$GLOBALS[ 'wpdb' ]->prefix}stats_browser_idx( browser( 10 ) )" );
 				wp_slimstat::$wpdb->query( "ALTER TABLE {$GLOBALS[ 'wpdb' ]->prefix}slim_stats ADD INDEX {$GLOBALS[ 'wpdb' ]->prefix}stats_searchterms_idx( searchterms( 15 ) )" );
+				wp_slimstat::$wpdb->query( "ALTER TABLE {$GLOBALS[ 'wpdb' ]->prefix}slim_stats ADD INDEX {$GLOBALS[ 'wpdb' ]->prefix}stats_fingerprint_idx( fingerprint( 20 ) )" );
 				$save_messages[] = __( 'Congratulations! Slimstat Analytics is now optimized for <a href="https://www.youtube.com/watch?v=ygE01sOhzz0" target="_blank">ludicrous speed</a>.', 'wp-slimstat' );
 				wp_slimstat::$settings[ 'db_indexes' ] = 'on';
 			}
@@ -593,6 +625,7 @@ if ( !empty( $settings ) && !empty( $_POST[ 'slimstat_update_settings' ] ) && wp
 				wp_slimstat::$wpdb->query( "ALTER TABLE {$GLOBALS[ 'wpdb' ]->prefix}slim_stats DROP INDEX {$GLOBALS[ 'wpdb' ]->prefix}stats_resource_idx" );
 				wp_slimstat::$wpdb->query( "ALTER TABLE {$GLOBALS[ 'wpdb' ]->prefix}slim_stats DROP INDEX {$GLOBALS[ 'wpdb' ]->prefix}stats_browser_idx");
 				wp_slimstat::$wpdb->query( "ALTER TABLE {$GLOBALS[ 'wpdb' ]->prefix}slim_stats DROP INDEX {$GLOBALS[ 'wpdb' ]->prefix}stats_searchterms_idx");
+				wp_slimstat::$wpdb->query( "ALTER TABLE {$GLOBALS[ 'wpdb' ]->prefix}slim_stats DROP INDEX {$GLOBALS[ 'wpdb' ]->prefix}stats_fingerprint_idx");
 				$save_messages[] = __( 'Table indexes have been disabled. Enjoy the extra database space!', 'wp-slimstat' );
 				wp_slimstat::$settings[ 'db_indexes' ] = 'no';
 			}
@@ -601,7 +634,8 @@ if ( !empty( $settings ) && !empty( $_POST[ 'slimstat_update_settings' ] ) && wp
 		// MaxMind Data File
 		if ( !empty( $_POST[ 'options' ][ 'enable_maxmind' ] ) ) {
 			if ( $_POST[ 'options' ][ 'enable_maxmind' ] == 'on' && wp_slimstat::$settings[ 'enable_maxmind' ] == 'no' ) {
-				$error = wp_slimstat::download_maxmind_database();
+				include_once( plugin_dir_path( dirname( dirname( __FILE__ ) ) ) . 'vendor/maxmind.php' );
+				$error = maxmind_geolite2_connector::download_maxmind_database();
 
 				if ( empty( $error ) ) {
 					$save_messages[] = __( 'The geolocation database has been installed on your server.', 'wp-slimstat' );
@@ -612,7 +646,7 @@ if ( !empty( $settings ) && !empty( $_POST[ 'slimstat_update_settings' ] ) && wp
 				}
 			}
 			else if ( $_POST[ 'options' ][ 'enable_maxmind' ] == 'no' && wp_slimstat::$settings[ 'enable_maxmind' ] == 'on' ) {
-				$is_deleted = @unlink( wp_slimstat::$maxmind_path );
+				$is_deleted = @unlink( $maxmind_path );
 						
 				if ( $is_deleted ) {
 					$save_messages[] = __( 'The geolocation database has been uninstalled from your server.', 'wp-slimstat' );
@@ -620,7 +654,7 @@ if ( !empty( $settings ) && !empty( $_POST[ 'slimstat_update_settings' ] ) && wp
 				}
 				else {
 					// Some users have reported that a directory is created, instead of a file
-					$is_deleted = @rmdir( wp_slimstat::$maxmind_path );
+					$is_deleted = @rmdir( $maxmind_path );
 
 					if ( $is_deleted ) {
 						$save_messages[] = __( 'The geolocation database has been uninstalled from your server.', 'wp-slimstat' );
@@ -658,89 +692,55 @@ if ( !empty( $settings ) && !empty( $_POST[ 'slimstat_update_settings' ] ) && wp
 				}
 			}
 		}
-	}
 
-	if ( !empty( $_GET[ 'action' ] ) ) {
-		switch ( $_GET[ 'action' ] ) {
-			case 'reset-tracker-error-status':
-				$last_tracker_error = array();
-				if ( !is_network_admin() ) {
-					update_option( 'slimstat_tracker_error', $last_tracker_error );
+		// All other options
+		foreach( $_POST[ 'options' ] as $a_post_slug => $a_post_value ) {
+			if ( empty( $settings[ $current_tab ][ 'rows' ][ $a_post_slug ] ) || !empty( $settings[ $current_tab ][ 'rows' ][ $a_post_slug ][ 'readonly' ] ) || in_array( $settings[ $current_tab ][ 'rows' ][ $a_post_slug ][ 'type' ], array( 'section_header', 'plain-text' ) ) ) {
+				continue;
+			}
+
+			if ( isset( $a_post_value ) ) {
+				wp_slimstat::$settings[ $a_post_slug ] = !empty( $settings[ $current_tab ][ 'rows' ][ $a_post_slug ][ 'use_code_editor' ] ) ? $a_post_value : sanitize_text_field( $a_post_value );
+			}
+
+			// If the Network Settings add-on is enabled, there might be a switch to decide if this option needs to override what single sites have set
+			if ( is_network_admin() ) {
+				if ( $_POST[ 'options' ][ 'addon_network_settings_' . $a_post_slug ] == 'on' ) {
+					wp_slimstat::$settings[ 'addon_network_settings_' . $a_post_slug ] = 'on';
 				}
 				else {
-					update_site_option( 'slimstat_tracker_error', $last_tracker_error );
+					wp_slimstat::$settings[ 'addon_network_settings_' . $a_post_slug ] = 'no';
 				}
-				break;
-
-			case 'truncate-table':
-				wp_slimstat::$wpdb->query( "DELETE te FROM {$GLOBALS[ 'wpdb' ]->prefix}slim_events te" );
-				wp_slimstat::$wpdb->query( "OPTIMIZE TABLE {$GLOBALS[ 'wpdb' ]->prefix}slim_events" );
-				wp_slimstat::$wpdb->query( "DELETE t1 FROM {$GLOBALS[ 'wpdb' ]->prefix}slim_stats t1" );
-				wp_slimstat::$wpdb->query( "OPTIMIZE TABLE {$GLOBALS[ 'wpdb' ]->prefix}slim_stats" );
-				wp_slimstat_admin::show_message( __( 'All the records were successfully deleted.', 'wp-slimstat' ) );
-				break;
-
-			default:
-				break;
-		}
-	}
-
-	// All other options
-	foreach( $_POST[ 'options' ] as $a_post_slug => $a_post_value ) {
-		if ( empty( $settings[ $current_tab ][ 'rows' ][ $a_post_slug ] ) || in_array( $settings[ $current_tab ][ 'rows' ][ $a_post_slug ][ 'type' ], array( 'readonly', 'section_header', 'plain-text' ) ) ) {
-			continue;
-		}
-
-		// An empty toggle option is saved in the database as 'no'
-		if ( !empty( $a_post_value ) ) {
-			wp_slimstat::$settings[ $a_post_slug ] = !empty( $settings[ $current_tab ][ 'rows' ][ $a_post_slug ][ 'use_code_editor' ] ) ? $a_post_value : sanitize_text_field( $a_post_value );
-		}
-
-		// If the Network Settings add-on is enabled, there might be a switch to decide if this option needs to override what single sites have set
-		if ( is_network_admin() ) {
-			if ( !isset( $_POST[ 'options' ][ 'addon_network_settings_' . $a_post_slug ] ) || strtolower( $_POST[ 'options' ][ 'addon_network_settings_' . $a_post_slug ] != 'on' ) ) {
-				wp_slimstat::$settings[ 'addon_network_settings_' . $a_post_slug ] = 'no';
 			}
-			else {
-				wp_slimstat::$settings[ 'addon_network_settings_' . $a_post_slug ] = 'on';
+			else if ( isset( wp_slimstat::$settings[ 'addon_network_settings_' . $a_post_slug ] ) ) {
+				// Keep settings clean
+				unset( wp_slimstat::$settings[ 'addon_network_settings_' . $a_post_slug ] );
 			}
 		}
-		else if ( isset( wp_slimstat::$settings[ 'addon_network_settings_' . $a_post_slug ] ) ) {
-			// Keep settings clean
-			unset( wp_slimstat::$settings[ 'addon_network_settings_' . $a_post_slug ] );
+
+		// Allow third-party functions to manipulate the options right before they are saved
+		wp_slimstat::$settings = apply_filters( 'slimstat_save_options', wp_slimstat::$settings );
+
+		// Save the new values in the database
+		wp_slimstat::update_option( 'slimstat_options', wp_slimstat::$settings );
+
+		if ( !empty( $save_messages ) ) {
+			wp_slimstat_admin::show_message( implode( ' ', $save_messages ), 'warning' );
 		}
-	}
-
-	// Allow third-party functions to manipulate the options right before they are saved
-	wp_slimstat::$settings = apply_filters( 'slimstat_save_options', wp_slimstat::$settings );
-
-	if ( !is_network_admin() ) {
-		update_option( 'slimstat_options', wp_slimstat::$settings );
-	}
-	else {
-		update_site_option( 'slimstat_options', wp_slimstat::$settings );
-	}
-
-	if ( !empty( $save_messages ) ) {
-		wp_slimstat_admin::show_message( implode( ' ', $save_messages ), 'warning' );
-	}
-	else{
-		wp_slimstat_admin::show_message( __( 'Your new settings have been saved.', 'wp-slimstat' ), 'info' );
+		else{
+			wp_slimstat_admin::show_message( __( 'Your new settings have been saved.', 'wp-slimstat' ), 'info' );
+		}
 	}
 }
 
 $maxmind_last_modified = '';
-if ( file_exists( wp_slimstat::$maxmind_path ) && false !== ( $file_stat = @stat( wp_slimstat::$maxmind_path ) ) ) { 
+if ( file_exists( $maxmind_path ) && false !== ( $file_stat = @stat( $maxmind_path ) ) ) { 
 	$maxmind_last_modified = date_i18n( get_option( 'date_format' ), $file_stat[ 'mtime' ] );
 } 
 
 $index_enabled = wp_slimstat::$wpdb->get_results( 
 	"SHOW INDEX FROM {$GLOBALS[ 'wpdb' ]->prefix}slim_stats WHERE Key_name = '{$GLOBALS[ 'wpdb' ]->prefix}stats_resource_idx'"
 );
-
-if ( !isset( $last_tracker_error ) ) {
-	$last_tracker_error = get_option( 'slimstat_tracker_error', array() );
-}
 
 $tabs_html = '';
 foreach ( $settings as $a_tab_id => $a_tab_info ) {
@@ -768,6 +768,7 @@ foreach ( $settings as $a_tab_id => $a_tab_info ) {
 	<table class="form-table widefat <?php echo $GLOBALS[ 'wp_locale' ]->text_direction ?>">
 	<tbody><?php
 		$i = 0;
+
 		foreach( $settings[ $current_tab ][ 'rows' ] as $a_setting_slug => $a_setting_info ) {
 			$i++;
 			$a_setting_info = array_merge( array(
@@ -784,26 +785,24 @@ foreach ( $settings as $a_tab_id => $a_tab_info ) {
 				'select_values' => array()
 			), $a_setting_info );
 
-			$is_readonly = ( $a_setting_info[ 'type' ] === 'readonly' ) ? ' readonly' : '';
+			// Note: $a_setting_info[ 'readonly' ] is set to true by the Network Analytics add-on
+			$is_readonly = ( !empty( $a_setting_info[ 'readonly' ] ) ) ? ' readonly' : '';
 			$use_tag_list = ( empty( $is_readonly ) && !empty( $a_setting_info[ 'use_tag_list' ] ) && $a_setting_info[ 'use_tag_list' ] === true ) ? ' slimstat-taglist' : '';
 			$use_code_editor = ( empty( $is_readonly ) && !empty( $a_setting_info[ 'use_code_editor' ] ) ) ? ' data-code-editor="' . $a_setting_info[ 'use_code_editor' ] . '"': '';
 
 			$network_override_checkbox = is_network_admin() ? '
-					<input class="slimstat-checkbox-toggle"
-						type="checkbox"
-						name="options[addon_network_settings_' . $a_setting_slug . ']"' .
-						( ( !empty( wp_slimstat::$settings[ 'addon_network_settings_' . $a_setting_slug ] ) && wp_slimstat::$settings[ 'addon_network_settings_' . $a_setting_slug ] == 'on' ) ? ' checked="checked"' : '' ) . '
-						id="addon_network_settings_' . $a_setting_slug . '"
-						data-size="mini" data-handle-width="50" data-on-color="warning" data-on-text="Network" data-off-text="Site">' : '';
+				<input type="hidden" value="no" name="options[addon_network_settings_' . $a_setting_slug . ']" id="addon_network_settings_' . $a_setting_slug . '">
+				<input class="slimstat-checkbox-toggle"
+					type="checkbox"
+					name="options[addon_network_settings_' . $a_setting_slug . ']"' .
+					( ( !empty( wp_slimstat::$settings[ 'addon_network_settings_' . $a_setting_slug ] ) && wp_slimstat::$settings[ 'addon_network_settings_' . $a_setting_slug ] == 'on' ) ? ' checked="checked"' : '' ) . '
+					id="addon_network_settings_' . $a_setting_slug . '"
+					data-size="mini" data-handle-width="50" data-on-color="warning" data-on-text="Network" data-off-text="Site">' : '';
 
 			echo '<tr' . ( $i % 2 == 0 ? ' class="alternate"' : '' ) . '>';
 			switch ( $a_setting_info[ 'type' ] ) {
 				case 'section_header':
 					echo '<td colspan="2" class="slimstat-options-section-header" id="wp-slimstat-' . sanitize_title( $a_setting_info[ 'title' ] ) . '">' . $a_setting_info[ 'title' ] . '</td>';
-					break;
-
-				case 'readonly':
-					echo '<td colspan="2">' . $a_setting_info[ 'title' ] . '<textarea rows="7" class="large-text code" readonly>' . $a_setting_info[ 'description' ] . '</textarea></td>';
 					break;
 
 				case 'toggle':
@@ -815,7 +814,7 @@ foreach ( $settings as $a_tab_id => $a_tab_info ) {
 								name="options[' . $a_setting_slug . ']"
 								id="' . $a_setting_slug . '"
 								data-size="mini" data-handle-width="50" data-on-color="success"' . 
-								( ( wp_slimstat::$settings[ $a_setting_slug ] == 'on' ) ? ' checked="checked"' : '' ) . '
+								( ( !empty( wp_slimstat::$settings[ $a_setting_slug ] ) && wp_slimstat::$settings[ $a_setting_slug ] == 'on' ) ? ' checked="checked"' : '' ) . '
 								data-on-text="' . ( !empty( $a_setting_info[ 'custom_label_on' ] ) ? $a_setting_info[ 'custom_label_on' ] : __( 'On',  'wp-slimstat' ) ) . '"
 								data-off-text="' . ( !empty( $a_setting_info[ 'custom_label_off' ] ) ? $a_setting_info[ 'custom_label_off' ] : __( 'Off',  'wp-slimstat' ) ) . '">' .
 								$network_override_checkbox . '
@@ -831,7 +830,7 @@ foreach ( $settings as $a_tab_id => $a_tab_info ) {
 						<span class="block-element">
 							<select' . $is_readonly .' name="options[' . $a_setting_slug . ']" id="' . $a_setting_slug .'">';
 								foreach ( $a_setting_info[ 'select_values' ] as $a_key => $a_value ) {
-									$is_selected = ( wp_slimstat::$settings[ $a_setting_slug ] == $a_key ) ? ' selected' : '';
+									$is_selected = ( !empty( wp_slimstat::$settings[ $a_setting_slug ] ) && wp_slimstat::$settings[ $a_setting_slug ] == $a_key ) ? ' selected' : '';
 									echo '<option' . $is_selected . ' value="' . $a_key . '">' . $a_value . '</option>';
 								}
 							echo '</select>' .

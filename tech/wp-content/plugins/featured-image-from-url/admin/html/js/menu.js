@@ -3,12 +3,7 @@ jQuery(document).ready(function () {
     jQuery('.wrap').css('opacity', 1);
 });
 
-function homeUrl() {
-    var href = window.location.href;
-    var index = href.indexOf('/wp-admin');
-    var homeUrl = href.substring(0, index);
-    return homeUrl;
-}
+var restUrl = fifu_get_rest_url();
 
 function invert(id) {
     if (jQuery("#fifu_toggle_" + id).attr("class") == "toggleon") {
@@ -32,7 +27,6 @@ jQuery(function () {
     });
 
     jQuery("#tabs-flickr").tabs();
-    jQuery("#accordionClean").accordion();
     jQuery("#tabs").tabs();
     jQuery("#tabs-top").tabs();
     jQuery("#fifu_input_spinner_cron_metadata").spinner({min: 1, step: 1});
@@ -61,23 +55,45 @@ function save(formName, url) {
     });
 }
 
-jQuery(function () {
-    jQuery("#dialog").dialog({
-        autoOpen: false,
-        modal: true,
-        width: "630px",
-    });
+function fifu_default_js() {
+    jQuery('.wrap').block({message: 'Please wait some seconds...', css: {backgroundColor: 'none', border: 'none', color: 'white'}});
 
-    jQuery("#opener").on("click", function () {
-        jQuery("#dialog").load(location.href + " #dialog");
-        jQuery("#dialog").dialog("open");
+    toggle = jQuery("#fifu_toggle_enable_default_url").attr('class');
+    switch (toggle) {
+        case "toggleoff":
+            option = "disable_default_api";
+            break;
+        default:
+            url = jQuery("#fifu_input_default_url").val();
+            option = url ? "none_default_api" : "disable_default_api";
+    }
+    jQuery.ajax({
+        method: "POST",
+        url: restUrl + 'featured-image-from-url/v2/' + option + '/',
+        async: true,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-WP-Nonce', fifuScriptVars.nonce);
+        },
+        success: function (data) {
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+        },
+        complete: function () {
+            setTimeout(function () {
+                jQuery('.wrap').unblock();
+            }, 1000);
+        },
+        timeout: 0
     });
-});
+}
 
 function fifu_fake_js() {
     jQuery('.wrap').block({message: 'Please wait some seconds...', css: {backgroundColor: 'none', border: 'none', color: 'white'}});
 
-    toggle = jQuery("#fifu_toggle_fake2").attr('class');
+    toggle = jQuery("#fifu_toggle_fake").attr('class');
     switch (toggle) {
         case "toggleon":
             option = "enable_fake_api";
@@ -90,8 +106,11 @@ function fifu_fake_js() {
     }
     jQuery.ajax({
         method: "POST",
-        url: homeUrl() + '?rest_route=/featured-image-from-url/v2/' + option + '/',
+        url: restUrl + 'featured-image-from-url/v2/' + option + '/',
         async: true,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-WP-Nonce', fifuScriptVars.nonce);
+        },
         success: function (data) {
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -116,8 +135,11 @@ function fifu_clean_js() {
 
     jQuery.ajax({
         method: "POST",
-        url: homeUrl() + '?rest_route=/featured-image-from-url/v2/data_clean_api/',
+        url: restUrl + 'featured-image-from-url/v2/data_clean_api/',
         async: true,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-WP-Nonce', fifuScriptVars.nonce);
+        },
         success: function (data) {
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -129,8 +151,6 @@ function fifu_clean_js() {
             setTimeout(function () {
                 jQuery("#fifu_toggle_data_clean").attr('class', 'toggleoff');
                 jQuery("#fifu_toggle_fake").attr('class', 'toggleoff');
-                jQuery("#fifu_toggle_fake2").attr('class', 'toggleoff');
-                jQuery("#fifu_toggle_data_generation").attr('class', 'toggleoff');
                 jQuery('.wrap').unblock();
             }, 1000);
         }
@@ -149,8 +169,11 @@ function fifu_save_dimensions_all_js() {
 
     jQuery.ajax({
         method: "POST",
-        url: homeUrl() + '?rest_route=/featured-image-from-url/v2/save_dimensions_all_api/',
+        url: restUrl + 'featured-image-from-url/v2/save_dimensions_all_api/',
         async: true,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-WP-Nonce', fifuScriptVars.nonce);
+        },
         success: function (data) {
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -177,8 +200,11 @@ function fifu_clean_dimensions_all_js() {
 
     jQuery.ajax({
         method: "POST",
-        url: homeUrl() + '?rest_route=/featured-image-from-url/v2/clean_dimensions_all_api/',
+        url: restUrl + 'featured-image-from-url/v2/clean_dimensions_all_api/',
         async: true,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-WP-Nonce', fifuScriptVars.nonce);
+        },
         success: function (data) {
         },
         error: function (jqXHR, textStatus, errorThrown) {

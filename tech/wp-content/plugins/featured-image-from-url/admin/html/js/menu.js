@@ -56,7 +56,7 @@ function save(formName, url) {
 }
 
 function fifu_default_js() {
-    jQuery('.wrap').block({message: 'Please wait some seconds...', css: {backgroundColor: 'none', border: 'none', color: 'white'}});
+    jQuery('#tabs-top').block({message: 'Please wait some seconds...', css: {backgroundColor: 'none', border: 'none', color: 'white'}});
 
     toggle = jQuery("#fifu_toggle_enable_default_url").attr('class');
     switch (toggle) {
@@ -83,7 +83,7 @@ function fifu_default_js() {
         },
         complete: function () {
             setTimeout(function () {
-                jQuery('.wrap').unblock();
+                jQuery('#tabs-top').unblock();
             }, 1000);
         },
         timeout: 0
@@ -91,7 +91,7 @@ function fifu_default_js() {
 }
 
 function fifu_fake_js() {
-    jQuery('.wrap').block({message: 'Please wait some seconds...', css: {backgroundColor: 'none', border: 'none', color: 'white'}});
+    jQuery('#tabs-top').block({message: 'Please wait some seconds...', css: {backgroundColor: 'none', border: 'none', color: 'white'}});
 
     toggle = jQuery("#fifu_toggle_fake").attr('class');
     switch (toggle) {
@@ -120,7 +120,7 @@ function fifu_fake_js() {
         },
         complete: function () {
             setTimeout(function () {
-                jQuery('.wrap').unblock();
+                jQuery('#tabs-top').unblock();
             }, 1000);
         },
         timeout: 0
@@ -131,7 +131,7 @@ function fifu_clean_js() {
     if (jQuery("#fifu_toggle_data_clean").attr('class') != 'toggleon')
         return;
 
-    jQuery('.wrap').block({message: 'Please wait some seconds...', css: {backgroundColor: 'none', border: 'none', color: 'white'}});
+    jQuery('#tabs-top').block({message: 'Please wait some seconds...', css: {backgroundColor: 'none', border: 'none', color: 'white'}});
 
     jQuery.ajax({
         method: "POST",
@@ -151,7 +151,7 @@ function fifu_clean_js() {
             setTimeout(function () {
                 jQuery("#fifu_toggle_data_clean").attr('class', 'toggleoff');
                 jQuery("#fifu_toggle_fake").attr('class', 'toggleoff');
-                jQuery('.wrap').unblock();
+                jQuery('#tabs-top').unblock();
             }, 1000);
         }
     });
@@ -161,7 +161,7 @@ function fifu_save_dimensions_all_js() {
     if (jQuery("#fifu_toggle_save_dimensions_all").attr('class') != 'toggleon')
         return;
 
-    jQuery('.wrap').block({message: 'Please wait. It can take several minutes...', css: {backgroundColor: 'none', border: 'none', color: 'white'}});
+    jQuery('#tabs-top').block({message: 'Please wait. It can take several minutes...', css: {backgroundColor: 'none', border: 'none', color: 'white'}});
 
     interval = setInterval(function () {
         jQuery("#countdown").load(location.href + " #countdown");
@@ -184,7 +184,7 @@ function fifu_save_dimensions_all_js() {
         complete: function () {
             setTimeout(function () {
                 jQuery("#fifu_toggle_save_dimensions_all").attr('class', 'toggleoff');
-                jQuery('.wrap').unblock();
+                jQuery('#tabs-top').unblock();
             }, 1000);
             jQuery("#countdown").load(location.href + " #countdown");
             clearInterval(interval);
@@ -196,7 +196,7 @@ function fifu_clean_dimensions_all_js() {
     if (jQuery("#fifu_toggle_clean_dimensions_all").attr('class') != 'toggleon')
         return;
 
-    jQuery('.wrap').block({message: 'Please wait some seconds...', css: {backgroundColor: 'none', border: 'none', color: 'white'}});
+    jQuery('#tabs-top').block({message: 'Please wait some seconds...', css: {backgroundColor: 'none', border: 'none', color: 'white'}});
 
     jQuery.ajax({
         method: "POST",
@@ -215,7 +215,7 @@ function fifu_clean_dimensions_all_js() {
         complete: function () {
             setTimeout(function () {
                 jQuery("#fifu_toggle_clean_dimensions_all").attr('class', 'toggleoff');
-                jQuery('.wrap').unblock();
+                jQuery('#tabs-top').unblock();
             }, 1000);
             jQuery("#countdown").load(location.href + " #countdown");
         }

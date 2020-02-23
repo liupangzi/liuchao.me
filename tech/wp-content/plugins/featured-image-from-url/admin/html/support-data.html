@@ -1,10 +1,10 @@
 <div class="wrap">
 
-    <div class="header-box" style="background-color:#23282d">
-        <h1 style="color:white"><span class="dashicons dashicons-camera" style="font-size:30px;padding-right:10px"></span> featured image from url 2</h1>
+    <div class="header-box">
+        <h1 style="color:white;padding-left:20px"><span class="dashicons dashicons-camera" style="font-size:30px"></span><span style="padding-left:20px">featured image from url 2</span></h1>
     </div>
 
-    <div id="tabs-top">
+    <div id="tabs-top" style="float:left">
 <textarea id="bar" style="width:1020px;height:800px;resize:none;background-color:white;" readonly>
 Version:<?php echo fifu_version() ?>;
 Site:<?php echo get_home_url() ?>;
@@ -78,4 +78,9 @@ REST Routes:
         var box = jQuery("#bar");
         box.val(box.val() + '- ' + fifu_get_rest_url().substring(0, 100) + ':JS');
     });
+
+    // remove notices from other plugins
+    setTimeout(function () {
+        jQuery('div.header-box > div').remove();
+    }, 0);
 </script>

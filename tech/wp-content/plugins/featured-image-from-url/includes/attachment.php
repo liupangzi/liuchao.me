@@ -50,7 +50,7 @@ add_filter('posts_where', function ( $where, \WP_Query $q ) {
 add_filter('wp_get_attachment_image_src', 'fifu_replace_attachment_image_src', 10, 3);
 
 function fifu_replace_attachment_image_src($image, $att_id, $size) {
-    if (fifu_is_internal_image($image))
+    if (!$image || fifu_is_internal_image($image))
         return $image;
 
     if (!$att_id)

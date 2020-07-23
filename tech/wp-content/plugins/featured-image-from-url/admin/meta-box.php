@@ -3,23 +3,43 @@
 add_action('add_meta_boxes', 'fifu_insert_meta_box');
 
 function fifu_insert_meta_box() {
+    fifu_languages();
     $post_types = fifu_get_post_types();
 
     foreach ($post_types as $post_type) {
         if ($post_type == 'product') {
-            add_meta_box('urlMetaBox', '<span class="dashicons dashicons-camera" style="font-size:20px"></span> Product Image from URL', 'fifu_show_elements', $post_type, 'side', 'low');
-            add_meta_box('wooCommerceGalleryMetaBox', '<span class="dashicons dashicons-format-gallery" style="font-size:20px"></span> Image Gallery from URL', 'fifu_wc_show_elements', $post_type, 'side', 'low');
-            add_meta_box('videoUrlMetaBox', '<span class="dashicons dashicons-video-alt3" style="font-size:20px"></span> Featured Video from URL', 'fifu_video_show_elements', $post_type, 'side', 'low');
-            add_meta_box('wooCommerceVideoGalleryMetaBox', '<span class="dashicons dashicons-format-video" style="font-size:20px"></span> Video Gallery from URL', 'fifu_video_wc_show_elements', $post_type, 'side', 'low');
-            add_meta_box('sliderImageUrlMetaBox', '<span class="dashicons dashicons-images-alt2" style="font-size:20px"></span> Featured Slider from URL', 'fifu_slider_show_elements', $post_type, 'side', 'low');
-            add_meta_box('shortCodeMetaBox', '<span class="dashicons dashicons-editor-code" style="font-size:20px"></span> Featured Shortcode', 'fifu_shortcode_show_elements', $post_type, 'side', 'low');
+            add_meta_box('urlMetaBox', '<span class="dashicons dashicons-camera" style="font-size:20px"></span> ' . esc_html__('Product Image (URL)', 'featured-image-from-url'), 'fifu_show_elements', $post_type, 'side', 'low');
+            add_meta_box('wooCommerceGalleryMetaBox', '<span class="dashicons dashicons-format-gallery" style="font-size:20px"></span> ' . esc_html__('Image Gallery (URL)', 'featured-image-from-url'), 'fifu_wc_show_elements', $post_type, 'side', 'low');
+            add_meta_box('videoUrlMetaBox', '<span class="dashicons dashicons-video-alt3" style="font-size:20px"></span> ' . esc_html__('Featured Video (URL)', 'featured-image-from-url'), 'fifu_video_show_elements', $post_type, 'side', 'low');
+            add_meta_box('wooCommerceVideoGalleryMetaBox', '<span class="dashicons dashicons-format-video" style="font-size:20px"></span> ' . esc_html__('Video Gallery (URL)', 'featured-image-from-url'), 'fifu_video_wc_show_elements', $post_type, 'side', 'low');
+            add_meta_box('sliderImageUrlMetaBox', '<span class="dashicons dashicons-images-alt2" style="font-size:20px"></span> ' . esc_html__('Featured Slider (URL)', 'featured-image-from-url'), 'fifu_slider_show_elements', $post_type, 'side', 'low');
+            add_meta_box('shortCodeMetaBox', '<span class="dashicons dashicons-editor-code" style="font-size:20px"></span> ' . esc_html__('Featured Shortcode', 'featured-image-from-url'), 'fifu_shortcode_show_elements', $post_type, 'side', 'low');
         } else if ($post_type) {
-            add_meta_box('imageUrlMetaBox', '<span class="dashicons dashicons-camera" style="font-size:20px"></span> Featured Image from URL', 'fifu_show_elements', $post_type, 'side', 'low');
-            add_meta_box('videoUrlMetaBox', '<span class="dashicons dashicons-video-alt3" style="font-size:20px"></span> Featured Video from URL', 'fifu_video_show_elements', $post_type, 'side', 'low');
-            add_meta_box('sliderImageUrlMetaBox', '<span class="dashicons dashicons-images-alt2" style="font-size:20px"></span> Featured Slider from URL', 'fifu_slider_show_elements', $post_type, 'side', 'low');
-            add_meta_box('shortCodeMetaBox', '<span class="dashicons dashicons-editor-code" style="font-size:20px"></span> Featured Shortcode', 'fifu_shortcode_show_elements', $post_type, 'side', 'low');
+            add_meta_box('imageUrlMetaBox', '<span class="dashicons dashicons-camera" style="font-size:20px;padding-right:10px"></span> ' . esc_html__('Featured Image (URL)', 'featured-image-from-url'), 'fifu_show_elements', $post_type, 'side', 'low');
+            add_meta_box('videoUrlMetaBox', '<span class="dashicons dashicons-video-alt3" style="font-size:20px;padding-right:10px"></span> ' . esc_html__('Featured Video (URL)', 'featured-image-from-url'), $post_type, 'side', 'low');
+            add_meta_box('sliderImageUrlMetaBox', '<span class="dashicons dashicons-images-alt2" style="font-size:20px;padding-right:10px"></span> ' . esc_html__('Featured Slider (URL)', 'featured-image-from-url'), 'fifu_slider_show_elements', $post_type, 'side', 'low');
+            add_meta_box('shortCodeMetaBox', '<span class="dashicons dashicons-editor-code" style="font-size:20px;padding-right:10px"></span> ' . esc_html__('Featured Shortcode', 'featured-image-from-url'), 'fifu_shortcode_show_elements', $post_type, 'side', 'low');
         }
     }
+    fifu_register_meta_box_script();
+}
+
+function fifu_register_meta_box_script() {
+    wp_enqueue_script('jquery-block-ui', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js');
+    wp_enqueue_style('fancy-box-css', 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.css');
+    wp_enqueue_script('fancy-box-js', 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js');
+
+    wp_enqueue_script('fifu-meta-box-js', plugins_url('/html/js/meta-box.js', __FILE__));
+    wp_enqueue_script('fifu-convert-url-js', plugins_url('/html/js/convert-url.js', __FILE__));
+
+    if (fifu_is_sirv_active())
+        wp_enqueue_script('fifu-sirv-js', 'https://scripts.sirv.com/sirv.js');
+
+    wp_localize_script('fifu-meta-box-js', 'fifuMetaBoxVars', [
+        'get_the_ID' => get_the_ID(),
+        'is_sirv_active' => fifu_is_sirv_active(),
+        'wait' => esc_html__('Please wait some seconds...', 'featured-image-from-url'),
+    ]);
 }
 
 add_action('add_meta_boxes', 'fifu_add_css');
@@ -30,17 +50,16 @@ function fifu_add_css() {
 }
 
 function fifu_show_elements($post) {
-    $margin = 'margin-top:10px;';
+    $margin = 'margin-top:5px;';
     $width = 'width:100%;';
     $height = 'height:200px;';
     $align = 'text-align:left;';
-    $show_news = 'display:inline';
 
     $url = get_post_meta($post->ID, 'fifu_image_url', true);
     $alt = get_post_meta($post->ID, 'fifu_image_alt', true);
 
     if ($url) {
-        $show_button = $show_news = 'display:none;';
+        $show_button = 'display:none;';
         $show_alt = $show_image = $show_link = '';
     } else {
         $show_alt = $show_image = $show_link = 'display:none;';
@@ -167,10 +186,10 @@ function fifu_save_properties($post_id) {
         fifu_update_or_delete_value($post_id, 'fifu_image_alt', $alt);
     }
 
-    fifu_save($post_id);
+    fifu_save($post_id, $ignore);
 }
 
-function fifu_save($post_id) {
+function fifu_save($post_id, $ignore) {
     fifu_update_fake_attach_id($post_id);
 }
 
@@ -228,6 +247,12 @@ function fifu_is_aliplugin_active() {
     return is_plugin_active('aliplugin/aliplugin.php');
 }
 
+/* plugin: sirv */
+
+function fifu_is_sirv_active() {
+    return is_plugin_active('sirv/sirv.php');
+}
+
 /* woocommerce variation elements */
 
 add_action('woocommerce_product_after_variable_attributes', 'fifu_variation_settings_fields', 10, 3);
@@ -239,10 +264,10 @@ function fifu_variation_settings_fields($loop, $variation_data, $variation) {
                 'id' => "fifu_image_url{$loop}",
                 'name' => "fifu_image_url[{$loop}]",
                 'value' => get_post_meta($variation->ID, 'fifu_image_url', true),
-                'label' => __('<span class="dashicons dashicons-camera" style="font-size:20px"></span> Product Image from URL', 'woocommerce'),
+                'label' => __('<span class="dashicons dashicons-camera" style="font-size:20px"></span> ' . esc_html__('Product Image (URL)', 'featured-image-from-url'), 'woocommerce'),
                 'desc_tip' => true,
-                'description' => __('Powered by Featured Image from URL plugin', 'woocommerce'),
-                'placeholder' => 'Image URL (Premium)',
+                'description' => esc_html__('Powered by Featured Image from URL plugin', 'featured-image-from-url'),
+                'placeholder' => esc_html__('Image URL') . ' (Premium)',
                 'wrapper_class' => 'form-row form-row-full',
             )
     );
@@ -253,13 +278,25 @@ function fifu_variation_settings_fields($loop, $variation_data, $variation) {
                     'id' => "fifu_image_url_" . $i . "{$loop}",
                     'name' => "fifu_image_url_" . $i . "[{$loop}]",
                     'value' => get_post_meta($variation->ID, 'fifu_image_url_' . $i, true),
-                    'label' => __('<span class="dashicons dashicons-format-gallery" style="font-size:20px"></span> Image Gallery from URL #' . ($i + 1), 'woocommerce'),
+                    'label' => __('<span class="dashicons dashicons-format-gallery" style="font-size:20px"></span> ' . esc_html__('Gallery Image (URL)', 'featured-image-from-url') . ' #' . ($i + 1), 'woocommerce'),
                     'desc_tip' => true,
-                    'description' => __('Requires "WooCommerce Additional Variation Images" plugin', 'woocommerce'),
-                    'placeholder' => 'Image URL (Premium)',
+                    'description' => esc_html__('Requires WooCommerce Additional Variation Images plugin', 'featured-image-from-url'),
+                    'placeholder' => esc_html__('Image URL') . ' (Premium)',
                     'wrapper_class' => 'form-row form-row-full',
                 )
         );
     }
+}
+
+/* plugin: wordpress importer */
+
+add_action('import_end', 'fifu_import_end', 10, 0);
+
+function fifu_import_end() {
+    if ($_POST['action'] == "woocommerce_csv_import_request" && !isset($_POST['mapping']))
+        return;
+    fifu_db_delete_thumbnail_id_without_attachment();
+    fifu_db_insert_attachment();
+    fifu_db_insert_attachment_category();
 }
 

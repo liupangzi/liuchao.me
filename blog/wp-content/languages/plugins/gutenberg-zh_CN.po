@@ -2,968 +2,5275 @@
 # This file is distributed under the same license as the Plugins - Gutenberg - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-06-06 18:57:22+0000\n"
+"PO-Revision-Date: 2020-06-28 10:58:11+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: GlotPress/2.4.0-alpha\n"
+"X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: zh_CN\n"
 "Project-Id-Version: Plugins - Gutenberg - Stable (latest release)\n"
 
+#: build/block-library/index.js:53
+msgid "Name"
+msgstr "名称"
+
+#: build/block-library/index.js:36
+msgid "Display author name"
+msgstr "显示作者姓名"
+
+#: build/block-library/index.js:30
+msgid "Create an empty navigation."
+msgstr "创建一个空的导航。"
+
+#: build/block-library/index.js:26
+msgid "Opacity"
+msgstr "不透明度"
+
+#: build/block-library/index.js:16
+msgid "Color Settings"
+msgstr "颜色设置"
+
+#: build/block-library/index.js:3
+msgid "Crop"
+msgstr "裁剪"
+
+#: build/block-library/index.js:1
+msgid "Rotate"
+msgstr "旋转"
+
+#: build/block-library/index.js:1
+msgid "Zoom"
+msgstr "缩放"
+
+#: build/block-library/index.js:1
+msgid "2:3"
+msgstr "2:3"
+
+#: build/block-library/index.js:1
+msgid "3:4"
+msgstr "3:4"
+
+#: build/block-library/index.js:1
+msgid "9:16"
+msgstr "9:16"
+
+#: build/block-library/index.js:1
+msgid "10:16"
+msgstr "10:16"
+
+#: build/block-library/index.js:1
+msgid "Portrait"
+msgstr "肖像"
+
+#: build/block-library/index.js:1
+msgid "3:2"
+msgstr "3:2"
+
+#: build/block-library/index.js:1
+msgid "4:3"
+msgstr "4:3"
+
+#: build/block-library/index.js:1
+msgid "16:9"
+msgstr "16:9"
+
+#: build/block-library/index.js:1
+msgid "16:10"
+msgstr "16:10"
+
+#: build/block-library/index.js:1
+msgid "Aspect Ratio"
+msgstr "长宽比"
+
+#. translators: %d: number of blocks (number).
+#: build/block-directory/index.js:19
+msgid "The following block has been added to your site."
+msgid_plural "The following blocks have been added to your site."
+msgstr[0] "以下区块已添加到您的站点。"
+
+#. translators: %d: number of blocks (number).
+#: build/block-directory/index.js:19
+msgid "Added: %d block"
+msgid_plural "Added: %d blocks"
+msgstr[0] "已加: %d 区块"
+
+#: build/block-directory/index.js:1
+msgid "An error occurred."
+msgstr "发生了一个错误。"
+
+#: build/components/index.js:3
+msgid "Mixed"
+msgstr "混合"
+
+#: build/components/index.js:3
+msgid "Right"
+msgstr "右侧"
+
+#: build/components/index.js:3
+msgid "Left"
+msgstr "左侧"
+
+#: build/components/index.js:3
+msgid "Bottom"
+msgstr "底部"
+
+#: build/components/index.js:3
+msgid "Top"
+msgstr "顶部"
+
+#: build/block-editor/index.js:61
+msgid "Image size presets"
+msgstr "图像尺寸预设"
+
+#: build/block-editor/index.js:59
+msgid "Go to block"
+msgstr "前往区块"
+
+#: build/block-editor/index.js:41
+msgid "A tip for using the block editor"
+msgstr "使用区块编辑器的提示"
+
+#. translators: %d: the name of the block that has been added
+#: build/block-editor/index.js:35
+msgid "%d block added."
+msgid_plural "%d blocks added"
+msgstr[0] "%d 区块已加."
+
+#: build/block-editor/index.js:24
+msgid "You are currently in navigation mode. Navigate blocks using the Tab key and Arrow keys. Use Left and Right Arrow keys to move between nesting levels. To exit navigation mode and edit the selected block, press Enter."
+msgstr "您当前处于导航模式。 使用Tab键和方向键浏览区块。 使用向左和向右箭头键在嵌套级别之间移动。 要退出导航模式并编辑选定的块，请按Enter。"
+
+#: build/block-editor/index.js:7
+msgid "Padding"
+msgstr "内边距"
+
+#: build/block-editor/index.js:7
+msgid "Link Color"
+msgstr "链接颜色"
+
+#: build/edit-navigation/index.js:2
+msgid "There was an error."
+msgstr "出现错误。"
+
+#: build/edit-navigation/index.js:2
+msgid "Save the navigation currently being edited."
+msgstr "保存当前正在编辑的导航。"
+
+#: build/edit-site/index.js:2
+msgid "Overwrite Template"
+msgstr "覆盖模板"
+
+#: build/edit-site/index.js:1
+msgid "Export"
+msgstr "导出"
+
+#. translators: %s: sidebar label e.g: "Block areas".
+#: build/edit-widgets/index.js:2
+msgid "%s (selected)"
+msgstr "%s (已选)"
+
+#: build/edit-widgets/index.js:1
+msgid "Your theme does not contain block areas."
+msgstr "您的主题不包含区块区域。"
+
+#: build/edit-widgets/index.js:1
+msgid "Block Areas (also known as \"Widget Areas\") are global parts in your site's layout that can accept blocks. These vary by theme, but are typically parts like your Sidebar or Footer."
+msgstr "区块区域（也称为\"小工具区域\"）是网站布局中可以接受区块的全局部分。这些因主题而异，但通常是像侧边栏或页脚的部分。"
+
+#: lib/class-wp-rest-plugins-controller.php:938
+msgid "Limits results to plugins with the given status."
+msgstr "限制结果集为具有给定状态的插件。"
+
+#: lib/class-wp-rest-plugins-controller.php:914
+msgid "The plugin's text domain."
+msgstr "插件的文本域。"
+
+#: lib/class-wp-rest-plugins-controller.php:908
+msgid "Minimum required version of PHP."
+msgstr "最低要求的PHP版本。"
+
+#: lib/class-wp-rest-plugins-controller.php:902
+msgid "Minimum required version of WordPress."
+msgstr "最低要求的WordPress版本。"
+
+#: lib/class-wp-rest-plugins-controller.php:896
+msgid "Whether the plugin can only be activated network-wide."
+msgstr "插件是否只能在整个网络范围内激活。"
+
+#: lib/class-wp-rest-plugins-controller.php:890
+msgid "The plugin version number."
+msgstr "插件版本号。"
+
+#: lib/class-wp-rest-plugins-controller.php:884
+msgid "The plugin description formatted for display."
+msgstr "插件说明已格式化以供显示。"
+
+#: lib/class-wp-rest-plugins-controller.php:880
+msgid "The raw plugin description."
+msgstr "原始插件说明。"
+
+#: lib/class-wp-rest-plugins-controller.php:874
+msgid "The plugin description."
+msgstr "插件说明。"
+
+#: lib/class-wp-rest-plugins-controller.php:867
+msgid "Plugin author's website address."
+msgstr "插件作者的网站地址。"
+
+#: lib/class-wp-rest-plugins-controller.php:861
+msgid "The plugin author."
+msgstr "插件作者。"
+
+#: lib/class-wp-rest-plugins-controller.php:854
+msgid "The plugin's website address."
+msgstr "插件的网站地址。"
+
+#: lib/class-wp-rest-plugins-controller.php:848
+msgid "The plugin name."
+msgstr "插件名称。"
+
+#: lib/class-wp-rest-plugins-controller.php:835
+msgid "The plugin file."
+msgstr "插件文件。"
+
+#: lib/class-wp-rest-plugins-controller.php:814
+msgid "The filesystem is currently unavailable for managing plugins."
+msgstr "该文件系统当前不可用于管理插件。"
+
+#: lib/class-wp-rest-plugins-controller.php:661
+msgid "Sorry, you are not allowed to deactivate this plugin."
+msgstr "抱歉，您无法停用此插件。"
+
+#: lib/class-wp-rest-plugins-controller.php:653
+msgid "Sorry, you are not allowed to activate this plugin."
+msgstr "抱歉，您不能激活此插件。"
+
+#: lib/class-wp-rest-plugins-controller.php:645
+msgid "Sorry, you do not have permission to manage network plugins."
+msgstr "抱歉，您无权管理网络插件。"
+
+#: lib/class-wp-rest-plugins-controller.php:498
+msgid "Cannot delete an active plugin. Please deactivate it first."
+msgstr "无法删除启用的插件。 请先停用它。"
+
+#: lib/class-wp-rest-plugins-controller.php:463
+msgid "Sorry, you are not allowed to delete plugins for this site."
+msgstr "抱歉，您不能删除该网站的插件。"
+
+#: lib/class-wp-rest-plugins-controller.php:343
+msgid "Unable to determine what plugin was installed."
+msgstr "无法确定安装了什么插件。"
+
+#: lib/class-wp-rest-plugins-controller.php:253
+msgid "Sorry, you are not allowed to activate plugins."
+msgstr "抱歉，您不能激活插件。"
+
+#: lib/class-wp-rest-plugins-controller.php:245
+msgid "Sorry, you are not allowed to install plugins on this site."
+msgstr "抱歉，不允许您在此站点上安装插件。"
+
+#: lib/class-wp-rest-plugins-controller.php:228
+msgid "Sorry, you are not allowed to manage this plugin."
+msgstr "抱歉，您不能管理此插件。"
+
+#: lib/class-wp-rest-plugins-controller.php:215
+#: lib/class-wp-rest-plugins-controller.php:601
+msgid "Plugin not found."
+msgstr "找不到插件。"
+
+#: lib/class-wp-rest-plugins-controller.php:118
+#: lib/class-wp-rest-plugins-controller.php:168
+#: lib/class-wp-rest-plugins-controller.php:385
+#: lib/class-wp-rest-plugins-controller.php:455
+msgid "Sorry, you are not allowed to manage plugins for this site."
+msgstr "抱歉，您不能管理该网站的插件。"
+
+#: lib/class-wp-rest-plugins-controller.php:61
+#: lib/class-wp-rest-plugins-controller.php:842
+msgid "The plugin activation status."
+msgstr "插件激活状态。"
+
+#: lib/class-wp-rest-plugins-controller.php:57
+msgid "WordPress.org plugin directory slug."
+msgstr "WordPress.org插件目录别名。"
+
+#: lib/class-wp-rest-block-types-controller.php:495
+msgid "Block example."
+msgstr "区块示例。"
+
+#: lib/class-wp-rest-block-types-controller.php:485
+msgid "Block keywords."
+msgstr "区块关键字。"
+
+#: lib/class-wp-rest-block-types-controller.php:468
+msgid "Public text domain."
+msgstr "公共文本域。"
+
+#: lib/class-wp-rest-block-types-controller.php:422
+msgid "Is the block dynamically rendered."
+msgstr "区块是动态渲染的？"
+
+#: lib/class-wp-rest-block-types-controller.php:368
+msgid "Icon of block type."
+msgstr "区块类型的图标。"
+
+#: lib/class-wp-rest-block-types-controller.php:361
+msgid "Description of block type."
+msgstr "区块类型的描述。"
+
+#: lib/class-wp-rest-block-types-controller.php:347
+msgid "Title of block type."
+msgstr "区块类型的标题。"
+
+#: lib/class-wp-rest-block-types-controller.php:199
+msgid "Invalid block type."
+msgstr "无效的区块类型。"
+
+#: lib/class-wp-rest-block-types-controller.php:187
+msgid "Sorry, you are not allowed to manage block types."
+msgstr "抱歉，您无权管理区块类型。"
+
+#: lib/class-wp-rest-block-types-controller.php:86
+msgid "Block name."
+msgstr "区块名称"
+
+#: lib/class-wp-rest-block-directory-controller.php:326
+msgid "Limit result set to blocks matching the search term."
+msgstr "限制结果集为匹配搜索词的区块。"
+
+#: lib/class-wp-rest-block-directory-controller.php:291
+msgid "The date when the block was last updated, in fuzzy human readable format."
+msgstr "区块最后更新的日期，以模糊的人类可读格式。"
+
+#: lib/class-wp-rest-block-directory-controller.php:285
+msgid "The block icon."
+msgstr "区块图标"
+
+#: lib/class-wp-rest-block-directory-controller.php:280
+msgid "The WordPress.org username of the block author."
+msgstr "区块作者的WordPress.org用户名。"
+
+#: lib/class-wp-rest-block-directory-controller.php:275
+msgid "The number of blocks published by the same author."
+msgstr "同一作者发布的区块数。"
+
+#: lib/class-wp-rest-block-directory-controller.php:270
+msgid "The average rating of blocks published by the same author."
+msgstr "同一作者发布的区块的平均评分。"
+
+#: lib/class-wp-rest-block-directory-controller.php:265
+msgid "The number sites that have activated this block."
+msgstr "激活了此区块的站点数量。"
+
+#: lib/class-wp-rest-block-directory-controller.php:260
+msgid "The number of ratings."
+msgstr "评分数。"
+
+#: lib/class-wp-rest-block-directory-controller.php:255
+msgid "The star rating of the block."
+msgstr "区块的星级等级。"
+
+#: lib/class-wp-rest-block-directory-controller.php:250
+msgid "The block slug."
+msgstr "区块别名"
+
+#: lib/class-wp-rest-block-directory-controller.php:245
+msgid "A short description of the block, in human readable format."
+msgstr "区块的简短描述，以人类可读的格式。"
+
+#: lib/class-wp-rest-block-directory-controller.php:240
+msgid "The block title, in human readable format."
+msgstr "区块标题，以人类可读的格式。"
+
+#: lib/class-wp-rest-block-directory-controller.php:235
+msgid "The block name, in namespace/block-name format."
+msgstr "区块名称，采用名称空间/区块-名称格式。"
+
+#: lib/class-wp-rest-block-directory-controller.php:61
+msgid "Sorry, you are not allowed to browse the block directory."
+msgstr "抱歉，不允许您浏览区块目录。"
+
+#: lib/compat.php:363 build/blocks/index.js:1
+msgid "Design"
+msgstr "设计"
+
+#: lib/compat.php:353 build/blocks/index.js:1
+msgid "Text"
+msgstr "文本"
+
+#. translators: %1: field name. %2: block name
+#: lib/compat.php:93
+msgid "The asset file for the \"%1$s\" defined in \"%2$s\" block definition is missing."
+msgstr "缺少在\"%2$s\"区块定义中定义的\"%1$s\"的资产文件。"
+
+#. translators: 1: Block name.
+#: lib/class-wp-block.php:125
+msgid "The \"providesContext\" parameter provided in block type \"%s\" is deprecated. Please use \"provides_context\"."
+msgstr "区块类型\"%s\"中提供的\"providesContext\"参数已弃用。 请使用\"provides_context\"。"
+
+#. translators: 1: Block name.
+#: lib/class-wp-block.php:116
+msgid "The \"context\" parameter provided in block type \"%s\" is deprecated. Please use \"uses_context\" instead."
+msgstr "区块类型\"%s\"中提供的\"context\" 参数已弃用。 请使用\"uses_context\"。"
+
+#. translators: %s: Name of the plugin e.g: "Akismet".
+#: build/block-directory/index.js:11
+msgid "Adding…"
+msgstr "添加..."
+
+#. translators: 1: number of blocks.
+#: build/block-directory/index.js:7
+msgid "This author has %1$d block."
+msgid_plural "This author has %1$d blocks."
+msgstr[0] "该作者有%1$d区块."
+
+#: build/components/index.js:1
+msgid "Bottom Right"
+msgstr "底部右侧"
+
+#: build/components/index.js:1
+msgid "Bottom Center"
+msgstr "底部中心"
+
+#: build/components/index.js:1
+msgid "Bottom Left"
+msgstr "底部左侧"
+
+#: build/components/index.js:1
+msgid "Center Right"
+msgstr "中间右侧"
+
+#: build/components/index.js:1
+msgid "Center Center"
+msgstr "正中部"
+
+#: build/components/index.js:1
+msgid "Center Left"
+msgstr "中间左侧"
+
+#: build/components/index.js:1
+msgid "Top Right"
+msgstr "顶部右侧"
+
+#: build/components/index.js:1
+msgid "Top Center"
+msgstr "顶部中心"
+
+#: build/components/index.js:1
+msgid "Top Left"
+msgstr "顶部左侧"
+
+#: build/edit-navigation/index.js:2
+msgid "Assigned Menu"
+msgstr "已指派的菜单"
+
+#: build/edit-navigation/index.js:2
+msgid "Theme Location"
+msgstr "主题位置"
+
+#: build/edit-navigation/index.js:2
+msgid "There are no available menus"
+msgstr "没有可用的菜单"
+
+#: build/edit-navigation/index.js:2
+msgid "There are no available menu locations"
+msgstr "没有可用的菜单位置"
+
+#: build/edit-navigation/index.js:2
+msgid "Menu locations"
+msgstr "菜单位置"
+
+#: build/edit-navigation/index.js:2
+msgid "— Select a Menu —"
+msgstr "— 选择菜单 —"
+
+#: build/edit-navigation/index.js:2
+msgid "Create a new menu"
+msgstr "创建一个新菜单"
+
+#: build/edit-navigation/index.js:2
+msgid "Create your first menu below."
+msgstr "在此创建您的第一个菜单。"
+
+#: build/edit-navigation/index.js:2
+msgid "Navigation saved."
+msgstr "导航已保存。"
+
+#: build/edit-navigation/index.js:2
+msgid "Create menu"
+msgstr "创建菜单"
+
+#: build/edit-navigation/index.js:2
+msgid "Main Navigation"
+msgstr "主导航"
+
+#: build/edit-navigation/index.js:2
+msgid "Menu name"
+msgstr "菜单名称"
+
+#: build/edit-navigation/index.js:2
+msgid "Create navigation menu"
+msgstr "创建导航菜单"
+
+#. translators: %s: the name of a menu.
+#: build/edit-navigation/index.js:2
+msgid "Menu created"
+msgstr "菜单已创建"
+
+#. translators: %s: the name of a menu.
+#: build/edit-navigation/index.js:2
+msgid "The menu name %s conflicts with another menu name. Please try another."
+msgstr "菜单名称“%s”和另一菜单名称冲突，请另选一个名称。"
+
+#. Translators: Number of blocks being cut
+#: build/block-editor/index.js:53
+msgid "Moved %d blocks to clipboard."
+msgstr "已将%d区块移至剪贴板。"
+
+#. Translators: Number of blocks being copied
+#: build/block-editor/index.js:52
+msgid "Copied %d blocks to clipboard."
+msgstr "已将%d区块复制到剪贴板。"
+
+#. Translators: Name of the block being cut, e.g. "Paragraph"
+#: build/block-editor/index.js:51
+msgid "Moved \"%s\" to clipboard."
+msgstr "已将\"%s\"移至剪贴板。"
+
+#. Translators: Name of the block being copied, e.g. "Paragraph"
+#: build/block-editor/index.js:50
+msgid "Copied \"%s\" to clipboard."
+msgstr "已将 \"%s\" 复制到剪贴板。"
+
+#: build/block-editor/index.js:61
+msgid "Navigation item"
+msgstr "导航项目"
+
+#. translators: 1: The numerical position of the block that will be inserted.
+#. 2: The level of nesting for the block that will be inserted.
+#: build/block-editor/index.js:61
+msgid "Block navigation structure"
+msgstr "区块导航结构"
+
+#. translators: 1: The numerical position of the block that will be inserted.
+#. 2: The level of nesting for the block that will be inserted.
+#: build/block-editor/index.js:61
+msgid "Add block at position %1$d, Level %2$d"
+msgstr "在位置%1$d添加区块，级别 %2$d"
+
+#: build/a11y/index.js:1
+msgid "Notifications"
+msgstr "通知"
+
+#: build/editor/index.js:11
+msgid "Review changes."
+msgstr "查看更改。"
+
+#: build/editor/index.js:11
+msgid "Hide changes."
+msgstr "隐藏更改。"
+
+#: build/editor/index.js:11
+msgid "Are you ready to save?"
+msgstr "准备好保存了吗？"
+
+#: build/editor/index.js:11
+msgid "Changes have been made to multiple entity types."
+msgstr "已对多种实体类型进行了更改。"
+
+#. translators: placeholders represent pre-translated singular/plural entity
+#. names (page, post, template, site, etc.)
+#: build/editor/index.js:11
+msgid "Changes have been made to your %1$s, %2$s, %3$s, %4$s, and %5$s."
+msgstr "您的%1$s, %2$s, %3$s,%4$s, 和 %5$s已进行更改。"
+
+#. translators: placeholders represent pre-translated singular/plural entity
+#. names (page, post, template, site, etc.)
+#: build/editor/index.js:9
+msgid "Changes have been made to your %1$s, %2$s, %3$s, and %4$s."
+msgstr "您的%1$s, %2$s, %3$s, 和 %4$s已进行更改。"
+
+#. translators: placeholders represent pre-translated singular/plural entity
+#. names (page, post, template, site, etc.)
+#: build/editor/index.js:7
+msgid "Changes have been made to your %1$s, %2$s, and %3$s."
+msgstr "您的%1$s, %2$s, 和 %3$s已进行更改。"
+
+#. translators: placeholders represent pre-translated singular/plural entity
+#. names (page, post, template, site, etc.)
+#: build/editor/index.js:5
+msgid "Changes have been made to your %1$s and %2$s."
+msgstr "您的 %1$s 和 %2$s已进行更改。"
+
+#. translators: placeholders represent pre-translated singular/plural entity
+#. names (page, post, template, site, etc.)
+#: build/editor/index.js:3
+msgid "Changes have been made to your %s."
+msgstr "您的%s已进行更改。"
+
+#: build/editor/index.js:1
+msgid "There are no changes."
+msgstr "没有变化。"
+
+#: build/editor/index.js:1
+msgid "site"
+msgid_plural "sites"
+msgstr[0] "网站"
+
+#: build/editor/index.js:1
+msgid "template"
+msgid_plural "templates"
+msgstr[0] "模板"
+
+#: build/block-library/index.js:55
+msgid "This is a placeholder for post content."
+msgstr "这是文章内容的占位符。"
+
+#: build/block-library/index.js:55
+msgid "No pages to paginate."
+msgstr "没有要分页的页面。"
+
+#: build/block-library/index.js:55
+msgid "Query Pagination"
+msgstr "查询分页"
+
+#: build/block-library/index.js:55
+msgid "Query Loop"
+msgstr "循环查询"
+
+#: build/block-library/index.js:55
+msgid "Offset"
+msgstr "偏移"
+
+#: build/block-library/index.js:55
+msgid "Number of Pages"
+msgstr "页数"
+
+#: build/block-library/index.js:55
+msgid "Posts per Page"
+msgstr "每页文章数"
+
+#: build/block-library/index.js:55
+msgid "Query"
+msgstr "查询"
+
+#: build/block-library/index.js:53
+msgid "A widget area container."
+msgstr "小工具区域容器。"
+
+#: build/block-library/index.js:53
+msgid "Widget Area"
+msgstr "小工具区域"
+
+#: build/block-library/index.js:26
+msgid "Change content position"
+msgstr "更改内容位置"
+
+#: build/edit-site/index.js:1
+msgid "Search for Post"
+msgstr "搜索文章"
+
+#: build/edit-site/index.js:1
+msgid "Posts"
+msgstr "文章"
+
+#: build/edit-site/index.js:1
+msgid "Switch Page"
+msgstr "切换页面"
+
+#: build/block-editor/index.js:29 build/block-editor/index.js:31
+#: build/edit-post/index.js:5
+msgid "Uncategorized"
+msgstr "未分类"
+
+#: lib/client-assets.php:750
+msgctxt "Block pattern category"
+msgid "Gallery"
+msgstr "画廊"
+
+#: lib/client-assets.php:748
+msgctxt "Block pattern category"
+msgid "Buttons"
+msgstr "按钮"
+
+#: lib/client-assets.php:749
+msgctxt "Block pattern category"
+msgid "Columns"
+msgstr "栏目"
+
+#: lib/client-assets.php:752
+msgctxt "Block pattern category"
+msgid "Text"
+msgstr "文本"
+
+#: build/edit-post/index.js:13 build/edit-site/index.js:2
+msgid "Open save panel"
+msgstr "打开保存面板"
+
+#: build/edit-navigation/index.js:2
+msgid "Delete navigation"
+msgstr "删除导航"
+
+#: build/edit-navigation/index.js:2
+msgid "Are you sure you want to delete this navigation?"
+msgstr "您确定要删除此导航吗？"
+
+#: build/block-library/index.js:55
+msgid "Show bio"
+msgstr "显示简历"
+
+#: build/block-library/index.js:55
+msgid "Avatar size"
+msgstr "头像大小"
+
+#: build/block-library/index.js:55
+msgid "Show avatar"
+msgstr "显示头像"
+
+#: build/block-library/index.js:55
+msgid "Author Settings"
+msgstr "作者设置"
+
+#: build/block-library/index.js:18
+msgid "This column count exceeds the recommended amount and may cause visual breakage."
+msgstr "该栏数超过建议的数量，可能会导致视觉破损。"
+
+#. translators: %s: block pattern title.
+#. translators: %d: number of results.
+#: build/block-editor/index.js:31 build/block-editor/index.js:33
+msgid "Search Results"
+msgstr "搜索结果"
+
+#: build/block-editor/index.js:24
+msgid "White"
+msgstr "白"
+
+#: build/block-editor/index.js:24
+msgid "Black"
+msgstr "黑"
+
+#: build/editor/index.js:1
+msgid "Selected"
+msgstr "已选择"
+
+#: lib/patterns/two-images.php:9
+msgid "Two images side by side"
+msgstr "两张图片并排显示"
+
+#: build/format-library/index.js:1
+msgid "Superscript"
+msgstr "上标"
+
+#: build/format-library/index.js:1
+msgid "Subscript"
+msgstr "下标"
+
+#: build/block-library/index.js:16
+msgid "Browser default"
+msgstr "浏览器默认"
+
+#. translators: accessibility text for the left sidebar landmark region.
+#: build/edit-widgets/index.js:8 build/edit-post/index.js:19
+#: build/edit-site/index.js:8
+msgid "Left sidebar"
+msgstr "左侧边栏"
+
+#: build/edit-site/index.js:2
+msgid "Current theme"
+msgstr "当前主题"
+
+#: build/edit-post/index.js:13 build/edit-site/index.js:2
+msgid "Block Library"
+msgstr "区块库"
+
+#: build/edit-navigation/index.js:2
+msgid "Manage Locations"
+msgstr "管理位置"
+
+#: build/edit-navigation/index.js:2
+msgid "Edit Navigation"
+msgstr "编辑导航"
+
+#: build/edit-navigation/index.js:2
+msgid "Select navigation to edit:"
+msgstr "选择要编辑的导航："
+
+#: build/edit-navigation/index.js:2
+msgid "Navigation menu"
+msgstr "导航菜单"
+
+#: build/edit-navigation/index.js:2
+msgid "Save navigation"
+msgstr "保存导航"
+
+#: build/edit-navigation/index.js:2
+msgid "Navigation structure"
+msgstr "导航结构"
+
+#: build/block-library/index.js:36
+msgid " … "
+msgstr " … "
+
+#: build/block-library/index.js:30
+msgid "Links shown in a column."
+msgstr "链接显示在一列中。"
+
+#: build/block-library/index.js:30
+msgid "Navigation (vertical)"
+msgstr "导航(垂直)"
+
+#: build/block-library/index.js:30
+msgid "Links shown in a row."
+msgstr "链接显示在一行中。"
+
+#: build/block-library/index.js:30
+msgid "Navigation (horizontal)"
+msgstr "导航(水平)"
+
+#. translators: accessibility text. 1: The block title. 2: The block row
+#. number.
+#: build/blocks/index.js:5
+msgid "%1$s Block. Row %2$d"
+msgstr "%1$s 区块. 行 %2$d"
+
+#: build/block-editor/index.js:7
+msgid "Line height"
+msgstr "行高"
+
+#. translators: accessibility text for the content landmark region.
+#: build/edit-widgets/index.js:6 build/edit-post/index.js:17
+#: build/edit-site/index.js:6
+msgid "Content"
+msgstr "内容"
+
+#: build/edit-post/index.js:1
+msgid "Toggle fullscreen mode."
+msgstr "切换全屏模式"
+
+#: build/core-data/index.js:1
+msgid "Menu Location"
+msgstr "菜单位置"
+
+#: build/core-data/index.js:1
+msgid "Menu"
+msgstr "菜单"
+
+#: lib/experiments-page.php:61
+msgid "Enable Navigation screen"
+msgstr "启用导航屏幕"
+
+#: gutenberg.php:63 gutenberg.php:64
+msgid "Navigation (beta)"
+msgstr "导航(测试)"
+
+#: build/block-library/index.js:55
+msgid "Post Comments"
+msgstr "文章评论"
+
+#: build/block-library/index.js:55
+msgid "No comments."
+msgstr "没有评论"
+
+#. translators: 'About' as in a website's about page.
+#: build/block-library/index.js:34
+msgid "About"
+msgstr "关于"
+
+#. translators: 'Home' as in a website's home page.
+#: build/block-library/index.js:32 build/edit-site/index.js:1
+#: build/edit-site/index.js:2
+msgid "Home"
+msgstr "首页"
+
+#: build/block-library/index.js:18
+msgid "25 / 50 / 25"
+msgstr "25 / 50 / 25"
+
+#: build/block-library/index.js:18
+msgid "33 / 33 / 33"
+msgstr "33 / 33 / 33"
+
+#: build/block-library/index.js:18
+msgid "70 / 30"
+msgstr "70 / 30"
+
+#: build/block-library/index.js:18
+msgid "30 / 70"
+msgstr "30 / 70"
+
+#: build/block-library/index.js:18
+msgid "50 / 50"
+msgstr "50 / 50"
+
+#: build/block-editor/index.js:67
+msgid "Current media URL:"
+msgstr "当前媒体网址："
+
+#: build/edit-post/index.js:9
+msgid "Preview in new tab"
+msgstr "在新标签页中预览"
+
+#: lib/class-wp-rest-menu-items-controller.php:1022
+msgid "Sort collection by object attribute."
+msgstr "按对象属性对集合进行排序。"
+
+#: lib/class-wp-rest-menu-items-controller.php:1015
+msgid "Order sort attribute ascending or descending."
+msgstr "订单排序属性是升序还是降序。"
+
+#: lib/class-wp-rest-menu-items-controller.php:1010
+msgid "Limit result set to posts with a specific menu_order value."
+msgstr "限制结果集为有特定menu_order值的文章。"
+
+#: lib/class-wp-rest-menu-items-controller.php:943
+msgid "The URL to which this menu item points."
+msgstr "该菜单项指向的URL。"
+
+#: lib/class-wp-rest-menu-items-controller.php:936
+msgid "The singular label used to describe this type of menu item."
+msgstr "用于描述此类菜单项的单数标签。"
+
+#: lib/class-wp-rest-menu-items-controller.php:926
+msgid "The target attribute of the link element for this menu item."
+msgstr "此菜单项的链接元素的target属性。"
+
+#: lib/class-wp-rest-menu-items-controller.php:867
+msgid "The description of this menu item."
+msgstr "此菜单项的描述。"
+
+#: lib/class-wp-rest-menu-items-controller.php:853
+msgid "Class names for the link element of this menu item."
+msgstr "此菜单项的链接元素的类名称。"
+
+#: lib/class-wp-rest-menu-items-controller.php:844
+msgid "Text for the title attribute of the link element for this menu item."
+msgstr "此菜单项的link元素的title属性的文本。"
+
+#: lib/class-wp-rest-menu-items-controller.php:828
+msgid "A named status for the object."
+msgstr "对象的命名状态。"
+
+#: lib/class-wp-rest-menu-items-controller.php:813
+msgid "Name of type."
+msgstr "类型名称。"
+
+#: lib/class-wp-rest-menu-items-controller.php:795
+msgid "HTML title for the object, transformed for display."
+msgstr "对象的HTML标题，转换后显示。"
+
+#: lib/class-wp-rest-menu-items-controller.php:790
+msgid "Title for the object, as it exists in the database."
+msgstr "对象的标题，存放于数据库。"
+
+#: lib/class-wp-rest-menu-items-controller.php:529
+msgid "Invalid URL."
+msgstr "无效网址"
+
+#: lib/class-wp-rest-menu-items-controller.php:487
+#: lib/class-wp-rest-menu-items-controller.php:490
+msgid "Invalid menu item parent."
+msgstr "无效的父菜单项。"
+
+#: lib/class-wp-rest-menu-items-controller.php:479
+msgid "Invalid menu position."
+msgstr "无效的菜单位置。"
+
+#: lib/class-wp-rest-menu-items-controller.php:454
+msgid "Invalid menu ID."
+msgstr "菜单ID无效。"
+
+#: lib/class-wp-rest-menu-items-controller.php:439
+msgid "URL required if menu item of type custom."
+msgstr "如果菜单项类型为自定义，则需要URL。"
+
+#: lib/class-wp-rest-menu-items-controller.php:436
+msgid "Title required if menu item of type custom."
+msgstr "如果菜单类型为“定制”，则需要标题。"
+
+#: lib/class-wp-rest-menu-items-controller.php:429
+msgid "Invalid post type."
+msgstr "无效的文章类型。"
+
+#: lib/class-wp-rest-menu-items-controller.php:418
+msgid "Invalid post ID."
+msgstr "无效的文章 ID 。"
+
+#: lib/class-wp-rest-menu-items-controller.php:271
+msgid "The post cannot be deleted."
+msgstr "该文章无法删除。"
+
+#. translators: %s: force=true
+#: lib/class-wp-rest-menu-items-controller.php:263
+msgid "Menu items do not support trashing. Set '%s' to delete."
+msgstr "菜单项不支持回收站。 将'%s'设置为删除。"
+
+#: lib/class-wp-rest-menu-items-controller.php:97
+msgid "Cannot create existing post."
+msgstr "无法创建已存在的文章。"
+
+#: lib/class-wp-rest-menu-items-controller.php:83
+msgid "Sorry, you cannot view these menu items, unless you have access to permission edit them. "
+msgstr "抱歉，您无法查看这些菜单项，除非您有权访问对其进行编辑。"
+
+#: lib/class-wp-rest-customizer-nonces.php:52
+#: lib/class-wp-rest-menu-items-controller.php:81
+msgid "Sorry, you are not allowed to edit posts in this post type."
+msgstr "抱歉，您无法编辑此文章类型的文章。"
+
+#: lib/class-wp-rest-menu-items-controller.php:65
+msgid "Sorry, you cannot view this menu item, unless you have access to permission edit it. "
+msgstr "抱歉，您无法查看此菜单项，除非您有权访问对其进行编辑。"
+
+#: lib/class-wp-rest-menus-controller.php:580
+msgid "The locations assigned to the menu."
+msgstr "分配给菜单的位置。"
+
+#: lib/class-wp-rest-menus-controller.php:552
+msgid "Menu location does not exist."
+msgstr "菜单位置不存在。"
+
+#: lib/class-wp-rest-menus-controller.php:458
+msgid "The term cannot be deleted."
+msgstr "项目不能被删除。"
+
+#: lib/class-wp-rest-menus-controller.php:139
+msgid "Sorry, you are not allowed to assign the provided locations."
+msgstr "抱歉，您不能分配所提供的位置。"
+
+#: lib/class-wp-rest-menus-controller.php:60
+msgid "Sorry, you cannot view this menu, unless you have access to permission edit it. "
+msgstr "抱歉，您无法查看此菜单，除非您有权访问对其进行编辑。"
+
+#: lib/class-wp-rest-menus-controller.php:58
+msgid "Sorry, you are not allowed to edit this term."
+msgstr "抱歉，您不能编辑此项目。"
+
+#: lib/class-wp-rest-menus-controller.php:40
+msgid "Sorry, you cannot view these menus, unless you have access to permission edit them. "
+msgstr "抱歉，您无法查看这些菜单，除非您有权访问对其进行编辑。"
+
+#: lib/class-wp-rest-menus-controller.php:38
+msgid "Sorry, you are not allowed to edit terms in this taxonomy."
+msgstr "抱歉，您不能编辑此分类中的项目。"
+
+#: lib/class-wp-rest-menu-locations-controller.php:206
+msgid "The ID of the assigned menu."
+msgstr "分配菜单的ID。"
+
+#: lib/class-wp-rest-menu-locations-controller.php:200
+msgid "The description of the menu location."
+msgstr "菜单位置的描述。"
+
+#: lib/class-wp-rest-menu-locations-controller.php:194
+msgid "The name of the menu location."
+msgstr "菜单位置的名称。"
+
+#: lib/class-wp-rest-menus-controller.php:146
+#: lib/class-wp-rest-menu-locations-controller.php:116
+#: lib/class-wp-rest-menu-locations-controller.php:132
+msgid "Invalid menu location."
+msgstr "无效的菜单位置。"
+
+#: lib/class-wp-rest-menu-locations-controller.php:76
+#: lib/class-wp-rest-menu-locations-controller.php:113
+msgid "Sorry, you are not allowed to view menu locations."
+msgstr "抱歉，您无权查看菜单位置。"
+
+#: lib/class-wp-rest-menu-locations-controller.php:50
+msgid "An alphanumeric identifier for the menu location."
+msgstr "菜单位置的字母数字标识符。"
+
+#. translators: 1: Type of block (i.e. Text, Image etc), 2: Position of
+#. selected block, 3: New position
+#: build/block-editor/index.js:12 build/block-editor/index.js:18
+msgid "Move %1$s block from position %2$d left to position %3$d"
+msgstr "将区块%1$s从位置%2$d左移到位置%3$d"
+
+#. translators: 1: Type of block (i.e. Text, Image etc), 2: Position of
+#. selected block, 3: New position
+#: build/block-editor/index.js:11
+msgid "Move %1$s block from position %2$d down to position %3$d"
+msgstr "将区块%1$s从位置%2$d下移到位置%3$d"
+
+#: build/core-data/index.js:1
+msgid "Widget area"
+msgstr "小工具区域"
+
+#: build/core-data/index.js:1
+msgid "Post Type"
+msgstr "內容类型"
+
+#: build/core-data/index.js:1
+msgid "Site"
+msgstr "网站"
+
+#: build/components/index.js:13
+msgid "Radial Gradient"
+msgstr "径向渐变"
+
+#: build/components/index.js:13
+msgid "Linear Gradient"
+msgstr "线性渐变"
+
+#: build/components/index.js:13
+msgid "Type"
+msgstr "类型"
+
+#. translators: 1: Type of block (i.e. Text, Image etc)
+#: build/block-editor/index.js:21
+msgid "Block %1$s is at the beginning of the content and can’t be moved left"
+msgstr "区块%1$s位于内容的开头，不能向左移动"
+
+#. translators: 1: Type of block (i.e. Text, Image etc)
+#: build/block-editor/index.js:20
+msgid "Block %1$s is at the beginning of the content and can’t be moved up"
+msgstr "区块%1$s位于内容的开头，不能向上移动"
+
+#. translators: 1: Type of block (i.e. Text, Image etc)
+#: build/block-editor/index.js:15
+msgid "Block %1$s is at the end of the content and can’t be moved left"
+msgstr "区块%1$s位于内容的末尾，不能向左移动"
+
+#. translators: 1: Type of block (i.e. Text, Image etc)
+#: build/block-editor/index.js:14
+msgid "Block %1$s is at the end of the content and can’t be moved down"
+msgstr "区块%1$s位于内容的末尾，不能向下移动"
+
+#: build/block-editor/index.js:65
+msgid "Creating"
+msgstr "正在建立..."
+
+#. translators: %s: search term.
+#: build/block-editor/index.js:65
+msgid "An unknown error occurred during creation. Please try again."
+msgstr "创建期间发生未知错误。 请再试一遍。"
+
+#. translators: %s: search term.
+#: build/block-editor/index.js:65
+msgid "New page: <mark>%s</mark>"
+msgstr "新页面: <mark>%s</mark>"
+
+#: build/block-editor/index.js:24
+msgid "Change a block's type by pressing the block icon on the toolbar."
+msgstr "按下工具栏上的区块图标来更改区块的类型。"
+
+#: build/block-editor/index.js:24
+msgid "Drag files into the editor to automatically insert media blocks."
+msgstr "将文件拖到编辑器中，便会自动插入媒体区块。"
+
+#: build/block-editor/index.js:24
+msgid "Outdent a list by pressing <kbd>backspace</kbd> at the beginning of a line."
+msgstr "在行首按<kbd>退格键</kbd>减少缩进列表。"
+
+#: build/block-editor/index.js:24
+msgid "Indent a list by pressing <kbd>space</kbd> at the beginning of a line."
+msgstr "在行首按<kbd>空格键</kbd>缩进列表。"
+
+#: build/edit-post/index.js:13
+msgid "Open document settings"
+msgstr "打开文档设置"
+
+#: build/edit-post/index.js:13
+msgid "Open block settings"
+msgstr "打开区块设置"
+
+#: build/block-editor/index.js:74
+msgid "Desktop"
+msgstr "桌面端"
+
+#: build/block-editor/index.js:74
+msgid "Mobile"
+msgstr "移动端"
+
+#: build/block-editor/index.js:74
+msgid "Tablet"
+msgstr "平板电脑"
+
+#: build/block-library/index.js:55
+msgid "Post Tags"
+msgstr "文章标签"
+
+#: build/block-library/index.js:55
+msgid "No tags."
+msgstr "无标签"
+
+#: build/block-library/index.js:55
+msgid "Post Featured Image"
+msgstr "文章精选图片"
+
+#: build/block-library/index.js:55
+msgid "Read more…"
+msgstr "阅读更多…"
+
+#: build/block-library/index.js:55
+msgid "Show link on new line"
+msgstr "在新行上显示链接"
+
+#: build/block-library/index.js:55
+msgid "Max words"
+msgstr "字数上限"
+
+#: build/block-library/index.js:55
+msgid "Post Excerpt Settings"
+msgstr "文章摘要设置"
+
+#: build/block-library/index.js:55
+msgid "Date Format"
+msgstr "日期格式"
+
+#: build/block-library/index.js:55
+msgid "Format settings"
+msgstr "格式设定"
+
+#: build/block-library/index.js:55
+msgid "Change Date"
+msgstr "变更日期"
+
+#: build/block-library/index.js:55
+msgid "Post Comments Form"
+msgstr "文章留言表单"
+
+#: build/block-library/index.js:55
+msgid "Post Comments Count"
+msgstr "文章留言计数"
+
+#: build/block-library/index.js:53
+msgid "Display an icon linking to a social media profile or website."
+msgstr "显示链接到社交媒体个人资料或网站的图标。"
+
+#: build/block-library/index.js:51 build/block-library/index.js:53
+msgid "Social Icon"
+msgstr "社交图标"
+
+#: build/block-library/index.js:51
+msgctxt "block keywords"
+msgid "links"
+msgstr "链接"
+
+#: build/block-library/index.js:51
+msgid "Display icons linking to your social media profiles or websites."
+msgstr "显示链接到您的社交媒体资料或网站的图标。"
+
+#: build/block-library/index.js:51
+msgid "Social Icons"
+msgstr "社交图标"
+
+#: build/block-library/index.js:49
+msgid "Select poster image"
+msgstr "选择海报图像"
+
+#: build/block-library/index.js:36
+msgid "Image alignment"
+msgstr "图像对齐"
+
+#: build/block-library/index.js:36
+msgid "Display featured image"
+msgstr "显示特色图像"
+
+#: build/block-library/index.js:36
+msgid "Post content"
+msgstr "文章内容"
+
+#: build/block-library/index.js:47
+msgid "Background color"
+msgstr "背景颜色"
+
+#: build/block-library/index.js:30
+msgid "Media file"
+msgstr "媒体文件"
+
+#: build/block-library/index.js:46
+msgid "Text color"
+msgstr "文字颜色"
+
+#: build/block-library/index.js:7
+msgid "Change heading level"
+msgstr "修改标题级别"
+
+#: build/block-library/index.js:1
+msgid "Embed a TikTok video."
+msgstr "嵌入TikTok视频。"
+
+#: build/block-library/index.js:1
+msgid "social"
+msgstr "社交"
+
+#: build/edit-site/index.js:2
+msgid "Edit Page Template"
+msgstr "编辑页面模板"
+
+#: build/edit-site/index.js:2
+msgid "Update Design"
+msgstr "更新设计"
+
+#: build/edit-site/index.js:2
+msgid "Switch Template"
+msgstr "切换模板"
+
+#: build/block-library/index.js:30 build/edit-site/index.js:2
+msgid "Loading…"
+msgstr "正在加载…"
+
+#: lib/global-styles.php:606 build/edit-site/index.js:2
+msgid "Global Styles"
+msgstr "全局样式"
+
+#: lib/template-loader.php:99
+msgid "Empty template."
+msgstr "空模板。"
+
+#: lib/template-loader.php:107
+msgid "No matching template found."
+msgstr "未找到匹配的模板。"
+
+#: build/block-library/index.js:30
+msgid "Display settings"
+msgstr "显示设置"
+
+#: build/components/index.js:1
+msgid "Angle"
+msgstr "角度"
+
+#. translators: accessibility text. %s: The block title.
+#: build/blocks/index.js:13
+msgid "%s Block"
+msgstr "%s 区块"
+
+#. translators: accessibility text. %1: The block title. %2: The block label.
+#: build/blocks/index.js:11
+msgid "%1$s Block. %2$s"
+msgstr "%1$s区块。%2$s"
+
+#. translators: accessibility text. 1: The block title. 2: The block column
+#. number.
+#: build/blocks/index.js:9
+msgid "%1$s Block. Column %2$d"
+msgstr "%1$s 区块. 栏 %2$d"
+
+#. translators: accessibility text. 1: The block title. 2: The block column
+#. number. 3: The block label..
+#: build/blocks/index.js:7
+msgid "%1$s Block. Column %2$d. %3$s"
+msgstr "%1$s 区块. 栏 %2$d. %3$s"
+
+#. translators: accessibility text. 1: The block title. 2: The block row
+#. number. 3: The block label..
+#: build/blocks/index.js:3
+msgid "%1$s Block. Row %2$d. %3$s"
+msgstr "%1$s 区块. 行 %2$d. %3$s"
+
+#: build/block-library/index.js:55
+msgid "Post Excerpt"
+msgstr "文章摘要"
+
+#: build/block-library/index.js:55
+msgid "Post Date"
+msgstr "文章日期"
+
+#: build/block-library/index.js:55
+msgid "No Date"
+msgstr "没有日期"
+
+#: build/block-library/index.js:55
+msgid "Post Author"
+msgstr "文章作者"
+
+#. translators: %s: block name
+#: build/block-library/index.js:42
+msgid "Unsupported"
+msgstr "不支持"
+
+#: build/block-library/index.js:36
+msgid "The description will be displayed in the menu if the current theme supports it."
+msgstr "如果当前主题支持，此描述将在菜单中显示。"
+
+#: build/block-library/index.js:1 build/block-library/index.js:7
+msgid "Empty"
+msgstr "清空"
+
+#. translators: %s: search term.
+#: build/block-editor/index.js:67
+msgid "Search results for \"%s\""
+msgstr "“%s”的搜索结果"
+
+#: build/block-editor/index.js:65
+msgid "Recently updated"
+msgstr "最近更新"
+
+#. translators: %s: the name of the block that has been added
+#: build/block-editor/index.js:45
+msgid "Multiple selected blocks"
+msgstr "多个选定的区块"
+
+#: build/block-library/index.js:53
+msgid "Briefly describe the link to help screen reader users."
+msgstr "简要描述该链接以帮助屏幕阅读器用户。"
+
+#. translators: %s: name of the social service.
+#: build/block-library/index.js:53
+msgid "Link label"
+msgstr "链接标签"
+
+#. translators: %s: name of the social service.
+#: build/block-library/index.js:53
+msgid "%s label"
+msgstr "%s标签"
+
+#: build/block-library/index.js:49
+msgid "poem"
+msgstr "诗词"
+
+#. translators: Quote serving as example for the Pullquote block. Attributed to
+#. Matt Mullenweg.
+#: build/block-library/index.js:47
+msgid "Matt Mullenweg"
+msgstr "Matt Mullenweg"
+
+#. translators: Sample content for the Preformatted block. Can be replaced with
+#. a more locale-adequate work.
+#: build/block-library/index.js:44
+msgid ""
+"EXT. XANADU - FAINT DAWN - 1940 (MINIATURE)\n"
+"Window, very small in the distance, illuminated.\n"
+"All around this is an almost totally black screen. Now, as the camera moves slowly towards the window which is almost a postage stamp in the frame, other forms appear;"
+msgstr ""
+"EXT. XANADU - FAINT DAWN - 1940 (MINIATURE)\n"
+"Window, very small in the distance, illuminated.\n"
+"All around this is an almost totally black screen. Now, as the camera moves slowly towards the window which is almost a postage stamp in the frame, other forms appear;"
+
+#: build/block-library/index.js:36
+msgid "Full post"
+msgstr "全文"
+
+#: build/block-library/index.js:36
+msgid "Show:"
+msgstr "显示："
+
+#. translators: example text.
+#: build/block-library/index.js:22
+msgid "Suspendisse commodo neque lacus, a dictum orci interdum et."
+msgstr "Suspendisse commodo neque lacus, a dictum orci interdum et."
+
+#. translators: example text.
+#: build/block-library/index.js:20
+msgid "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent et eros eu felis."
+msgstr "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent et eros eu felis."
+
+#: build/block-library/index.js:16
+msgid "Prompt visitors to take action with a group of button-style links."
+msgstr "通过一组按钮样式的链接提示访问者操作。"
+
+#: build/block-library/index.js:16
+msgid "Buttons"
+msgstr "按钮"
+
+#: build/block-editor/index.js:61 build/block-library/index.js:16
+msgid "Image size"
+msgstr "图像尺寸"
+
+#: build/block-editor/index.js:78
+msgid "Remove multiple selected blocks."
+msgstr "移除多个选定的区块。"
+
+#: build/block-editor/index.js:6
+msgid "(%s: gradient %s)"
+msgstr "(%s: 渐变色 %s)"
+
+#. translators: first %s: The type of color or gradient (e.g. background,
+#. overlay...), second %s: the color name or value (e.g. red or #ff0000)
+#: build/block-editor/index.js:6
+msgid "(%s: color %s)"
+msgstr "(%s: 颜色 %s)"
+
+#: build/block-editor/index.js:3
+msgid "(Gradient: %s)"
+msgstr "(渐变色：%s)"
+
+#. translators: first %s: the color name or value (e.g. red or #ff0000)
+#: build/block-editor/index.js:3
+msgid "(Color: %s)"
+msgstr "(颜色: %s)"
+
+#: build/edit-post/index.js:13
+msgid "Here's a detailed guide."
+msgstr "此处是详细指南。"
+
+#: build/edit-post/index.js:13
+msgid "New to the block editor? Want to learn more about using it? "
+msgstr "区块编辑器的新手？ 想更多地了解使用它？"
+
+#: build/edit-post/index.js:13
+msgid "Learn how to use the block editor"
+msgstr "了解如何使用区块编辑器"
+
+#: build/edit-post/index.js:1 build/edit-site/index.js:1
+msgid "Help"
+msgstr "帮助"
+
+#: build/edit-post/index.js:1 build/edit-post/index.js:13
+#: build/edit-site/index.js:1
+msgid "https://wordpress.org/support/article/wordpress-editor/"
+msgstr "https://wordpress.org/support/article/wordpress-editor/"
+
+#. translators: %s: Name of the plugin e.g: "Akismet".
+#: build/block-directory/index.js:11
+msgid "%s block icon"
+msgstr "%s区块图标"
+
+#: build/editor/index.js:19
+msgid "Submit for Review…"
+msgstr "提交复审…"
+
+#: build/editor/index.js:19
+msgid "Update…"
+msgstr "更新…"
+
+#: build/editor/index.js:1
+msgid "Untitled"
+msgstr "无标题"
+
+#: lib/experiments-page.php:120
+msgid "The block editor includes experimental features that are useable while they're in development. Select the ones you'd like to enable. These features are likely to change, so avoid using them in production."
+msgstr "区块编辑器包括实验性功能，这些功能在开发时可用。 选择您要启用的选项。 这些功能可能会更改，因此请避免在生产环境中使用它们。"
+
+#: lib/experiments-page.php:72
+msgid "Enable Full Site Editing (Warning: this will replace your theme and cause potentially irreversible changes to your site. We recommend using this only in a development environment.)"
+msgstr "启用全站编辑（警告：这将替换您的主题，并可能对您的站点造成不可逆的更改。我们建议仅在开发环境中使用此功能。）"
+
+#: gutenberg.php:72 gutenberg.php:73
+msgid "Site Editor (beta)"
+msgstr "站点编辑器 (测试)"
+
+#: build/block-library/blocks/query-pagination.php:33
+#: build/block-library/index.js:55 build/components/index.js:18
+msgid "Next"
+msgstr "下一页"
+
+#: build/block-library/blocks/query-pagination.php:26
+#: build/block-library/index.js:55 build/components/index.js:18
+msgid "Previous"
+msgstr "上一页"
+
+#. translators: 1: current page number 2: total number of pages
+#: build/components/index.js:18
+msgid "Finish"
+msgstr "完成"
+
+#. translators: 1: current page number 2: total number of pages
+#: build/components/index.js:18
+msgid "Page %1$d of %2$d"
+msgstr "第 %1$d 页，共 %2$d 页"
+
+#: build/components/index.js:13
+msgid "Remove Control Point"
+msgstr "移除控制点"
+
+#. translators: %1$s: gradient position e.g: 70%, %2$s: gradient color code
+#. e.g: rgb(52,121,151).
+#: build/components/index.js:13
+msgid "Use your left or right arrow keys or drag and drop with the mouse to change the gradient position. Press the button to change the color or remove the control point."
+msgstr "使用您的左右方向键或使用鼠标拖放来修改渐变位置。按下按钮来修改颜色或移除控制点。"
+
+#. translators: %1$s: gradient position e.g: 70%, %2$s: gradient color code
+#. e.g: rgb(52,121,151).
+#: build/components/index.js:13
+msgid "Gradient control point at position %1$s with color code %2$s."
+msgstr "位于%1$s的渐变色控制点，颜色代码%2$s。"
+
+#: build/components/index.js:8
+msgid "Preset size"
+msgstr "预设尺寸"
+
+#: build/block-editor/index.js:74
+msgid "Tools offer different interactions for block selection & editing. To select, press Escape, to go back to editing, press Enter."
+msgstr "工具为区块选择和编辑提供了不同的交互方式。 要选择，请按Escape键，要返回编辑，按Enter键。"
+
+#: build/block-editor/index.js:67
+msgid "Open Media Library"
+msgstr "打开媒体库"
+
+#: build/block-editor/index.js:67
+msgid "The media file has been replaced"
+msgstr "媒体文件已被替换"
+
+#: build/block-editor/index.js:67 build/block-library/index.js:49
+msgid "Replace"
+msgstr "替换"
+
+#: build/block-editor/index.js:24
+msgid "You are currently in edit mode. To return to the navigation mode, press Escape."
+msgstr "您当前处于编辑模式。 要返回导航模式，请按Escape键。"
+
+#: build/api-fetch/index.js:1
+msgid "You are probably offline."
+msgstr "您可能处于离线状态。"
+
+#: build/block-library/index.js:16
+msgid "ADD MEDIA"
+msgstr "添加媒体"
+
+#: build/edit-post/index.js:13
+msgid "All of the blocks available to you live in the block library. You’ll find it wherever you see the <InserterIconImage /> icon."
+msgstr "您可以使用的所有区块都位于区块库中。只要看到<InserterIconImage />图标，就能找到它。"
+
+#: build/edit-post/index.js:13
+msgid "Get to know the block library"
+msgstr "了解区块库"
+
+#: build/edit-post/index.js:13
+msgid "Each block comes with its own set of controls for changing things like color, width, and alignment. These will show and hide automatically when you have a block selected."
+msgstr "每个区块都有自己专属的一组控件，用于更改颜色，宽度和对齐方式。 当您选择一个区块时，这些将自动显示和隐藏。"
+
+#: build/edit-post/index.js:13
+msgid "In the WordPress editor, each paragraph, image, or video is presented as a distinct “block” of content."
+msgstr "在WordPress编辑器中，每个段落、图像或视频都由不同的内容“区块”来展现。"
+
+#: build/edit-post/index.js:13
+msgid "Welcome to the block editor"
+msgstr "欢迎使用区块编辑器"
+
+#: build/edit-post/index.js:13
+msgid "Get started"
+msgstr "开始使用"
+
+#: build/edit-post/index.js:1
+msgid "Welcome Guide"
+msgstr "欢迎指南"
+
+#: lib/experiments-page.php:83
+msgid "Enable Full Site Editing demo templates"
+msgstr "启用全站编辑演示模板"
+
+#: lib/experiments-page.php:78
+msgid "Full Site Editing Demo Templates"
+msgstr "全站编辑演示模板"
+
+#: build/block-library/index.js:55
+msgid "Post Title"
+msgstr "文章标题"
+
+#: build/block-library/index.js:36
+msgid "Add nofollow to link"
+msgstr "添加\"nofollow\"到链接"
+
+#: build/block-library/index.js:36
+msgid "Add submenu"
+msgstr "添加子菜单"
+
+#: build/block-library/index.js:36
+msgid "Add link…"
+msgstr "添加链接…"
+
+#: build/block-library/index.js:16
+msgid "recording"
+msgstr "录音"
+
+#: build/block-library/index.js:16
+msgid "podcast"
+msgstr "podcast"
+
+#: build/block-library/index.js:16
+msgid "sound"
+msgstr "音频"
+
+#: lib/class-wp-rest-widget-forms.php:47
+msgid "Current widget instance"
+msgstr "当前小工具实例"
+
+#. translators: Sample content for the Verse block. Can be replaced with a more
+#. locale-adequate work.
+#: build/block-library/index.js:49
+msgid ""
+"WHAT was he doing, the great god Pan,\n"
+"\tDown in the reeds by the river?\n"
+"Spreading ruin and scattering ban,\n"
+"Splashing and paddling with hoofs of a goat,\n"
+"And breaking the golden lilies afloat\n"
+"    With the dragon-fly on the river."
+msgstr ""
+"WHAT was he doing, the great god Pan,\n"
+"\tDown in the reeds by the river?\n"
+"Spreading ruin and scattering ban,\n"
+"Splashing and paddling with hoofs of a goat,\n"
+"And breaking the golden lilies afloat\n"
+"    With the dragon-fly on the river."
+
+#: build/core-data/index.js:1
+msgid "Menu Item"
+msgstr "菜单项"
+
+#: lib/experiments-page.php:56 build/block-library/index.js:30
+msgid "Navigation"
+msgstr "导航"
+
+#: build/block-library/index.js:3
+msgid "(Note: many devices and browsers do not display this text.)"
+msgstr "（注：很多设备及浏览器都不显示此文本。）"
+
+#: build/block-library/index.js:3
+msgid "Describe the role of this image on the page."
+msgstr "描述此图像在本页的用途。"
+
+#. translators: 'Toggle control label. Should the property be the same across
+#. all screen sizes or unique per screen size.'. %s property value for the
+#. control (eg: margin, padding...etc)
+#: build/block-editor/index.js:73
+msgid "Use the same %s on all screensizes."
+msgstr "在所有屏幕尺寸上使用相同的%s。"
+
+#: build/block-editor/index.js:71
+msgid "Large screens"
+msgstr "大型屏幕"
+
+#: build/block-editor/index.js:71
+msgid "Medium screens"
+msgstr "中型屏幕"
+
+#: build/block-editor/index.js:71
+msgid "Small screens"
+msgstr "小型屏幕"
+
+#. translators: %s: search term.
+#: build/block-editor/index.js:67
+msgid "Currently selected"
+msgstr "当前选择"
+
+#: build/block-editor/index.js:63
+msgid "Search or type url"
+msgstr "搜索或键入URL"
+
+#: build/block-editor/index.js:61
+msgid "Press ENTER to add this link"
+msgstr "按ENTER添加此链接"
+
+#: build/block-editor/index.js:61
+msgid "Currently selected link settings"
+msgstr "当前选择的链接设置"
+
+#. translators: %s: the name of the block when there is only one
+#. translators: accessibility text for the editor toolbar when Top Toolbar is
+#. off
+#: build/block-editor/index.js:27 build/block-editor/index.js:44
+#: build/edit-post/index.js:9 build/edit-site/index.js:2
+msgctxt "Generic label for block inserter button"
+msgid "Add block"
+msgstr "添加区块"
+
+#. translators: %s: the name of the block when there is only one
+#: build/block-editor/index.js:27 build/block-editor/index.js:44
+msgctxt "directly add the only allowed block"
+msgid "Add %s"
+msgstr "添加%s"
+
+#. translators: %s: the name of the block that has been added
+#: build/block-editor/index.js:45
+msgid "%s block added"
+msgstr "%s区块已添加"
+
+#: build/block-editor/index.js:7
+msgid "Block breadcrumb"
+msgstr "区块面包屑"
+
+#: build/block-library/index.js:53 build/core-data/index.js:1
+msgid "Site Title"
+msgstr "站点标题"
+
+#: build/block-editor/index.js:7 build/block-library/index.js:30
+msgid "Open Colors Selector"
+msgstr "打开颜色选择器"
+
+#: lib/templates.php:35
+msgid "Templates list"
+msgstr "模版列表"
+
+#: lib/templates.php:34
+msgid "Templates list navigation"
+msgstr "模板列表导航"
+
+#: lib/templates.php:33
+msgid "Filter templates list"
+msgstr "筛选模板列表"
+
+#: lib/templates.php:32
+msgid "Uploaded to this template"
+msgstr "已上传到此模板"
+
+#: lib/templates.php:31
+msgid "Insert into template"
+msgstr "插入模板"
+
+#: lib/templates.php:30
+msgid "Template archives"
+msgstr "模板存档"
+
+#: lib/templates.php:29
+msgid "No templates found in Trash."
+msgstr "在回收站内找不到模板"
+
+#: lib/templates.php:28
+msgid "No templates found."
+msgstr "未找到模板。"
+
+#: lib/templates.php:27
+msgid "Parent Template:"
+msgstr "父模板："
+
+#: lib/templates.php:26
+msgid "Search Templates"
+msgstr "搜索模板"
+
+#: lib/templates.php:25
+msgid "All Templates"
+msgstr "所有模板"
+
+#: lib/templates.php:24
+msgid "View Template"
+msgstr "查看模板"
+
+#: lib/templates.php:23
+msgid "Edit Template"
+msgstr "编辑模板"
+
+#: lib/templates.php:22
+msgid "New Template"
+msgstr "新模板"
+
+#: lib/templates.php:21
+msgid "Add New Template"
+msgstr "新增模板"
+
+#: lib/templates.php:20
+msgctxt "Template"
+msgid "Add New"
+msgstr "新增"
+
+#: lib/templates.php:19
+msgctxt "Admin Menu text"
+msgid "Templates"
+msgstr "模板"
+
+#: lib/templates.php:18 build/edit-site/index.js:2
+msgid "Template"
+msgstr "模板"
+
+#: lib/template-loader.php:376
+msgid "No matching template found"
+msgstr "未找到匹配的模板"
+
+#. translators: %s: The name of the gradient e.g: "Angular red to blue".
+#: build/components/index.js:15
+msgid "Gradient: %s"
+msgstr "渐变色：%s"
+
+#: build/edit-post/index.js:1
+msgid "All content copied."
+msgstr "已复制所有内容。"
+
+#: build/api-fetch/index.js:1
+msgid "Media upload failed. If this is a photo or a large image, please scale it down and try again."
+msgstr "媒体上传失败。如果这是照片或大图像，请按比例缩小并重试。"
+
+#: build/block-editor/index.js:4 build/block-editor/index.js:61
+msgid "Gradient"
+msgstr "渐变色"
+
+#: build/block-editor/index.js:61
+msgid "Gradient Presets"
+msgstr "预设渐变"
+
+#: build/block-editor/index.js:27
+msgid "No Preview Available."
+msgstr "没有可用的预览。"
+
+#: build/block-editor/index.js:24
+msgid "Midnight"
+msgstr "午夜"
+
+#: build/block-editor/index.js:24
+msgid "Electric grass"
+msgstr "电光绿"
+
+#: build/block-editor/index.js:24
+msgid "Pale ocean"
+msgstr "海洋蓝"
+
+#: build/block-editor/index.js:24
+msgid "Blush bordeaux"
+msgstr "波尔多红"
+
+#: build/block-editor/index.js:24
+msgid "Blush light purple"
+msgstr "浅紫红色"
+
+#: build/block-editor/index.js:24
+msgid "Very light gray to cyan bluish gray"
+msgstr "极浅灰色至青蓝灰色"
+
+#: build/block-editor/index.js:24
+msgid "Vivid cyan blue to vivid purple"
+msgstr "亮青蓝色到亮紫色"
+
+#. translators: %s: gradient code e.g: "linear-gradient(90deg,
+#. rgba(98,16,153,1) 0%, rgba(172,110,22,1) 100%);".
+#: build/components/index.js:14 build/components/index.js:16
+msgid "Gradient code: %s"
+msgstr "渐变色代码：%s"
+
+#: build/editor/index.js:11
+msgid "https://wordpress.org/support/article/excerpt/"
+msgstr "https://wordpress.org/support/article/excerpt/"
+
+#: build/block-library/index.js:47
+msgid "December 6, 2018"
+msgstr "2018年12月6日"
+
+#: build/block-library/index.js:47
+msgid "February 21, 2019"
+msgstr "2019年2月21日"
+
+#: build/block-library/index.js:47
+msgid "May 7, 2019"
+msgstr "2019年5月7日"
+
+#: build/block-library/index.js:47
+msgid "Release Date"
+msgstr "发布日期"
+
+#: build/block-library/index.js:47
+msgid "Version"
+msgstr "版本"
+
+#: build/block-library/index.js:47
+msgid "Six."
+msgstr "六、"
+
+#: build/block-library/index.js:47
+msgid "Five."
+msgstr "五、"
+
+#: build/block-library/index.js:47
+msgid "Four."
+msgstr "四、"
+
+#: build/block-library/index.js:47
+msgid "Three."
+msgstr "三、"
+
+#: build/block-library/index.js:47
+msgid "Two."
+msgstr "二、"
+
+#: build/block-library/index.js:47
+msgid "One."
+msgstr "一、"
+
+#. translators: Quote serving as example for the Pullquote block. Attributed to
+#. Matt Mullenweg.
+#: build/block-library/index.js:47
+msgid "One of the hardest things to do in technology is disrupt yourself."
+msgstr "技术上最难的事情之一就是打乱自己。"
+
+#: build/block-library/index.js:30
+msgid "— Kobayashi Issa (一茶)"
+msgstr "— Kobayashi Issa (一茶)"
+
+#: build/block-library/index.js:30
+msgid "Welcome to the wonderful world of blocks…"
+msgstr "欢迎来到区块的奇妙世界…"
+
+#: build/block-library/index.js:26
+msgid "<strong>Snow Patrol</strong>"
+msgstr "<strong>Snow Patrol</strong>"
+
+#. translators: example text.
+#: build/block-library/index.js:26
+msgid "Nam risus massa, ullamcorper consectetur eros fermentum, porta aliquet ligula. Sed vel mauris nec enim."
+msgstr "Nam risus massa, ullamcorper consectetur eros fermentum, porta aliquet ligula. Sed vel mauris nec enim."
+
+#. translators: example text.
+#: build/block-library/index.js:24
+msgid "Etiam et egestas lorem. Vivamus sagittis sit amet dolor quis lobortis. Integer sed fermentum arcu, id vulputate lacus. Etiam fermentum sem eu quam hendrerit."
+msgstr "Etiam et egestas lorem. Vivamus sagittis sit amet dolor quis lobortis. Integer sed fermentum arcu, id vulputate lacus. Etiam fermentum sem eu quam hendrerit."
+
+#. translators: Caption accompanying an image of the Mont Blanc, which serves
+#. as an example for the Image block.
+#: build/block-library/index.js:7
+msgid "Mont Blanc appears—still, snowy, and serene."
+msgstr "Mont Blanc appears—still, snowy, and serene."
+
+#: build/block-library/index.js:1
+msgid "In a village of La Mancha, the name of which I have no desire to call to mind, there lived not long since one of those gentlemen that keep a lance in the lance-rack, an old buckler, a lean hack, and a greyhound for coursing."
+msgstr "In a village of La Mancha, the name of which I have no desire to call to mind, there lived not long since one of those gentlemen that keep a lance in the lance-rack, an old buckler, a lean hack, and a greyhound for coursing."
+
+#: build/block-editor/index.js:61
+msgid "Block navigation"
+msgstr "区块导航"
+
+#: lib/experiments-page.php:67
+msgid "Full Site Editing"
+msgstr "全站编辑"
+
+#: lib/templates.php:40
+msgid "Templates to include in your theme."
+msgstr "要包含在主题中的模板。"
+
+#: lib/templates.php:17
+msgid "Templates"
+msgstr "模板"
+
+#: build/edit-post/index.js:5
+msgid "Pre-publish checks"
+msgstr "发布前检查"
+
+#: build/block-directory/index.js:14
+msgid "Please contact your site administrator to install new blocks."
+msgstr "请联系您的网站管理员来安装新的区块。"
+
+#: build/block-directory/index.js:14
+msgid "No blocks found in your library. Please contact your site administrator to install new blocks."
+msgstr "在您的库中没有找到区块。请联系您的站点管理员来安装新的区块。"
+
+#: build/block-directory/index.js:14 build/block-directory/index.js:16
+msgid "No blocks found in your library."
+msgstr "您的库中没有区块。"
+
+#. translators: %s: number of available blocks.
+#: build/block-directory/index.js:16
+msgid "No blocks found in your library. These blocks can be downloaded and installed:"
+msgstr "在您的库中没有找到区块。以下区块可供下载及安装："
+
+#. translators: %s: number of available blocks.
+#: build/block-directory/index.js:16
+msgid "No blocks found in your library. We did find %d block available for download."
+msgid_plural "No blocks found in your library. We did find %d blocks available for download."
+msgstr[0] "在您的库中没有找到区块。我们找到了%d个可供下载的区块。"
+
+#: build/block-directory/index.js:14
+msgid "Retry"
+msgstr "重试"
+
+#. translators: %s: Humanized date of last update e.g: "2 months ago".
+#: build/block-directory/index.js:14
+msgid "Updated %s"
+msgstr "已更新%s"
+
+#. translators: %s: number of active installations.
+#: build/block-directory/index.js:13
+msgid "%d active installation"
+msgid_plural "%d active installations"
+msgstr[0] "%d个活跃安装"
+
+#. translators: 1: number of blocks. 2: average rating.
+#: build/block-directory/index.js:5
+msgid "This author has %1$d block, with an average rating of %2$d."
+msgid_plural "This author has %1$d blocks, with an average rating of %2$d."
+msgstr[0] "此作者有%1$d个区块，平均评级为 %2$d。"
+
+#. translators: %s: author name.
+#: build/block-directory/index.js:3
+msgid "Authored by %s"
+msgstr "作者为%s"
+
+#. translators: %d: number of ratings (number).
+#: build/block-directory/index.js:10
+msgid "%d total rating"
+msgid_plural "%d total ratings"
+msgstr[0] "%d 总评分"
+
+#. translators: %s: number of stars.
+#: build/block-directory/index.js:9
+msgid "%s out of 5 stars"
+msgstr "%s（满分五星）"
+
+#: build/block-library/index.js:53
+msgid "Enter address"
+msgstr "输入地址"
+
+#: build/block-library/index.js:51
+msgid "Logos Only"
+msgstr "只有标志"
+
+#: build/block-library/index.js:30
+msgid "Open block navigator"
+msgstr "打开区块导航"
+
+#: build/block-library/index.js:30
+msgid "Attachment page"
+msgstr "附件页面"
+
+#: build/block-library/index.js:16
+msgid "Fill"
+msgstr "填充"
+
+#: build/block-library/index.js:16
+msgid "Link rel"
+msgstr "链接 rel"
+
+#: build/block-library/index.js:16
+msgid "Border radius"
+msgstr "边框圆角"
+
+#. translators: 1: the order number of the image. 2: the total number of
+#. images.
+#: build/block-library/index.js:16
+msgid "Write gallery caption…"
+msgstr "编写画廊说明…"
+
+#: build/editor/index.js:11
+msgid "Restore the backup"
+msgstr "恢复备份"
+
+#: build/editor/index.js:11
+msgid "The backup of this post in your browser is different from the version below."
+msgstr "您浏览器中此文章的备份与以下版本不同。"
+
+#: lib/class-wp-rest-plugins-controller.php:337
+msgid "Unable to connect to the filesystem. Please confirm your credentials."
+msgstr "无法连接到文件系统。 请确认您的凭据。"
+
+#. translators: %d: number of blocks.
+#: build/edit-post/index.js:5
+msgid "%d block is disabled."
+msgid_plural "%d blocks are disabled."
+msgstr[0] "%d 区块已禁用。"
+
+#: build/block-library/index.js:38
+msgid "Reverse list numbering"
+msgstr "倒序列表编号"
+
+#: build/block-library/index.js:38
+msgid "Start value"
+msgstr "起始值"
+
+#: build/block-library/index.js:38
+msgid "Ordered list settings"
+msgstr "有序列表设置"
+
+#: build/block-library/index.js:26
+msgid "Clear Media"
+msgstr "清除媒体"
+
+#: build/block-editor/index.js:78
+msgid "Default Style"
+msgstr "默认样式"
+
+#. translators: %d: number of words
+#: build/block-editor/index.js:78
+msgid "Not set"
+msgstr "尚未设置"
+
+#: build/block-editor/index.js:24
+msgid "While writing, you can press <kbd>/</kbd> to quickly insert new blocks."
+msgstr "在写作时，您可以按<kbd>/</kbd>键来快速插入新区块。"
+
+#: lib/class-wp-rest-widget-areas-controller.php:118
+msgid "Version of the content block format used by the object."
+msgstr "对象使用的内容区块格式的版本。"
+
+#: lib/class-wp-rest-widget-areas-controller.php:112
+msgid "HTML content for the object, transformed for display."
+msgstr "对象的HTML内容，转换后显示。"
+
+#: lib/class-wp-rest-widget-areas-controller.php:98
+msgid "The content for the object."
+msgstr "对象的内容。"
+
+#: build/block-library/index.js:47
+msgid "Change column alignment"
+msgstr "更改栏对齐"
+
+#: build/block-library/index.js:47
+msgid "Align Column Right"
+msgstr "右对齐列"
+
+#: build/block-library/index.js:47
+msgid "Align Column Center"
+msgstr "居中列"
+
+#: build/block-library/index.js:47
+msgid "Align Column Left"
+msgstr "左对齐列"
+
+#: build/block-library/index.js:26 build/block-library/index.js:47
+msgid "Color"
+msgstr "颜色"
+
+#: build/block-editor/index.js:24
+msgid "Vivid purple"
+msgstr "艳紫色"
+
+#: build/edit-post/index.js:5
+msgid "Disable & Reload"
+msgstr "禁用并刷新"
+
+#: build/edit-post/index.js:5
+msgid "Enable & Reload"
+msgstr "启用并刷新"
+
+#: build/edit-post/index.js:5
+msgid "A page reload is required for this change. Make sure your content is saved before reloading."
+msgstr "此更改需要刷新本页。请在刷新前确保您已经保存了您的内容。"
+
+#: build/edit-post/index.js:1
+msgid "Display these keyboard shortcuts."
+msgstr "显示这些键盘快捷键。"
+
+#: gutenberg.php:98
+msgid "Experiments Settings"
+msgstr "实验设置"
+
+#: lib/experiments-page.php:50
+msgid "Enable Widgets screen and Legacy Widgets block"
+msgstr "启用小工具屏幕和旧版小工具区块"
+
+#: lib/experiments-page.php:19
+msgid "Experimental settings"
+msgstr "实验设置"
+
+#: build/editor/index.js:29
+msgid "Draft"
+msgstr "草稿"
+
+#: build/block-editor/index.js:1
+msgid "Learn more about anchors"
+msgstr "了解关于锚点的细节"
+
+#: build/block-editor/index.js:1
+msgid "Enter a word or two — without spaces — to make a unique web address just for this heading, called an “anchor.” Then, you’ll be able to link directly to this section of your page."
+msgstr "输入一到两个词语（不含空格）来给这个标题指定被称作“锚点”的唯一的网络地址。在这之后您便可以直接链接到页面的这个章节。"
+
+#: lib/customizer.php:61
+msgid "Widget Blocks (Experimental)"
+msgstr "小工具区块(实验)"
+
+#: build/block-editor/index.js:67
+msgid "Upload a video file, pick one from your media library, or add one with a URL."
+msgstr "上传视频文件，从您的媒体库中选择，或通过URL添加。"
+
+#: build/block-editor/index.js:67
+msgid "Upload an image file, pick one from your media library, or add one with a URL."
+msgstr "上传图像文件，从您的媒体库中选择，或通过URL添加。"
+
+#: build/block-editor/index.js:67
+msgid "Upload an audio file, pick one from your media library, or add one with a URL."
+msgstr "上传音频文件，从您的媒体库中选择，或通过URL添加。"
+
+#: build/block-editor/index.js:67
+msgid "Upload a media file or pick one from your media library."
+msgstr "上传媒体文件，或从您的媒体库中选择。"
+
+#: build/block-editor/index.js:61
+msgid "Skip"
+msgstr "跳过"
+
+#: build/block-library/index.js:36
+msgid "Add a page, link, or another item to your navigation."
+msgstr "添加页面，链接或其他项目到导航。"
+
+#: build/block-library/index.js:36
+msgid "What's this?"
+msgstr "这是什么？"
+
+#: build/block-library/index.js:36
+msgid "https://codex.wordpress.org/Nofollow"
+msgstr "https://codex.wordpress.org/Nofollow"
+
+#: build/block-library/index.js:36
+msgid "Don't let search engines follow this link."
+msgstr "不要让搜索引擎follow此链接。"
+
+#: build/block-library/index.js:3
+msgid "Title attribute"
+msgstr "标题属性"
+
+#: build/block-library/index.js:36
+msgid "SEO settings"
+msgstr "SEO 设置"
+
+#: build/block-library/index.js:36
+msgid "Description"
+msgstr "图像描述"
+
+#: build/block-editor/index.js:61 build/block-editor/index.js:74
+#: build/block-library/index.js:16 build/block-library/index.js:30
+msgid "Open in new tab"
+msgstr "在新窗口打开"
+
+#. translators: 1: Type of block (i.e. Text, Image etc)
+#: build/block-editor/index.js:22
+msgid "Move right"
+msgstr "右移"
+
+#: build/block-editor/index.js:22
+msgid "Move left"
+msgstr "左移"
+
+#: build/block-library/index.js:30
+msgid "links"
+msgstr "链接"
+
+#: build/block-library/index.js:30
+msgid "navigation"
+msgstr "导航"
+
+#: build/block-library/index.js:30
+msgid "menu"
+msgstr "菜单"
+
+#: build/block-library/index.js:30
+msgid "Add a navigation block to your site."
+msgstr "添加导航区块到您的站点。"
+
+#: build/block-library/index.js:30
+msgid "Upload a file or pick one from your media library."
+msgstr "上传文件或从媒体库中选择一个。"
+
+#: build/block-library/index.js:26
+msgid "Learn more about embeds"
+msgstr "了解关于嵌入的更多内容"
+
+#: build/block-library/index.js:26
+msgid "https://wordpress.org/support/article/embeds/"
+msgstr "https://wordpress.org/support/article/embeds/"
+
+#: build/block-library/index.js:26
+msgid "Paste a link to the content you want to display on your site."
+msgstr "粘贴链接，您要在网站上显示的内容。"
+
+#: build/block-library/index.js:26
+msgid "Upload an image or video file, or pick one from your media library."
+msgstr "上传图像或视频文件，或从媒体库中选择一个。"
+
+#: build/block-library/index.js:18
+msgid "Three columns; wide center column"
+msgstr "三栏；中间栏位较宽"
+
+#: build/block-library/index.js:18
+msgid "Three columns; equal split"
+msgstr "三栏；栏宽相等"
+
+#: build/block-library/index.js:18
+msgid "Two columns; two-thirds, one-third split"
+msgstr "两栏；三分之二，三分之一"
+
+#: build/block-library/index.js:18
+msgid "Two columns; one-third, two-thirds split"
+msgstr "两栏；三分之一，三分之二"
+
+#: build/block-library/index.js:18
+msgid "Two columns; equal split"
+msgstr "两栏；栏宽相等"
+
+#. translators: %s: taxonomy name
+#: build/block-library/blocks/tag-cloud.php:37
+msgid "Your site doesn&#8217;t have any %s, so there&#8217;s nothing to display here at the moment."
+msgstr "您的站点没有任何%s，所以现在没有什么可供显示。"
+
+#: build/edit-post/index.js:9 build/edit-site/index.js:1
+msgid "More tools & options"
+msgstr "更多工具和选项"
+
+#: build/block-library/index.js:47
+msgid "Create Table"
+msgstr "创建表格"
+
+#: build/block-library/index.js:47
+msgid "Insert a table for sharing data."
+msgstr "插入用于分享数据的表格。"
+
+#: build/editor/index.js:38
+msgctxt "Ungrouping blocks from within a Group block back into individual blocks within the Editor "
+msgid "Ungroup"
+msgstr "取消组合"
+
+#: build/components/index.js:12
+msgid "Separate with commas or the Enter key."
+msgstr "用英文逗号或回车键隔开。"
+
+#: build/components/index.js:12
+msgid "Separate with commas, spaces, or the Enter key."
+msgstr "用英文逗号，空格或Enter键分隔。"
+
+#: build/block-editor/index.js:1
+msgid "Separate multiple classes with spaces."
+msgstr "用空格分隔多个类。"
+
+#: build/block-library/index.js:14
+msgid "Move image forward"
+msgstr "前移图像"
+
+#: build/block-library/index.js:14
+msgid "Move image backward"
+msgstr "后移图像"
+
+#: lib/class-wp-rest-widget-areas-controller.php:201
+msgid "Sorry, you are not allowed to edit sidebars."
+msgstr "抱歉，您不能编辑侧边栏。"
+
+#: lib/class-wp-rest-widget-areas-controller.php:146
+msgid "Sorry, you are not allowed to read sidebars."
+msgstr "抱歉，您无权读取侧边栏。"
+
+#: lib/class-wp-rest-widget-areas-controller.php:49
+msgid "The sidebar’s ID."
+msgstr "侧边栏的ID。"
+
+#: lib/class-experimental-wp-widget-blocks-manager.php:342
+msgid "Displays a set of blocks"
+msgstr "显示一组区块"
+
+#: build/format-library/index.js:1
+msgid "Inline Code"
+msgstr "内联代码"
+
+#: build/block-library/index.js:49
+msgid "Note: Autoplaying videos may cause usability issues for some visitors."
+msgstr "注意：自动播放视频可能会为一些访客带来使用方面的问题。"
+
+#: build/block-library/index.js:36
+msgid "Sorting and filtering"
+msgstr "排序和筛选"
+
+#: build/block-library/index.js:36
+msgid "Post meta settings"
+msgstr "文章元数据设置"
+
+#: build/block-library/index.js:55
+msgid "Post Content"
+msgstr "文章内容"
+
+#: build/block-library/index.js:36
+msgid "Post content settings"
+msgstr "文章内容设置"
+
+#: build/block-library/index.js:26
+msgid "Percentage width"
+msgstr "百分比宽度"
+
+#: build/block-library/index.js:26
+msgid "Column settings"
+msgstr "分栏设置"
+
+#: build/block-library/index.js:16
+msgid "Note: Autoplaying audio may cause usability issues for some visitors."
+msgstr "注意：自动播放音频可能会为一些访客带来使用方面的问题。"
+
+#: lib/widgets.php:220
+msgid "Block area updated."
+msgstr "区块已更新。"
+
+#: lib/widgets.php:215
+msgid "Block areas list"
+msgstr "区块区域列表"
+
+#: lib/widgets.php:214
+msgid "Block areas list navigation"
+msgstr "区块区域列表导航"
+
+#: lib/widgets.php:211
+msgid "No block area found."
+msgstr "未找到区块。"
+
+#: lib/widgets.php:210
+msgid "Search Block Areas"
+msgstr "搜索区块区域"
+
+#: lib/widgets.php:208
+msgid "View Block Area"
+msgstr "查看区块区域"
+
+#: lib/widgets.php:207
+msgid "Edit Block Area"
+msgstr "编辑区块区域"
+
+#: lib/widgets.php:206
+msgid "New Block Area"
+msgstr "新区块区域"
+
+#: lib/widgets.php:200
+msgctxt "post type general name"
+msgid "Block Area (Experimental)"
+msgstr "区块区域(实验功能)"
+
+#: lib/widgets.php:198
+msgid "Experimental custom post type that will store block areas referenced by themes."
+msgstr "实验性自定义文章类型，将存储主题引用的区块区域。"
+
+#: build/edit-widgets/index.js:2
+msgid "Widgets screen content"
+msgstr "小工具屏幕内容"
+
+#: build/edit-widgets/index.js:1
+msgid "(experimental)"
+msgstr "(实验)"
+
+#: build/block-editor/index.js:7
+msgid "This color combination may be hard for people to read."
+msgstr "此颜色组合可能不便阅读。"
+
+#. translators: %s: poster image URL.
+#: build/block-library/index.js:51
+msgid "There is no poster image currently selected"
+msgstr "目前未选择任何海报图像"
+
+#. translators: %s: poster image URL.
+#: build/block-library/index.js:51
+msgid "The current poster image url is %s"
+msgstr "当前海报图像 URL 是 %s"
+
+#: build/block-library/index.js:47
+msgid "row"
+msgstr "行"
+
+#: build/block-library/index.js:47
+msgid "container"
+msgstr "容器"
+
+#: build/block-library/index.js:47
+msgid "A block that groups other blocks."
+msgstr "将其他区块归为一组的区块。"
+
+#: build/block-library/index.js:30
+msgid "Crop image to fill entire column"
+msgstr "裁切图像来填充整个栏位"
+
+#: build/block-library/index.js:49
+msgid "Play inline"
+msgstr "内联播放"
+
+#: build/block-library/index.js:3 build/block-library/index.js:30
+msgid "Leave empty if the image is purely decorative."
+msgstr "如果这是装饰性图片，此处请留空。"
+
+#: build/block-library/index.js:3 build/block-library/index.js:30
+msgid "Describe the purpose of the image"
+msgstr "请输入图片说明文字"
+
+#: build/block-editor/index.js:44
+msgid "Add a block"
+msgstr "添加区块"
+
+#: build/block-editor/index.js:61
+msgctxt "Block vertical alignment setting label"
+msgid "Change vertical alignment"
+msgstr "更改对齐方式"
+
+#: build/block-editor/index.js:61
+msgctxt "Block vertical alignment setting"
+msgid "Vertically Align Bottom"
+msgstr "垂直靠下对齐"
+
+#: build/block-editor/index.js:61
+msgctxt "Block vertical alignment setting"
+msgid "Vertically Align Middle"
+msgstr "垂直居中对齐"
+
+#: build/editor/index.js:11
+msgid "Replace Image"
+msgstr "替换图像"
+
+#: build/block-editor/index.js:61
+msgctxt "Block vertical alignment setting"
+msgid "Vertically Align Top"
+msgstr "垂直靠上对齐"
+
+#: build/block-library/index.js:38
+msgid "Display a legacy widget."
+msgstr "显示一个旧版微件"
+
+#: build/block-library/index.js:38
+msgid "Legacy Widget (Experimental)"
+msgstr "旧版微件（实验性功能）"
+
+#: build/block-library/index.js:38
+msgid "Change widget"
+msgstr "更改微件"
+
+#: build/block-library/index.js:38
+msgid "Legacy Widget"
+msgstr "旧版微件"
+
+#: build/block-library/index.js:38
+msgid "You don't have permissions to use widgets on this site."
+msgstr "您没有权限于此站点使用小工具。"
+
+#: build/block-library/index.js:38
+msgid "Select a legacy widget to display:"
+msgstr "选择显示一个旧版微件："
+
+#: build/block-library/index.js:38
+msgid "There are no widgets available."
+msgstr "没有可用的小工具。"
+
+#: build/block-editor/index.js:47
+msgid "Change block type or style"
+msgstr "更改区块类型或样式"
+
+#: build/block-library/index.js:38
+msgctxt "keyboard key"
+msgid "Space"
+msgstr "空格"
+
+#: build/block-library/index.js:38
+msgctxt "keyboard key"
+msgid "Backspace"
+msgstr "退格"
+
+#: build/block-editor/index.js:61
+msgid "More rich text controls"
+msgstr "更多富文本控制项"
+
+#: build/editor/index.js:33
+msgid "Search Terms"
+msgstr "搜索项目"
+
+#. translators: accessibility text
+#: build/editor/index.js:15
+msgid "Exit the Editor"
+msgstr "退出编辑器"
+
+#: build/edit-post/index.js:1 build/edit-post/index.js:5
+msgid "Block Manager"
+msgstr "区块管理器"
+
+#: lib/class-wp-rest-widget-forms.php:41
+msgid "Class name of the widget."
+msgstr "微件的类别名。"
+
+#: lib/class-wp-rest-widget-forms.php:80
+msgid "Sorry, you are not allowed to access widgets on this site."
+msgstr "抱歉，您不能访问此站点上的小工具。"
+
+#: gutenberg.php:53 gutenberg.php:54
+msgid "Widgets (beta)"
+msgstr "微件（测试版）"
+
+#: build/block-library/index.js:16
+msgid "link"
+msgstr "链接"
+
+#. translators: %s: host providing embed content e.g: www.youtube.com
+#: build/block-library/index.js:29
+msgid "Embedded content from %s can't be previewed in the editor."
+msgstr "%s 中的嵌入内容无法在编辑器中预览。"
+
+#: build/components/index.js:6
+msgid "Custom color"
+msgstr "自定义颜色"
+
+#: build/block-library/index.js:16
+msgid "Prompt visitors to take action with a button-style link."
+msgstr "通过按钮样式的链接提示访问者操作。"
+
+#: build/block-library/blocks/rss.php:58
+msgid "by"
+msgstr "作者："
+
+#: build/block-library/blocks/rss.php:23
+msgid "An error has occurred, which probably means the feed is down. Try again later."
+msgstr "发生了一个错误，feed可能宕，请稍后再试。"
+
+#: build/block-library/blocks/rss.php:19
+msgid "RSS Error:"
+msgstr "RSS错误："
+
+#. translators: %s: Name of the block's parent.
+#: build/block-editor/index.js:47 build/block-library/index.js:7
+#: build/block-library/index.js:12 build/block-library/index.js:47
+msgctxt "block style"
+msgid "Default"
+msgstr "默认"
+
+#: build/editor/index.js:29
+msgid "Stick to the top of the blog"
+msgstr "置顶于此博客"
+
+#: build/edit-post/index.js:13
+msgid "Read about permalinks"
+msgstr "进一步了解永久链接"
+
+#: build/edit-post/index.js:13
+msgid "The last part of the URL."
+msgstr "URL的最后一段。"
+
+#: build/edit-post/index.js:13
+msgid "URL Slug"
+msgstr "链接别名"
+
+#: build/edit-post/index.js:9 build/edit-site/index.js:1
+msgid "Fullscreen mode deactivated"
+msgstr "全屏模式已停用"
+
+#: build/edit-post/index.js:9 build/edit-site/index.js:1
+msgid "Fullscreen mode activated"
+msgstr "全屏模式已启用"
+
+#: build/edit-post/index.js:9 build/edit-site/index.js:1
+msgid "Spotlight mode deactivated"
+msgstr "专注模式已停用"
+
+#: build/edit-post/index.js:9 build/edit-site/index.js:1
+msgid "Spotlight mode activated"
+msgstr "专注模式已启用"
+
+#: build/edit-post/index.js:9 build/edit-site/index.js:1
+msgid "Top toolbar deactivated"
+msgstr "顶部工具栏已停用"
+
+#: build/edit-post/index.js:9 build/edit-site/index.js:1
+msgid "Top toolbar activated"
+msgstr "顶部工具栏已启用"
+
+#: build/edit-post/index.js:5 build/edit-site/index.js:2
+msgid "Back"
+msgstr "返回"
+
+#: build/edit-post/index.js:9 build/edit-site/index.js:1
+msgid "Feature activated"
+msgstr "功能已启用"
+
+#: build/edit-post/index.js:9 build/edit-site/index.js:1
+msgid "Feature deactivated"
+msgstr "功能已停用。"
+
+#: build/components/index.js:8
+msgid "Vertical pos."
+msgstr "垂直位置。"
+
+#. translators: accessibility text
+#: build/components/index.js:8
+msgid "Horizontal pos."
+msgstr "水平位置。"
+
+#: build/block-library/index.js:51
+msgid "A cloud of your most used tags."
+msgstr "您最常使用的标签云。"
+
+#: build/block-library/index.js:51
+msgid "Tag Cloud"
+msgstr "标签云"
+
+#: build/block-library/index.js:51 build/core-data/index.js:1
+msgid "Taxonomy"
+msgstr "分类法"
+
+#: build/block-library/index.js:51
+msgid "Tag Cloud settings"
+msgstr "标签云设置"
+
+#: build/block-library/index.js:51
+msgid "- Select -"
+msgstr "- 选择 -"
+
+#: build/block-library/index.js:47 build/block-library/index.js:51
+#: build/components/index.js:6 build/components/index.js:8
+msgid "Default"
+msgstr "默认"
+
+#: build/block-library/index.js:47
+msgid "find"
+msgstr "搜寻"
+
+#: build/block-library/index.js:47
+msgid "Help visitors find your content."
+msgstr "帮助访客搜索网站内容。"
+
+#: build/block-library/blocks/search.php:32 build/block-library/index.js:47
+msgid "Search"
+msgstr "搜索"
+
+#: build/block-library/index.js:47
+msgid "Add button text…"
+msgstr "添加按钮文字…"
+
+#: build/block-library/index.js:47
+msgid "Button text"
+msgstr "按钮文字"
+
+#: build/block-library/index.js:47
+msgid "Optional placeholder…"
+msgstr "可选的占位符…"
+
+#: build/block-library/index.js:47
+msgid "Optional placeholder text"
+msgstr "可选的占位文本"
+
+#: build/block-library/index.js:47
+msgid "Add label…"
+msgstr "添加标签…"
+
+#: build/block-library/index.js:47
+msgid "Label text"
+msgstr "标签文字"
+
+#: build/block-library/index.js:47
+msgid "feed"
+msgstr "订阅源"
+
+#: build/block-library/index.js:47
+msgid "atom"
+msgstr "atom"
+
+#: build/block-library/index.js:47
+msgid "Display entries from any RSS or Atom feed."
+msgstr "显示来自任何RSS或Atom feed的条目。"
+
+#: build/block-library/index.js:47
+msgid "RSS"
+msgstr "RSS"
+
+#: build/block-library/index.js:36 build/block-library/index.js:47
+msgid "Max number of words in excerpt"
+msgstr "摘要的字数上限"
+
+#: build/block-library/index.js:36 build/block-library/index.js:47
+msgid "Display excerpt"
+msgstr "显示摘要"
+
+#: build/block-library/index.js:36 build/block-library/index.js:47
+msgid "Display date"
+msgstr "显示日期"
+
+#: build/block-library/index.js:47
+msgid "Display author"
+msgstr "显示作者"
+
+#: build/block-library/index.js:47
+msgid "RSS settings"
+msgstr "RSS 设置"
+
+#: build/block-library/index.js:47
+msgid "Edit RSS URL"
+msgstr "编辑 RSS 网址"
+
+#: build/block-library/index.js:42
+msgid "Content before this block will be shown in the excerpt on your archives page."
+msgstr "在此区块之前的文字会在您的存档页中显示为本文摘要。"
+
+#: build/block-library/index.js:42
+msgid "Hide the excerpt on the full content page"
+msgstr "在全文页中隐藏摘要"
+
+#: build/block-library/index.js:42
+msgid "The excerpt is visible."
+msgstr "摘要已显示。"
+
+#: build/block-library/index.js:42
+msgid "The excerpt is hidden."
+msgstr "摘要已隐藏。"
+
+#. translators: 1: the order number of the image. 2: the total number of
+#. images.
+#: build/block-library/index.js:16
+msgid "image %1$d of %2$d in gallery"
+msgstr "图库中第 %1$d/%2$d 张图片"
+
+#: build/block-library/index.js:26
+msgid "Sorry, this content could not be embedded."
+msgstr "抱歉，无法嵌入此内容。"
+
+#: build/block-library/index.js:1
+msgid "Embed Amazon Kindle content."
+msgstr "嵌入 Amazon Kindle 内容。 "
+
+#: build/block-library/index.js:1
+msgid "ebook"
+msgstr "电子书"
+
+#: build/block-library/index.js:1
+msgid "Embed Crowdsignal (formerly Polldaddy) content."
+msgstr "嵌入 Crowdsignal（原 Polldaddy）内容。"
+
+#: build/block-library/index.js:16
+msgid "archive"
+msgstr "存档"
+
+#: build/block-library/index.js:16
+msgid "posts"
+msgstr "文章"
+
+#: build/block-library/index.js:16
+msgid "A calendar of your site’s posts."
+msgstr "您站点的文章的日历。"
+
+#: build/block-library/index.js:16
+msgid "Calendar"
+msgstr "日历"
+
+#: build/format-library/index.js:1
+msgid "Underline"
+msgstr "下划线"
+
+#: build/block-editor/index.js:22
+msgid "Attempt Block Recovery"
+msgstr "尝试修复区块"
+
+#: build/editor/index.js:33
+msgctxt "Word count type. Do not translate!"
+msgid "words"
+msgstr "words"
+
+#: build/block-library/index.js:30
+msgctxt "content placeholder"
+msgid "Content…"
+msgstr "内容…"
+
+#: build/block-library/index.js:26
+msgctxt "button label"
+msgid "Convert to link"
+msgstr "转换为链接"
+
+#: build/block-library/index.js:26
+msgctxt "button label"
+msgid "Try again"
+msgstr "重试"
+
+#: build/nux/index.js:1
+msgid "Editor tips"
+msgstr "编辑器贴士"
+
+#. translators: ARIA label for the Settings Sidebar tab, selected.
+#: build/edit-post/index.js:12
+msgid "Block (selected)"
+msgstr "区块（已选择）"
+
+#. translators: ARIA label for the Document sidebar tab, selected.
+#: build/edit-post/index.js:10
+msgid "Document (selected)"
+msgstr "文档（已选择）"
+
+#. translators: Use this to specify the CSS font family for the default font.
+#: lib/edit-site-page.php:54
+msgctxt "CSS Font Family for Editor Font"
+msgid "Noto Serif"
+msgstr "Noto Serif"
+
+#. translators: %d: number of words
+#: build/block-editor/index.js:78
+msgid "%d word"
+msgid_plural "%d words"
+msgstr[0] "%d字"
+
+#: build/edit-post/index.js:9 build/edit-site/index.js:1
+msgid "Top toolbar"
+msgstr "顶部工具栏"
+
+#: build/block-editor/index.js:74
+msgid "Link Rel"
+msgstr "链接Rel"
+
+#: build/block-editor/index.js:74
+msgid "Link CSS Class"
+msgstr "链接CSS类"
+
+#: build/editor/index.js:11
+msgid "To edit the featured image, you need permission to upload media."
+msgstr "要编辑特色图像，您需要有上传媒体的权限。"
+
+#: build/block-editor/index.js:67
+msgid "To edit this block, you need permission to upload media."
+msgstr "要编辑此区块，您需要有上传媒体的权限。"
+
+#. translators: 1: The numerical position of the block. 2: The total number of
+#. blocks. 3. The level of nesting for the block.
+#: build/block-editor/index.js:59
+msgid "(selected block)"
+msgstr "（选定的区块）"
+
+#: build/block-editor/index.js:56 build/edit-navigation/index.js:2
+msgid "Block tools"
+msgstr "区块工具"
+
+#: build/edit-post/index.js:5 build/edit-post/index.js:13
+msgid "Permalink"
+msgstr "永久链接"
+
 #. translators: %s: file name
-#: languages/gutenberg-translations.php:1463
+#: build/block-library/index.js:5
+msgid "This image has an empty alt attribute"
+msgstr "此图像的alt属性为空"
+
+#. translators: %s: file name
+#: build/block-library/index.js:5
+msgid "This image has an empty alt attribute; its file name is %s"
+msgstr "此图像的alt属性为空；文件名为%s"
+
+#: lib/widgets.php:218
+msgid "Block area reverted to draft."
+msgstr "区块恢复到草稿。"
+
+#: lib/widgets.php:217
+msgid "Block area published privately."
+msgstr "区块隐藏发布。"
+
+#: lib/widgets.php:212
+msgid "No block areas found in Trash."
+msgstr "回收站中没有找到区块。"
+
+#: lib/widgets.php:204
+msgctxt "Block"
+msgid "Add New"
+msgstr "新增"
+
+#: lib/widgets.php:203
+msgctxt "add new on admin bar"
+msgid "Block Area"
+msgstr "区块"
+
+#: build/format-library/index.js:1
+msgid "Link inserted."
+msgstr "链接已插入。"
+
+#: build/format-library/index.js:1
+msgid "Warning: the link has been inserted but may have errors. Please test it."
+msgstr "警告：此链接已被插入但可能含有错误，请测试。"
+
+#. translators: %s: number of selected blocks
+#: build/block-editor/index.js:26
+msgid "%s block selected."
+msgid_plural "%s blocks selected."
+msgstr[0] "已选择%s个区块。"
+
+#: lib/widgets-page.php:57 lib/edit-site-page.php:115
+#: lib/navigation-page.php:45 build/block-editor/index.js:24
+msgid "Thumbnail"
+msgstr "缩略图"
+
+#: lib/widgets-page.php:60 lib/edit-site-page.php:118
+#: lib/navigation-page.php:48 build/block-editor/index.js:24
+msgid "Full Size"
+msgstr "完整尺寸"
+
+#: build/block-editor/index.js:63
+msgid "Link selected."
+msgstr "链接已选择。"
+
+#: build/editor/index.js:33
+msgid "Start writing with text or HTML"
+msgstr "开始写作文本或HTML"
+
+#: build/editor/index.js:33
+msgid "Type text or HTML"
+msgstr "键入文本或HTML"
+
+#: build/block-editor/index.js:47
+msgid "Block icon"
+msgstr "区块图标"
+
+#: build/block-editor/index.js:7
+msgid "Align text right"
+msgstr "右对齐文本"
+
+#: build/block-editor/index.js:7
+msgid "Align text center"
+msgstr "居中文本"
+
+#: build/block-editor/index.js:7
+msgid "Align text left"
+msgstr "左对齐文本"
+
+#. translators: %s: number of selected blocks
+#: build/block-editor/index.js:26 build/block-library/index.js:1
+msgid "Start writing or type / to choose a block"
+msgstr "开始写作或按/来选择区块"
+
+#: build/block-library/index.js:1
+msgid "Empty block; start writing or type forward slash to choose a block"
+msgstr "空区块；开始写作或按正斜杠来选择区块"
+
+#: build/block-library/index.js:1
+msgid "Paragraph block"
+msgstr "段落区块"
+
+#: build/block-library/index.js:42
+msgid "Page Break"
+msgstr "分页符"
+
+#: build/block-library/index.js:30
+msgid "Stack on mobile"
+msgstr "在移动设备上堆叠显示"
+
+#: build/block-library/index.js:16
+msgid "Drag images, upload new ones or select files from your library."
+msgstr "拖动图像，上传新图像或从您的媒体库中选择文件。"
+
+#: build/annotations/index.js:1
+msgid "Annotation"
+msgstr "批注"
+
+#. translators: %d: number of results.
+#: build/block-editor/index.js:29
+msgctxt "blocks"
+msgid "Most used"
+msgstr "最常用"
+
+#. translators: Button to fix block content
+#: build/block-editor/index.js:23
+msgctxt "imperative verb"
+msgid "Resolve"
+msgstr "解析"
+
+#: build/block-editor/index.js:24
+msgctxt "font size name"
+msgid "Huge"
+msgstr "特大"
+
+#: build/block-editor/index.js:24
+msgctxt "font size name"
+msgid "Large"
+msgstr "大"
+
+#: build/block-editor/index.js:24
+msgctxt "font size name"
+msgid "Medium"
+msgstr "中"
+
+#: build/block-editor/index.js:24
+msgctxt "font size name"
+msgid "Small"
+msgstr "小"
+
+#: build/block-editor/index.js:24
+msgctxt "font size name"
+msgid "Normal"
+msgstr "常规"
+
+#: build/components/index.js:6
+msgctxt "keyboard button"
+msgid "Enter"
+msgstr "回车"
+
+#: build/list-reusable-blocks/index.js:1
+msgctxt "button label"
+msgid "Import"
+msgstr "导入"
+
+#: build/block-library/index.js:30
+msgctxt "button label"
+msgid "Download"
+msgstr "下载"
+
+#: build/block-library/index.js:26
+msgctxt "button label"
+msgid "Embed"
+msgstr "嵌入"
+
+#: build/block-library/index.js:30
+msgctxt "block title"
+msgid "Embed"
+msgstr "嵌入"
+
+#: build/block-library/index.js:51
+msgctxt "block title"
+msgid "Classic"
+msgstr "经典"
+
+#: build/block-library/index.js:12
+msgctxt "block style"
+msgid "Large"
+msgstr "大"
+
+#: build/block-library/index.js:7
+msgctxt "block style"
+msgid "Rounded"
+msgstr "圆形的"
+
+#: build/format-library/index.js:1
+msgid "Link edited."
+msgstr "已编辑链接。"
+
+#: build/format-library/index.js:1
+msgid "Link removed."
+msgstr "已移除链接。"
+
+#: build/format-library/index.js:1
+msgid "media"
+msgstr "媒体"
+
+#: build/editor/index.js:27
+msgid "Double-check your settings before publishing."
+msgstr "请在发布前再次检查您的设置。"
+
+#. translators: %d: number of revisions
+#: build/editor/index.js:13
+msgid "Generating preview…"
+msgstr "正在生成预览…"
+
+#: build/editor/index.js:11
+msgid "Edit or update the image"
+msgstr "编辑或更新此图像"
+
+#: lib/compat.php:358 build/block-editor/index.js:67 build/blocks/index.js:1
+#: build/core-data/index.js:1
+msgid "Media"
+msgstr "媒体"
+
+#: build/block-editor/index.js:78
+msgid "Navigate to the nearest toolbar."
+msgstr "导航到最近的工具栏。"
+
+#. translators: accessibility text for the editor toolbar when Top Toolbar is
+#. off
+#: build/edit-post/index.js:9
+msgid "Document tools"
+msgstr "文档工具"
+
+#. translators: accessibility text for the editor toolbar when Top Toolbar is
+#. on
+#: build/edit-post/index.js:7
+msgid "Document and block tools"
+msgstr "文档和区块工具"
+
+#: build/block-library/index.js:51
+msgid "Embed a video from your media library or upload a new one."
+msgstr "从您的媒体库中嵌入视频，或上传新视频。"
+
+#: build/block-library/index.js:47
+msgid "Insert poetry. Use special spacing formats. Or quote song lyrics."
+msgstr "插入诗歌，使用特殊的空白格式，或引用歌词。"
+
+#: build/block-library/index.js:47
+msgid "Add white space between blocks and customize its height."
+msgstr "在区块间加入空白，并自定义空白的高度。"
+
+#: build/block-library/index.js:47
+msgid "Insert additional custom elements with a WordPress shortcode."
+msgstr "通过WordPress短代码加入额外的自定义元素。"
+
+#: build/block-library/index.js:47
+msgid "Create a break between ideas or sections with a horizontal separator."
+msgstr "在不同的点子或章节之间通过横向分隔符来制造间断。"
+
+#: build/block-library/index.js:12
+msgid "Give quoted text visual emphasis. \"In quoting others, we cite ourselves.\" — Julio Cortázar"
+msgstr "给引文提供视觉强调。“在引用其他人时，我们引用自己。”——胡里奥·科塔萨尔"
+
+#: build/block-library/index.js:46
+msgid "Give special visual emphasis to a quote from your text."
+msgstr "给您文中的引用增加视觉强调的空间。"
+
+#: build/block-library/index.js:1
+msgid "Start with the building block of all narrative."
+msgstr "请从所有故事的基石开始。"
+
+#: build/block-library/index.js:42
+msgid "Separate your content into a multi-page experience."
+msgstr "将您的内容分成多个页面。"
+
+#: build/block-library/index.js:30
+msgid "Set media and words side-by-side for a richer layout."
+msgstr "并排显示媒体和文字来丰富布局。"
+
+#: build/block-library/index.js:30
+msgid "Media & Text settings"
+msgstr "媒体和文本设置"
+
+#: build/block-library/index.js:38
+msgid "Create a bulleted or numbered list."
+msgstr "创建项目符号或编号列表。"
+
+#: build/block-library/index.js:36
+msgid "Display a list of your most recent comments."
+msgstr "显示您的最新评论的列表。"
+
+#: build/block-library/index.js:5
+msgid "Insert an image to make a visual statement."
+msgstr "插入图片来做出视觉声明。"
+
+#: build/block-library/index.js:30
+msgid "Add custom HTML code and preview it as you edit."
+msgstr "添加自定义HTML代码，并实时预览。"
+
+#: build/block-library/index.js:8
+msgid "Introduce new sections and organize content to help visitors (and search engines) understand the structure of your content."
+msgstr "插入新的章节并整理内容来让您的访客（和搜索引擎）理解您的内容的结构。"
+
+#: build/block-library/index.js:16
+msgid "Display multiple images in a rich gallery."
+msgstr "在相册中展示多张图片。"
+
+#: build/block-library/index.js:30
+msgid "Add a link to a downloadable file."
+msgstr "添加到可下载文件的链接。"
+
+#: build/block-library/index.js:30
+msgid "Embed videos, images, tweets, audio, and other content from external sources."
+msgstr "嵌入来自外部来源的视频、图像、推文、音频和其他内容。"
+
+#: build/block-library/index.js:26
+msgid "Resize for smaller devices"
+msgstr "为小设备调整尺寸"
+
+#: build/block-library/index.js:29
+msgid "This embed may not preserve its aspect ratio when the browser is resized."
+msgstr "在浏览器尺寸变化时，此嵌入可能不会保持其高宽比。"
+
+#: build/block-library/index.js:29
+msgid "This embed will preserve its aspect ratio when the browser is resized."
+msgstr "在浏览器尺寸变化时，此嵌入会保持其高宽比。"
+
+#: build/block-library/index.js:1
+msgid "Embed an Animoto video."
+msgstr "嵌入Animoto视频。"
+
+#: build/block-library/index.js:1
+msgid "Embed a Vimeo video."
+msgstr "嵌入Vimeo视频。"
+
+#: build/block-library/index.js:1
+msgid "Embed Flickr content."
+msgstr "嵌入Flickr内容。"
+
+#: build/block-library/index.js:1
+msgid "Embed Spotify content."
+msgstr "嵌入Spotify内容。"
+
+#: build/block-library/index.js:1
+msgid "Embed SoundCloud content."
+msgstr "嵌入SoundCloud内容。"
+
+#: build/block-library/index.js:1
+msgid "Embed a WordPress post."
+msgstr "嵌入WordPress文章。"
+
+#: build/block-library/index.js:1
+msgid "Embed an Instagram post."
+msgstr "嵌入Instagram贴文。"
+
+#: build/block-library/index.js:1
+msgid "Embed a Facebook post."
+msgstr "嵌入Facebook文章。"
+
+#: build/block-library/index.js:1
+msgid "Embed a WordPress.tv video."
+msgstr "嵌入WordPress.tv视频。"
+
+#: build/block-library/index.js:1
+msgid "Embed a VideoPress video."
+msgstr "嵌入VideoPress视频。"
+
+#: build/block-library/index.js:1
+msgid "Embed a Tumblr post."
+msgstr "嵌入Tumblr文章。"
+
+#: build/block-library/index.js:1
+msgid "Embed a TED video."
+msgstr "嵌入TED视频。"
+
+#: build/block-library/index.js:1
+msgid "Embed Speaker Deck content."
+msgstr "嵌入Speaker Deck内容。"
+
+#: build/block-library/index.js:1
+msgid "Embed a YouTube video."
+msgstr "嵌入YouTube视频。"
+
+#: build/block-library/index.js:1
+msgid "Embed SmugMug content."
+msgstr "嵌入SmugMug内容。"
+
+#: build/block-library/index.js:1
+msgid "Embed Slideshare content."
+msgstr "嵌入Slideshare内容。"
+
+#: build/block-library/index.js:1
+msgid "Embed Scribd content."
+msgstr "嵌入Scribd内容。"
+
+#: build/block-library/index.js:1
+msgid "Embed Screencast content."
+msgstr "嵌入Screencast内容。"
+
+#: build/block-library/index.js:1
+msgid "Embed ReverbNation content."
+msgstr "嵌入ReverbNation内容。"
+
+#: build/block-library/index.js:1
+msgid "Embed a Reddit thread."
+msgstr "嵌入Reddit讨论串。"
+
+#: build/block-library/index.js:1
+msgid "Embed Polldaddy content."
+msgstr "嵌入Polldaddy内容。"
+
+#: build/block-library/index.js:1
+msgid "Embed Mixcloud content."
+msgstr "嵌入Mixcloud内容。"
+
+#: build/block-library/index.js:1
+msgid "Embed a tweet."
+msgstr "嵌入推文。"
+
+#: build/block-library/index.js:1
+msgid "Embed Meetup.com content."
+msgstr "嵌入Meetup.com内容。"
+
+#: build/block-library/index.js:1
+msgid "Embed Kickstarter content."
+msgstr "嵌入Kickstarter内容。"
+
+#: build/block-library/index.js:1
+msgid "Embed Issuu content."
+msgstr "嵌入Issuu内容。"
+
+#: build/block-library/index.js:1
+msgid "Embed Imgur content."
+msgstr "嵌入Imgur内容。"
+
+#: build/block-library/index.js:1
+msgid "Embed Hulu content."
+msgstr "嵌入Hulu内容。"
+
+#: build/block-library/index.js:1
+msgid "Embed a Dailymotion video."
+msgstr "嵌入Dailymotion视频。"
+
+#: build/block-library/index.js:1
+msgid "Embed CollegeHumor content."
+msgstr "嵌入CollegeHumor内容。"
+
+#: build/block-library/index.js:1
+msgid "Embed Cloudup content."
+msgstr "嵌入Cloudup内容。"
+
+#: build/block-library/index.js:26
+msgid "Add an image or video with a text overlay — great for headers."
+msgstr "加入有文字浮层的图像或视频，适合作为头部。"
+
+#: build/block-library/index.js:16
+msgid "Display code snippets that respect your spacing and tabs."
+msgstr "显示符合间距和制表符的代码片段。"
+
+#: build/block-library/index.js:51
+msgid "Use the classic WordPress editor."
+msgstr "使用经典WordPress编辑器。"
+
+#: build/block-library/index.js:16
+msgid "Display a list of all categories."
+msgstr "显示所有分类的列表。"
+
+#: build/block-library/index.js:16
+msgid "Embed a simple audio player."
+msgstr "嵌入简单音频播放器。"
+
+#: lib/class-wp-rest-image-editor-controller.php:88
+msgid "Sorry, you are not allowed to edit images."
+msgstr "抱歉，您不能编辑图像。"
+
+#: build/edit-post/index.js:9 build/edit-site/index.js:1
+msgctxt "noun"
+msgid "View"
+msgstr "视图"
+
+#: build/block-library/index.js:1
+msgctxt "editor button"
+msgid "Left to right"
+msgstr "从左到右"
+
+#. translators: %s: post type singular name
+#: build/editor/index.js:29
+msgid "%s address"
+msgstr "%s地址"
+
+#: build/block-editor/index.js:67
+msgid "Paste or type URL"
+msgstr "粘贴或键入URL"
+
+#: build/block-editor/index.js:67
+msgid "Insert from URL"
+msgstr "从URL插入"
+
+#: build/block-library/index.js:30
+msgid "Block Navigator"
+msgstr "区块导航"
+
+#. translators: %s: number of blocks.
+#: build/block-editor/index.js:49 build/block-editor/index.js:78
+msgid "Styles"
+msgstr "样式"
+
+#: build/edit-post/index.js:5
+msgid "Advanced panels"
+msgstr "高级面板"
+
+#: build/edit-post/index.js:5
+msgid "Document panels"
+msgstr "文档面板"
+
+#: build/edit-post/index.js:5
+msgid "General"
+msgstr "常规"
+
+#: build/edit-post/index.js:1
+msgid "Open the block navigation menu."
+msgstr "打开区块导航菜单。"
+
+#: build/edit-post/index.js:9 build/edit-site/index.js:1
+msgid "Work without distraction"
+msgstr "没有干扰地工作"
+
+#: build/edit-post/index.js:9 build/edit-site/index.js:1
+msgid "Focus on one block at a time"
+msgstr "集中注意力在一个区块上"
+
+#: build/edit-post/index.js:9 build/edit-site/index.js:1
+msgid "Access all block and document tools in a single place"
+msgstr "在一个位置访问所有的区块和文档工具"
+
+#: build/edit-post/index.js:5 build/edit-post/index.js:9
+msgid "Options"
+msgstr "选项"
+
+#. translators: accessibility text
+#: build/editor/index.js:15 build/components/index.js:8
+msgid "(opens in a new tab)"
+msgstr "（在新窗口中打开）"
+
+#: build/components/index.js:6
+msgid "Minutes"
+msgstr "分钟"
+
+#: build/components/index.js:6
+msgid "Hours"
+msgstr "小时"
+
+#: build/components/index.js:6
+msgid "Time"
+msgstr "时间"
+
+#: build/components/index.js:6
+msgid "Year"
+msgstr "年"
+
+#: build/components/index.js:6
+msgid "Day"
+msgstr "日"
+
+#: build/components/index.js:6
+msgid "December"
+msgstr "十二月"
+
+#: build/components/index.js:6
+msgid "November"
+msgstr "十一月"
+
+#: build/components/index.js:6
+msgid "October"
+msgstr "十月"
+
+#: build/components/index.js:6
+msgid "September"
+msgstr "九月"
+
+#: build/components/index.js:6
+msgid "August"
+msgstr "八月"
+
+#: build/components/index.js:6
+msgid "July"
+msgstr "七月"
+
+#: build/components/index.js:6
+msgid "June"
+msgstr "六月"
+
+#: build/components/index.js:6
+msgid "May"
+msgstr "五月"
+
+#: build/components/index.js:6
+msgid "April"
+msgstr "四月"
+
+#: build/components/index.js:6
+msgid "March"
+msgstr "三月"
+
+#: build/components/index.js:6
+msgid "February"
+msgstr "二月"
+
+#: build/components/index.js:6
+msgid "January"
+msgstr "一月"
+
+#: build/components/index.js:6
+msgid "Month"
+msgstr "月"
+
+#: build/components/index.js:6
+msgid "Date"
+msgstr "日期"
+
+#: build/components/index.js:6
+msgid "Go to the first (home) or last (end) day of a week."
+msgstr "前往一周的第一天（home）或最后一天（end）"
+
+#: build/components/index.js:6
+msgid "Home/End"
+msgstr "Home/End"
+
+#: build/components/index.js:6
+msgid "Home and End"
+msgstr "Home和End"
+
+#: build/components/index.js:6
+msgid "Move backward (PgUp) or forward (PgDn) by one month."
+msgstr "向前（PgUp）或向后（PgDn）移动一个月。"
+
+#: build/components/index.js:6
+msgid "PgUp/PgDn"
+msgstr "PgUp/PgDn"
+
+#: build/components/index.js:6
+msgid "Page Up and Page Down"
+msgstr "Page Up和Page Down"
+
+#: build/components/index.js:6
+msgid "Move backward (up) or forward (down) by one week."
+msgstr "向前（上）或向后（下）移动一周。"
+
+#: build/components/index.js:6
+msgid "Up and Down Arrows"
+msgstr "上下方向键"
+
+#: build/components/index.js:6
+msgid "Move backward (left) or forward (right) by one day."
+msgstr "向前（左）或向后（右）移动一天。"
+
+#: build/components/index.js:6
+msgid "Left and Right Arrows"
+msgstr "左右方向键"
+
+#: build/components/index.js:6
+msgid "Select the date in focus."
+msgstr "选择当前高亮的日期。"
+
+#: build/components/index.js:6
+msgid "Navigating with a keyboard"
+msgstr "用键盘导航"
+
+#: build/components/index.js:6
+msgid "Click the desired day to select it."
+msgstr "点击您期望的日期来选择。"
+
+#: build/components/index.js:6
+msgid "Click the right or left arrows to select other months in the past or the future."
+msgstr "点击左右箭头来选择过去或将来的月份。"
+
+#: build/components/index.js:6
+msgid "Click to Select"
+msgstr "点击以选择"
+
+#: build/components/index.js:6
+msgid "Calendar Help"
+msgstr "日历帮助"
+
+#: build/components/index.js:3
+msgid "Use your arrow keys to change the base color. Move up to lighten the color, down to darken, left to decrease saturation, and right to increase saturation."
+msgstr "使用方向键更改基础颜色。上下移动以增减亮度，左右增减饱和度。"
+
+#: build/components/index.js:3
+msgid "Choose a shade"
+msgstr "选择阴影"
+
+#: build/components/index.js:3
+msgid "Change color format"
+msgstr "修改颜色格式"
+
+#: build/components/index.js:3
+msgid "Color value in HSL"
+msgstr "HSL的颜色值"
+
+#: build/components/index.js:3
+msgid "Color value in RGB"
+msgstr "RGB的颜色值"
+
+#: build/components/index.js:3
+msgid "Color value in hexadecimal"
+msgstr "十六进制的颜色值"
+
+#: build/components/index.js:3
+msgid "RGB mode active"
+msgstr "RGB模式已激活"
+
+#: build/components/index.js:3
+msgid "Hex color mode active"
+msgstr "十六进制颜色模式已激活"
+
+#: build/components/index.js:3
+msgid "Hue/saturation/lightness mode active"
+msgstr "色相/饱和度/亮度模式已激活"
+
+#: build/components/index.js:3
+msgid "Move the arrow left or right to change hue."
+msgstr "将箭头左右移动来调节色相。"
+
+#: build/components/index.js:3
+msgid "Hue value in degrees, from 0 to 359."
+msgstr "色相的角度值，从0到359。"
+
+#: build/components/index.js:3
+msgid "Alpha value, from 0 (transparent) to 1 (fully opaque)."
+msgstr "透明度，从0（透明）到1（不透明）。"
+
+#: build/block-library/index.js:47
+msgid "Stripes"
+msgstr "条带"
+
+#: build/block-library/index.js:42
+msgid "Your site doesn’t include support for this block."
+msgstr "您的站点不支持这一区块。"
+
+#. translators: %s: block name
+#: build/block-library/index.js:42
+msgid "Your site doesn’t include support for the \"%s\" block. You can leave this block intact or remove it entirely."
+msgstr "您的站点不支持“%s”区块。您可以原样保留此区块或移除此区块。"
+
+#. translators: %s: block name
+#: build/block-library/index.js:40
+msgid "Your site doesn’t include support for the \"%s\" block. You can leave this block intact, convert its content to a Custom HTML block, or remove it entirely."
+msgstr "您的站点不支持“%s”区块。您可以原样保留此区块，将内容转换为自定义HTML区块，或移除此区块。"
+
+#: build/block-library/index.js:30
+msgid "Media area"
+msgstr "媒体区"
+
+#: build/block-library/index.js:30
+msgid "Media & Text"
+msgstr "媒体和文本"
+
+#: build/block-library/index.js:30
+msgid "Show media on right"
+msgstr "在右侧显示媒体"
+
+#: build/block-library/index.js:30
+msgid "Show media on left"
+msgstr "在左侧显示媒体"
+
+#: build/block-library/index.js:26
+msgid "Cover"
+msgstr "封面"
+
+#: build/block-library/index.js:16
+msgid "Border settings"
+msgstr "边框设置"
+
+#: lib/widgets-page.php:58 lib/edit-site-page.php:116
+#: lib/navigation-page.php:46 build/block-editor/index.js:24
+#: build/components/index.js:6
+msgid "Medium"
+msgstr "中等"
+
+#: build/block-editor/index.js:63
+msgid "Paste URL or type to search"
+msgstr "粘贴URL或键入来搜索"
+
+#: build/editor/index.js:33
+msgid "Terms"
+msgstr "项目"
+
+#: build/editor/index.js:27
+msgid "Your work will be published at the specified date and time."
+msgstr "您的工作会在指定的日期和时间被发布。"
+
+#. translators: %s: post format
+#: build/editor/index.js:27
+msgid "Are you ready to schedule?"
+msgstr "您准备好计划了吗？"
+
+#: build/editor/index.js:29
+msgid "Always show pre-publish checks."
+msgstr "总是显示发布前检查。"
+
+#: build/editor/index.js:19
+msgid "Take Over"
+msgstr "接管"
+
+#: build/edit-site/index.js:1
+msgid "All Posts"
+msgstr "所有文章"
+
+#. translators: %s: user's display name
+#: build/editor/index.js:19
+msgid "Another user is currently working on this post, which means you cannot make changes, unless you take over."
+msgstr "其他用户现在正在编辑此文章，这意味着您现在不能进行修改，除非您接管此文章。"
+
+#. translators: %s: user's display name
+#: build/editor/index.js:19
+msgid "%s is currently working on this post, which means you cannot make changes, unless you take over."
+msgstr "%s现在正在编辑此文章，这意味着您现在不能进行修改，除非您接管此文章。"
+
+#. translators: %s: user's display name
+#: build/editor/index.js:17
+msgid "Another user now has editing control of this post. Don’t worry, your changes up to this moment have been saved."
+msgstr "其他用户现在正在编辑此文章。不用慌，您到现在为止的更改均已被保存。"
+
+#. translators: %s: user's display name
+#: build/editor/index.js:17
+msgid "%s now has editing control of this post. Don’t worry, your changes up to this moment have been saved."
+msgstr "%s现在正在编辑此文章。不用慌，您到现在为止的更改均已被保存。"
+
+#: build/editor/index.js:15
+msgid "Avatar"
+msgstr "头像"
+
+#: build/editor/index.js:15
+msgid "This post is already being edited."
+msgstr "此文章正在被编辑。"
+
+#: build/editor/index.js:15
+msgid "Someone else has taken over this post."
+msgstr "其他人接管了此文章。"
+
+#: build/block-editor/index.js:23
+msgid "This block contains unexpected or invalid content."
+msgstr "此区块包含未预料的或无效的内容。"
+
+#. translators: Dialog title to fix block content
+#: build/block-editor/index.js:24
+msgid "Resolve Block"
+msgstr "解析区块"
+
+#. translators: Button to fix block content
+#: build/block-editor/index.js:22 build/block-editor/index.js:23
+msgid "Convert to HTML"
+msgstr "转换为HTML"
+
+#: build/edit-post/index.js:1
+msgid "This block can only be used once."
+msgstr "此区块只能被使用一次。"
+
+#: build/edit-post/index.js:1
+msgid "Exit code editor"
+msgstr "退出代码编辑器"
+
+#: build/edit-post/index.js:1
+msgid "Editing code"
+msgstr "正在编辑代码"
+
+#: build/block-library/index.js:47
+msgid "Solid color"
+msgstr "纯色"
+
+#: build/block-library/index.js:46
+msgid "Main color"
+msgstr "主颜色"
+
+#: lib/compat.php:532 build/block-library/index.js:30
+msgid "HTML"
+msgstr "HTML"
+
+#: build/block-library/index.js:30
+msgid "Write HTML…"
+msgstr "编写HTML…"
+
+#: build/block-library/index.js:26
+msgid "Media settings"
+msgstr "媒体设置"
+
+#: build/block-library/index.js:26
+msgid "Overlay"
+msgstr "覆盖"
+
+#: build/block-library/index.js:51
+msgid "Insert Media"
+msgstr "插入媒体"
+
+#: build/list-reusable-blocks/index.js:1
+msgid "Reusable block imported successfully!"
+msgstr "成功导入可重用区块！"
+
+#: build/list-reusable-blocks/index.js:1
+msgid "Invalid Reusable Block JSON file"
+msgstr "无效的可重用区块JSON文件"
+
+#: build/list-reusable-blocks/index.js:1
+msgid "Invalid JSON file"
+msgstr "无效的JSON文件"
+
+#: build/list-reusable-blocks/index.js:1
+msgid "Import from JSON"
+msgstr "从JSON导入"
+
+#: build/keycodes/index.js:1
+msgid "Backtick"
+msgstr "反引号"
+
+#: build/keycodes/index.js:1
+msgid "Period"
+msgstr "句号"
+
+#: build/keycodes/index.js:1
+msgid "Comma"
+msgstr "逗号"
+
+#. translators: %s: number of blocks.
+#: build/block-editor/index.js:49
+msgid "Change type of %d block"
+msgid_plural "Change type of %d blocks"
+msgstr[0] "修改%d个区块的类型"
+
+#: build/block-editor/index.js:22
+msgid "Current"
+msgstr "当前"
+
+#: build/block-editor/index.js:22
+msgid "After Conversion"
+msgstr "转换后"
+
+#: build/block-editor/index.js:1
+msgid "Change alignment"
+msgstr "修改对齐方式"
+
+#: build/block-editor/index.js:7
+msgid "Change text alignment"
+msgstr "修改文本对齐"
+
+#. translators: %d: number of blocks
+#: build/block-editor/index.js:76
+msgid "%d block"
+msgid_plural "%d blocks"
+msgstr[0] "%d个区块"
+
+#. translators: The forward-slash character. e.g. '/'.
+#: build/edit-post/index.js:3
+msgid "Forward-slash"
+msgstr "正斜杠"
+
+#: build/block-library/blocks/archives.php:104
+msgid "No archives to show."
+msgstr "没有存档可显示。"
+
+#: build/media-utils/index.js:1
+msgid "This file is empty."
+msgstr "此文件为空。"
+
+#: build/media-utils/index.js:1
+msgid "Sorry, this file type is not supported here."
+msgstr "抱歉，不支持此文件类型。"
+
+#: build/block-editor/index.js:33 build/edit-post/index.js:1
+#: build/edit-site/index.js:1
+msgid "Manage all reusable blocks"
+msgstr "管理所有可重用区块"
+
+#: build/editor/index.js:1
+msgid "Title"
+msgstr "标题"
+
+#: build/edit-post/index.js:9 build/edit-site/index.js:1
+msgid "Fullscreen mode"
+msgstr "全屏模式"
+
+#: post-content.php:41
+msgid "Beautiful landscape"
+msgstr "美景"
+
+#: build/editor/index.js:11 build/editor/index.js:29
+msgid "Close panel"
+msgstr "关闭面板"
+
+#: build/block-editor/index.js:22
+msgid "Convert to Classic Block"
+msgstr "转换为经典区块"
+
+#: build/block-library/index.js:47
+msgid "This block is deprecated. Please use the Columns block instead."
+msgstr "此区块已被废弃，请使用多栏区块。"
+
+#: build/block-library/index.js:47
+msgid "Text Columns (deprecated)"
+msgstr "文本栏（已废弃）"
+
+#: build/block-library/index.js:30
+msgid "Create"
+msgstr "创建"
+
+#: build/block-library/index.js:47
+msgid "Row Count"
+msgstr "行数"
+
+#: build/block-library/index.js:47
+msgid "Column Count"
+msgstr "栏数"
+
+#: build/block-library/index.js:47
+msgid "This block is deprecated. Please use the Paragraph block instead."
+msgstr "此区块已被废弃，请使用段落区块。"
+
+#: build/block-library/index.js:47
+msgid "Subheading (deprecated)"
+msgstr "副标题（已废弃）"
+
+#: build/block-library/index.js:12
+msgid "blockquote"
+msgstr "块引用"
+
+#: build/block-library/index.js:47
+msgid "Create and save content to reuse across your site. Update the block, and the changes apply everywhere it’s used."
+msgstr "创建并保存内容以在您的网站上重复使用。 更新该区块，更改将应用​​到所有使用的位置。"
+
+#: build/edit-post/index.js:1
+msgid "Change the block type after adding a new paragraph."
+msgstr "在添加新段落后修改区块类型。"
+
+#: build/edit-post/index.js:9 build/edit-site/index.js:1
+msgid "Spotlight mode"
+msgstr "探照灯模式"
+
+#: build/editor/index.js:25
+msgid "Tags help users and search engines navigate your site and find your content. Add a few keywords to describe your post."
+msgstr "标签能够帮助用户和搜索引擎浏览您的站点并找到内容。请加入一些能描述您的文章的关键词。"
+
+#: build/editor/index.js:25
+msgid "Add tags"
+msgstr "添加标签"
+
+#. translators: %s: post format
+#: build/editor/index.js:27
+msgid "Apply the \"%1$s\" format."
+msgstr "应用“%1$s”格式。"
+
+#: build/editor/index.js:25
+msgid "Your theme uses post formats to highlight different kinds of content, like images or videos. Apply a post format to see this special styling."
+msgstr "您的主题使用了文章格式来呈现不同类型的内容，如图像或视频。应用文章格式来查看这些特殊格式。"
+
+#: build/editor/index.js:25
+msgid "Use a post format"
+msgstr "使用文章格式"
+
+#: build/block-editor/index.js:53
+msgid "Insert After"
+msgstr "在之后插入"
+
+#: build/block-editor/index.js:53
+msgid "Insert Before"
+msgstr "在之前插入"
+
+#. translators: 1: Number of selected blocks, 2: Position of selected blocks
+#: build/block-editor/index.js:9
+msgid "Move %1$d block from position %2$d down by one place"
+msgid_plural "Move %1$d blocks from position %2$d down by one place"
+msgstr[0] "将%1$d个区块从位置%2$d下移一位"
+
+#. translators: 1: Number of selected blocks, 2: Position of selected blocks
+#: build/block-editor/index.js:8
+msgid "Move %1$d block from position %2$d up by one place"
+msgid_plural "Move %1$d blocks from position %2$d up by one place"
+msgstr[0] "将%1$d个区块从位置%2$d上移一位"
+
+#. translators: 1: Type of block (i.e. Text, Image etc), 2: Position of
+#. selected block, 3: New position
+#: build/block-editor/index.js:13 build/block-editor/index.js:19
+msgid "Move %1$s block from position %2$d right to position %3$d"
+msgstr "将区块%1$s从位置%2$d右移到位置%3$d"
+
+#. translators: 1: Type of block (i.e. Text, Image etc), 2: Position of
+#. selected block, 3: New position
+#: build/block-editor/index.js:17
+msgid "Move %1$s block from position %2$d up to position %3$d"
+msgstr "将区块%1$s从位置%2$d上移到位置%3$d"
+
+#: build/block-library/index.js:51
+msgid "movie"
+msgstr "电影"
+
+#: build/block-editor/index.js:78
+msgid "Insert a new block before the selected block(s)."
+msgstr "在选定的区块前插入一个新的区块。"
+
+#: build/block-editor/index.js:78
+msgid "Remove the selected block(s)."
+msgstr "移除选定的区块。"
+
+#: build/block-editor/index.js:78
+msgid "Duplicate the selected block(s)."
+msgstr "重复选定的区块。"
+
+#: build/edit-post/index.js:1
+msgid "Block shortcuts"
+msgstr "区块快捷键"
+
+#: build/block-editor/index.js:78
+msgid "Clear selection."
+msgstr "清除选择。"
+
+#: build/block-editor/index.js:78
+msgid "Select all text when typing. Press again to select all blocks."
+msgstr "在打字时全选文字，再按一次来选择所有的区块。"
+
+#: build/edit-post/index.js:1
+msgid "Selection shortcuts"
+msgstr "选定快捷键"
+
+#: build/edit-post/index.js:1
+msgid "Switch between visual editor and code editor."
+msgstr "在可视化编辑器和代码编辑器间切换。"
+
+#: build/edit-post/index.js:1
+msgid "Navigate to the previous part of the editor."
+msgstr "导航到编辑器的上一部分。"
+
+#: build/edit-post/index.js:1
+msgid "Navigate to the next part of the editor."
+msgstr "导航到编辑器的下一部分。"
+
+#: build/edit-post/index.js:1
+msgid "Show or hide the settings sidebar."
+msgstr "显示或隐藏设置边栏。"
+
+#: build/editor/index.js:1 build/edit-widgets/index.js:2
+#: build/edit-navigation/index.js:2 build/edit-site/index.js:2
+msgid "Redo your last undo."
+msgstr "重做您撤销的操作。"
+
+#: build/editor/index.js:1 build/edit-widgets/index.js:2
+#: build/edit-navigation/index.js:2 build/edit-site/index.js:2
+msgid "Undo your last changes."
+msgstr "撤销您的上一个更改。"
+
+#: build/editor/index.js:1
+msgid "Save your changes."
+msgstr "保存您的更改。"
+
+#: build/edit-post/index.js:1
+msgid "Global shortcuts"
+msgstr "全局快捷键"
+
+#: build/edit-post/index.js:1
+msgid "Remove a link."
+msgstr "移除链接。"
+
+#: build/edit-post/index.js:1
+msgid "Convert the selected text into a link."
+msgstr "将选定的文本转换为链接。"
+
+#: build/edit-post/index.js:1
+msgid "Underline the selected text."
+msgstr "给选定的文本加下划线。"
+
+#: build/edit-post/index.js:1
+msgid "Make the selected text italic."
+msgstr "将选定的文本设为斜体。"
+
+#: build/edit-post/index.js:1
+msgid "Make the selected text bold."
+msgstr "将选定的文本加粗。"
+
+#: build/edit-post/index.js:3
+msgid "Text formatting"
+msgstr "文本格式"
+
+#: build/block-editor/index.js:78
+msgid "Insert a new block after the selected block(s)."
+msgstr "在选定的区块后插入一个新的区块。"
+
+#: build/edit-post/index.js:1
+msgid "Keyboard shortcuts"
+msgstr "键盘快捷键"
+
+#: post-content.php:185
+msgid "Thanks for testing Gutenberg!"
+msgstr "感谢您测试 Gutenberg！"
+
+#: post-content.php:177
+msgid "Help build Gutenberg"
+msgstr "帮助建设 Gutenberg"
+
+#. translators: %s: Gutenberg GitHub repository URL
+#: post-content.php:168
+msgid "If you want to learn more about how to build additional blocks, or if you are interested in helping with the project, head over to the <a href=\"%s\">GitHub repository</a>."
+msgstr "如果您想了解有关如何构建其他块的更多信息，或者如果您有兴趣帮助完成项目，请转到<a href=\"%s\"> GitHub repository</a>。"
+
+#: post-content.php:159
+msgid "The WordPress community"
+msgstr "Wordpress 交流社区"
+
+#: post-content.php:159 build/block-library/index.js:8
+msgid "Code is Poetry"
+msgstr "代码如诗歌般美妙"
+
+#: post-content.php:155
+msgid "You can build any block you like, static or dynamic, decorative or plain. Here&#8217;s a pullquote block:"
+msgstr "您可以构建任何您喜欢的块，静态或动态，修饰或扁平。这是一个pullquote块："
+
+#: post-content.php:145
+msgid "Any block can opt into these alignments. The embed block has them also, and is responsive out of the box:"
+msgstr "所有区块都具有对齐属性。嵌入区块也同样具有对齐属性，且具有响应式布局属性。"
+
+#: post-content.php:141
+msgid "The above is a gallery with just two images. It&#8217;s an easier way to create visually appealing layouts, without having to deal with floats. You can also easily convert the gallery back to individual images again, by using the block switcher."
+msgstr "上面的相册只包含两张图片。无需考虑浮动问题，您可以以一种更加简单的方式创造具有吸引力的布局。使用区块转换器，您还可以重新将其转换成独立的图片。"
+
+#: post-content.php:128
+msgid "Sure, the full-wide image can be pretty big. But sometimes the image is worth it."
+msgstr "全画宽度图片体积可能较大，但有时美图胜万言。"
+
+#: post-content.php:124
+msgid "Accessibility is important &mdash; don&#8217;t forget image alt attribute"
+msgstr "可访问性非常重要 &mdash；别忘记图片的alt属性"
+
+#: post-content.php:120
+msgid "If you combine the new <strong>wide</strong> and <strong>full-wide</strong> alignments with galleries, you can create a very media rich layout, very quickly:"
+msgstr "如果您将<strong>宽幅</strong>和<strong>全宽幅</strong>对齐方式结合用于相册，您将可以非常迅速地创建样式丰富的多媒体布局。"
+
+#: post-content.php:116
+msgid "Media Rich"
+msgstr "富媒体"
+
+#: post-content.php:112
+msgid "You can change the amount of columns in your galleries by dragging a slider in the block inspector in the sidebar."
+msgstr "拖动侧边栏区块检查器中的滑块，可以更改相册栏目的数量。"
+
+#: post-content.php:98
+msgid "Blocks can be anything you need. For instance, you may want to add a subdued quote as part of the composition of your text, or you may prefer to display a giant stylized one. All of these options are available in the inserter."
+msgstr "区块可以是您需要的任何内容。例如，将普通引用添加到文章中，或突出显示一些内容。所有这些需求，都可以通过插入器实现。"
+
+#: post-content.php:94
+msgid "The information corresponding to the source of the quote is a separate text field, similar to captions under images, so the structure of the quote is protected even if you select, modify, or remove the source. It&#8217;s always easy to add it back."
+msgstr "与引文来源所对应的信息，是与图片下方标题类似的独立文本。所以，当你选择、修改或删除来源时，引文的结构也不会被破坏。重新添加也很简单。"
+
+#: post-content.php:89
+msgid "Matt Mullenweg, 2017"
+msgstr "Matt Mullenweg，2017"
+
+#: post-content.php:88
+msgid "The editor will endeavor to create a new page and post building experience that makes writing rich posts effortless, and has “blocks” to make it easy what today might take shortcodes, custom HTML, or “mystery meat” embed discovery."
+msgstr "编辑器以提供全新的页面和文章创建方式，让用户以更加便捷的方式创作更加丰富的内容，并利用“区块”来简化当前短代码、自定义HTML或各种嵌入式内容等方式。"
+
+#: post-content.php:83
+msgid "A huge benefit of blocks is that you can edit them in place and manipulate your content directly. Instead of having fields for editing things like the source of a quote, or the text of a button, you can directly change the content. Try editing the following quote:"
+msgstr "区块的核心优势在于您可以直接编辑或创作内容本身，而不用关注诸如引文的来源、按钮的文字等众多的字段信息，只需要关注内容本身即可。尝试编辑下方的引文："
+
+#: post-content.php:79
+msgid "Visual Editing"
+msgstr "可视化编辑"
+
+#: post-content.php:70
+msgid "And <em>Lists</em> like this one of course :)"
+msgstr "以及像这样的<em>列表区块</em>"
+
+#: post-content.php:69
+msgid "Layout blocks, like Buttons, Hero Images, Separators, etc."
+msgstr "诸如按钮，大图和分隔符等布局区块。"
+
+#: post-content.php:68
+msgid "Embeds, like YouTube, Tweets, or other WordPress posts."
+msgstr "诸如YouTube，推文和其他WordPress文章等嵌入式内容。"
+
+#: post-content.php:67
+msgid "Galleries"
+msgstr "画廊"
+
+#: post-content.php:66
+msgid "Images &amp; Videos"
+msgstr "图像和视频"
+
+#: post-content.php:65
+msgid "Text &amp; Headings"
+msgstr "文本和标题"
+
+#: post-content.php:60
+msgid "Go give it a try, you may discover things WordPress can already add into your posts that you didn&#8217;t know about. Here&#8217;s a short list of what you can currently find there:"
+msgstr "尝试看看，您可能会在您的文章中，发现WordPress已经添加了一些您还没有接触过的新事物。比如下面列表中的："
+
+#: post-content.php:56
+msgid "Imagine everything that WordPress can do is available to you quickly and in the same place on the interface. No need to figure out HTML tags, classes, or remember complicated shortcode syntax. That&#8217;s the spirit behind the inserter—the <code>(+)</code> button you&#8217;ll see around the editor—which allows you to browse all available content blocks and add them into your post. Plugins and themes are able to register their own, opening up all sort of possibilities for rich editing and publishing."
+msgstr "难以想象，现在可以通过一个界面一个地方，以迅雷不及掩耳之势，将所有的WordPress操作一网打尽。再也无需处理HTML标签，类或复杂的代码语法。这就是编辑器中随处可见的，可以让您浏览所有区块并添加到文章中的<code>+</code>按钮的意义所在。插件和主题还可以注册个性化的内容，扩展编辑和发布功能。"
+
+#: post-content.php:52
+msgid "The <em>Inserter</em> Tool"
+msgstr "<em>插入</em>工具"
+
+#: post-content.php:48
+msgid "Try selecting and removing or editing the caption, now you don&#8217;t have to be careful about selecting the image or other text by mistake and ruining the presentation."
+msgstr "尝试选择、移动或编辑标题，而无需担心误选择图片或其他文本而使得搞砸演示文稿。"
+
+#: post-content.php:42
+msgid "If your theme supports it, you&#8217;ll see the \"wide\" button on the image toolbar. Give it a try."
+msgstr "如果主题支持，您将可以在图片工具栏看到“宽幅”按钮。试试看。"
+
+#: post-content.php:36
+msgid "Handling images and media with the utmost care is a primary focus of the new editor. Hopefully, you&#8217;ll find aspects of adding captions or going full-width with your pictures much easier and robust than before."
+msgstr "以最严谨的方式处理图片和媒体，是新编辑器的核心目标之一。您会发现添加图注和全幅宽度图片，操作更容易，功能也更健全。"
+
+#: post-content.php:32
+msgid "A Picture is Worth a Thousand Words"
+msgstr "一张图片胜过千言万语(百闻不如一见)"
+
+#: post-content.php:28
+msgid "Headings are separate blocks as well, which helps with the outline and organization of your content."
+msgstr "标题区块也是分隔型区块，可以帮助梳理文章框架，组织文章内容。"
+
+#: post-content.php:24
+msgid "... like this one, which is right aligned."
+msgstr "...就像这个右对齐的一样。"
+
+#: post-content.php:20
+msgid "What you are reading now is a <strong>text block</strong> the most basic block of all. The text block has its own controls to be moved freely around the post..."
+msgstr "您当前正在阅读的使所有区块中最基础的——<strong>文本区块</strong>。文本区块拥有自身的控制属性，可以在文章中自由移动。"
+
+#: post-content.php:16
+msgid "The goal of this new editor is to make adding rich content to WordPress simple and enjoyable. This whole post is composed of <em>pieces of content</em>—somewhat similar to LEGO bricks—that you can move around and interact with. Move your cursor around and you&#8217;ll notice the different blocks light up with outlines and arrows. Press the arrows to reposition blocks quickly, without fearing about losing things in the process of copying and pasting."
+msgstr "新编辑器的目标是让用户以更加简介和愉悦的方式创作丰富的内容。与LEGO的奥秘相类似，整篇文章由很多<em>小部分</em>组成，并且您可以对这些小部分进行移动和交互。移动鼠标，您会发现区块的外框架和箭头。按住箭头可以快速进行位移，而无需担心粘贴复制过程中内容丢失的问题。"
+
+#: post-content.php:11
+msgid "Of Mountains &amp; Printing Presses"
+msgstr "Of Mountains & Printing Presses"
+
+#: lib/demo.php:59
+msgid "Welcome to the Gutenberg Editor"
+msgstr "欢迎使用古腾堡编辑器"
+
+#: build/block-library/index.js:42
+msgctxt "block name"
+msgid "More"
+msgstr "更多"
+
+#: build/block-library/index.js:51
+msgctxt "button to expand options"
+msgid "More"
+msgstr "更多"
+
+#: build/editor/index.js:29
+msgid "Are you sure you want to unschedule this post?"
+msgstr "您确定要取消计划此文章吗？"
+
+#: build/block-library/index.js:3 build/block-library/index.js:30
+msgid "Alt text (alternative text)"
+msgstr "Alt文本（替换文本）"
+
+#: build/block-library/index.js:47
+msgid "Reusable Block"
+msgstr "可重用区块"
+
+#: lib/class-wp-rest-menu-items-controller.php:779
+msgid "The title for the object."
+msgstr "对象的标题。"
+
+#: lib/class-wp-rest-widget-areas-controller.php:92
+#: lib/class-wp-rest-menu-items-controller.php:804
+msgid "Unique identifier for the object."
+msgstr "对象的唯一识别码。"
+
+#: build/editor/index.js:1
+msgid "Untitled Reusable Block"
+msgstr "未命名可重用区块"
+
+#: build/components/index.js:6
+msgid "Small"
+msgstr "小"
+
+#. translators: Reusable blocks tab title in the block inserter.
+#: build/block-editor/index.js:41
+msgid "Reusable"
+msgstr "可重用"
+
+#: build/editor/index.js:38
+msgid "Remove from Reusable blocks"
+msgstr "从可重用区块中移除"
+
+#: build/editor/index.js:38
+msgid "Add to Reusable blocks"
+msgstr "添加到可重用区块"
+
+#. translators: %s: block name
+#: build/block-library/index.js:40
+msgid "Keep as HTML"
+msgstr "留作HTML"
+
+#: build/block-library/index.js:26
+msgid "Edit URL"
+msgstr "编辑URL"
+
+#. translators: placeholder text used for the citation
+#: build/block-editor/index.js:7 build/block-library/index.js:16
+#: build/block-library/index.js:46 build/block-library/index.js:47
+msgid "Color settings"
+msgstr "颜色设置"
+
+#: build/api-fetch/index.js:1
+msgid "The response is not a valid JSON response."
+msgstr "此响应不是合法的JSON响应。"
+
+#: build/block-library/index.js:49
+msgid "Muted"
+msgstr "静音"
+
+#: build/block-library/index.js:49
+msgid "Video settings"
+msgstr "视频设置"
+
+#: build/block-library/index.js:36
+msgid "recent comments"
+msgstr "最新评论"
+
+#: build/block-library/index.js:36
+msgid "Latest Comments"
+msgstr "最新评论"
+
+#: build/block-library/index.js:36
+msgid "Display avatar"
+msgstr "显示头像"
+
+#: build/block-library/index.js:36
+msgid "Latest comments settings"
+msgstr "最新评论设置"
+
+#: build/block-library/index.js:36
+msgid "Number of comments"
+msgstr "评论数量"
+
+#: build/block-library/index.js:16 build/block-library/index.js:26
+#: build/block-library/index.js:49
+msgid "Auto"
+msgstr "自动"
+
+#: build/block-library/index.js:16 build/block-library/index.js:49
+msgid "Preload"
+msgstr "预加载"
+
+#: build/block-library/index.js:16
+msgid "Audio settings"
+msgstr "音频设置"
+
+#: build/block-library/index.js:16
+msgid "Display a monthly archive of your posts."
+msgstr "显示您的文章的按月归档。"
+
+#: build/block-library/index.js:16
+msgid "Archives settings"
+msgstr "存档设置"
+
+#: gutenberg.php:86
+msgid "https://wordpress.org/support/plugin/gutenberg"
+msgstr "https://wordpress.org/support/plugin/gutenberg"
+
+#: gutenberg.php:84
+msgid "Support"
+msgstr "帮助"
+
+#: build/block-library/blocks/latest-comments.php:147
+msgid "No comments to show."
+msgstr "没有评论可显示。"
+
+#. translators: 1: author name (inside <a> or <span> tag, based on if they have
+#. a URL), 2: post title related to this comment
+#: build/block-library/blocks/latest-comments.php:99
+msgid "%1$s on %2$s"
+msgstr "%1$s，于%2$s"
+
+#: build/block-library/blocks/archives.php:65
+msgid "Select Post"
+msgstr "选择文章"
+
+#: build/block-library/blocks/archives.php:62
+msgid "Select Week"
+msgstr "选择周次"
+
+#: build/block-library/blocks/archives.php:59
+msgid "Select Day"
+msgstr "选择日期"
+
+#: build/block-library/blocks/archives.php:56
+msgid "Select Month"
+msgstr "选择月份"
+
+#: build/block-library/blocks/archives.php:53
+msgid "Select Year"
+msgstr "选择年份"
+
+#: build/block-library/blocks/archives.php:35 build/block-library/index.js:16
+msgid "Archives"
+msgstr "文章归档"
+
+#: build/block-editor/index.js:24
+msgid "Cyan bluish gray"
+msgstr "青蓝灰色"
+
+#: build/block-editor/index.js:24
+msgid "Vivid cyan blue"
+msgstr "亮青蓝色"
+
+#: build/block-editor/index.js:24
+msgid "Pale cyan blue"
+msgstr "浅青蓝色"
+
+#: build/block-editor/index.js:24
+msgid "Vivid green cyan"
+msgstr "亮青绿色"
+
+#: build/block-editor/index.js:24
+msgid "Light green cyan"
+msgstr "浅青绿色"
+
+#: build/block-editor/index.js:24
+msgid "Luminous vivid amber"
+msgstr "荧光琥珀色"
+
+#: build/block-editor/index.js:24
+msgid "Luminous vivid orange"
+msgstr "荧光橙色"
+
+#: build/block-editor/index.js:24
+msgid "Vivid red"
+msgstr "亮红色"
+
+#: build/block-editor/index.js:24
+msgid "Pale pink"
+msgstr "浅粉色"
+
+#: build/format-library/index.js:1
+msgid "Inline image"
+msgstr "内联图像"
+
+#. translators: %d: number of blocks.
+#: build/edit-post/index.js:5
+msgid "Available block types"
+msgstr "可用的区块类型"
+
+#: build/block-editor/index.js:47
+msgid "Transform to"
+msgstr "转换为："
+
+#: build/block-editor/index.js:53
+msgid "Remove Block"
+msgid_plural "Remove Blocks"
+msgstr[0] "移除区块"
+
+#: build/edit-post/index.js:13
+msgid "Open publish panel"
+msgstr "打开发布面板"
+
+#: build/block-library/index.js:47
+msgid "Dots"
+msgstr "点线"
+
+#: build/block-library/index.js:47
+msgid "Wide Line"
+msgstr "宽线"
+
+#: lib/widgets-page.php:59 lib/edit-site-page.php:117
+#: lib/navigation-page.php:47 build/block-editor/index.js:24
+#: build/components/index.js:6
+msgid "Large"
+msgstr "大"
+
+#: build/block-library/index.js:30
+msgid "Show download button"
+msgstr "显示下载按钮"
+
+#: build/block-library/index.js:30
+msgid "Download button settings"
+msgstr "下载按钮设置"
+
+#: build/block-library/index.js:16 build/block-library/index.js:30
+msgid "Link to"
+msgstr "链接到"
+
+#: build/block-library/index.js:30
+msgid "Text link settings"
+msgstr "文本链接设置"
+
+#: build/block-library/index.js:30
+msgid "download"
+msgstr "下载"
+
+#: build/block-library/index.js:30
+msgid "pdf"
+msgstr "pdf"
+
+#: build/block-library/index.js:30
+msgid "document"
+msgstr "文档"
+
+#: build/block-library/index.js:30
+msgid "Copy URL"
+msgstr "复制URL"
+
+#: build/block-library/index.js:30
+msgid "Write file name…"
+msgstr "编写文件名…"
+
+#: build/block-library/index.js:30 build/list-reusable-blocks/index.js:1
+msgid "File"
+msgstr "文件"
+
+#: build/block-library/index.js:26
+msgid "A single column within a columns block."
+msgstr "多栏区块中的一栏。"
+
+#: build/block-library/index.js:26
+msgid "Column"
+msgstr "栏"
+
+#: build/block-library/index.js:16
+msgid "Outline"
+msgstr "轮廓"
+
+#: build/block-library/index.js:16 build/block-library/index.js:49
+msgid "Loop"
+msgstr "循环"
+
+#: build/block-library/index.js:16 build/block-library/index.js:49
+msgid "Autoplay"
+msgstr "自动播放"
+
+#: build/block-library/index.js:49
+msgid "Playback controls"
+msgstr "回放控制"
+
+#: build/components/index.js:16
+msgid "Close dialog"
+msgstr "关闭对话框"
+
+#: build/media-utils/index.js:1
+msgid "Sorry, this file type is not permitted for security reasons."
+msgstr "抱歉，由于安全原因，这个文件类型不受支持。"
+
+#: build/nux/index.js:1
+msgid "Disable tips"
+msgstr "禁用贴士"
+
+#: build/nux/index.js:1
+msgid "Got it"
+msgstr "知道了"
+
+#: build/nux/index.js:1
+msgid "See next tip"
+msgstr "查看下一个贴士"
+
+#: build/editor/index.js:27
+msgid "When you’re ready, submit your work for review, and an Editor will be able to approve it for you."
+msgstr "当您准备好后，请提交您的工作至复审，然后其他编辑就可以批准您的文章。"
+
+#: build/editor/index.js:27
+msgid "Are you ready to submit for review?"
+msgstr "您准备好提交复审了吗？"
+
+#: build/block-library/index.js:14
+msgid "Replace image"
+msgstr "更换图像"
+
+#: build/editor/index.js:11 build/block-library/index.js:14
+msgid "Remove image"
+msgstr "移除图像"
+
+#: lib/class-wp-rest-menu-items-controller.php:410
+msgid "Invalid term ID."
+msgstr "无效的项目ID"
+
+#: lib/class-wp-rest-menu-items-controller.php:836
+msgid "The ID for the parent of the object."
+msgstr "对象父类的ID"
+
+#. translators: %s: file name
+#: build/media-utils/index.js:2
 msgid "Error while uploading file %s to the media library."
-msgstr "将文件 %s 上传到媒体库时出错。"
+msgstr "在将文件%s上传至媒体库时出现错误。"
 
-#. translators: %s: file name
-#: languages/gutenberg-translations.php:1459
-msgid "%s exceeds the maximum upload size for this site."
-msgstr "%s 超过此站点的最大上传大小。"
+#: build/media-utils/index.js:1
+msgid "This file exceeds the maximum upload size for this site."
+msgstr "此文件超过了本站点的最大上传尺寸。"
 
-#: languages/gutenberg-translations.php:1428
+#: build/editor/index.js:38
 msgid "View the autosave"
 msgstr "查看自动保存"
 
-#: languages/gutenberg-translations.php:1425
+#: build/editor/index.js:38
 msgid "There is an autosave of this post that is more recent than the version below."
-msgstr "有比您正在预览的修改更新的自动保存。"
+msgstr "此文章存在比下列版本更新的自动保存。"
 
-#: languages/gutenberg-translations.php:1223
+#: build/editor/index.js:29
 msgid "Autosaving"
-msgstr "自动保存中"
+msgstr "正在自动保存"
 
-#. translators: %s: media name label e.g: "an audio","an image", "a video"
-#: languages/gutenberg-translations.php:1063
-msgid "Drag %s, upload a new one or select a file from your library."
-msgstr "拖动 %s，上载一个新的或从库中选择一个文件。"
-
-#: languages/gutenberg-translations.php:1050
+#: build/block-library/index.js:47
 msgid "Enter URL here…"
 msgstr "在这里输入 URL…"
 
-#: languages/gutenberg-translations.php:1041
-msgid "Most Used"
-msgstr "最多使用"
-
-#: languages/gutenberg-translations.php:711
-msgid "a video"
-msgstr "视频"
-
-#: languages/gutenberg-translations.php:275
-msgid "an image"
-msgstr "图像"
-
-#: languages/gutenberg-translations.php:245
-msgid "beta"
-msgstr "beta"
-
-#: languages/gutenberg-translations.php:143
-msgid "an audio"
-msgstr "音频"
-
-#: lib/rest-api.php:488
-msgid "Sorry, you are not allowed make unbounded queries."
-msgstr "很抱歉，您没有权限进行无限制的查询。"
-
-#: lib/rest-api.php:321
-msgid "The current user can assign terms."
-msgstr "本用户具有指派分类法项目的权限。"
-
-#: lib/rest-api.php:305
-msgid "The current user can create terms."
-msgstr "本用户具有建立分类法项目的权限。"
-
-#: lib/rest-api.php:275
-msgid "The current user can sticky this post."
-msgstr "本用户具有将这篇文章置顶的权限。"
-
-#: lib/rest-api.php:254
-msgid "The current user can publish this post."
-msgstr "本用户具有发布这篇文章的权限。"
-
-#: lib/rest-api.php:236
-msgid "The current user can change the author on this post."
-msgstr "本用户具有变更这篇文章作者的权限。"
-
-#: languages/gutenberg-translations.php:782
+#: build/edit-widgets/index.js:2 build/edit-post/index.js:13
+#: build/edit-site/index.js:2
 msgid "Pin to toolbar"
-msgstr "钉选至工具列"
+msgstr "加入工具栏"
 
-#: languages/gutenberg-translations.php:779
+#: build/edit-widgets/index.js:2 build/edit-post/index.js:13
+#: build/edit-site/index.js:2
 msgid "Unpin from toolbar"
-msgstr "从工具列取消钉选"
+msgstr "从工具栏移除"
 
-#: languages/gutenberg-translations.php:717
-msgid "Embed an video file and a simple video player."
-msgstr "嵌入视频文件及简易播放器。"
+#: build/block-library/index.js:47
+msgid "Insert a table — perfect for sharing charts and data."
+msgstr "插入表格——共享图表和数据的完美选项。"
 
-#: languages/gutenberg-translations.php:697
-msgid "A block for haiku? Why not? Blocks for all the things! (See what we did here?)"
-msgstr "诗歌朗诵不？为俳句设定区块，开发员赞成！（嘻嘻）"
-
-#: languages/gutenberg-translations.php:691
-msgid "Add text, and display it in two or more columns. Like a newspaper! This block is experimental."
-msgstr "新增显示于两栏或多栏的文字内容，制作出如报章杂志般的版面配置。 (实验性功能区块)"
-
-#: languages/gutenberg-translations.php:661
-msgid "Insert a table -- perfect for sharing charts and data."
-msgstr "插入表格是分享图表及资料的绝佳方式。"
-
-#: languages/gutenberg-translations.php:655
+#: build/block-library/index.js:47
 msgid "Fixed width table cells"
-msgstr "固定宽度的表格储存格"
+msgstr "定宽单元格"
 
-#: languages/gutenberg-translations.php:652
-msgid "Table Settings"
+#: build/block-library/index.js:47
+msgid "Table settings"
 msgstr "表格设置"
 
-#: languages/gutenberg-translations.php:646
-msgid "What's a subhead? Smaller than a headline, bigger than basic text."
-msgstr "什么是副标题？副标题在内容中的位阶低于标题，但高于内文。"
-
-#: languages/gutenberg-translations.php:643
-msgid "Subheading"
-msgstr "副标题"
-
-#: languages/gutenberg-translations.php:622
-msgid "Add a shortcode -- a WordPress-specific snippet of code written between square brackets."
-msgstr "这个区块可加入短代码。短代码是一段 WordPress 特有程式码片段，由撰写于方括弧间的文字所组成 (例如 [shortcode])。"
-
-#: languages/gutenberg-translations.php:613
-msgid "Insert a horizontal line where you want to create a break between ideas."
-msgstr "在需要分隔不同想法的地方插入一条水平线"
-
-#: languages/gutenberg-translations.php:607
-msgid "Maybe someone else said it better -- add some quoted text."
-msgstr "其他人的话或许更具说服力，因此加入引文是个不错的方式。"
-
-#: languages/gutenberg-translations.php:592
-msgid "Highlight a quote from your post or page by displaying it as a graphic element."
-msgstr "在文章或页面中为引文加上图形元素，能够更加强调这段引文。"
-
-#: languages/gutenberg-translations.php:578
+#: build/block-library/index.js:42
 msgid "Add text that respects your spacing and tabs, and also allows styling."
-msgstr "可输入完全保持空格及定位点不变的文字内容，但亦可套用若干样式。"
+msgstr "添加符合间距和制表符的文本，并允许样式。"
 
-#: languages/gutenberg-translations.php:569
-msgid "Add some basic text."
-msgstr "可加入文字内容的区块。"
-
-#: languages/gutenberg-translations.php:536
-msgid "Want to show only part of this post on your blog's home page? Insert a \"More\" block where you want the split."
-msgstr "如需在部落格首页仅显示这篇文章的部分内容，请在需要显示的内容后方插入 [阅读全文] 标签。"
-
-#: languages/gutenberg-translations.php:518
-msgid "Numbers, bullets, up to you. Add a list of items."
-msgstr "为项目建立清单，可依需求建立编号清单或项目符号清单。"
-
-#: languages/gutenberg-translations.php:494
+#: build/block-library/index.js:38
 msgid "Display a list of your most recent posts."
-msgstr "显示站点上最新文章的清单。"
+msgstr "显示您的最新文章的列表。"
 
-#: languages/gutenberg-translations.php:469
-msgid "They're worth 1,000 words! Insert a single image."
-msgstr "图像内容有时胜过千言万语。 [图像] 区块用于插入单张图像。"
-
-#: languages/gutenberg-translations.php:430
-msgid "Add your own HTML (and view it right here as you edit!)."
-msgstr "在区块中加入自订 HTML 程式码，并可在编辑器的区块中预览结果。"
-
-#: languages/gutenberg-translations.php:418
-msgid "Insert a headline above your post or page content."
-msgstr "在文章或页面的上方插入标题。"
-
-#: languages/gutenberg-translations.php:393
-msgid "Display multiple images in an elegantly organized tiled layout."
-msgstr "以井然有序的并排版面配置显示多张图像。"
-
-#: languages/gutenberg-translations.php:347
-msgid "It's the classic WordPress editor and it's a block! Drop the editor right in."
-msgstr "为内容加入 WordPress 传统编辑器的区块，便可在这区块中直接使用传统编辑器。"
-
-#. translators: %s: Name of service (e.g. VideoPress, YouTube)
-#: languages/gutenberg-translations.php:332
+#: build/block-library/index.js:30
 msgid "Add a block that displays content pulled from other sites, like Twitter, Instagram or YouTube."
-msgstr "加入可从如 Twitter、Instagram 或 YouTube 等网站撷取内容的区块。"
+msgstr "加入用来显示其他站点内容的区块，如Twitter、Instagram或YouTube。"
 
-#: languages/gutenberg-translations.php:248
-msgid "Add a block that displays content in multiple columns, then add whatever content blocks you'd like."
-msgstr "新增可在多栏显示内容的区块，并可在区块中的栏位加入各式内容。"
+#: build/block-library/index.js:18
+msgid "Add a block that displays content in multiple columns, then add whatever content blocks you’d like."
+msgstr "加入一个显示多栏内容的区块，您可以向其中加入任何您喜欢的内容区块。"
 
-#: languages/gutenberg-translations.php:235
-msgid "Add text that respects your spacing and tabs -- perfect for displaying code."
-msgstr "可输入完全保持空格及定位点不变的文字内容，是显示程式码的绝佳方式。"
-
-#: languages/gutenberg-translations.php:225
-msgid "Display a list of all your site's categories."
-msgstr "显示站点分类的清单。"
-
-#: languages/gutenberg-translations.php:201
-msgid "Want visitors to click to subscribe, buy, or read more? Get their attention with a button."
-msgstr "想要访客点击后便能订阅、购买或阅读全文吗？使用按钮吸引访客的注意力，是个很不错的方式。"
-
-#: languages/gutenberg-translations.php:156
-msgid "Embed an audio file and a simple audio player."
-msgstr "嵌入音频文件及简易播放器。"
-
-#: languages/gutenberg-translations.php:135
+#: build/block-editor/index.js:27
 msgid "No results found."
 msgstr "没有符合条件的结果。"
 
 #. translators: %s: error message describing the problem
-#: languages/gutenberg-translations.php:132
+#: build/server-side-render/index.js:2
 msgid "Error loading block: %s"
-msgstr "载入 [%s] 区块时发生错误"
+msgstr "载入区块时发生错误：%s"
 
-#: languages/gutenberg-translations.php:128
+#: build/list-reusable-blocks/index.js:1
 msgid "Unknown error"
-msgstr "未知的错误"
+msgstr "未知错误"
 
-#: lib/rest-api.php:78
+#: lib/rest-api.php:48
 msgid "Embed Handler"
 msgstr "嵌入处理程序"
 
-#: lib/class-wp-rest-block-renderer-controller.php:153
-msgid "The rendered block."
-msgstr "呈现的区块。"
-
-#: lib/class-wp-rest-block-renderer-controller.php:88
-msgid "Sorry, you are not allowed to read Gutenberg blocks of this post"
-msgstr "对不起，您不能阅读这篇文章的 Gutenberg 区块"
-
-#: lib/class-wp-rest-block-renderer-controller.php:61
-msgid "ID of the post context."
-msgstr "文章上下文的 ID。"
-
-#. translators: %s is the name of the block
-#: lib/class-wp-rest-block-renderer-controller.php:55
-msgid "Attributes for %s block"
-msgstr "%s 区块的属性"
-
-#: lib/class-wp-rest-block-renderer-controller.php:43
-msgid "Unique registered name for the block."
-msgstr "区块的唯一注册名称。"
-
-#: languages/gutenberg-translations.php:1479
+#. translators: %s: term name.
+#: build/editor/index.js:25
 msgctxt "term"
 msgid "Remove %s"
-msgstr "移除 %s"
+msgstr "移除%s"
 
-#: languages/gutenberg-translations.php:1440
-msgid "Untitled shared block"
-msgstr "无标题共享区块"
-
-#: languages/gutenberg-translations.php:1142
-msgid "Copy the permalink"
-msgstr "复制固定链接"
-
-#: languages/gutenberg-translations.php:1139
-msgid "Permalink copied"
-msgstr "固定链接已复制"
-
-#: languages/gutenberg-translations.php:640
+#: build/block-library/index.js:47
 msgid "Height in pixels"
 msgstr "高度（像素）"
 
-#: languages/gutenberg-translations.php:637
-msgid "Spacer Settings"
-msgstr "隔板设置"
-
-#: languages/gutenberg-translations.php:634
-msgid "Add an element with empty space and custom height."
-msgstr "添加具有空白空间和自定义高度的元素。"
-
-#: languages/gutenberg-translations.php:631
+#: build/block-library/index.js:47
 msgid "Spacer"
-msgstr "隔板"
+msgstr "空白"
 
-#: languages/gutenberg-translations.php:554
+#: build/block-library/index.js:1
 msgid "Toggle to show a large initial letter."
 msgstr "切换显示一个大的首字母。"
 
-#: languages/gutenberg-translations.php:551
+#: build/block-library/index.js:1
 msgid "Showing large initial letter."
-msgstr "显示大的首字母。"
+msgstr "显示大型首字母。"
 
-#: languages/gutenberg-translations.php:170
+#: build/block-library/index.js:47
 msgid "Name:"
 msgstr "名称："
 
-#. translators: %s: The name of the color e.g: "vivid red" or color hex code if
-#. name is not available e.g: "#f00".
-#: languages/gutenberg-translations.php:98
-msgid "(current color: %s)"
-msgstr "（当前颜色：%s）"
-
 #. translators: 1: term name, 2: term position in a set of terms, 3: total term
 #. set count.
-#: languages/gutenberg-translations.php:91
+#: build/components/index.js:10
 msgid "%1$s (%2$s of %3$s)"
 msgstr "%1$s（%2$s/%3$s）"
 
-#: languages/gutenberg-translations.php:87
+#: build/components/index.js:12
 msgid "Remove item"
 msgstr "移除项目"
 
 #. translators: %s: color hex code e.g: "#f00".
-#: languages/gutenberg-translations.php:45
+#: build/components/index.js:4 build/components/index.js:6
 msgid "Color code: %s"
 msgstr "颜色代码：%s"
 
-#: lib/class-wp-rest-block-renderer-controller.php:127
-msgid "Invalid block."
-msgstr "无效的区块。"
-
-#: lib/rest-api.php:391
-msgid "Whether or not the post type can be viewed"
-msgstr "是否可以查看文章类型"
-
-#: lib/rest-api.php:133
-msgid "Whether to show the taxonomy in the quick/bulk edit panel."
-msgstr "是否在快速/批量编辑面板中显示分类法。"
-
-#: lib/rest-api.php:129
-msgid "Whether to make the taxonomy available for selection in navigation menus."
-msgstr "是否使分类法可用于在导航菜单中进行选择。"
-
-#: lib/rest-api.php:125
-msgid "Whether to allow automatic creation of taxonomy columns on associated post-types table."
-msgstr "是否允许在关联的文章类型表上自动创建分类法列。"
-
-#: lib/rest-api.php:121
-msgid "Whether to generate a default UI for managing this taxonomy."
-msgstr "是否生成用于管理此分类法的默认UI。"
-
-#: lib/rest-api.php:117
-msgid "Whether the taxonomy is publicly queryable."
-msgstr "分类法是否可公开查询。"
-
-#: lib/rest-api.php:113
-msgid "Whether a taxonomy is intended for use publicly either via the admin interface or by front-end users."
-msgstr "是否打算通过管理界面或前端用户公开使用分类法。"
-
-#: lib/rest-api.php:107
-msgid "The visibility settings for the taxonomy."
-msgstr "分类的可见性设置。"
-
-#: languages/gutenberg-translations.php:1329
+#: build/block-editor/index.js:74
 msgid "Skip to the selected block"
-msgstr "跳到所选区块"
+msgstr "跳转到选定的区块"
 
-#: languages/gutenberg-translations.php:1217
-msgid "Publish…"
-msgstr "发布..."
-
-#: languages/gutenberg-translations.php:1214
+#: build/editor/index.js:19
 msgid "Schedule…"
 msgstr "计划…"
 
-#: languages/gutenberg-translations.php:1136
-msgid "Change Permalinks"
-msgstr "更改永久链接"
-
-#: languages/gutenberg-translations.php:1133
-msgid "OK"
-msgstr "好"
-
-#: languages/gutenberg-translations.php:1130
-msgid "Edit post permalink"
-msgstr "编辑文章永久链接"
-
-#: languages/gutenberg-translations.php:827
+#: build/edit-post/index.js:1
 msgid "Show Block Settings"
 msgstr "显示区块设置"
 
-#: languages/gutenberg-translations.php:824
+#: build/edit-post/index.js:1
 msgid "Hide Block Settings"
 msgstr "隐藏区块设置"
 
-#: languages/gutenberg-translations.php:818
+#: build/edit-post/index.js:1
 msgid "Block settings closed"
-msgstr "区块设置关闭"
+msgstr "区块设置已关闭"
 
-#: languages/gutenberg-translations.php:776
+#: build/edit-widgets/index.js:2 build/edit-post/index.js:13
+#: build/edit-site/index.js:2
 msgid "Close plugin"
 msgstr "关闭插件"
 
-#: languages/gutenberg-translations.php:761
-msgid "Editor settings"
-msgstr "编辑器设置"
-
-#: languages/gutenberg-translations.php:1317
-msgid "Link Settings"
+#: build/block-editor/index.js:67 build/block-library/index.js:16
+#: build/block-library/index.js:36
+msgid "Link settings"
 msgstr "链接设置"
 
-#: languages/gutenberg-translations.php:1314
-msgid "Open in new window"
-msgstr "在新的浏览器窗口中打开"
-
-#: languages/gutenberg-translations.php:1311
+#: build/format-library/index.js:1 build/block-library/index.js:16
 msgid "Unlink"
-msgstr "取消链接"
+msgstr "移除链接"
 
-#: languages/gutenberg-translations.php:548
+#: build/block-library/index.js:42
 msgid "Page break"
 msgstr "分页符"
 
-#: languages/gutenberg-translations.php:545
+#: build/block-library/index.js:42
 msgid "pagination"
 msgstr "分页"
 
-#: languages/gutenberg-translations.php:542
+#: build/block-library/index.js:42
 msgid "next page"
 msgstr "下一页"
 
-#: languages/gutenberg-translations.php:539
-msgid "This block allows you to set break points on your post. Visitors of your blog are then presented with content split into multiple pages."
-msgstr "此区块允许您在文章上设置中断点。随后，您的访问者将分享到多个页面的内容。"
-
-#: languages/gutenberg-translations.php:466
-msgid "Image Size"
-msgstr "图像尺寸"
-
-#: languages/gutenberg-translations.php:463
+#: build/block-editor/index.js:61
 msgid "Height"
 msgstr "高度"
 
-#: languages/gutenberg-translations.php:460
+#: build/block-editor/index.js:61 build/format-library/index.js:1
 msgid "Width"
 msgstr "宽度"
 
-#: languages/gutenberg-translations.php:457
-msgid "Image Dimensions"
+#: build/block-editor/index.js:61
+msgid "Image dimensions"
 msgstr "图像尺寸"
 
-#: languages/gutenberg-translations.php:454
-msgid "Source Type"
-msgstr "来源类型"
-
-#: languages/gutenberg-translations.php:353
+#: build/block-library/index.js:16
 msgid "Thumbnails are not cropped."
-msgstr "缩略图未裁剪。"
+msgstr "缩略图未被裁切。"
 
-#: languages/gutenberg-translations.php:350
+#: build/block-library/index.js:16
 msgid "Thumbnails are cropped to align."
-msgstr "缩略图被裁剪以对齐。"
+msgstr "缩略图已被裁切到对齐。"
 
-#: languages/gutenberg-translations.php:1059
+#: build/block-editor/index.js:67
 msgid "Media Library"
 msgstr "媒体库"
 
-#: languages/gutenberg-translations.php:887
+#: build/block-editor/index.js:78
 msgid "Advanced"
 msgstr "高级"
 
-#: languages/gutenberg-translations.php:75
-msgid "Add item."
-msgstr "添加项目。"
+#: build/components/index.js:12
+msgid "Add item"
+msgstr "添加项目"
 
-#: languages/gutenberg-translations.php:1362
+#: build/editor/index.js:1
 msgid "Reset the template"
 msgstr "重置模板"
 
-#: languages/gutenberg-translations.php:1359
+#: build/editor/index.js:1
 msgid "Keep it as is"
 msgstr "保持原样"
 
-#: languages/gutenberg-translations.php:1356
-msgid "The content of your post doesn't match the template assigned to your post type."
-msgstr "您文章的内容与分配给您文章类型的模板不匹配。"
+#: build/editor/index.js:1
+msgid "The content of your post doesn’t match the template assigned to your post type."
+msgstr "您的文章的内容不匹配指定给您的文章类别的模板。"
 
-#: languages/gutenberg-translations.php:1353
+#: build/editor/index.js:1
 msgid "Resetting the template may result in loss of content, do you want to continue?"
-msgstr "重置模板可能会导致内容丢失，您是否想要继续？"
+msgstr "重置模板可能会导致丢失内容，您希望继续吗？"
 
-#: languages/gutenberg-translations.php:1335
+#. translators: If your word count is based on single characters (e.g. East
+#. Asian characters), enter 'characters_excluding_spaces' or
+#. 'characters_including_spaces'. Otherwise, enter 'words'. Do not translate
+#. into your own language.
+#: build/editor/index.js:38
 msgid "Document Statistics"
-msgstr "文件统计"
+msgstr "文档统计"
 
-#: languages/gutenberg-translations.php:1187
-msgid "The post address will be:"
-msgstr "文章URL将是："
-
-#: languages/gutenberg-translations.php:1181
+#: build/editor/index.js:27
 msgid "is now scheduled. It will go live on"
-msgstr "该文章现已安排，上线日期："
+msgstr "已被计划，将在此时间发布："
 
-#: languages/gutenberg-translations.php:1172
-msgid "Scheduled"
-msgstr "已计划"
-
-#: languages/gutenberg-translations.php:1160
+#: build/editor/index.js:19
 msgid "Scheduling…"
-msgstr "计划中..."
+msgstr "正在计划…"
 
-#: languages/gutenberg-translations.php:860
+#: build/edit-post/index.js:1
 msgid "Code editor selected"
-msgstr "选择代码编辑器"
+msgstr "已选择代码编辑器"
 
-#: languages/gutenberg-translations.php:857
+#: build/edit-post/index.js:1
 msgid "Visual editor selected"
-msgstr "选择可视编辑器"
+msgstr "已选择可视化编辑器"
 
-#: languages/gutenberg-translations.php:748
+#: build/edit-post/index.js:9 build/edit-site/index.js:1
 msgid "Plugins"
 msgstr "插件"
 
-#: languages/gutenberg-translations.php:72
+#: build/components/index.js:8
 msgid "Custom Size"
 msgstr "自定义尺寸"
 
-#: languages/gutenberg-translations.php:378
-msgid "Upload an image"
-msgstr "上传图像"
-
-#. translators: %s: title/name of the shared block
-#: languages/gutenberg-translations.php:180
-msgid "Shared Block: %s"
-msgstr "共享区块：%s"
-
-#: languages/gutenberg-translations.php:1044
-msgid "Shared"
-msgstr "共享的"
-
-#: languages/gutenberg-translations.php:967
-msgid "Delete Shared Block"
-msgstr "删除共享区块"
-
-#: languages/gutenberg-translations.php:961
-msgid "Convert to Shared Block"
-msgstr "转换为共享区块"
-
-#: languages/gutenberg-translations.php:176
-msgid "Shared Block"
-msgstr "共享区块"
-
-#: languages/gutenberg-translations.php:11
-msgid "Layout Elements"
-msgstr "布局元素"
-
-#: languages/gutenberg-translations.php:1476
+#. translators: %s: term name.
+#: build/editor/index.js:23
 msgctxt "term"
 msgid "%s removed"
-msgstr "%s已删除"
+msgstr "%s已移除"
 
-#: languages/gutenberg-translations.php:1473
+#. translators: %s: term name.
+#. translators: %s: taxonomy name
+#: build/editor/index.js:21 build/editor/index.js:31
 msgctxt "term"
 msgid "%s added"
 msgstr "%s已添加"
 
-#: languages/gutenberg-translations.php:1469
+#: build/editor/index.js:13
 msgctxt "imperative verb"
 msgid "Preview"
 msgstr "预览"
 
-#: languages/gutenberg-translations.php:1443
-msgid "New post"
-msgstr "新文章"
-
-#: languages/gutenberg-translations.php:1437
+#: build/editor/index.js:1
 msgid "Block deleted."
 msgstr "区块已删除。"
 
-#: languages/gutenberg-translations.php:1434
+#: build/editor/index.js:1
 msgid "Block updated."
 msgstr "区块已更新。"
 
-#: languages/gutenberg-translations.php:1431
+#: build/editor/index.js:1
 msgid "Block created."
 msgstr "区块已创建。"
 
-#: languages/gutenberg-translations.php:1422
+#: build/editor/index.js:1
 msgid "Trashing failed"
-msgstr "删除失败"
+msgstr "移动到回收站失败"
 
-#: languages/gutenberg-translations.php:1419
-msgid "Updating failed"
+#: build/editor/index.js:1
+msgid "Updating failed."
 msgstr "更新失败"
 
-#: languages/gutenberg-translations.php:1416
-msgid "Scheduling failed"
-msgstr "计划失败"
-
-#: languages/gutenberg-translations.php:1413
-msgid "Publishing failed"
+#: build/editor/index.js:1
+msgid "Publishing failed."
 msgstr "发布失败"
 
-#: languages/gutenberg-translations.php:1410
+#: build/edit-post/index.js:13
 msgid "View post"
 msgstr "查看文章"
 
-#: languages/gutenberg-translations.php:1407
-msgid "Post updated!"
-msgstr "文章已更新！"
-
-#: languages/gutenberg-translations.php:1404
-msgid "Post scheduled!"
-msgstr "文章已计划！"
-
-#: languages/gutenberg-translations.php:1401
-msgid "Post published privately!"
-msgstr "私密文章已发布！"
-
-#: languages/gutenberg-translations.php:1398
-msgid "Post published!"
-msgstr "文章已发布！"
-
-#: languages/gutenberg-translations.php:1395
-msgid "Post reverted to draft."
-msgstr "文章恢复为草稿。"
-
-#: languages/gutenberg-translations.php:1365
+#: build/editor/index.js:38
 msgid "You have unsaved changes. If you proceed, they will be lost."
-msgstr "您有未保存的更改。如果您继续进行，此更改将会丢失。"
+msgstr "您有未保存的修改。如果您继续，这些修改将会丢失。"
 
-#: languages/gutenberg-translations.php:1350
+#: build/editor/index.js:38
 msgid "Document Outline"
 msgstr "文档大纲"
 
-#: languages/gutenberg-translations.php:1344
+#: build/editor/index.js:38
 msgid "Paragraphs"
 msgstr "段落"
 
-#: languages/gutenberg-translations.php:1341
+#: build/editor/index.js:38
 msgid "Headings"
 msgstr "标题"
 
-#: languages/gutenberg-translations.php:1338
+#: build/editor/index.js:38
 msgid "Words"
-msgstr "词语"
+msgstr "字数"
 
-#: languages/gutenberg-translations.php:1332
-msgid "Content Structure"
+#: build/editor/index.js:38
+msgid "Content structure"
 msgstr "内容结构"
 
-#: languages/gutenberg-translations.php:1305
+#: build/editor/index.js:19
 msgid "Public"
 msgstr "公开"
 
-#: languages/gutenberg-translations.php:1302
+#: build/editor/index.js:19
 msgid "Protected with a password you choose. Only those with the password can view this post."
-msgstr "使用您选择的密码而受到保护。 只有那些有密码的人才能查看这篇文章。"
+msgstr "受您选择的密码保护，只有持有密码的人士可查看此文章。"
 
-#: languages/gutenberg-translations.php:1299
+#: build/editor/index.js:19
 msgid "Password Protected"
 msgstr "密码保护"
 
-#: languages/gutenberg-translations.php:1296
+#: build/editor/index.js:19
 msgid "Only visible to site admins and editors."
 msgstr "只有站点管理员和编辑可见。"
 
-#: languages/gutenberg-translations.php:1293
+#: build/editor/index.js:19
 msgid "Private"
 msgstr "私密"
 
-#: languages/gutenberg-translations.php:1290
+#: build/editor/index.js:19
 msgid "Visible to everyone."
-msgstr "公众可见。"
+msgstr "所有人可见。"
 
-#: languages/gutenberg-translations.php:1287
+#: build/editor/index.js:19
 msgid "Post Visibility"
 msgstr "文章可见性"
 
-#: languages/gutenberg-translations.php:1284
+#: build/editor/index.js:19
 msgid "Would you like to privately publish this post now?"
-msgstr "您现在想发布这私密篇文章吗？"
+msgstr "您希望现在私密地发布此文章吗？"
 
-#: languages/gutenberg-translations.php:1281
+#: build/editor/index.js:19
 msgid "Use a secure password"
-msgstr "使用安全密码"
+msgstr "使用安全的密码"
 
-#: languages/gutenberg-translations.php:1278
+#: build/editor/index.js:19
 msgid "Create password"
 msgstr "创建密码"
 
-#: languages/gutenberg-translations.php:1275
-msgid "Move to trash"
-msgstr "移至回收站"
-
-#: languages/gutenberg-translations.php:1269
+#: build/editor/index.js:33
 msgid "Parent Term"
-msgstr "父级项目"
+msgstr "父项目"
 
-#: languages/gutenberg-translations.php:1266
+#: build/editor/index.js:33
 msgid "Parent Category"
 msgstr "父级分类目录"
 
-#: languages/gutenberg-translations.php:1263
+#: build/editor/index.js:33
 msgid "Add new term"
 msgstr "添加新项目"
 
-#: languages/gutenberg-translations.php:1260
+#. translators: %d: number of results
+#: build/editor/index.js:33
 msgid "Add new category"
 msgstr "添加新分类"
 
-#: languages/gutenberg-translations.php:1257
+#: build/editor/index.js:19 build/editor/index.js:31
 msgid "Term"
 msgstr "项目"
 
-#: languages/gutenberg-translations.php:1253
+#: build/editor/index.js:19
 msgid "Tag"
 msgstr "标签"
 
-#: languages/gutenberg-translations.php:1250
-msgid "Add New Term"
-msgstr "添加新项目"
-
-#: languages/gutenberg-translations.php:1247
-msgid "Add New Tag"
+#: build/editor/index.js:19
+msgid "Add new tag"
 msgstr "添加新标签"
 
-#: languages/gutenberg-translations.php:1244
-msgid "Switch to Draft"
-msgstr "切换成草稿"
+#: build/editor/index.js:29
+msgid "Switch to draft"
+msgstr "切换到草稿"
 
-#: languages/gutenberg-translations.php:1241
+#: build/editor/index.js:29
 msgid "Are you sure you want to unpublish this post?"
-msgstr "您确定要取消发布这篇文章吗？"
+msgstr "您确定要取消发布此文章吗？"
 
-#: languages/gutenberg-translations.php:1238
-msgid "Stick to the Front Page"
-msgstr "坚持头版"
-
-#: languages/gutenberg-translations.php:1235
+#: build/editor/index.js:19
 msgid "Immediately"
 msgstr "立即"
 
-#: languages/gutenberg-translations.php:1232
-msgid "Save Draft"
-msgstr "保存草稿"
-
-#: languages/gutenberg-translations.php:1226
+#: build/editor/index.js:29
 msgid "Saving"
-msgstr "保存中"
+msgstr "正在保存"
 
-#: languages/gutenberg-translations.php:1211
-msgid "Publish: "
-msgstr "发布时间："
+#: build/editor/index.js:27
+msgid "Publish:"
+msgstr "发布："
 
-#: languages/gutenberg-translations.php:1208
-msgid "Visibility: "
+#: build/editor/index.js:27
+msgid "Visibility:"
 msgstr "可见性："
 
-#: languages/gutenberg-translations.php:1202
-msgid "Here, you can do a last-minute check up of your settings below, before you publish."
-msgstr "在这里，您可以在发布之前进行最后的设置检查。"
-
-#: languages/gutenberg-translations.php:1196
+#: build/editor/index.js:27
 msgid "Are you ready to publish?"
 msgstr "您准备好发布了吗？"
 
-#: languages/gutenberg-translations.php:1193
+#: build/editor/index.js:29
 msgid "Copy Link"
 msgstr "复制链接"
 
-#: languages/gutenberg-translations.php:1190
-msgid "What's next?"
-msgstr "下一步呢？"
+#: build/editor/index.js:27
+msgid "What’s next?"
+msgstr "现在要做什么？"
 
-#: languages/gutenberg-translations.php:1184
+#: build/editor/index.js:27
 msgid "is now live."
-msgstr "已发表。"
+msgstr "已被发布。"
 
-#: languages/gutenberg-translations.php:1178
-msgid "Close Publish Panel"
-msgstr "关闭发布面板"
-
-#: languages/gutenberg-translations.php:1175
-msgid "Published"
-msgstr "已发布"
-
-#: languages/gutenberg-translations.php:1169
+#: build/editor/index.js:19
 msgid "Schedule"
 msgstr "计划"
 
-#: languages/gutenberg-translations.php:1166
+#: build/editor/index.js:19 build/edit-widgets/index.js:1
 msgid "Update"
 msgstr "更新"
 
-#: languages/gutenberg-translations.php:1163
+#: build/editor/index.js:19
 msgid "Submit for Review"
-msgstr "提交以供复审"
+msgstr "提交复审"
 
-#: languages/gutenberg-translations.php:1157
+#: build/editor/index.js:19
 msgid "Updating…"
-msgstr "更新中..."
+msgstr "正在更新…"
 
-#: languages/gutenberg-translations.php:1154
+#: build/editor/index.js:19
 msgid "Publishing…"
-msgstr "发布中..."
+msgstr "正在发布…"
 
-#: languages/gutenberg-translations.php:1148
-msgid "Allow Pingbacks & Trackbacks"
-msgstr "允许 Pingbacks & Trackbacks"
+#: build/editor/index.js:19
+msgid "Allow pingbacks & trackbacks"
+msgstr "允许Pingback和Trackback"
 
-#: languages/gutenberg-translations.php:1145
-msgid "Permalink:"
-msgstr "固定链接："
+#: build/block-editor/index.js:53
+msgid "Copy"
+msgstr "复制"
 
-#: languages/gutenberg-translations.php:1127
-msgid "Pending Review"
-msgstr "等待复审"
+#: build/editor/index.js:19
+msgid "Pending review"
+msgstr "待审核"
 
-#: languages/gutenberg-translations.php:1124
+#. translators: %d: number of revisions
+#: build/editor/index.js:13
 msgid "%d Revision"
 msgid_plural "%d Revisions"
-msgstr[0] "%d修订版本"
+msgstr[0] "%d个修订版本"
 
-#: languages/gutenberg-translations.php:1121
+#. translators: %s: term name.
+#: build/editor/index.js:11 build/editor/index.js:25
 msgid "Suggestion:"
-msgstr "建议："
+msgstr "推荐："
 
-#: languages/gutenberg-translations.php:1118
+#: build/editor/index.js:11
 msgid "Post Format"
-msgstr "文章形式"
+msgstr "文章格式"
 
-#: languages/gutenberg-translations.php:1115
+#: build/editor/index.js:11
 msgid "Chat"
 msgstr "聊天"
 
-#: languages/gutenberg-translations.php:1112
+#: build/editor/index.js:11
 msgid "Status"
 msgstr "状态"
 
-#: languages/gutenberg-translations.php:1109
+#: build/editor/index.js:11
 msgid "Standard"
 msgstr "标准"
 
-#: languages/gutenberg-translations.php:1102
+#: build/editor/index.js:11
 msgid "Aside"
 msgstr "日志"
 
-#: languages/gutenberg-translations.php:1093
+#: lib/client-assets.php:164 build/editor/index.js:11
+#: build/edit-post/index.js:5 build/edit-post/index.js:13
 msgid "Featured image"
 msgstr "特色图像"
 
-#: languages/gutenberg-translations.php:1099
+#: build/editor/index.js:11
 msgid "Set featured image"
 msgstr "设置特色图像"
 
-#: languages/gutenberg-translations.php:1087
+#: build/editor/index.js:11
 msgid "Learn more about manual excerpts"
-msgstr "详细了解手动摘要"
+msgstr "了解关于人工摘要细节"
 
-#: languages/gutenberg-translations.php:1084
+#: build/editor/index.js:11
 msgid "Write an excerpt (optional)"
-msgstr "写一篇摘要（可选）"
+msgstr "撰写摘要（可选）"
 
-#: languages/gutenberg-translations.php:1081
-msgid "Allow Comments"
+#: build/editor/index.js:11
+msgid "Allow comments"
 msgstr "允许评论"
 
-#: lib/client-assets.php:1120
-msgid "Default template"
-msgstr "默认模板"
-
-#: languages/gutenberg-translations.php:1075
+#: build/editor/index.js:11
 msgid "Template:"
-msgstr "模版："
+msgstr "模板："
 
-#: languages/gutenberg-translations.php:1072
+#: build/editor/index.js:11
 msgid "no parent"
 msgstr "无父级"
 
-#: languages/gutenberg-translations.php:1069
+#: build/editor/index.js:11
 msgid "no title"
 msgstr "无标题"
 
-#: languages/gutenberg-translations.php:1066
+#: build/editor/index.js:11
 msgid "Order"
-msgstr "顺序"
+msgstr "排序"
 
-#: languages/gutenberg-translations.php:1047
+#: build/edit-post/index.js:5
 msgid "No blocks found."
-msgstr "未有找到区块。"
+msgstr "未找到区块。"
 
-#: languages/gutenberg-translations.php:1229
+#. translators: %d: number of results
+#. translators: %d: number of results.
+#: build/editor/index.js:33 build/block-editor/index.js:29
+#: build/block-editor/index.js:33 build/block-editor/index.js:43
+msgid "%d result found."
+msgid_plural "%d results found."
+msgstr[0] "找到%d个结果。"
+
+#: build/editor/index.js:29
 msgid "Saved"
 msgstr "已保存"
 
-#: languages/gutenberg-translations.php:17
+#: build/blocks/index.js:1
 msgid "Embeds"
 msgstr "嵌入"
 
-#: languages/gutenberg-translations.php:1347
+#. translators: Blocks tab title in the block inserter.
+#: build/editor/index.js:38 build/block-editor/index.js:37
+#: build/block-editor/index.js:41
 msgid "Blocks"
 msgstr "区块"
 
-#: languages/gutenberg-translations.php:1038
+#: build/block-editor/index.js:24 build/edit-post/index.js:3
 msgid "Search for a block"
 msgstr "搜索区块"
 
-#: languages/gutenberg-translations.php:995
+#: build/block-editor/index.js:26 build/block-directory/index.js:11
 msgid "Add block"
 msgstr "添加区块"
 
-#. translators: %s: block title/name to be added
-#: languages/gutenberg-translations.php:1035
-msgid "Add %s"
-msgstr "添加%s"
-
-#: languages/gutenberg-translations.php:1028
+#: build/editor/index.js:11
 msgid "Copy Error"
-msgstr "复制出错"
+msgstr "复制错误"
 
-#: languages/gutenberg-translations.php:1025
+#: build/editor/index.js:11
 msgid "Copy Post Text"
 msgstr "复制文章文本"
 
-#: languages/gutenberg-translations.php:1022
+#: build/editor/index.js:11
 msgid "Attempt Recovery"
 msgstr "尝试恢复"
 
-#: languages/gutenberg-translations.php:1031
+#: build/editor/index.js:11
 msgid "The editor has encountered an unexpected error."
-msgstr "编辑器遇到意外错误。"
+msgstr "编辑器遇到了未知错误。"
 
-#: languages/gutenberg-translations.php:1019
+#: build/editor/index.js:1 build/edit-widgets/index.js:1
+#: build/edit-site/index.js:2
 msgid "Undo"
 msgstr "撤销"
 
-#: languages/gutenberg-translations.php:1016
+#: build/editor/index.js:1 build/edit-widgets/index.js:1
+#: build/edit-site/index.js:2
 msgid "Redo"
 msgstr "重做"
 
-#: languages/gutenberg-translations.php:1013
-msgid "(Click to focus this heading)"
-msgstr "（单击以聚焦此标题）"
-
-#: languages/gutenberg-translations.php:1010
+#: build/editor/index.js:1
 msgid "(Multiple H1 headings are not recommended)"
-msgstr "（不建议使用多个H1标题）"
+msgstr "（不推荐使用多个H1标题）"
 
-#: languages/gutenberg-translations.php:1007
+#: build/editor/index.js:1
 msgid "(Your theme may already use a H1 for the post title)"
-msgstr "（您的主题可能已经使用H1作为文章标题）"
+msgstr "（您的主题可能已经为文章标题使用了H1）"
 
-#: languages/gutenberg-translations.php:1004
+#: build/editor/index.js:1
 msgid "(Incorrect heading level)"
-msgstr "（不正确的标题级别）"
+msgstr "（错误的标题级别）"
 
-#: languages/gutenberg-translations.php:1001
+#: build/editor/index.js:1
 msgid "(Empty heading)"
 msgstr "（空标题）"
 
-#: languages/gutenberg-translations.php:991 lib/client-assets.php:1130
-msgid "Write your story"
-msgstr "写下您的故事"
-
-#: languages/gutenberg-translations.php:981
-msgid "Block types"
-msgstr "区块类型"
-
-#: languages/gutenberg-translations.php:978
-msgid "Change block type"
-msgstr "更改区块类型"
-
-#: languages/gutenberg-translations.php:975
-msgid "Convert to blocks"
-msgstr "转换为区块"
-
-#: languages/gutenberg-translations.php:970
+#: build/editor/index.js:38
 msgid ""
-"Are you sure you want to delete this Shared Block?\n"
+"Are you sure you want to delete this Reusable Block?\n"
 "\n"
 "It will be permanently removed from all posts and pages that use it."
 msgstr ""
@@ -971,1111 +5278,872 @@ msgstr ""
 "\n"
 "它将永久性地从使用它的所有文章和页面中删除。"
 
-#: languages/gutenberg-translations.php:964
+#: build/editor/index.js:38
 msgid "Convert to Regular Block"
 msgstr "转换为常规区块"
 
-#: languages/gutenberg-translations.php:958
-msgid "More Options"
-msgstr "更多的选择"
+#: build/block-editor/index.js:22 build/block-editor/index.js:53
+msgid "More options"
+msgstr "更多选项"
 
-#: languages/gutenberg-translations.php:952
+#: build/block-editor/index.js:53
 msgid "Edit visually"
 msgstr "可视化编辑"
 
-#: languages/gutenberg-translations.php:949
+#: build/block-editor/index.js:53
 msgid "Duplicate"
 msgstr "重复"
 
-#: languages/gutenberg-translations.php:946
-msgid "Move %(selectedCount)d blocks from position %(position)d up by one place"
-msgstr "将%(selectedCount)d区块从%(position)s位置向上移动一个位置"
-
-#: languages/gutenberg-translations.php:943
+#: build/block-editor/index.js:7
 msgid "Blocks cannot be moved down as they are already at the bottom"
-msgstr "因为此区块已经在底部，所以此块不能向下移动"
+msgstr "区块已在最底，不能被下移"
 
-#: languages/gutenberg-translations.php:940
+#: build/block-editor/index.js:7
 msgid "Blocks cannot be moved up as they are already at the top"
-msgstr "因为此区块已经在顶部，所以此块不能向上移动"
+msgstr "区块已在最顶，不能被上移"
+
+#. translators: 1: Type of block (i.e. Text, Image etc)
+#: build/block-editor/index.js:22
+msgid "Block %1$s is at the beginning of the content and can’t be moved right"
+msgstr "区块%1$s位于内容的开头，不能向右移动"
+
+#. translators: 1: Type of block (i.e. Text, Image etc)
+#: build/block-editor/index.js:16
+msgid "Block %1$s is at the end of the content and can’t be moved right"
+msgstr "区块%1$s位于内容的末尾，不能向右移动"
 
 #. translators: %s: Type of block (i.e. Text, Image etc)
-#: languages/gutenberg-translations.php:937
-msgid "Block %s is at the beginning of the content and can’t be moved up"
-msgstr "区块%s位于内容的开头，不能向上移动"
-
-#: languages/gutenberg-translations.php:933
-msgid "Move %(type)s block from position %(position)d up to position %(newPosition)d"
-msgstr "将%(type)s区块从%(position)d位置移动到%(newPosition)d位置"
-
-#. translators: %s: Type of block (i.e. Text, Image etc)
-#: languages/gutenberg-translations.php:930
-msgid "Block %s is at the end of the content and can’t be moved down"
-msgstr "区块%s位于内容的末尾，不能向下移动"
-
-#: languages/gutenberg-translations.php:926
-msgid "Move %(type)s block from position %(position)d down to position %(newPosition)d"
-msgstr "将%(type)s区块从%(position)d位置移到%(newPosition)d位置"
-
-#. translators: %s: Type of block (i.e. Text, Image etc)
-#: languages/gutenberg-translations.php:923
+#: build/block-editor/index.js:10
 msgid "Block %s is the only block, and cannot be moved"
-msgstr "区块%s是唯一的区块，不能移动"
+msgstr "区块%s是唯一的区块，不能被移动"
 
-#: languages/gutenberg-translations.php:919
-msgid "Move %(selectedCount)d blocks from position %(position)s down by one place"
-msgstr "将%(selectedCount)d区块从%(position)s位置向下移动一个位置"
-
-#: languages/gutenberg-translations.php:916
+#: build/block-editor/index.js:22
 msgid "Move down"
 msgstr "下移"
 
-#: languages/gutenberg-translations.php:913
+#: build/block-editor/index.js:22
 msgid "Move up"
-msgstr "提升"
+msgstr "上移"
 
-#: languages/gutenberg-translations.php:907
+#. Translators: Number of blocks being cut
+#: build/block-editor/index.js:53
 msgid "Edit as HTML"
-msgstr "编辑为 HTML"
+msgstr "作为HTML编辑"
 
-#: languages/gutenberg-translations.php:903
+#. translators: Dialog title to fix block content
+#: build/block-editor/index.js:24 build/block-editor/index.js:53
 msgid "Convert to Blocks"
 msgstr "转换为区块"
 
-#: languages/gutenberg-translations.php:910
-msgid "This block appears to have been modified externally."
-msgstr "该区块似乎已经在外部进行了修改。"
-
-#: languages/gutenberg-translations.php:900
-msgid "Insert block"
-msgstr "插入区块"
-
 #. translators: %s: Type of block (i.e. Text, Image etc)
-#: languages/gutenberg-translations.php:897
+#: build/block-editor/index.js:57
 msgid "Block: %s"
 msgstr "区块：%s"
 
-#: languages/gutenberg-translations.php:893
+#: build/block-editor/index.js:24
 msgid "This block has encountered an error and cannot be previewed."
-msgstr "此区块遇到错误，无法预览。"
+msgstr "此区块遇到了一个错误，不能被预览。"
 
-#: languages/gutenberg-translations.php:890
-msgid "Block Toolbar"
-msgstr "区块工具栏"
-
-#: languages/gutenberg-translations.php:884
+#: build/block-editor/index.js:78
 msgid "No block selected."
-msgstr "没有区块被选择。"
+msgstr "未选择区块。"
 
-#: languages/gutenberg-translations.php:881
-msgid "Coming Soon"
-msgstr "快来了"
-
-#: languages/gutenberg-translations.php:851
+#: build/edit-post/index.js:1
 msgid "Transform into:"
-msgstr "转变成："
+msgstr "转换至："
 
-#: languages/gutenberg-translations.php:847
+#: build/block-library/index.js:51 build/edit-post/index.js:1
 msgid "Remove"
 msgstr "移除"
 
-#: languages/gutenberg-translations.php:843
+#: build/edit-post/index.js:1
 msgid "Find original"
 msgstr "查找原件"
 
-#: languages/gutenberg-translations.php:854
-msgid "This block may not be used more than once."
-msgstr "不能使用此区块多次。"
-
-#: languages/gutenberg-translations.php:840
-msgid "Copy All Content"
+#: build/edit-post/index.js:1
+msgid "Copy all content"
 msgstr "复制所有内容"
 
-#: languages/gutenberg-translations.php:837
+#. translators: %s: post type singular name
+#: build/editor/index.js:29 build/block-library/index.js:30
+#: build/edit-post/index.js:1
 msgid "Copied!"
 msgstr "已复制！"
 
-#: languages/gutenberg-translations.php:821
+#: build/edit-post/index.js:1
 msgid "Additional settings are now available in the Editor block settings sidebar"
-msgstr "其他设置现在可在编辑器区块设置侧栏中找到"
+msgstr "额外的设置在编辑器区块设置侧栏中可用"
 
-#: languages/gutenberg-translations.php:795
+#: build/edit-post/index.js:13
 msgid "Visibility"
 msgstr "可见性"
 
-#: languages/gutenberg-translations.php:792
-msgid "Status & Visibility"
-msgstr "状态和可见性"
+#: build/edit-post/index.js:13
+msgid "Status & visibility"
+msgstr "状态与可见性"
 
-#: languages/gutenberg-translations.php:770
-msgid "Page Attributes"
+#: build/edit-post/index.js:5 build/edit-post/index.js:13
+msgid "Page attributes"
 msgstr "页面属性"
 
-#: languages/gutenberg-translations.php:810
+#. translators: ARIA label for the Settings Sidebar tab, not selected.
+#: build/edit-widgets/index.js:1 build/edit-post/index.js:9
+#: build/edit-post/index.js:13
 msgid "Block"
-msgid_plural "%d Blocks"
-msgstr[0] "%d 区块"
+msgstr "区块"
 
-#: languages/gutenberg-translations.php:807
-msgid "Block settings"
-msgstr "区块设置"
-
-#: languages/gutenberg-translations.php:804
+#. translators: ARIA label for the Document sidebar tab, not selected.
+#: build/block-editor/index.js:7 build/edit-post/index.js:11
+#: build/edit-post/index.js:13
 msgid "Document"
 msgstr "文档"
 
-#: languages/gutenberg-translations.php:801
-msgid "Document settings"
-msgstr "文档设置"
-
-#: languages/gutenberg-translations.php:767
-msgid "Featured Image"
-msgstr "特色图像"
-
-#: languages/gutenberg-translations.php:798
+#: build/edit-post/index.js:13
 msgid "Close settings"
 msgstr "关闭设置"
 
-#: languages/gutenberg-translations.php:773
-msgid "Editor plugins"
-msgstr "编辑器插件"
-
-#: languages/gutenberg-translations.php:757
-msgid "Extended Settings"
-msgstr "扩展设置"
-
-#: languages/gutenberg-translations.php:754
-msgid "Editor content"
-msgstr "编辑内容"
-
-#: languages/gutenberg-translations.php:745
+#. translators: 'Help text for the responsive mode toggle control.'
+#: build/block-editor/index.js:74 build/edit-post/index.js:1
+#: build/edit-site/index.js:1
 msgid "Tools"
 msgstr "工具"
 
-#: languages/gutenberg-translations.php:742
+#: build/edit-post/index.js:9
 msgid "Editor"
 msgstr "编辑器"
 
-#: languages/gutenberg-translations.php:739
-msgid "Code Editor"
+#: build/edit-post/index.js:9
+msgid "Code editor"
 msgstr "代码编辑器"
 
-#: languages/gutenberg-translations.php:736
-msgid "Visual Editor"
-msgstr "可视编辑器"
+#: build/edit-post/index.js:9
+msgid "Visual editor"
+msgstr "可视化编辑器"
 
-#: languages/gutenberg-translations.php:726
-msgid "Editor toolbar"
-msgstr "编辑工具栏"
-
-#: languages/gutenberg-translations.php:723
-msgid "Editor Toolbar"
-msgstr "编辑工具栏"
-
-#: languages/gutenberg-translations.php:720
-msgid "Fix Toolbar to Top"
-msgstr "将工具栏固定到顶部"
-
-#: languages/gutenberg-translations.php:730
+#. translators: accessibility text for the settings landmark region.
+#: build/edit-widgets/index.js:10 build/edit-post/index.js:13
+#: build/edit-post/index.js:21 build/edit-site/index.js:10
 msgid "Settings"
 msgstr "设置"
 
-#: languages/gutenberg-translations.php:69
+#: build/block-editor/index.js:61 build/components/index.js:3
+#: build/components/index.js:6 build/components/index.js:8
 msgid "Reset"
 msgstr "重置"
 
-#: languages/gutenberg-translations.php:94
+#: build/components/index.js:1 build/components/index.js:18
 msgid "Dismiss this notice"
-msgstr "关闭此通知"
+msgstr "忽略此通知"
 
-#: languages/gutenberg-translations.php:84
+#: build/components/index.js:12
 msgid "Item removed."
-msgstr "项目已删除。"
+msgstr "项目已移除。"
 
-#: languages/gutenberg-translations.php:81
+#: build/components/index.js:12
 msgid "Item added."
-msgstr "项目已加入。"
+msgstr "项目已添加。"
 
-#: languages/gutenberg-translations.php:78
-msgid "Separate with commas"
-msgstr "用逗号分隔"
-
-#. translators: accessibility text
-#: languages/gutenberg-translations.php:61
-msgid "(opens in a new window)"
-msgstr "（在新窗口中打开）"
-
-#: languages/gutenberg-translations.php:57
+#: build/components/index.js:6
 msgid "Drop files to upload"
 msgstr "拖文件至此可上传"
 
-#: languages/gutenberg-translations.php:54
+#: build/components/index.js:6
 msgid "PM"
 msgstr "下午"
 
-#: languages/gutenberg-translations.php:51
+#: build/components/index.js:6
 msgid "AM"
 msgstr "上午"
 
-#: languages/gutenberg-translations.php:34
+#: build/api-fetch/index.js:1
 msgid "An unknown error occurred."
 msgstr "发生了未知错误。"
 
-#: languages/gutenberg-translations.php:30
+#. translators: %s: number of results.
+#. translators: %d: number of results.
+#: build/block-editor/index.js:63 build/components/index.js:3
+#: build/components/index.js:12
 msgid "No results."
 msgstr "没有结果。"
 
-#: languages/gutenberg-translations.php:25
+#. translators: %s: number of results.
+#. translators: %d: number of results.
+#: build/block-editor/index.js:63 build/components/index.js:3
+#: build/components/index.js:12
 msgid "%d result found, use up and down arrow keys to navigate."
 msgid_plural "%d results found, use up and down arrow keys to navigate."
-msgstr[0] "找到%d个结果，请使用向上和向下箭头键进行导航。"
+msgstr[0] "找到%d个结果，使用上下方向键来导航。"
 
-#: languages/gutenberg-translations.php:815
+#: build/block-library/blocks/rss.php:31
+#: build/block-library/blocks/latest-comments.php:31
+#: build/block-library/blocks/latest-posts.php:93 build/editor/index.js:27
+#: build/editor/index.js:38 build/block-library/index.js:30
+#: build/block-library/index.js:36 build/edit-navigation/index.js:2
+#: build/edit-post/index.js:13 build/edit-site/index.js:2
 msgid "(no title)"
 msgstr "(无标题)"
 
-#: languages/gutenberg-translations.php:1383
-msgid "Paste URL or type"
-msgstr "粘贴URL或类型"
-
-#: languages/gutenberg-translations.php:1380
+#: build/block-editor/index.js:63 build/block-editor/index.js:67
+#: build/block-library/index.js:30
 msgid "URL"
 msgstr "URL"
 
-#: languages/gutenberg-translations.php:1377
+#: build/block-editor/index.js:63 build/block-editor/index.js:74
 msgid "Submit"
 msgstr "提交"
 
-#: languages/gutenberg-translations.php:1374
+#: build/block-editor/index.js:74 build/block-library/index.js:30
+#: build/edit-post/index.js:1 build/edit-post/index.js:5
+#: build/components/index.js:6
 msgid "Close"
 msgstr "关闭"
 
-#: languages/gutenberg-translations.php:1371
-msgid "Insert Link"
+#: build/block-editor/index.js:74
+msgid "Insert link"
 msgstr "插入链接"
 
-#: languages/gutenberg-translations.php:1368
-msgid "Edit Link"
+#: build/block-editor/index.js:74
+msgid "Edit link"
 msgstr "编辑链接"
 
-#: languages/gutenberg-translations.php:1106
+#: build/editor/index.js:11 build/format-library/index.js:1
+#: build/block-library/index.js:16 build/block-library/index.js:36
 msgid "Link"
 msgstr "链接"
 
-#: languages/gutenberg-translations.php:1326
+#: build/format-library/index.js:1
 msgid "Strikethrough"
 msgstr "删除线"
 
-#: languages/gutenberg-translations.php:1323
+#: build/format-library/index.js:1
 msgid "Italic"
 msgstr "斜体"
 
-#: languages/gutenberg-translations.php:1320
+#: build/format-library/index.js:1
 msgid "Bold"
 msgstr "粗体"
 
-#: languages/gutenberg-translations.php:1308
-msgid "Link added."
-msgstr "链接以添加。"
+#: build/block-editor/index.js:74
+msgid "Remove link"
+msgstr "移除链接"
 
-#: languages/gutenberg-translations.php:125
+#: build/block-library/index.js:47 build/components/index.js:22
 msgid "Number of items"
-msgstr "项目数"
+msgstr "项目数量"
 
-#: languages/gutenberg-translations.php:122
+#. translators: 'Label. Used to signify a layout property (eg: margin, padding)
+#. will apply uniformly to all screensizes.'
+#: build/block-editor/index.js:71 build/components/index.js:3
+#: build/components/index.js:22
 msgid "All"
 msgstr "全部"
 
-#: languages/gutenberg-translations.php:119
+#. translators: %s: taxonomy name
+#: build/editor/index.js:31 build/components/index.js:22
 msgid "Category"
-msgstr "分类"
+msgstr "类别"
 
 #. translators: label for ordering posts by title in descending order
-#: languages/gutenberg-translations.php:115
+#: build/components/index.js:22
 msgid "Z → A"
-msgstr "Z \t A"
+msgstr "Z → A"
 
 #. translators: label for ordering posts by title in ascending order
-#: languages/gutenberg-translations.php:111
+#: build/components/index.js:20
 msgid "A → Z"
 msgstr "A \t Z"
 
-#: languages/gutenberg-translations.php:107
-msgid "Oldest to Newest"
-msgstr "最旧到最新"
+#: build/components/index.js:18
+msgid "Oldest to newest"
+msgstr "从旧到新"
 
-#: languages/gutenberg-translations.php:104
-msgid "Newest to Oldest"
-msgstr "最新到最旧"
+#: build/components/index.js:18
+msgid "Newest to oldest"
+msgstr "从新到旧"
 
-#: languages/gutenberg-translations.php:101
+#: build/components/index.js:18
 msgid "Order by"
-msgstr "按顺序排列"
+msgstr "排序"
 
-#: languages/gutenberg-translations.php:830
+#: build/editor/index.js:1 build/block-editor/index.js:74
+#: build/block-library/index.js:49
 msgid "Select"
 msgstr "选择"
 
-#: languages/gutenberg-translations.php:833
+#: build/media-utils/index.js:1
 msgid "Select or Upload Media"
 msgstr "选择或上传媒体"
 
-#: languages/gutenberg-translations.php:708
+#: build/editor/index.js:11 build/block-editor/index.js:67
+#: build/block-library/index.js:51
 msgid "Video"
 msgstr "视频"
 
-#: languages/gutenberg-translations.php:714
-msgid "Edit video"
-msgstr "编辑视频"
-
-#: languages/gutenberg-translations.php:703
+#: build/block-library/index.js:49
 msgid "Write…"
 msgstr "编写…"
 
-#: languages/gutenberg-translations.php:700
+#: build/block-library/index.js:49
 msgid "poetry"
-msgstr "诗"
+msgstr "诗歌"
 
-#: languages/gutenberg-translations.php:694
+#: build/block-library/index.js:47
 msgid "Verse"
-msgstr "诗篇"
+msgstr "诗句"
 
-#: languages/gutenberg-translations.php:688
-msgid "Text Columns"
-msgstr "文本列"
-
-#: languages/gutenberg-translations.php:685
+#: build/block-library/index.js:47
 msgid "New Column"
-msgstr "新的列"
+msgstr "新列"
 
-#: languages/gutenberg-translations.php:682
+#: build/block-library/index.js:47
 msgid "Delete Column"
+msgstr "删除栏"
+
+#: build/block-library/index.js:47
+msgid "Add Column After"
+msgstr "插入栏(之后)"
+
+#: build/block-library/index.js:47
+msgid "Add Column Before"
+msgstr "插入栏(之前)"
+
+#: build/block-library/index.js:47
+msgid "Delete Row"
 msgstr "删除列"
 
-#: languages/gutenberg-translations.php:679
-msgid "Add Column After"
-msgstr "在之后添加列"
-
-#: languages/gutenberg-translations.php:676
-msgid "Add Column Before"
-msgstr "在之前添加列"
-
-#: languages/gutenberg-translations.php:673
-msgid "Delete Row"
-msgstr "删除行"
-
-#: languages/gutenberg-translations.php:670
+#: build/block-library/index.js:47
 msgid "Add Row After"
-msgstr "在之后添加行"
+msgstr "插入列（之后）"
 
-#: languages/gutenberg-translations.php:667
+#: build/block-library/index.js:47
 msgid "Add Row Before"
-msgstr "在之前添加行"
+msgstr "插入列（之前）"
 
-#: languages/gutenberg-translations.php:664
-msgid "Edit Table"
+#: build/block-library/index.js:47
+msgid "Edit table"
 msgstr "编辑表格"
 
-#: languages/gutenberg-translations.php:658
+#: build/block-library/index.js:47
 msgid "Table"
 msgstr "表格"
 
-#: languages/gutenberg-translations.php:649
+#: build/block-library/index.js:47
 msgid "Write subheading…"
 msgstr "编写副标题…"
 
-#: languages/gutenberg-translations.php:628
+#: build/block-library/index.js:47
 msgid "Write shortcode here…"
-msgstr "在这里写短代码…"
+msgstr "在此编写短代码…"
 
-#: languages/gutenberg-translations.php:625
+#: build/block-library/index.js:47
 msgid "Shortcode"
 msgstr "短代码"
 
-#: languages/gutenberg-translations.php:619
+#: build/block-library/index.js:47
 msgid "divider"
-msgstr "分隔线"
+msgstr "分隔符"
 
-#: languages/gutenberg-translations.php:616
+#: build/block-library/index.js:47
 msgid "horizontal-line"
-msgstr "水平线"
+msgstr "横线"
 
-#: languages/gutenberg-translations.php:610
+#: build/block-library/index.js:47
 msgid "Separator"
 msgstr "分隔符"
 
-#: languages/gutenberg-translations.php:604
+#. translators: accessibility text. 1: heading level. 2: heading content.
+#: lib/patterns/quote.php:9 build/editor/index.js:11
+#: build/block-library/index.js:12
 msgid "Quote"
 msgstr "引语"
 
-#. translators: the individual or entity quoted
-#: languages/gutenberg-translations.php:586
+#. translators: placeholder text used for the citation
+#: build/block-library/index.js:14 build/block-library/index.js:46
 msgid "Write citation…"
+msgstr "编写引用…"
+
+#. translators: placeholder text used for the quote
+#: build/block-library/index.js:13 build/block-library/index.js:45
+msgid "Write quote…"
 msgstr "编写引文…"
 
-#: languages/gutenberg-translations.php:600
-msgid "Quote style %d"
-msgstr "引语样式 %d"
-
-#. translators: the text of the quotation
-#: languages/gutenberg-translations.php:597
-msgid "Write quote…"
-msgstr "编写引语…"
-
-#: languages/gutenberg-translations.php:589
+#: build/block-library/index.js:46
 msgid "Pullquote"
-msgstr "醒目引文"
+msgstr "引文"
 
-#: languages/gutenberg-translations.php:581
+#: build/block-library/index.js:44
 msgid "Write preformatted text…"
-msgstr "编写预先格式化的文本..."
+msgstr "编写预格式化文本…"
 
-#: languages/gutenberg-translations.php:575
+#: build/block-library/index.js:42
 msgid "Preformatted"
-msgstr "预格式化"
+msgstr "预格式化的"
 
-#: languages/gutenberg-translations.php:572
+#: build/block-library/index.js:1
 msgid "text"
 msgstr "文本"
 
-#: languages/gutenberg-translations.php:566
+#: build/block-library/index.js:1
 msgid "Paragraph"
 msgstr "段落"
 
-#: languages/gutenberg-translations.php:563
-msgid "Add text or type / to add content"
-msgstr "添加文字或输入/添加内容"
+#: build/components/index.js:8
+msgid "Font size"
+msgstr "字号"
 
-#: languages/gutenberg-translations.php:64
-msgid "Font Size"
-msgstr "字体大小"
-
-#: languages/gutenberg-translations.php:560
-msgid "Drop Cap"
+#: build/block-library/index.js:1
+msgid "Drop cap"
 msgstr "首字下沉"
 
-#: languages/gutenberg-translations.php:557
-msgid "Text Settings"
+#: build/block-library/index.js:1 build/block-library/index.js:30
+msgid "Text settings"
 msgstr "文本设置"
 
-#: languages/gutenberg-translations.php:533
-msgid "Hide the teaser before the \"More\" tag"
-msgstr "在“更多”标签前隐藏预告段"
-
-#: languages/gutenberg-translations.php:530
+#: build/block-library/index.js:36 build/block-library/index.js:42
 msgid "Read more"
 msgstr "阅读更多"
 
-#: languages/gutenberg-translations.php:512
+#: build/block-library/index.js:38
 msgid "Write list…"
-msgstr "编写列表..."
+msgstr "编写列表…"
 
-#: languages/gutenberg-translations.php:527
+#: build/block-library/index.js:38
 msgid "numbered list"
 msgstr "编号列表"
 
-#: languages/gutenberg-translations.php:524
+#: build/block-library/index.js:38
 msgid "ordered list"
 msgstr "有序列表"
 
-#: languages/gutenberg-translations.php:521
+#: build/block-library/index.js:38
 msgid "bullet list"
 msgstr "项目符号列表"
 
-#: languages/gutenberg-translations.php:509
+#: build/block-library/index.js:38
 msgid "Indent list item"
 msgstr "缩进列表项目"
 
-#: languages/gutenberg-translations.php:506
+#: build/block-library/index.js:38
 msgid "Outdent list item"
-msgstr "超出列表项目"
+msgstr "减少列表项目缩进量"
 
-#: languages/gutenberg-translations.php:503
+#: build/block-library/index.js:38
 msgid "Convert to ordered list"
 msgstr "转换为有序列表"
 
-#: languages/gutenberg-translations.php:500
+#: build/block-library/index.js:38
 msgid "Convert to unordered list"
 msgstr "转换为无序列表"
 
-#: languages/gutenberg-translations.php:515
+#: build/block-library/index.js:38
 msgid "List"
 msgstr "列表"
 
-#: languages/gutenberg-translations.php:497
+#: build/block-library/index.js:38
 msgid "recent posts"
 msgstr "最新文章"
 
-#: languages/gutenberg-translations.php:491
+#: build/block-library/index.js:36
 msgid "No posts found."
 msgstr "未找到文章。"
 
-#: languages/gutenberg-translations.php:488
+#. translators: byline. %s: current author.
+#: build/block-library/index.js:36 build/block-library/index.js:38
 msgid "Latest Posts"
 msgstr "最新文章"
 
-#: languages/gutenberg-translations.php:484
+#: build/block-library/index.js:36
 msgid "Display post date"
-msgstr "显示文章发布日期"
+msgstr "显示文章日期"
 
-#: languages/gutenberg-translations.php:481
-msgid "Latest Posts Settings"
-msgstr "最新文章设置"
-
-#: languages/gutenberg-translations.php:478
-msgid "Grid View"
+#: build/block-library/index.js:36 build/block-library/index.js:47
+msgid "Grid view"
 msgstr "网格视图"
 
-#: languages/gutenberg-translations.php:475
-msgid "List View"
+#: build/block-library/index.js:36 build/block-library/index.js:47
+msgid "List view"
 msgstr "列表视图"
 
-#: languages/gutenberg-translations.php:472
+#: build/format-library/index.js:1 build/block-library/index.js:5
 msgid "photo"
 msgstr "照片"
 
-#: languages/gutenberg-translations.php:451
-msgid "Describe the purpose of the image. Leave empty if the image is not a key part of the content."
-msgstr "描述图像。 如果图像不是内容的关键部分，请留空。"
-
-#: languages/gutenberg-translations.php:448
-msgid "Textual Alternative"
-msgstr "文本替代"
-
-#: languages/gutenberg-translations.php:445
-msgid "Image Settings"
+#: build/block-library/index.js:3
+msgid "Image settings"
 msgstr "图像设置"
 
-#: languages/gutenberg-translations.php:442
+#: build/editor/index.js:11 build/block-editor/index.js:67
+#: build/block-library/index.js:5
 msgid "Image"
 msgstr "图像"
 
-#: languages/gutenberg-translations.php:437
+#: build/block-editor/index.js:47 build/block-editor/index.js:74
+#: build/block-library/index.js:30 build/block-library/index.js:38
 msgid "Preview"
 msgstr "预览"
 
-#: languages/gutenberg-translations.php:433
+#: build/block-library/index.js:30
 msgid "embed"
 msgstr "嵌入"
 
-#: languages/gutenberg-translations.php:427
+#: build/block-library/index.js:30
 msgid "Custom HTML"
-msgstr "自定义 HTML"
+msgstr "自定义HTML"
 
-#: languages/gutenberg-translations.php:424
+#: build/block-library/index.js:8
 msgid "subtitle"
 msgstr "副标题"
 
-#: languages/gutenberg-translations.php:421
+#: build/block-library/index.js:8
 msgid "title"
 msgstr "标题"
 
-#: languages/gutenberg-translations.php:415
+#: build/block-library/index.js:8
 msgid "Heading"
 msgstr "标题"
 
-#: languages/gutenberg-translations.php:412
+#. translators: %s: heading level e.g: "1", "2", "3"
+#: build/block-library/index.js:8
 msgid "Write heading…"
-msgstr "编写标题..."
+msgstr "编写标题…"
 
 #. translators: %s: heading level e.g: "1", "2", "3"
-#: languages/gutenberg-translations.php:406
-msgid "Heading %s"
-msgstr "标题%s"
+#: build/block-library/index.js:8
+msgid "Heading %d"
+msgstr "标题%d"
 
-#: languages/gutenberg-translations.php:402
-msgid "Level"
-msgstr "级别"
-
-#: languages/gutenberg-translations.php:399
-msgid "Heading Settings"
-msgstr "标题设置"
-
-#: languages/gutenberg-translations.php:396
+#: build/block-library/index.js:16
 msgid "photos"
 msgstr "照片"
 
-#: languages/gutenberg-translations.php:366
+#: build/block-library/index.js:16
 msgid "images"
 msgstr "图像"
 
-#: languages/gutenberg-translations.php:390
-msgid "Remove Image"
-msgstr "移除图像"
-
-#: languages/gutenberg-translations.php:387
+#: build/block-library/index.js:16 build/block-library/index.js:49
+#: build/components/index.js:6
 msgid "None"
 msgstr "无"
 
-#: languages/gutenberg-translations.php:384
+#: build/block-editor/index.js:74 build/block-library/index.js:16
 msgid "Media File"
 msgstr "媒体文件"
 
-#: languages/gutenberg-translations.php:381
+#: build/block-editor/index.js:74 build/block-library/index.js:16
 msgid "Attachment Page"
 msgstr "附件页面"
 
-#: languages/gutenberg-translations.php:375
-msgid "Link to"
-msgstr "链接到"
+#: build/block-library/index.js:16
+msgid "Crop images"
+msgstr "裁切图像"
 
-#: languages/gutenberg-translations.php:372
-msgid "Crop Images"
-msgstr "裁剪图像"
-
-#: languages/gutenberg-translations.php:369
-msgid "Gallery Settings"
+#: build/block-library/index.js:16
+msgid "Gallery settings"
 msgstr "相册设置"
 
-#: languages/gutenberg-translations.php:361
+#: build/editor/index.js:11 build/block-library/index.js:16
 msgid "Gallery"
 msgstr "画廊"
 
-#: languages/gutenberg-translations.php:356
-msgid "Edit Gallery"
-msgstr "编辑相册"
-
-#: languages/gutenberg-translations.php:340
-msgid "More"
-msgstr "更多"
-
-#: languages/gutenberg-translations.php:344
+#: build/block-library/index.js:51
 msgid "Classic"
 msgstr "经典"
 
-#: languages/gutenberg-translations.php:335
+#: build/block-library/index.js:1 build/block-library/index.js:30
 msgid "video"
 msgstr "视频"
 
-#: languages/gutenberg-translations.php:328
+#: build/block-library/index.js:1
 msgid "audio"
 msgstr "音频"
 
-#: languages/gutenberg-translations.php:325
+#: build/block-library/index.js:1 build/block-library/index.js:16
 msgid "music"
 msgstr "音乐"
 
-#: languages/gutenberg-translations.php:322
+#: build/block-library/index.js:1 build/block-library/index.js:30
 msgid "image"
 msgstr "图像"
 
-#: languages/gutenberg-translations.php:310
-msgid "The Embed block allows you to easily add videos, images, tweets, audio, and other content to your post or page."
-msgstr "嵌入区块允许您轻松地将视频，图像，tweets，音频和其他内容添加到您的文章或页面。"
-
-#: languages/gutenberg-translations.php:319
+#: build/block-library/index.js:1
 msgid "blog"
 msgstr "博客"
 
-#: languages/gutenberg-translations.php:316
+#: build/editor/index.js:1 build/block-library/index.js:1
 msgid "post"
-msgstr "文章"
-
-#: languages/gutenberg-translations.php:313
-msgid "tweet"
-msgstr "tweet"
-
-#: languages/gutenberg-translations.php:304
-msgid "Previews for this are unavailable in the editor, sorry!"
-msgstr "此编辑器的预览不可用，抱歉！"
-
-#: languages/gutenberg-translations.php:301
-msgid "Embed URL"
-msgstr "嵌入 URL"
+msgid_plural "posts"
+msgstr[0] "文章"
 
 #. translators: %s: host providing embed content e.g: www.youtube.com
-#: languages/gutenberg-translations.php:298
+#: build/block-library/index.js:27
 msgid "Embedded content from %s"
-msgstr "从%s嵌入的内容"
+msgstr "嵌入来自%s的内容"
 
-#: languages/gutenberg-translations.php:294
-msgid "Sorry, we could not embed that content."
-msgstr "对不起，我们不能嵌入该内容。"
-
-#: languages/gutenberg-translations.php:291
+#: build/block-library/index.js:26
 msgid "Enter URL to embed here…"
-msgstr "输入此处嵌入的 URL…"
+msgstr "键入要在此嵌入的URL…"
 
 #. translators: %s: type of embed e.g: "YouTube", "Twitter", etc. "Embed" is
 #. used when no specific type exists
-#: languages/gutenberg-translations.php:288
+#: build/block-library/index.js:30
 msgid "%s URL"
-msgstr "%s URL"
+msgstr "%sURL"
 
-#: languages/gutenberg-translations.php:284
+#: build/block-library/index.js:26
 msgid "Embedding…"
 msgstr "嵌入中…"
 
-#: languages/gutenberg-translations.php:278
+#: build/block-library/index.js:26
 msgid "Write title…"
 msgstr "编写标题…"
 
-#: languages/gutenberg-translations.php:270
-msgid "Cover Image"
-msgstr "封面图像"
+#: build/block-library/index.js:26
+msgid "Fixed background"
+msgstr "固定背景"
 
-#: languages/gutenberg-translations.php:409
-msgid "Text Alignment"
-msgstr "文本对齐"
-
-#: languages/gutenberg-translations.php:267
-msgid "Background Dimness"
-msgstr "背景微暗"
-
-#: languages/gutenberg-translations.php:264
-msgid "Fixed Background"
-msgstr "固定的背景"
-
-#: languages/gutenberg-translations.php:261
-msgid "Cover Image Settings"
-msgstr "封面图像设置"
-
-#: languages/gutenberg-translations.php:258
+#: build/block-library/index.js:5
 msgid "Edit image"
 msgstr "编辑图像"
 
-#: languages/gutenberg-translations.php:254
+#: build/block-library/index.js:16 build/block-library/index.js:18
+#: build/block-library/index.js:36 build/block-library/index.js:47
 msgid "Columns"
 msgstr "栏目"
 
-#. translators: Block title modifier
-#: languages/gutenberg-translations.php:242
-msgid "%1$s (%2$s)"
-msgstr "%1$s（%2$s）"
+#: gutenberg.php:99
+msgid "Experiments"
+msgstr "实验功能"
 
-#: languages/gutenberg-translations.php:238
-msgid "Column %d"
-msgstr "栏目 %d"
-
-#: languages/gutenberg-translations.php:232
+#: build/block-library/index.js:16 build/block-library/index.js:18
 msgid "Code"
 msgstr "代码"
 
-#: languages/gutenberg-translations.php:228
+#: build/block-library/index.js:18
 msgid "Write code…"
 msgstr "编写代码…"
 
-#: languages/gutenberg-translations.php:217
+#: build/block-library/index.js:16 build/block-library/index.js:55
+#: build/components/index.js:22 build/edit-site/index.js:1
 msgid "Categories"
 msgstr "分类目录"
 
-#: languages/gutenberg-translations.php:213
+#: build/block-library/index.js:16
 msgid "Show hierarchy"
-msgstr "体现层级关系"
+msgstr "显示层次结构"
 
-#: languages/gutenberg-translations.php:210
+#: build/block-library/index.js:16 build/block-library/index.js:51
 msgid "Show post counts"
 msgstr "显示文章数目"
 
-#: languages/gutenberg-translations.php:207
+#: build/block-library/index.js:16
 msgid "Display as dropdown"
 msgstr "以下拉菜单显示"
 
-#: languages/gutenberg-translations.php:204
-msgid "Categories Settings"
+#: build/block-library/index.js:16
+msgid "Categories settings"
 msgstr "分类设置"
 
-#: languages/gutenberg-translations.php:195
+#: build/block-library/index.js:16 build/block-library/index.js:30
 msgid "Add text…"
-msgstr "添加文字…"
+msgstr "添加文本…"
 
-#: languages/gutenberg-translations.php:198
+#: build/block-library/index.js:16
 msgid "Button"
 msgstr "按钮"
 
-#: languages/gutenberg-translations.php:192
+#. translators: 1. Error message
+#: build/block-editor/index.js:67 build/format-library/index.js:1
+#: build/block-library/index.js:3 build/block-library/index.js:53
 msgid "Apply"
 msgstr "应用"
 
-#: languages/gutenberg-translations.php:188
+#: build/block-editor/index.js:7 build/format-library/index.js:1
+#: build/block-library/index.js:16
 msgid "Text Color"
 msgstr "文本颜色"
 
-#: languages/gutenberg-translations.php:184
+#: build/block-editor/index.js:7 build/block-library/index.js:16
 msgid "Background Color"
 msgstr "背景颜色"
 
-#: languages/gutenberg-translations.php:173
+#: build/block-library/index.js:47
 msgid "Block has been deleted or is unavailable."
 msgstr "区块已被删除或不可用。"
 
-#: languages/gutenberg-translations.php:162
+#: build/block-editor/index.js:33 build/blocks/index.js:1
+msgid "Reusable blocks"
+msgstr "可重用区块"
+
+#: build/editor/index.js:29 build/block-editor/index.js:67
+#: build/block-library/index.js:3 build/edit-navigation/index.js:2
 msgid "Cancel"
 msgstr "取消"
 
-#: languages/gutenberg-translations.php:167
+#: build/block-editor/index.js:67 build/block-editor/index.js:74
+#: build/block-library/index.js:38 build/block-library/index.js:47
+#: build/edit-widgets/index.js:1
 msgid "Edit"
 msgstr "编辑"
 
-#: languages/gutenberg-translations.php:146
-msgid "Edit audio"
-msgstr "编辑音频"
-
-#: languages/gutenberg-translations.php:153
+#. translators: %s: host providing embed content e.g: www.youtube.com
+#: build/block-library/index.js:5 build/block-library/index.js:14
+#: build/block-library/index.js:16 build/block-library/index.js:29
+#: build/block-library/index.js:47 build/block-library/index.js:51
 msgid "Write caption…"
 msgstr "编写说明…"
 
-#: languages/gutenberg-translations.php:1053
+#: build/block-library/index.js:47
 msgid "Use URL"
 msgstr "使用 URL"
 
-#: languages/gutenberg-translations.php:140
+#: build/editor/index.js:11 build/block-editor/index.js:67
+#: build/block-library/index.js:16
 msgid "Audio"
 msgstr "音频"
 
-#: languages/gutenberg-translations.php:1056
+#: build/block-editor/index.js:67
 msgid "Upload"
 msgstr "上传"
 
-#: languages/gutenberg-translations.php:1392
-msgid "Additional CSS Class"
+#: build/block-editor/index.js:1
+msgid "Additional CSS class(es)"
 msgstr "额外 CSS 类"
 
-#: languages/gutenberg-translations.php:1389
-msgid "Anchors lets you link directly to a section on a page."
-msgstr "锚可以直接链接到页面上的一个小节。"
+#: build/block-editor/index.js:1
+msgid "HTML anchor"
+msgstr "HTML锚点"
 
-#: languages/gutenberg-translations.php:1386
-msgid "HTML Anchor"
-msgstr "HTML 锚"
-
-#: languages/gutenberg-translations.php:987
+#: build/block-editor/index.js:7
 msgid "This color combination may be hard for people to read. Try using a brighter background color and/or a darker text color."
-msgstr "这种颜色组合可能很难让人阅读。尝试使用更亮的背景色和/或较深的文本颜色。"
+msgstr "此颜色组合可能不便阅读，请尝试使用较浅的背景颜色和/或较深的文本颜色。"
 
-#: languages/gutenberg-translations.php:984
+#. translators: first %s: The type of color or gradient (e.g. background,
+#. overlay...), second %s: the color name or value (e.g. red or #ff0000)
+#: build/block-editor/index.js:7
 msgid "This color combination may be hard for people to read. Try using a darker background color and/or a brighter text color."
-msgstr "这种颜色组合可能很难让人阅读。尝试使用较深的背景色和/或更亮的文本颜色。"
+msgstr "此颜色组合可能不便阅读，请尝试使用较深的背景颜色和/或较浅的文本颜色。"
 
-#: languages/gutenberg-translations.php:48
+#: build/components/index.js:6 build/components/index.js:16
 msgid "Clear"
 msgstr "清空"
 
-#: languages/gutenberg-translations.php:37
+#: build/components/index.js:6
 msgid "Custom color picker"
 msgstr "自定义颜色选择器"
 
 #. translators: %s: The name of the color e.g: "vivid red".
-#: languages/gutenberg-translations.php:41
+#: build/components/index.js:5
 msgid "Color: %s"
 msgstr "颜色：%s"
 
-#: languages/gutenberg-translations.php:878
+#: build/block-editor/index.js:1
 msgid "Full width"
 msgstr "全宽"
 
-#: languages/gutenberg-translations.php:875
+#: build/block-editor/index.js:1
 msgid "Wide width"
 msgstr "阔宽"
 
-#: languages/gutenberg-translations.php:20
-msgid "Shared Blocks"
-msgstr "共享区块"
-
-#: languages/gutenberg-translations.php:307
-msgid "Embed"
-msgstr "嵌入块"
-
-#: languages/gutenberg-translations.php:14
+#: lib/experiments-page.php:45 build/blocks/index.js:1
 msgid "Widgets"
 msgstr "小工具"
 
-#: languages/gutenberg-translations.php:8
-msgid "Formatting"
-msgstr "格式"
-
-#: languages/gutenberg-translations.php:5
-msgid "Common Blocks"
-msgstr "常见区块"
-
-#: languages/gutenberg-translations.php:872
+#: build/block-editor/index.js:1
 msgid "Align right"
 msgstr "右对齐"
 
-#: languages/gutenberg-translations.php:868
+#: build/block-editor/index.js:1
 msgid "Align center"
 msgstr "居中对齐"
 
-#: languages/gutenberg-translations.php:864
+#: build/block-editor/index.js:1
 msgid "Align left"
 msgstr "左对齐"
 
-#. Description of the plugin/theme
+#. Description of the plugin
 msgid "Printing since 1440. This is the development plugin for the new block editor in core."
-msgstr "从 1440 年开始打印。这是核心中新的基于区块的编辑器的开发插件。"
+msgstr "自1440年开始印刷。这是核心中新区块编辑器的开发插件。"
 
-#: languages/gutenberg-translations.php:1272 lib/client-assets.php:1129
+#: build/editor/index.js:33
 msgid "Add title"
 msgstr "添加标题"
 
-#: lib/client-assets.php:1099
-msgid "Adding theme support using the `gutenberg` array is deprecated. See https://wordpress.org/gutenberg/handbook/extensibility/theme-support/ for details."
-msgstr "使用`gutenberg`数组添加主题支持已被弃用。 有关详细信息，请参阅https://wordpress.org/gutenberg/handbook/extensibility/theme-support/ 。"
-
-#: lib/class-wp-rest-blocks-controller.php:111
-msgid "The block's title."
-msgstr "该区块的标题。"
-
-#: lib/class-wp-rest-blocks-controller.php:106
-msgid "Unique identifier for the block."
-msgstr "区块的独特标识符。"
-
-#: gutenberg.php:132
-msgid "Gutenberg development mode requires files to be built. Run <code>npm install</code> to install dependencies, <code>npm run build</code> to build the files or <code>npm run dev</code> to build the files and watch for changes. Read the <a href=\"https://github.com/WordPress/gutenberg/blob/master/CONTRIBUTING.md\">contributing</a> file for more information."
-msgstr "Gutenberg 开发模式需要构建文件。 运行 <code>npm install</code> 安装依赖关系，<code>npm run build</code> 生成文件或 <code>npm run dev</code> 生成文件并监视更改。请阅读<a href=\"https://github.com/WordPress/gutenberg/blob/master/CONTRIBUTING.md\">捐助</a>文件以获取更多信息。"
-
-#. Author of the plugin/theme
+#. Author of the plugin
 msgid "Gutenberg Team"
 msgstr "Gutenberg 团队"
 
-#. Plugin URI of the plugin/theme
+#. Plugin URI of the plugin
 msgid "https://github.com/WordPress/gutenberg"
 msgstr "https://github.com/WordPress/gutenberg"
 
-#. Plugin Name of the plugin/theme
+#. Plugin Name of the plugin
 msgid "Gutenberg"
 msgstr "Gutenberg"
 
-#: languages/gutenberg-translations.php:1078 lib/register.php:185
+#: build/editor/index.js:11 build/block-library/index.js:55
+#: build/components/index.js:22
 msgid "Author"
 msgstr "作者"
 
-#: lib/register.php:181
+#: lib/templates.php:136 lib/template-parts.php:119 build/editor/index.js:29
 msgid "Slug"
 msgstr "别名"
 
-#: lib/register.php:176
-msgid "Comments"
+#: build/core-data/index.js:1
+msgid "Comment"
 msgstr "评论"
 
-#: languages/gutenberg-translations.php:764 lib/register.php:163
+#: build/edit-post/index.js:5 build/edit-post/index.js:13
 msgid "Discussion"
 msgstr "讨论"
 
-#: lib/register.php:147
-msgid "Custom Fields"
+#: build/edit-post/index.js:5
+msgid "Custom fields"
 msgstr "自定义字段"
 
-#: lib/register.php:143
-msgid "Send Trackbacks"
-msgstr "发送引用通告"
-
-#: languages/gutenberg-translations.php:785 lib/register.php:139
+#: build/block-library/index.js:36 build/edit-post/index.js:5
+#: build/edit-post/index.js:13
 msgid "Excerpt"
 msgstr "摘要"
 
-#: lib/register.php:109
-msgctxt "post format"
-msgid "Format"
-msgstr "形式"
-
-#: languages/gutenberg-translations.php:789 lib/register.php:105
+#. translators: accessibility text for the publish landmark region.
+#: build/editor/index.js:19 build/edit-widgets/index.js:12
+#: build/edit-post/index.js:13 build/edit-post/index.js:23
+#: build/edit-site/index.js:12
 msgid "Publish"
 msgstr "发布"
 
-#: lib/register.php:102
+#: build/block-library/index.js:16 build/block-library/index.js:49
 msgid "Metadata"
 msgstr "元数据"
 
-#: languages/gutenberg-translations.php:159 lib/register.php:98
+#: build/editor/index.js:11 build/block-library/index.js:47
+#: build/edit-navigation/index.js:2
 msgid "Save"
 msgstr "保存"
 
-#: lib/register.php:91
-msgid "Revisions"
-msgstr "修订版本"
-
-#. translators: %s is the name of the plugin that generated this meta box.
-#: lib/meta-box-partial-page.php:261
-msgid "Gutenberg incompatible meta box, from the \"%s\" plugin."
-msgstr "“%s” 插件的元数据框以 Gutenberg 不兼容。"
-
-#: lib/client-assets.php:220
-msgid "F j, Y g:i a"
-msgstr "Y年n月j日ag:i"
-
-#: lib/client-assets.php:219
-msgid "F j, Y"
-msgstr "Y年n月j日"
-
-#: lib/client-assets.php:218
-msgid "g:i a"
-msgstr "ag:i"
-
-#. translators: %s: duration
-#: lib/client-assets.php:214
+#. translators: %s: Human-readable time difference.
+#: lib/class-wp-rest-block-directory-controller.php:138
 msgid "%s ago"
 msgstr "%s 之前"
 
-#. translators: %s: duration
-#: lib/client-assets.php:212
-msgid "%s from now"
-msgstr "%s 之后"
+#. translators: %s: Minimum required version
+#: gutenberg.php:115
+msgid "Gutenberg requires WordPress %s or later to function properly. Please upgrade WordPress before activating Gutenberg."
+msgstr "Gutenberg 要求 WordPress %s 或更高版本才能正常工作。激活 Gutenberg 之前请升级 WordPress。"
 
-#: lib/class-wp-rest-blocks-controller.php:116
-msgid "The block's HTML content."
-msgstr "该区块的 HTML 内容。"
-
-#: lib/class-wp-rest-block-renderer-controller.php:94
-msgid "Sorry, you are not allowed to read Gutenberg blocks as this user."
-msgstr "对不起，您不能以这个用户阅读 Gutenberg 区块。"
-
-#. translators: 1: block name
-#: lib/class-wp-block-type-registry.php:111
-msgid "Block type \"%s\" is not registered."
-msgstr "没有注册区块类型 “%s”。"
-
-#. translators: 1: block name
-#: lib/class-wp-block-type-registry.php:80
-msgid "Block type \"%s\" is already registered."
-msgstr "区块类型 “%s” 已经注册。"
-
-#: lib/class-wp-block-type-registry.php:73
-msgid "Block type names must contain a namespace prefix. Example: my-plugin/my-custom-block-type"
-msgstr "区块类型名称必须包含一个名称空间前缀。例如：my-plugin/my-custom-block-type"
-
-#: lib/class-wp-block-type-registry.php:66
-msgid "Block type names must not contain uppercase characters."
-msgstr "区块类型名称不能包含大写字符"
-
-#: lib/class-wp-block-type-registry.php:60
-msgid "Block type names must be strings."
-msgstr "区块类型名称必须是字符串。"
-
-#: gutenberg.php:375
-msgid "Toggle editor selection menu"
-msgstr "切换编辑器选择菜单"
-
-#: gutenberg.php:254 gutenberg.php:377
-msgid "Classic Editor"
-msgstr "经典编辑器"
-
-#. translators: %s: post title
-#: gutenberg.php:251
-msgid "Edit &#8220;%s&#8221; in the classic editor"
-msgstr "编辑 &#8220;%s&#8221; 在经典的编辑器"
-
-#: gutenberg.php:119
-msgid "Gutenberg requires WordPress 4.9.6 or later to function properly. Please upgrade WordPress before activating Gutenberg."
-msgstr "Gutenberg 要求 WordPress 4.9.6 或更高版本才能正常工作。激活 Gutenberg 之前请升级 WordPress。"
-
-#: gutenberg.php:75
+#: gutenberg.php:90
 msgid "Documentation"
 msgstr "文档"
 
-#: gutenberg.php:69
-msgid "Feedback"
-msgstr "反馈"
-
-#: gutenberg.php:61 gutenberg.php:62
+#: gutenberg.php:43 gutenberg.php:44
 msgid "Demo"
 msgstr "演示"
 
-#: core-blocks/latest-posts/index.php:31
-#: languages/gutenberg-translations.php:222
+#: build/block-library/index.js:16
 msgid "(Untitled)"
 msgstr "（无标题）"
 
-#: core-blocks/categories/index.php:35
+#: build/block-library/blocks/categories.php:30
 msgid "Select Category"
 msgstr "选择分类目录"

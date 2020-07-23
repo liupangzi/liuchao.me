@@ -12,7 +12,7 @@
  * @param  array $attributes Navigation block attributes.
  * @return array Colors CSS classes and inline styles.
  */
-function gutenberg_build_css_colors( $attributes ) {
+function gutenberg_block_core_navigation_build_css_colors( $attributes ) {
 	$colors = array(
 		'css_classes'   => array(),
 		'inline_styles' => '',
@@ -42,8 +42,8 @@ function gutenberg_build_css_colors( $attributes ) {
 
 	// If has background color.
 	if ( $has_custom_background_color || $has_named_background_color ) {
-		// Add has-background-color class.
-		$colors['css_classes'][] = 'has-background-color';
+		// Add has-background class.
+		$colors['css_classes'][] = 'has-background';
 	}
 
 	if ( $has_named_background_color ) {
@@ -64,7 +64,7 @@ function gutenberg_build_css_colors( $attributes ) {
  * @param  array $attributes Navigation block attributes.
  * @return array Font size CSS classes and inline styles.
  */
-function gutenberg_build_css_font_sizes( $attributes ) {
+function gutenberg_block_core_navigation_build_css_font_sizes( $attributes ) {
 	// CSS classes.
 	$font_sizes = array(
 		'css_classes'   => array(),
@@ -86,28 +86,12 @@ function gutenberg_build_css_font_sizes( $attributes ) {
 }
 
 /**
- * Recursively filters out links with no labels to build a clean navigation block structure.
+ * Returns the top-level submenu SVG chevron icon.
  *
- * @param array $blocks Navigation link inner blocks from the Navigation block.
- * @return array Blocks that had valid labels
+ * @return string
  */
-function gutenberg_gutenberg_remove_empty_navigation_links_recursive( $blocks ) {
-	$blocks = array_filter(
-		$blocks,
-		function( $block ) {
-			return ! empty( $block['attrs']['label'] );
-		}
-	);
-
-	if ( ! empty( $blocks ) ) {
-		foreach ( $blocks as $key => $block ) {
-			if ( ! empty( $block['innerBlocks'] ) ) {
-				$blocks[ $key ]['innerBlocks'] = gutenberg_gutenberg_remove_empty_navigation_links_recursive( $block['innerBlocks'] );
-			}
-		}
-	}
-
-	return $blocks;
+function gutenberg_block_core_navigation_render_submenu_icon() {
+	return '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" transform="rotate(90)"><path d="M8 5v14l11-7z"/><path d="M0 0h24v24H0z" fill="none"/></svg>';
 }
 
 /**
@@ -119,20 +103,36 @@ function gutenberg_gutenberg_remove_empty_navigation_links_recursive( $blocks ) 
  *
  * @return string Returns the post content with the legacy widget added.
  */
-function gutenberg_render_block_navigation( $attributes, $content, $block ) {
-	$block['innerBlocks'] = gutenberg_gutenberg_remove_empty_navigation_links_recursive( $block['innerBlocks'] );
+function gutenberg_render_block_core_navigation( $attributes, $content, $block ) {
+	/**
+	 * Deprecated:
+	 * The rgbTextColor and rgbBackgroundColor attributes
+	 * have been deprecated in favor of
+	 * customTextColor and customBackgroundColor ones.
+	 * Move the values from old attrs to the new ones.
+	 */
+	if ( isset( $attributes['rgbTextColor'] ) && empty( $attributes['textColor'] ) ) {
+		$attributes['customTextColor'] = $attributes['rgbTextColor'];
+	}
 
-	if ( empty( $block['innerBlocks'] ) ) {
+	if ( isset( $attributes['rgbBackgroundColor'] ) && empty( $attributes['backgroundColor'] ) ) {
+		$attributes['customBackgroundColor'] = $attributes['rgbBackgroundColor'];
+	}
+
+	unset( $attributes['rgbTextColor'], $attributes['rgbBackgroundColor'] );
+
+	if ( empty( $block->inner_blocks ) ) {
 		return '';
 	}
 
-	$colors          = gutenberg_build_css_colors( $attributes );
-	$font_sizes      = gutenberg_build_css_font_sizes( $attributes );
+	$colors          = gutenberg_block_core_navigation_build_css_colors( $attributes );
+	$font_sizes      = gutenberg_block_core_navigation_build_css_font_sizes( $attributes );
 	$classes         = array_merge(
 		$colors['css_classes'],
 		$font_sizes['css_classes'],
 		array( 'wp-block-navigation' ),
 		isset( $attributes['className'] ) ? array( $attributes['className'] ) : array(),
+		( isset( $attributes['orientation'] ) && 'vertical' === $attributes['orientation'] ) ? array( 'is-vertical' ) : array(),
 		isset( $attributes['itemsJustification'] ) ? array( 'items-justified-' . $attributes['itemsJustification'] ) : array(),
 		isset( $attributes['align'] ) ? array( 'align' . $attributes['align'] ) : array()
 	);
@@ -141,133 +141,32 @@ function gutenberg_render_block_navigation( $attributes, $content, $block ) {
 		? sprintf( ' style="%s"', esc_attr( $colors['inline_styles'] ) . esc_attr( $font_sizes['inline_styles'] ) )
 		: '';
 
+	$inner_blocks_html = '';
+	foreach ( $block->inner_blocks as $inner_block ) {
+		$inner_blocks_html .= $inner_block->render();
+	}
+
 	return sprintf(
-		'<nav %1$s %2$s>%3$s</nav>',
+		'<nav %1$s %2$s><ul class="wp-block-navigation__container">%3$s</ul></nav>',
 		$class_attribute,
 		$style_attribute,
-		gutenberg_build_navigation_html( $block, $colors, $font_sizes )
+		$inner_blocks_html
 	);
-}
-
-/**
- * Walks the inner block structure and returns an HTML list for it.
- *
- * @param array $block      The block.
- * @param array $colors     Contains inline styles and CSS classes to apply to navigation item.
- * @param array $font_sizes Contains inline styles and CSS classes to apply to navigation item.
- * @param bool  $level_zero True whether is main menu (level zero). Otherwise, False.
- *
- * @return string Returns  an HTML list from innerBlocks.
- */
-function gutenberg_build_navigation_html( $block, $colors, $font_sizes, $level_zero = true ) {
-	$html            = '';
-	$classes         = array_merge(
-		$colors['css_classes'],
-		$font_sizes['css_classes']
-	);
-	$css_classes     = implode( ' ', $classes );
-	$class_attribute = sprintf( ' class="wp-block-navigation-link__content %s"', esc_attr( trim( $css_classes ) ) );
-	$style_attribute = ( $colors['inline_styles'] || $font_sizes['inline_styles'] )
-		? sprintf( ' style="%s"', esc_attr( $colors['inline_styles'] ) . esc_attr( $font_sizes['inline_styles'] ) )
-		: '';
-
-	foreach ( (array) $block['innerBlocks'] as $key => $block ) {
-
-		$html .= '<li class="wp-block-navigation-link">' .
-			'<a';
-
-		if ( $level_zero ) {
-			$html .= $class_attribute . $style_attribute;
-		}
-
-		// Start appending HTML attributes to anchor tag.
-		if ( isset( $block['attrs']['url'] ) ) {
-			$html .= ' href="' . esc_url( $block['attrs']['url'] ) . '"';
-		}
-		if ( isset( $block['attrs']['title'] ) ) {
-			$html .= ' title="' . esc_attr( $block['attrs']['title'] ) . '"';
-		}
-
-		if ( isset( $block['attrs']['opensInNewTab'] ) && true === $block['attrs']['opensInNewTab'] ) {
-			$html .= ' target="_blank"  ';
-		}
-		// End appending HTML attributes to anchor tag.
-
-		// Start anchor tag content.
-		$html .= '>';
-		if ( isset( $block['attrs']['label'] ) ) {
-			$html .= wp_kses(
-				$block['attrs']['label'],
-				array(
-					'code'   => array(),
-					'em'     => array(),
-					'img'    => array(
-						'scale' => array(),
-						'class' => array(),
-						'style' => array(),
-						'src'   => array(),
-						'alt'   => array(),
-					),
-					's'      => array(),
-					'span'   => array(
-						'style' => array(),
-					),
-					'strong' => array(),
-				)
-			);
-		}
-		$html .= '</a>';
-		// End anchor tag content.
-
-		if ( count( (array) $block['innerBlocks'] ) > 0 ) {
-			$html .= gutenberg_build_navigation_html( $block, $colors, $font_sizes, false );
-		}
-
-		$html .= '</li>';
-	}
-	return '<ul>' . $html . '</ul>';
 }
 
 /**
  * Register the navigation block.
  *
- * @uses gutenberg_render_block_navigation()
+ * @uses gutenberg_render_block_core_navigation()
  * @throws WP_Error An WP_Error exception parsing the block definition.
  */
 function gutenberg_register_block_core_navigation() {
-
-	register_block_type(
-		'core/navigation',
+	register_block_type_from_metadata(
+		__DIR__ . '/navigation',
 		array(
-			'attributes'      => array(
-				'className'             => array(
-					'type' => 'string',
-				),
-				'textColor'             => array(
-					'type' => 'string',
-				),
-				'customTextColor'       => array(
-					'type' => 'string',
-				),
-				'backgroundColor'       => array(
-					'type' => 'string',
-				),
-				'customBackgroundColor' => array(
-					'type' => 'string',
-				),
-				'fontSize'              => array(
-					'type' => 'string',
-				),
-				'customFontSize'        => array(
-					'type' => 'number',
-				),
-				'itemsJustification'    => array(
-					'type' => 'string',
-				),
-			),
-
-			'render_callback' => 'gutenberg_render_block_navigation',
+			'render_callback' => 'gutenberg_render_block_core_navigation',
 		)
 	);
 }
+
 add_action( 'init', 'gutenberg_register_block_core_navigation', 20 );

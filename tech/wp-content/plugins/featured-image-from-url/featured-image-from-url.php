@@ -3,15 +3,21 @@
 /*
  * Plugin Name: Featured Image from URL
  * Plugin URI: https://fifu.app/
- * Description: Use an external image as Featured Image of your post/page/custom post type (WooCommerce). Includes Auto Set (External Post), Product Gallery, Social Tags and more.
- * Version: 2.9.0
- * Author: Marcel Jacques Machado 
- * Author URI: https://www.linkedin.com/in/marceljm/
+ * Description: Use an external image as Featured Image of a post or WooCommerce product. Includes Image Search, Video, Social Tags, SEO, Lazy Load, Gallery, Automation etc.
+ * Version: 3.1.8
+ * Author: fifu.app
+ * Author URI: https://fifu.app/
+ * WC requires at least: 3.0
+ * WC tested up to: 4.2.2
+ * Text Domain: featured-image-from-url
+ * License: GPLv3
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  */
 
 define('FIFU_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('FIFU_INCLUDES_DIR', FIFU_PLUGIN_DIR . 'includes');
 define('FIFU_ADMIN_DIR', FIFU_PLUGIN_DIR . 'admin');
+define('FIFU_DELETE_ALL_URLS', false);
 
 require_once (FIFU_INCLUDES_DIR . '/attachment.php');
 require_once (FIFU_INCLUDES_DIR . '/convert-url.php');
@@ -68,9 +74,13 @@ add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'fifu_action_link
 add_filter('network_admin_plugin_action_links_' . plugin_basename(__FILE__), 'fifu_action_links');
 
 function fifu_action_links($links) {
-    $links[] = '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=featured-image-from-url')) . '">Settings</a>';
-    $links[] = '<a style="color:black">Support Email:</a>';
+    $links[] = '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=featured-image-from-url')) . '">' . esc_html__('Settings', 'featured-image-from-url') . '</a>';
+    $links[] = '<a style="color:black">' . esc_html__('Support') . ':</a>';
     $links[] = '<br><center style="width:275px;color:white;background-color:#02a0d2;border-radius:0px 30px">marcel@featuredimagefromurl.com</center>';
     return $links;
+}
+
+function fifu_languages() {
+    load_plugin_textdomain('featured-image-from-url', false, basename(dirname(__FILE__)) . '/languages');
 }
 

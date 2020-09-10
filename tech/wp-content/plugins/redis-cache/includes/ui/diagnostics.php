@@ -10,6 +10,7 @@ defined( '\\ABSPATH' ) || exit;
 global $wp_object_cache;
 
 $info = [];
+$filesystem = $plugin->test_filesystem_writing();
 $dropin = $plugin->validate_object_cache_dropin();
 $disabled = defined( 'WP_REDIS_DISABLED' ) && WP_REDIS_DISABLED;
 
@@ -17,6 +18,7 @@ $info['Status'] = $plugin->get_status();
 $info['Client'] = $plugin->get_redis_client_name();
 $info['Drop-in'] = $dropin ? 'Valid' : 'Invalid';
 $info['Disabled'] = $disabled ? 'Yes' : 'No';
+$info['Filesystem'] = is_wp_error( $filesystem ) ? $filesystem->get_error_message() : 'Working';
 
 if ( $dropin && ! $disabled ) {
     $info[ 'Ping' ] = $wp_object_cache->diagnostics[ 'ping' ];
@@ -33,8 +35,9 @@ if ( $dropin && ! $disabled ) {
     );
 }
 
-$info['Redis Extension'] = class_exists( 'Redis' ) ? phpversion( 'redis' ) : 'Not found';
-$info['Predis Client'] = class_exists( 'Predis\Client' ) ? Predis\Client::VERSION : 'Not found';
+$info['PhpRedis'] = class_exists( 'Redis' ) ? phpversion( 'redis' ) : 'Not loaded';
+$info['Predis'] = class_exists( 'Predis\Client' ) ? Predis\Client::VERSION : 'Not loaded';
+$info['Credis'] = class_exists( 'Credis_Client' ) ? Credis_Client::VERSION : 'Not loaded';
 
 if ( defined( 'PHP_VERSION' ) ) {
     $info['PHP Version'] = PHP_VERSION;
@@ -44,6 +47,7 @@ if ( defined( 'HHVM_VERSION' ) ) {
     $info['HHVM Version'] = HHVM_VERSION;
 }
 
+$info['Plugin Version'] = WP_REDIS_VERSION;
 $info['Redis Version'] = $plugin->get_redis_version() ?: 'Unknown';
 
 $info['Multisite'] = is_multisite() ? 'Yes' : 'No';

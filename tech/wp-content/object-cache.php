@@ -3,7 +3,7 @@
  * Plugin Name: Redis Object Cache Drop-In
  * Plugin URI: http://wordpress.org/plugins/redis-cache/
  * Description: A persistent object cache backend powered by Redis. Supports Predis, PhpRedis, Credis, HHVM, replication, clustering and WP-CLI.
- * Version: 2.0.4
+ * Version: 2.0.8
  * Author: Till Krüss
  * Author URI: https://wprediscache.com
  * License: GPLv3
@@ -727,7 +727,7 @@ class WP_Object_Cache {
             $connection_string = array_values( WP_REDIS_SERVERS )[0];
             $sentinel = new Credis_Sentinel( new Credis_Client( $connection_string ) );
             $this->redis = $sentinel->getCluster( WP_REDIS_SENTINEL );
-            $args['is_sentinel'] = true;
+            $args['servers'] = WP_REDIS_SERVERS;
         } elseif ( defined( 'WP_REDIS_CLUSTER' ) || defined( 'WP_REDIS_SERVERS' ) ) {
             $parameters['db'] = $parameters['database'];
 
@@ -753,29 +753,29 @@ class WP_Object_Cache {
 
             $this->redis = new Credis_Cluster( $clients );
 
-            $args = $clients;
-            $args[ $is_cluster ? 'is_cluster' : 'is_multi' ] = true;
+            $args['servers'] = $clients;
         } else {
-            $host = 'unix' === $parameters['scheme']
-                ? $parameters['path']
-                : $parameters['host'];
-
             $args = [
-                "{$parameters['scheme']}://{$host}",
-                $parameters['port'],
-                $parameters['timeout'],
-                '',
-                isset( $parameters['database'] ) ? $parameters['database'] : 0,
-                isset( $parameters['password'] ) ? $parameters['password'] : null,
+                'host' => $parameters['scheme'] === 'unix' ? $parameters['path'] : $parameters['host'],
+                'port' => $parameters['port'],
+                'timeout' => $parameters['timeout'],
+                'persistent' => null,
+                'database' => $parameters['database'],
+                'password' => isset( $parameters['password'] ) ? $parameters['password'] : null,
             ];
 
-            $this->redis = new Credis_Client( ...$args );
+            $this->redis = new Credis_Client( ...array_values( $args ) );
         }
 
-        // Credis uses phpredis if it detects it unless we force it to run standalone.
+        // Don't use PhpRedis
         $this->redis->forceStandalone();
 
         $this->redis->connect();
+
+        if ( $parameters['read_timeout'] ) {
+            $args['read_timeout'] = $parameters['read_timeout'];
+            $this->redis->setReadTimeout( $parameters['read_timeout'] );
+        }
 
         $this->diagnostics = array_merge(
             [ 'client' => sprintf( '%s (v%s)', $client, Credis_Client::VERSION ) ],
@@ -1041,7 +1041,7 @@ class WP_Object_Cache {
             do_action( 'redis_object_cache_delete', $key, $group, $execute_time );
         }
 
-        return $result;
+        return (bool) $result;
     }
 
     /**
@@ -1355,27 +1355,31 @@ LUA;
             return $cache;
         }
 
-        $keys = array_values( $derived_keys );
-
         if ( ! $force ) {
             foreach ( $keys as $key ) {
-                $cache[ $key ] = $this->get_from_internal_cache( $derived_keys[ $key ] );
-            }
+                $value = $this->get_from_internal_cache( $derived_keys[ $key ] );
 
-            $keys = array_keys(
-                array_filter(
-                    $cache,
-                    function ( $value ) {
-                        return $value === false;
-                    }
-                )
-            );
+                if ( $value === false ) {
+                    $this->cache_misses++;
+                } else {
+                    $cache[ $key ] = $value;
+                    $this->cache_hits++;
+                }
+            }
+        }
+
+        $remaining_keys = array_filter( $keys, function ( $key ) use ( $cache ) {
+            return ! isset( $cache[ $key ] );
+        } );
+
+        if ( empty( $remaining_keys ) ) {
+            return $cache;
         }
 
         $start_time = microtime( true );
 
         try {
-            $results = array_combine( $keys, $this->redis->mget( $keys ) );
+            $results = array_combine( $remaining_keys, $this->redis->mget( $remaining_keys ) );
         } catch ( Exception $exception ) {
             $this->handle_exception( $exception );
 
@@ -1388,21 +1392,21 @@ LUA;
         $this->cache_time += $execute_time;
 
         foreach ( $results as $key => $value ) {
+            $cache[ $key ] = $value;
+
             if ( $value === false ) {
                 $this->cache_misses++;
-                continue;
+            } else {
+                $this->cache_hits++;
+
+                $this->add_to_internal_cache( $derived_keys[ $key ], $value );
             }
-
-            $this->cache_hits++;
-
-            $cache[ $key ] = $value;
-            $this->add_to_internal_cache( $derived_keys[ $key ], $value );
         }
 
         $cache = array_map( array( $this, 'maybe_unserialize' ), $cache );
 
         if ( function_exists( 'do_action' ) ) {
-            do_action( 'redis_object_cache_get_multi', $keys, $cache, $group, $force, $execute_time );
+            do_action( 'redis_object_cache_get_multiple', $keys, $cache, $group, $force, $execute_time );
         }
 
         if ( function_exists( 'apply_filters' ) && function_exists( 'has_filter' ) ) {
@@ -1610,8 +1614,6 @@ LUA;
         );
 
         return (object) [
-            // Connected, Disabled, Unknown, Not connected
-            'status' => '...',
             'hits' => $this->cache_hits,
             'misses' => $this->cache_misses,
             'ratio' => $total > 0 ? round( $this->cache_hits / ( $total / 100 ), 1 ) : 100,

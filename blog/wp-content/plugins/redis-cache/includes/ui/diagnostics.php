@@ -10,12 +10,11 @@ defined( '\\ABSPATH' ) || exit;
 global $wp_object_cache;
 
 $info = [];
-$dropins = [];
-$dropin = $this->validate_object_cache_dropin();
+$dropin = $plugin->validate_object_cache_dropin();
 $disabled = defined( 'WP_REDIS_DISABLED' ) && WP_REDIS_DISABLED;
 
-$info['Status'] = $this->get_status();
-$info['Client'] = $this->get_redis_client_name();
+$info['Status'] = $plugin->get_status();
+$info['Client'] = $plugin->get_redis_client_name();
 $info['Drop-in'] = $dropin ? 'Valid' : 'Invalid';
 $info['Disabled'] = $disabled ? 'Yes' : 'No';
 
@@ -34,8 +33,9 @@ if ( $dropin && ! $disabled ) {
     );
 }
 
-$info['Redis Extension'] = class_exists( 'Redis' ) ? phpversion( 'redis' ) : 'Not found';
-$info['Predis Client'] = class_exists( 'Predis\Client' ) ? Predis\Client::VERSION : 'Not found';
+$info['PhpRedis'] = class_exists( 'Redis' ) ? phpversion( 'redis' ) : 'Not loaded';
+$info['Predis'] = class_exists( 'Predis\Client' ) ? Predis\Client::VERSION : 'Not loaded';
+$info['Credis'] = class_exists( 'Credis_Client' ) ? Credis_Client::VERSION : 'Not loaded';
 
 if ( defined( 'PHP_VERSION' ) ) {
     $info['PHP Version'] = PHP_VERSION;
@@ -45,9 +45,11 @@ if ( defined( 'HHVM_VERSION' ) ) {
     $info['HHVM Version'] = HHVM_VERSION;
 }
 
-$info['Redis Version'] = $this->get_redis_version() ?: 'Unknown';
+$info['Plugin Version'] = WP_REDIS_VERSION;
+$info['Redis Version'] = $plugin->get_redis_version() ?: 'Unknown';
 
 $info['Multisite'] = is_multisite() ? 'Yes' : 'No';
+$info['Filesystem'] = $plugin->initialize_filesystem( '', true ) ? 'Yes' : 'No';
 
 if ( $dropin ) {
     $info['Global Prefix'] = wp_json_encode( $wp_object_cache->global_prefix );
@@ -80,7 +82,10 @@ $constants = array(
 
 foreach ( $constants as $constant ) {
     if ( defined( $constant ) ) {
-        $info[ $constant ] = wp_json_encode( constant( $constant ) );
+        $info[ $constant ] = wp_json_encode(
+            constant( $constant ),
+            JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+        );
     }
 }
 
@@ -92,7 +97,7 @@ if ( defined( 'WP_REDIS_PASSWORD' ) ) {
             $password[1] = str_repeat( '•', 8 );
         }
 
-        $info['WP_REDIS_PASSWORD'] = wp_json_encode( $password );
+        $info['WP_REDIS_PASSWORD'] = wp_json_encode( $password, JSON_UNESCAPED_UNICODE );
     } elseif ( ! is_null( $password ) && '' !== $password ) {
         $info['WP_REDIS_PASSWORD'] = str_repeat( '•', 8 );
     }
@@ -115,21 +120,21 @@ if ( $dropin ) {
     );
 }
 
-foreach ( $info as $name => $value ) {
-    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-    echo "{$name}: {$value}\r\n";
-}
+$dropins = [];
 
 foreach ( get_dropins() as $file => $details ) {
-    $dropins[ $file ] = sprintf(
-        ' - %s v%s by %s',
-        $details['Name'],
-        $details['Version'],
-        $details['Author']
-    );
+    $dropins[ $file ] = sprintf( '%s v%s by %s', $details['Name'], $details['Version'], $details['Author'] );
 }
 
-if ( ! empty( $dropins ) ) {
-    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-    echo "Drop-ins: \r\n", implode( "\r\n", $dropins ), "\r\n";
+$info['Drop-ins'] = wp_json_encode(
+    array_values( $dropins ),
+    JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
+);
+
+foreach ( $info as $name => $value ) {
+    if ( defined( 'WP_CLI' ) && WP_CLI ) {
+        WP_CLI::line( "{$name}: $value" );
+    } else {
+        echo "{$name}: {$value}\r\n";
+    }
 }

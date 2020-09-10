@@ -1,10 +1,10 @@
 === Plugin Name ===
 Contributors: marceljm
 Donate link: https://donorbox.org/fifu
-Tags: featured image, featured, image, url, link, woocommerce, product, gallery, video, slider, external, thumbnail
-Requires at least: 5.0
-Tested up to: 5.4
-Stable tag: 3.1.8
+Tags: featured, image, url, woocommerce, thumbnail
+Requires at least: 5.3
+Tested up to: 5.5
+Stable tag: 3.3.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -16,18 +16,20 @@ Use an external image as featured image of a post or WooCommerce product. Includ
 
 Since 2015 FIFU has helped thousands of websites worldwide to save money on storage, processing and copyright.
 
+If you are tired of wasting time and resources with thumbnail regeneration, image optimization and never-ending imports, this plugin is for you.
+
 #### FEATURED IMAGE
 Use an external image as featured image of your post, page or custom post type.
 
 * External featured image
+* Free CDN (with Jetpack)
+* Optimized external thumbnails (with Jetpack)
 * Unsplash image search
 * Lazy load
 * Default featured image
 * Hide featured media
 * Featured image in content
-* CSS style
-* Original size
-* Add class
+* Elementor widget
 * Save image dimensions
 * Featured image column
 * **[Premium]** Giphy image search
@@ -48,7 +50,7 @@ Use an external image as featured image of your post, page or custom post type.
 
 * WP All Import add-on
 * WooCommerce import
-* URL from post content
+* Content URL
 * **[Premium]** WP REST API
 * **[Premium]** WooCommerce REST API
 * **[Premium]** Schedule metadata generation
@@ -64,10 +66,6 @@ Use an external image as featured image of your post, page or custom post type.
 * **[Premium]** Variable product
 * **[Premium]** Variation image
 * **[Premium]** Variation image gallery
-
-#### INTEGRATION FUNCTIONS FOR DEVELOPERS
-
-* fifu_dev_set_image($post_id, $image_url)
 
 #### FEATURED VIDEO
 Supports videos from YouTube, Vimeo, Imgur, 9GAG, Cloudinary, Tumblr and Publitio.
@@ -90,12 +88,9 @@ Supports videos from YouTube, Vimeo, Imgur, 9GAG, Cloudinary, Tumblr and Publiti
 * **[Premium]** Featured slider 
 * **[Premium]** Featured shortcode 
 
-#### LANGUAGES
+#### INTEGRATION FUNCTION FOR DEVELOPERS
 
-* English (United States)
-* German
-* Greek
-* Portuguese (Brazil)
+* fifu_dev_set_image($post_id, $image_url)
 
 #### LINKS
 
@@ -125,7 +120,7 @@ Supports videos from YouTube, Vimeo, Imgur, 9GAG, Cloudinary, Tumblr and Publiti
 
 = Why isn't preview button working? =
 
-* Your image URL is invalid. Take a look at FIFU Settings > Getting Started.
+* Your image URL is invalid. Take a look at FIFU Settings > Getting started.
 
 = Does FIFU save the images in the media library? =
 
@@ -137,15 +132,15 @@ Supports videos from YouTube, Vimeo, Imgur, 9GAG, Cloudinary, Tumblr and Publiti
 
 = What's the metadata created by FIFU?
 
-* Database registers that help WordPress components to work with the external images.
+* Database registers that help WordPress components to work with the external images. FIFU can generate the metadata of ~30,000 image URLs per minute.
 
 = What are the disadvantages of the external images?
 
-* No image optimization or thumbnails. You may fix that with Jetpack (performance settings).
+* No image optimization or thumbnails. You can fix that with Jetpack plugin (performance settings).
 
 = What are the advantages of the external images?
 
-* You save money on storage, processing and copyright.
+* You save money on storage, processing and copyright. And you can have extremely fast import processes.
 
 
 == Screenshots ==
@@ -193,14 +188,14 @@ Supports videos from YouTube, Vimeo, Imgur, 9GAG, Cloudinary, Tumblr and Publiti
 
 == Changelog ==
 
-= 3.1.8 =
-* New language: Greek; improvement: readme strings added to the pot file; bug fix: conflict between lazy load and background-image.
+= 3.3.4 =
+* Notice: about the "nulled" Premium version; improvement: getting started and examples added to Featured Shortcode; bug fix: empty alt field for internal images.
 
-= 3.1.7 =
-* Improvement: development function created to make the integration with FIFU easier; bug fix: image title was not being shown; bug fix: conflict between lazy load and background-images.
+= 3.3.3 =
+* New option: Content URL > decode HTML entities; conflict fixes: Jetpack + WooCommerce lightbox, Save Image Dimensions + svg images; style issue: Flatsome + WooCommerce gallery.
 
-= 3.1.6 =
-* Improvement: readme changes to comply with the WordPress.org plugin guidelines.
+= 3.3.2 =
+* Fix: notices (due FIFU widget for Elementor).
 
 = others =
 * [more](https://fifu.app/changelog/)
@@ -208,5 +203,5 @@ Supports videos from YouTube, Vimeo, Imgur, 9GAG, Cloudinary, Tumblr and Publiti
 
 == Upgrade Notice ==
 
-= 3.1.8 =
-* New language: Greek; improvement: readme strings added to the pot file; bug fix: conflict between lazy load and background-image.
+= 3.3.4 =
+* Notice: about the "nulled" Premium version; improvement: getting started and examples added to Featured Shortcode; bug fix: empty alt field for internal images.

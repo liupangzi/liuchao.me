@@ -1,10 +1,10 @@
 <?php
 
 include 'rapid-addon.php';
-fifu_languages();
+$fifu = fifu_get_strings_wai();
 $fifu_wai_addon = new RapidAddon('<div style="color:#777"><span class="dashicons dashicons-camera" style="font-size:30px;padding-right:10px"></span> Featured Image from URL</div>', 'fifu_wai_addon');
-$fifu_wai_addon->add_field('fifu_image_url', '<div title="fifu_image_url">' . __('Featured Image (URL)', 'featured-image-from-url') . '</div>', 'text', null, null, false, null);
-$fifu_wai_addon->add_field('fifu_image_alt', '<div title="fifu_image_alt">' . __('Featured Image Title', 'featured-image-from-url') . '</div>', 'text', null, null, false, null);
+$fifu_wai_addon->add_field('fifu_image_url', '<div title="fifu_image_url">' . $fifu['title']['image']() . '</div>', 'text', null, null, false, null);
+$fifu_wai_addon->add_field('fifu_image_alt', '<div title="fifu_image_alt">' . $fifu['title']['title']() . '</div>', 'text', null, null, false, null);
 $fifu_wai_addon->set_import_function('fifu_wai_addon_save');
 $fifu_wai_addon->run();
 
@@ -22,12 +22,17 @@ function fifu_wai_addon_save($post_id, $data, $import_options, $article) {
             return;
     }
 
+    $is_ctgr = $article['post_type'] == 'taxonomies';
     $update = false;
     foreach ($fields as $field) {
         $current_value = get_post_meta($post_id, $field, true);
         if ($current_value != $data[$field]) {
             $update = true;
-            update_post_meta($post_id, $field, $data[$field]);
+            $value = $data[$field];
+            if ($is_ctgr)
+                update_term_meta($post_id, $field, $value);
+            else
+                update_post_meta($post_id, $field, $value);
         }
     }
 
@@ -35,9 +40,12 @@ function fifu_wai_addon_save($post_id, $data, $import_options, $article) {
     if (!$update && !$fifu_wai_addon->can_update_image($import_options))
         return;
 
-    fifu_wai_save($post_id);
+    fifu_wai_save($post_id, $is_ctgr);
 
     /* metadata */
-    add_action('pmxi_saved_post', 'fifu_update_fake_attach_id');
+    if ($is_ctgr)
+        add_action('pmxi_saved_post', 'fifu_db_ctgr_update_fake_attach_id');
+    else
+        add_action('pmxi_saved_post', 'fifu_update_fake_attach_id');
 }
 

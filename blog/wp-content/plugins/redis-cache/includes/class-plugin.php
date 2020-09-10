@@ -67,7 +67,7 @@ class Plugin {
 
     public function add_actions_and_filters() {
         add_action( 'deactivate_plugin', array( $this, 'on_deactivation' ) );
-        add_action( 'upgrader_process_complete', array( $this, 'maybe_update_dropin' ), 10, 2 );
+        add_action( 'admin_init', array( $this, 'maybe_update_dropin' ) );
 
         add_action( is_multisite() ? 'network_admin_menu' : 'admin_menu', array( $this, 'add_admin_menu_page' ) );
 
@@ -80,8 +80,7 @@ class Plugin {
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_redis_metrics' ) );
 
-        add_action( 'load-' . $this->screen, array( $this, 'do_admin_actions' ) );
-        add_action( 'load-' . $this->screen, array( $this, 'add_admin_page_notices' ) );
+        add_action( 'load-settings_page_redis-cache', array( $this, 'do_admin_actions' ) );
 
         add_action( 'wp_dashboard_setup', array( $this, 'setup_dashboard_widget' ) );
         add_action( 'wp_network_dashboard_setup', array( $this, 'setup_dashboard_widget' ) );
@@ -142,7 +141,7 @@ class Plugin {
             foreach ( $this->actions as $name ) {
                 // verify nonce
                 if ( $action === $name && wp_verify_nonce( $_GET['_wpnonce'], $action ) ) {
-                    $url = wp_nonce_url( network_admin_url( add_query_arg( 'action', $action, $this->page ) ), $action );
+                    $url = $this->action_link( $action );
 
                     if ( $this->initialize_filesystem( $url ) === false ) {
                         return; // request filesystem credentials
@@ -329,7 +328,7 @@ class Plugin {
         $dropin = get_plugin_data( WP_CONTENT_DIR . '/object-cache.php' );
         $plugin = get_plugin_data( WP_REDIS_PLUGIN_PATH . '/includes/object-cache.php' );
 
-        return ( strcmp( $dropin['PluginURI'], $plugin['PluginURI'] ) === 0 );
+        return $dropin['PluginURI'] === $plugin['PluginURI'];
     }
 
     public function object_cache_dropin_outdated() {
@@ -340,7 +339,11 @@ class Plugin {
         $dropin = get_plugin_data( WP_CONTENT_DIR . '/object-cache.php' );
         $plugin = get_plugin_data( WP_REDIS_PLUGIN_PATH . '/includes/object-cache.php' );
 
-        return version_compare( $dropin['Version'], $plugin['Version'], '<' );
+        if ( $dropin['PluginURI'] === $plugin['PluginURI'] ) {
+            return version_compare( $dropin['Version'], $plugin['Version'], '<' );
+        }
+
+        return false;
     }
 
     public function get_status() {
@@ -435,8 +438,7 @@ class Plugin {
         }
 
         if ( $this->object_cache_dropin_exists() ) {
-
-            $url = wp_nonce_url( network_admin_url( add_query_arg( 'action', 'update-dropin', $this->page ) ), 'update-dropin' );
+            $url = $this->action_link( 'update-dropin' );
 
             if ( $this->validate_object_cache_dropin() ) {
                 if ( $this->object_cache_dropin_outdated() ) {
@@ -454,45 +456,6 @@ class Plugin {
         }
     }
 
-    public function add_admin_page_notices() {
-        // show PHP version warning
-        if ( version_compare( PHP_VERSION, '5.4.0', '<' ) ) {
-            add_settings_error( '', 'redis-cache', __( 'This plugin requires PHP 5.4 or greater.', 'redis-cache' ) );
-        }
-
-        // show action success/failure messages
-        if ( isset( $_GET['message'] ) ) {
-            switch ( $_GET['message'] ) {
-                case 'cache-enabled':
-                    $message = __( 'Object cache enabled.', 'redis-cache' );
-                    break;
-                case 'enable-cache-failed':
-                    $error = __( 'Object cache could not be enabled.', 'redis-cache' );
-                    break;
-                case 'cache-disabled':
-                    $message = __( 'Object cache disabled.', 'redis-cache' );
-                    break;
-                case 'disable-cache-failed':
-                    $error = __( 'Object cache could not be disabled.', 'redis-cache' );
-                    break;
-                case 'cache-flushed':
-                    $message = __( 'Object cache flushed.', 'redis-cache' );
-                    break;
-                case 'flush-cache-failed':
-                    $error = __( 'Object cache could not be flushed.', 'redis-cache' );
-                    break;
-                case 'dropin-updated':
-                    $message = __( 'Updated object cache drop-in and enabled Redis object cache.', 'redis-cache' );
-                    break;
-                case 'update-dropin-failed':
-                    $error = __( 'Object cache drop-in could not be updated.', 'redis-cache' );
-                    break;
-            }
-
-            add_settings_error( '', 'redis-cache', isset( $message ) ? $message : $error, isset( $message ) ? 'updated' : 'error' );
-        }
-    }
-
     public function do_admin_actions() {
         global $wp_filesystem;
 
@@ -507,38 +470,105 @@ class Plugin {
             }
 
             if ( in_array( $action, $this->actions ) ) {
-                $url = wp_nonce_url( network_admin_url( add_query_arg( 'action', $action, $this->page ) ), $action );
+                $url = $this->action_link( $action );
 
                 if ( $action === 'flush-cache' ) {
-                    $message = wp_cache_flush() ? 'cache-flushed' : 'flush-cache-failed';
+                    wp_cache_flush()
+                        ? add_settings_error(
+                            'redis-cache',
+                            'flush',
+                            __( 'Object cache flushed.', 'redis-cache' ),
+                            'updated'
+                        )
+                        : add_settings_error(
+                            'redis-cache',
+                            'flush',
+                            __( 'Object cache could not be flushed.', 'redis-cache' ),
+                            'error'
+                        );
                 }
 
                 // do we have filesystem credentials?
                 if ( $this->initialize_filesystem( $url, true ) ) {
-                    switch ( $action ) {
-                        case 'enable-cache':
-                            $result = $wp_filesystem->copy( WP_REDIS_PLUGIN_PATH . '/includes/object-cache.php', WP_CONTENT_DIR . '/object-cache.php', true );
-                            do_action( 'redis_object_cache_enable', $result );
-                            $message = $result ? 'cache-enabled' : 'enable-cache-failed';
-                            break;
 
-                        case 'disable-cache':
-                            $result = $wp_filesystem->delete( WP_CONTENT_DIR . '/object-cache.php' );
-                            do_action( 'redis_object_cache_disable', $result );
-                            $message = $result ? 'cache-disabled' : 'disable-cache-failed';
-                            break;
+                    if ( $action === 'enable-cache' ) {
+                        $result = $wp_filesystem->copy(
+                            WP_REDIS_PLUGIN_PATH . '/includes/object-cache.php',
+                            WP_CONTENT_DIR . '/object-cache.php',
+                            true,
+                            FS_CHMOD_FILE
+                        );
 
-                        case 'update-dropin':
-                            $result = $wp_filesystem->copy( WP_REDIS_PLUGIN_PATH . '/includes/object-cache.php', WP_CONTENT_DIR . '/object-cache.php', true );
-                            do_action( 'redis_object_cache_update_dropin', $result );
-                            $message = $result ? 'dropin-updated' : 'update-dropin-failed';
-                            break;
+                        do_action( 'redis_object_cache_enable', $result );
+
+                        $result
+                            ? add_settings_error(
+                                'redis-cache',
+                                'dropin',
+                                __( 'Object cache enabled.', 'redis-cache' ),
+                                'updated'
+                            )
+                            : add_settings_error(
+                                'redis-cache',
+                                'dropin',
+                                __( 'Object cache could not be enabled.', 'redis-cache' ),
+                                'error'
+                            );
                     }
+
+                    if ( $action === 'disable-cache' ) {
+                        $result = $wp_filesystem->delete( WP_CONTENT_DIR . '/object-cache.php' );
+
+                        do_action( 'redis_object_cache_disable', $result );
+
+                        $result
+                            ? add_settings_error(
+                                'redis-cache',
+                                'dropin', __( 'Object cache disabled.', 'redis-cache' ),
+                                'updated'
+                            )
+                            : add_settings_error(
+                                'redis-cache',
+                                'dropin', __( 'Object cache could not be disabled.', 'redis-cache' ),
+                                'error'
+                            );
+                    }
+
+                    if ( $action === 'update-dropin' ) {
+                        $result = $wp_filesystem->copy(
+                            WP_REDIS_PLUGIN_PATH . '/includes/object-cache.php',
+                            WP_CONTENT_DIR . '/object-cache.php',
+                            true,
+                            FS_CHMOD_FILE
+                        );
+
+                        do_action( 'redis_object_cache_update_dropin', $result );
+
+                        $result
+                            ? add_settings_error(
+                                'redis-cache',
+                                'dropin',
+                                __( 'Updated object cache drop-in and enabled Redis object cache.', 'redis-cache' ),
+                                'updated'
+                            )
+                            : add_settings_error(
+                                'redis-cache',
+                                'dropin',
+                                __( 'Object cache drop-in could not be updated.', 'redis-cache' ),
+                                'error'
+                            );
+                    }
+
                 }
 
-                // redirect if status `$message` was set
-                if ( isset( $message ) ) {
-                    wp_safe_redirect( network_admin_url( add_query_arg( 'message', $message, $this->page ) ) );
+                $messages = get_settings_errors( 'redis-cache' );
+
+                if ( ! empty( $messages ) ) {
+                    set_transient( 'settings_errors', $messages, 30 );
+
+                    wp_safe_redirect(
+                        network_admin_url( add_query_arg( 'settings-updated', 1, $this->page ) )
+                    );
                     exit;
                 }
             }
@@ -767,28 +797,32 @@ class Plugin {
         return true;
     }
 
-    public function maybe_update_dropin( $upgrader, $options ) {
-        global $wp_filesystem;
-
-        if (
-            $options['action'] !== 'update' ||
-            $options['type'] !== 'plugin' ||
-            ! is_array( $options['plugins'] ) ||
-            ! in_array( WP_REDIS_BASENAME, $options['plugins'] )
-        ) {
+    public function maybe_update_dropin() {
+        if ( defined( 'WP_REDIS_DISABLE_DROPIN_AUTOUPDATE' ) && WP_REDIS_DISABLE_DROPIN_AUTOUPDATE ) {
             return;
         }
+
+        if ( $this->object_cache_dropin_outdated() ) {
+            add_action( 'shutdown', [ $this, 'update_dropin' ] );
+        }
+    }
+
+    public function update_dropin() {
+        global $wp_filesystem;
 
         if ( ! $this->validate_object_cache_dropin() ) {
             return;
         }
 
-        if ( WP_Filesystem() ) {
-            $wp_filesystem->copy(
+        if ( $this->initialize_filesystem( '', true ) ) {
+            $result = $wp_filesystem->copy(
                 WP_REDIS_PLUGIN_PATH . '/includes/object-cache.php',
                 WP_CONTENT_DIR . '/object-cache.php',
-                true
+                true,
+                FS_CHMOD_FILE
             );
+
+            do_action( 'redis_object_cache_update_dropin', $result );
         }
     }
 

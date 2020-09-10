@@ -1,5 +1,6 @@
 <?php
 // Redis Object Cache
+define('WP_REDIS_CLIENT', 'credis');
 define('WP_REDIS_DATABASE', 1);
 /**
 * WordPress基础配置文件。

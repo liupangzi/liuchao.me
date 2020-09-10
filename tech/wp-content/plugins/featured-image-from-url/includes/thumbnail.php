@@ -1,6 +1,7 @@
 <?php
 
-add_filter('wp_head', 'fifu_add_jquery');
+define('FIFU_PLACEHOLDER', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
+
 add_filter('wp_head', 'fifu_add_js');
 
 if (!function_exists('is_plugin_active'))
@@ -19,24 +20,32 @@ if (!in_array($pagenow, array('post.php', 'post-new.php', 'admin-ajax.php', 'wp-
 add_filter('wp_head', 'fifu_apply_css');
 
 function fifu_add_js() {
+    echo '<link rel="preconnect" href="https://cdnjs.cloudflare.com">';
+
     if (fifu_is_on('fifu_lazy')) {
-        wp_enqueue_script('lazyload', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyloadxt/1.1.0/jquery.lazyloadxt.min.js');
-        wp_enqueue_script('lazyload-bg', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyloadxt/1.1.0/jquery.lazyloadxt.bg.min.js');
-        wp_enqueue_script('lazyload-srcset', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyloadxt/1.1.0/jquery.lazyloadxt.srcset.min.js');
-        wp_enqueue_style('lazyload-spinner', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyloadxt/1.1.0/jquery.lazyloadxt.spinner.min.css');
+        wp_enqueue_style('lazyload-spinner', plugins_url('/html/css/lazyload.css', __FILE__), array(), fifu_version_number());
+        wp_enqueue_script('lazysizes-config', plugins_url('/html/js/lazySizesConfig.js', __FILE__), array('jquery'), fifu_version_number());
+        wp_enqueue_script('unveilhooks', 'https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.2.2/plugins/unveilhooks/ls.unveilhooks.min.js');
+        wp_enqueue_script('bgset', 'https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.2.2/plugins/bgset/ls.bgset.min.js');
+        wp_enqueue_script('lazysizes', 'https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.2.2/lazysizes.min.js');
     }
 
-    // css
-    wp_register_style('fifu-woo-css', plugins_url('/html/css/woo.css', __FILE__));
-    wp_enqueue_style('fifu-woo-css');
-    wp_add_inline_style('fifu-woo-css', 'img.zoomImg {display:' . fifu_woo_zoom() . ' !important}');
+    if (class_exists('WooCommerce')) {
+        wp_register_style('fifu-woo', plugins_url('/html/css/woo.css', __FILE__), array(), fifu_version_number());
+        wp_enqueue_style('fifu-woo');
+        wp_add_inline_style('fifu-woo', 'img.zoomImg {display:' . fifu_woo_zoom() . ' !important}');
+    }
 
     // js
-    wp_enqueue_script('fifu-image-js', plugins_url('/html/js/image.js?' . fifu_version_number(), __FILE__));
+    wp_enqueue_script('fifu-image-js', plugins_url('/html/js/image.js', __FILE__), array('jquery'), fifu_version_number());
     wp_localize_script('fifu-image-js', 'fifuImageVars', [
         'fifu_lazy' => fifu_is_on("fifu_lazy"),
         'fifu_woo_lbox_enabled' => fifu_woo_lbox(),
         'fifu_woo_zoom' => fifu_woo_zoom(),
+        'fifu_is_product' => class_exists('WooCommerce') && is_product(),
+        'fifu_is_flatsome_active' => fifu_is_flatsome_active(),
+        'fifu_rest_url' => esc_url_raw(rest_url()),
+        'fifu_nonce' => wp_create_nonce('wp_rest'),
     ]);
 }
 
@@ -68,29 +77,30 @@ function fifu_add_social_tags() {
         include 'html/twitter-image.html';
 }
 
-function fifu_add_jquery() {
-    if (fifu_is_on('fifu_jquery') && !fifu_is_elementor_editor())
-        wp_enqueue_script('fifu-jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js');
-}
-
 function fifu_apply_css() {
     if (fifu_is_off('fifu_wc_lbox'))
         echo '<style>[class$="woocommerce-product-gallery__trigger"] {display:none !important;}</style>';
-    else
-        echo '<style>[class$="woocommerce-product-gallery__trigger"] {visibility:hidden;}</style>';
 }
 
 add_filter('woocommerce_product_get_image', 'fifu_woo_replace', 10, 5);
 
 function fifu_woo_replace($html, $product, $woosize) {
-    return fifu_replace($html, $product->get_id(), null, null);
+    return fifu_replace($html, $product->get_id(), null, null, null);
 }
 
-add_filter('post_thumbnail_html', 'fifu_replace', 10, 4);
+add_filter('post_thumbnail_html', 'fifu_replace', 10, 5);
 
-function fifu_replace($html, $post_id, $post_thumbnail_id, $size) {
+function fifu_replace($html, $post_id, $post_thumbnail_id, $size, $attr) {
     if (!$html)
         return $html;
+
+    $datasrc = fifu_get_attribute('data-src', $html);
+    $src = $datasrc ? $datasrc : fifu_get_attribute('src', $html);
+    if (isset($_POST[$src])) {
+        $data = $_POST[$src];
+        if (strpos($html, 'fifu-replaced') !== false)
+            return $html;
+    }
 
     $url = get_post_meta($post_id, 'fifu_image_url', true);
 
@@ -99,41 +109,37 @@ function fifu_replace($html, $post_id, $post_thumbnail_id, $size) {
         $alt = get_the_title($post_id);
         $html = preg_replace('/alt=[\'\"][^[\'\"]*[\'\"]/', 'alt=' . $delimiter . $alt . $delimiter, $html);
     } else {
-        $alt = get_post_meta($post_id, 'fifu_image_alt', true);
-        $html = preg_replace('/alt=[\'\"][^[\'\"]*[\'\"]/', 'alt=' . $delimiter . $alt . $delimiter . ' title=' . $delimiter . $alt . $delimiter, $html);
+        if ($url) {
+            $alt = get_post_meta($post_id, 'fifu_image_alt', true);
+            $html = preg_replace('/alt=[\'\"][^[\'\"]*[\'\"]/', 'alt=' . $delimiter . $alt . $delimiter . ' title=' . $delimiter . $alt . $delimiter, $html);
+        }
     }
+
+    if (fifu_is_on('fifu_lazy') && !is_admin()) {
+        if (fifu_is_avada_active()) {
+            if (strpos($html, ' src=') !== false && strpos($html, ' data-srcset=') === false)
+                $html = str_replace(" src=", " data-srcset=", $html);
+            if (strpos($html, ' srcset=') !== false && strpos($html, ' data-srcset=') !== false)
+                $html = preg_replace("/ srcset=[\'\"][^\'\"]+[\'\"]/", ' ', $html);
+        } else {
+            if (strpos($html, ' src=') !== false && strpos($html, ' data-src=') === false)
+                $html = str_replace(" src=", " data-src=", $html);
+            if (strpos($html, ' src=') !== false && strpos($html, ' data-src=') !== false)
+                $html = preg_replace("/ src=[\'\"][^\'\"]+[\'\"]/", ' ', $html);
+        }
+    }
+
+    if ($url)
+        return $html;
 
     $width = fifu_get_attribute('width', $html);
     $height = fifu_get_attribute('height', $html);
 
-    if (fifu_is_on('fifu_lazy') && !is_admin())
-        $html = str_replace(" src", " data-src", $html);
-
-    $css = get_option('fifu_css');
-
-    if ($url) {
-        if (fifu_is_on('fifu_class')) {
-            if (strpos($html, 'class=')) {
-                $delimiter = substr(explode('class=', $html)[1], 0, 1);
-                $class = explode($delimiter, explode('class=' . $delimiter, $html)[1])[0];
-                $html = preg_replace('/class=[\'\"][^[\'\"]*[\'\"]/', 'class=' . $delimiter . $class . ' fifu-class' . $delimiter, $html);
-            } else
-                $html = str_replace('<img', '<img class="fifu-class"', $html);
-        }
-
-        return $css ? str_replace('/>', ' style="' . $css . '"/>', $html) : $html;
-    }
-
     return !$url ? $html : fifu_get_html($url, $alt, $width, $height);
 }
 
-function is_ajax_call() {
-    return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') || wp_doing_ajax();
-}
-
 function fifu_get_html($url, $alt, $width, $height) {
-    $css = get_option('fifu_css');
-
+    $css = '';
     if (fifu_should_hide()) {
         $css = 'display:none';
     }
@@ -171,9 +177,9 @@ function fifu_no_internal_image($post_id) {
 }
 
 function fifu_lazy_url($url) {
-    if (fifu_is_off('fifu_lazy') || is_ajax_call())
+    if (fifu_is_off('fifu_lazy'))
         return 'src="' . $url . '"';
-    return (fifu_is_main_page() ? 'data-src="' : 'src="') . $url . '"';
+    return 'data-src="' . $url . '"';
 }
 
 function fifu_is_main_page() {
@@ -186,37 +192,7 @@ function fifu_has_internal_image($post_id) {
 }
 
 function fifu_is_in_editor() {
-    return !is_admin() || get_current_screen() == null ? false : get_current_screen()->parent_base == 'edit';
-}
-
-function fifu_get_image_sizes() {
-    global $_wp_additional_image_sizes;
-    $sizes = array();
-    foreach (get_intermediate_image_sizes() as $_size) {
-        if (in_array($_size, array('thumbnail', 'medium', 'medium_large', 'large'))) {
-            $sizes[$_size]['width'] = get_option("{$_size}_size_w");
-            $sizes[$_size]['height'] = get_option("{$_size}_size_h");
-            $sizes[$_size]['crop'] = (bool) get_option("{$_size}_crop");
-        } elseif (isset($_wp_additional_image_sizes[$_size])) {
-            $sizes[$_size] = array(
-                'width' => $_wp_additional_image_sizes[$_size]['width'],
-                'height' => $_wp_additional_image_sizes[$_size]['height'],
-                'crop' => $_wp_additional_image_sizes[$_size]['crop'],
-            );
-        }
-    }
-    return $sizes;
-}
-
-function fifu_get_image_size($size) {
-    $sizes = fifu_get_image_sizes();
-    if (is_array($size)) {
-        $arr_size = array();
-        $arr_size['width'] = count($size) > 0 ? $size[0] : null;
-        $arr_size['height'] = count($size) > 1 ? $size[1] : null;
-        return $arr_size;
-    }
-    return isset($sizes[$size]) ? $sizes[$size] : false;
+    return !is_admin() || get_current_screen() == null ? false : get_current_screen()->parent_base == 'edit' || get_current_screen()->is_block_editor;
 }
 
 function fifu_get_default_url() {

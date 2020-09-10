@@ -5,7 +5,7 @@ Tags: redis, predis, phpredis, credis, hhvm, pecl, caching, cache, object cache,
 Requires at least: 3.3
 Tested up to: 5.4
 Requires PHP: 5.6
-Stable tag: 2.0.3
+Stable tag: 2.0.5
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -83,9 +83,26 @@ To see a list of all available WP-CLI commands, please see the [WP CLI commands 
 
 == Changelog ==
 
-= 2.0.3 =
+= 2.0.5 =
 
 Version 2.0 is a significant rewrite of the plugin. Please read the v2.0.0 release notes.
+
+- Fixed multisite action buttons not working
+- Removed outdated PHP 5.4 warning
+- Added `read_timeout` support to Credis
+- Display connection parameters when using Credis
+- Added wiki link to Predis upgrade notice
+
+= 2.0.4 =
+
+- Attempt to reliably update the dropin when it's outdated
+- Show ACL username on settings screen
+- Show full diagnostics with `wp redis status`
+- Always set `FS_CHMOD_FILE` when copying the `object-cache.php`
+- Don't encode bullets in password diagnostics
+- Call `redis_object_cache_update_dropin` during dropin update
+
+= 2.0.3 =
 
 - Hide "Metrics" tab when metrics are disabled
 - Fixed `admin.js` not loading in multisite environments
@@ -112,6 +129,8 @@ Version 2.0 is a significant rewrite of the plugin. Please read the v2.0.0 relea
 Version 2.0 is a significant rewrite. The plugin now requires PHP 5.6, just like WordPress 5.2 does.
 
 The GitHub and Composer repository was moved from `tillkruss/redis-cache` to `rhubarbgroup/redis-cache`.
+
+On multisite networks, be sure to "Network Activate" the plugin after upgrading to v2.x.
 
 - Require PHP 5.6
 - Plugin is now "network-only"
@@ -389,7 +408,7 @@ Since Predis isn't maintained any longer, it's highly recommended to switch over
 
 == Upgrade Notice ==
 
-= 2.0.3 =
+= 2.0.5 =
 
 Version 2.0 is a significant rewrite of the plugin. Please read the v2.0.0 release notes.
 

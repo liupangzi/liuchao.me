@@ -31,15 +31,21 @@ $diagnostics = $roc->get_diagnostics();
                 <code><?php echo esc_html( $redis_client ); ?></code>
 
                 <?php if ( stripos( (string) $redis_client, 'predis' ) === 0 ) : ?>
-                    <?php if ( version_compare( phpversion(), '7.2', '<' ) ) : ?>
-                        <p class="description is-notice">
-                            <?php esc_html_e( 'The Predis library is no longer maintained. Consider switching over to Credis or PhpRedis to avoid compatiblity issues in the future.', 'redis-cache' ); ?>
-                        </p>
-                    <?php else : ?>
-                        <p class="description is-notice">
-                            <?php esc_html_e( 'The Predis library is not reliable on PHP 7.2 and newer. Consider switching over to Credis or PhpRedis to avoid compatiblity issues.', 'redis-cache' ); ?>
-                        </p>
-                    <?php endif; ?>
+                    <p class="description is-notice">
+                        <?php if ( version_compare( phpversion(), '7.2', '<' ) ) : ?>
+                            <?php _e( 'The Predis library is no longer maintained.', 'redis-cache' ); ?>
+                        <?php else : ?>
+                            <?php _e( 'The Predis library is not reliable on PHP 7.2 and newer.', 'redis-cache' ); ?>
+                        <?php endif; ?>
+
+                        <?php
+                            printf(
+                                // translators: %s = Link to the help article
+                                __( 'Learn more about <a href="%s" target="_blank">migrating to Credis or PhpRedis</a> to avoid compatiblity issues in the future.', 'redis-cache' ),
+                                'https://github.com/rhubarbgroup/redis-cache/wiki/Predis'
+                            );
+                        ?>
+                    </p>
                 <?php endif; ?>
             </td>
         </tr>
@@ -162,16 +168,18 @@ $diagnostics = $roc->get_diagnostics();
         </tr>
     <?php endif; ?>
 
+    <?php if ( isset( $diagnostics['password'][0] ) ) : ?>
+        <tr>
+            <th><?php esc_html_e( 'Username:', 'redis-cache' ); ?></th>
+            <td><code><?php echo esc_html( $diagnostics['password'][0] ); ?></code></td>
+        </tr>
+    <?php endif; ?>
+
     <?php if ( isset( $diagnostics['password'] ) ) : ?>
         <tr>
             <th><?php esc_html_e( 'Password:', 'redis-cache' ); ?></th>
             <td>
-                <code>
-                    <?php
-                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                        echo str_repeat( '&#8226;', 8 );
-                    ?>
-                </code>
+                <code><?php echo str_repeat( '&#8226;', 8 ); ?></code>
             </td>
         </tr>
     <?php endif; ?>
